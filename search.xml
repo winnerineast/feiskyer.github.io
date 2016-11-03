@@ -5,7 +5,7 @@
     
     <entry>
       <title><![CDATA[Kubernetes container runtime interface]]></title>
-      <url>http://feiskyer.github.io/2016/09/24/Kubernetes-container-runtime-interface/</url>
+      <url>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</url>
       <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
 <ul>
@@ -42,7 +42,7 @@
     
     <entry>
       <title><![CDATA[Kubernetes中的服务发现与负载均衡]]></title>
-      <url>http://feiskyer.github.io/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
+      <url>http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
       <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
 <li>Service：直接用Service提供cluster内部的负载均衡，并借助cloud provider提供的LB提供外部访问</li>
@@ -87,7 +87,7 @@
     
     <entry>
       <title><![CDATA[如何快速启动一个Kubernetes集群]]></title>
-      <url>http://feiskyer.github.io/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/</url>
+      <url>http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/</url>
       <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
 <p>OSX</p>
@@ -132,7 +132,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Setup hyperd with flannel network]]></title>
-      <url>http://feiskyer.github.io/2016/07/19/Setup-hyperd-with-flannel-network/</url>
+      <url>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</url>
       <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
 <p>flannel runs an agent, flanneld, on each host and is responsible for allocating a subnet lease out of a preconfigured address space. flannel uses etcd to store the network configuration, allocated subnets, and auxiliary data (such as host’s IP). The forwarding of packets is achieved using one of several strategies that are known as backends. The simplest backend is udp and uses a TUN device to encapsulate every IP fragment in a UDP packet, forming an overlay network. The following diagram demonstrates the path a packet takes as it traverses the overlay network:</p>
@@ -158,7 +158,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Play with docker v1.12]]></title>
-      <url>http://feiskyer.github.io/2016/06/24/Play-with-docker-v1-12/</url>
+      <url>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</url>
       <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
 <blockquote>
@@ -220,7 +220,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Playing docker with hypervisor container runtime runV]]></title>
-      <url>http://feiskyer.github.io/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</url>
+      <url>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</url>
       <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
 <hr>
@@ -249,7 +249,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Kubernetes-mesos architecture]]></title>
-      <url>http://feiskyer.github.io/2016/06/07/Kubernetes-mesos-architecture/</url>
+      <url>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</url>
       <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
 ]]></content>
@@ -257,7 +257,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Hypernetes: Bringing Security and Multi-tenancy to Kubernetes]]></title>
-      <url>http://feiskyer.github.io/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</url>
+      <url>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</url>
       <content type="html"><![CDATA[<blockquote>
 <p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
 </blockquote>
@@ -318,7 +318,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[How docker 1.11 share network accross containers]]></title>
-      <url>http://feiskyer.github.io/2016/05/11/How-docker-1-11-share-network-accross-containers/</url>
+      <url>http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/</url>
       <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
 <p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -itd --net=container:75599a6f387b alpine sh</div></pre></td></tr></table></figure>
@@ -336,7 +336,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Go performance optimize]]></title>
-      <url>http://feiskyer.github.io/2016/05/06/Go-performance-optimize/</url>
+      <url>http://feisky.xyz/2016/05/06/Go-performance-optimize/</url>
       <content type="html"><![CDATA[<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
 <ol>
 <li>字符串（string）作为一种不可变类型，在与字节数组（slice, [ ]byte）转换时需付出 “沉重” 代价，根本原因是对底层字节数组的复制。</li>
@@ -378,7 +378,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[The Rise of Cloud Computing Systems - Jeff Dean]]></title>
-      <url>http://feiskyer.github.io/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</url>
+      <url>http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</url>
       <content type="html"><![CDATA[
 
 	<div class="row">
@@ -392,7 +392,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Reading notes of week 17]]></title>
-      <url>http://feiskyer.github.io/2016/04/29/Reading-notes-of-week-17/</url>
+      <url>http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/</url>
       <content type="html"><![CDATA[<p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
 <blockquote>
 <p>One problem many users have is that the open access network policy of Kubernetes is not suitable for applications that need more precise control over the traffic that accesses a pod or service. Today, this could be a multi-tier application where traffic is only allowed from a tier’s neighbor. But as new Cloud Native applications are built by composing microservices, the ability to control traffic as it flows among these services becomes even more critical.</p>
@@ -436,7 +436,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[runc and runV]]></title>
-      <url>http://feiskyer.github.io/2016/04/28/runc/</url>
+      <url>http://feisky.xyz/2016/04/28/runc/</url>
       <content type="html"><![CDATA[<p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
 <h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y libseccomp-devel</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line">git <span class="built_in">clone</span> https://github.com/opencontainers/runc</div><div class="line"><span class="built_in">cd</span> runc</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
@@ -465,7 +465,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Container runtime in Docker v1.11]]></title>
-      <url>http://feiskyer.github.io/2016/04/28/Docker-1-11-Runtime/</url>
+      <url>http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/</url>
       <content type="html"><![CDATA[<p>Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：</p>
 <ul>
 <li>docker</li>
@@ -507,7 +507,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[DPDK Introduction]]></title>
-      <url>http://feiskyer.github.io/2016/04/24/DPDK-Introduction/</url>
+      <url>http://feisky.xyz/2016/04/24/DPDK-Introduction/</url>
       <content type="html"><![CDATA[<h2 id="DPDK-Introduction"><a href="#DPDK-Introduction" class="headerlink" title="DPDK Introduction"></a>DPDK Introduction</h2><p>Intel DPDK全称Intel Data Plane Development Kit，是intel提供的数据平面开发工具集，为Intel architecture（IA）处理器架构下用户空间高效的数据包处理提供库函数和驱动的支持，它不同于Linux系统以通用性设计为目的，而是专注于网络应用中数据包的高性能处理。DPDK应用程序是运行在用户空间上利用自身提供的数据平面库来收发数据包，绕过了Linux内核协议栈对数据包处理过程。Linux内核将DPDK应用程序看作是一个普通的用户态进程，包括它的编译、连接和加载方式和普通程序没有什么两样。DPDK程序启动后只能有一个主线程，然后创建一些子线程并绑定到指定CPU核心上运行。</p>
 <p>DPDK官方网站为<a href="http://dpdk.org/" target="_blank" rel="external">http://dpdk.org/</a>，官方文档为<a href="http://dpdk.org/doc/guides/index.html" target="_blank" rel="external">http://dpdk.org/doc/guides/index.html</a></p>
 <p>DPDK基本组件包括：</p>
@@ -557,7 +557,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Tips for cgo]]></title>
-      <url>http://feiskyer.github.io/2016/04/24/Tips-for-cgo/</url>
+      <url>http://feisky.xyz/2016/04/24/Tips-for-cgo/</url>
       <content type="html"><![CDATA[<p>cgo的一些tips</p>
 <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>The standard C numeric types are available under the names C.char, C.schar (signed char), C.uchar (unsigned char), C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int), C.long, C.ulong (unsigned long), C.longlong (long long), C.ulonglong (unsigned long long), C.float, C.double, C.complexfloat (complex float), and C.complexdouble (complex double). The C type void* is represented by Go’s unsafe.Pointer. The C types <code>__int128_t</code> and <code>__uint128_t</code> are represented by [16]byte.</p>
 <p>To access a struct, union, or enum type directly, prefix it with struct<em>, union</em>, or enum_, as in C.struct_stat.</p>
@@ -582,7 +582,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[cgo in go 1.6]]></title>
-      <url>http://feiskyer.github.io/2016/04/19/cgo-in-go-1-6/</url>
+      <url>http://feisky.xyz/2016/04/19/cgo-in-go-1-6/</url>
       <content type="html"><![CDATA[<blockquote>
 <p>The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with Go’s garbage collector. Briefly, Go and C may share memory allocated by Go when a pointer to that memory is passed to C as part of a cgo call, provided that the memory itself contains no pointers to Go-allocated memory, and provided that C does not retain the pointer after the call returns. These rules are checked by the runtime during program execution: if the runtime detects a violation, it prints a diagnosis and crashes the program. The checks can be disabled by setting the environment variable GODEBUG=cgocheck=0, but note that the vast majority of code identified by the checks is subtly incompatible with garbage collection in one way or another. Disabling the checks will typically only lead to more mysterious failure modes. Fixing the code in question should be strongly preferred over turning off the checks.</p>
 </blockquote>
@@ -603,7 +603,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Hello world to Docker Mac]]></title>
-      <url>http://feiskyer.github.io/2016/04/15/Hello-world-to-Docker-Mac/</url>
+      <url>http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/</url>
       <content type="html"><![CDATA[<p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
 <ul>
 <li>安装简单了，标准的Mac Application<br>  <img src="/images/docker-mac-setting.png" alt=""></li>
@@ -622,7 +622,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Upgrade CentOS kernel]]></title>
-      <url>http://feiskyer.github.io/2016/03/30/Upgrade-CentOS-kernel/</url>
+      <url>http://feisky.xyz/2016/03/30/Upgrade-CentOS-kernel/</url>
       <content type="html"><![CDATA[<p>终于耐不住要升级下kernel了，目前epel提供两个版本: kernel-lt (4.4)和kernel-ml (4.5):</p>
 <ul>
 <li>The kernel-ml packages are built from the sources available from the “mainline stable” branch of The Linux Kernel Archives (external link). The kernel configuration is based upon the default RHEL-7 configuration with added functionality enabled as appropriate. The packages are intentionally named kernel-ml so as not to conflict with the RHEL-7 kernels and, as such, they may be installed and updated alongside the regular kernel.</li>
@@ -640,7 +640,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Alpine Linux]]></title>
-      <url>http://feiskyer.github.io/2016/03/26/Alpine-Linux/</url>
+      <url>http://feisky.xyz/2016/03/26/Alpine-Linux/</url>
       <content type="html"><![CDATA[<p>Alpine Linux</p>
 <p>随着Alpine Linux被越来越多的官方镜像使用，我们有必要了解一下Alpine Linux到底是个什么鬼。</p>
 <p>Alpine Linux 是一个面向安全应用的轻量级 Linux 发行版。它采用了musl libc和busybox以减小系统的体积和运行时资源消耗，同时还提供了自己的包管理工具apk。Alpine Linux的内核都打了grsecurity/PaX补丁，并且所有的程序都编译为Position Independent Executables (PIE) 以增强系统的安全性。</p>
@@ -654,7 +654,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Borg, Omega, and Kubernetes (ACM Queue)]]></title>
-      <url>http://feiskyer.github.io/2016/03/04/Borg-Omega-and-Kubernetes-ACM-Queue/</url>
+      <url>http://feisky.xyz/2016/03/04/Borg-Omega-and-Kubernetes-ACM-Queue/</url>
       <content type="html"><![CDATA[<p>Brendan Burns, Brian Grant等在<a href="http://queue.acm.org/detail.cfm?id=2898444" target="_blank" rel="external">Borg, Omega, and Kubernetes - Lessons learned from three container-management systems over a decade</a>分享了Google在容器管理的经验教训。</p>
 <p>在谷歌的历史上，开发了三种容器管理调度系统：</p>
 <ul>
@@ -668,14 +668,14 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Docker overlay network dive]]></title>
-      <url>http://feiskyer.github.io/2016/03/04/Docker-overlay-network-dive/</url>
+      <url>http://feisky.xyz/2016/03/04/Docker-overlay-network-dive/</url>
       <content type="html"><![CDATA[<p>DON MILLS写的<a href="http://www.singlestoneconsulting.com/blog/2016/january/docker-networking?mkt_tok=3RkMMJWWfF9wsRonuqTMZKXonjHpfsX57usvUK%2B2lMI%2F0ER3fOvrPUfGjI4DS8FjI%2BSLDwEYGJlv6SgFQ7LMMaZq1rgMXBk%3D" target="_blank" rel="external">Docker Multi-Host Networking: Overlays to the Rescue</a>对Docker的overlay network做了细致的分析，<a href="/assets/DockerNetworking2.pdf">值得看一看</a>。</p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[Kubernetes sig-node (Asia) meeting notes]]></title>
-      <url>http://feiskyer.github.io/2016/03/02/Kubernetes-sig-node-Asia-meeting-nodes/</url>
+      <url>http://feisky.xyz/2016/03/02/Kubernetes-sig-node-Asia-meeting-nodes/</url>
       <content type="html"><![CDATA[<h2 id="Kubernetes-1-2-Status-Update-dchen"><a href="#Kubernetes-1-2-Status-Update-dchen" class="headerlink" title="Kubernetes 1.2 Status Update (@dchen)"></a>Kubernetes 1.2 Status Update (@dchen)</h2><ul>
 <li>Deployment object and HPA scale还有一些P0和P1的问题待解决</li>
 <li>aws还有挺多的问题（应该要超过20个）</li>
@@ -697,7 +697,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[10 things to avoid in docker containers]]></title>
-      <url>http://feiskyer.github.io/2016/03/01/10-things-to-avoid-in-docker-containers/</url>
+      <url>http://feisky.xyz/2016/03/01/10-things-to-avoid-in-docker-containers/</url>
       <content type="html"><![CDATA[<p>Redhat发布的<a href="https://developerblog.redhat.com/2016/02/24/10-things-to-avoid-in-docker-containers/" target="_blank" rel="external">10 things to avoid in docker containers</a>对于构建基于Container的服务非常有意义。摘录如下：</p>
 <blockquote>
 <p>1) Don’t store data in containers – A container can be stopped, destroyed, or replaced. An application version 1.0 running in container should be easily replaced by the version 1.1 without any impact or loss of data. For that reason, if you need to store data, store it in a volume, but take care if two containers write data on the same volume because it could cause corruption.  Make sure your applications are designed to write to shared data stores.</p>
@@ -744,7 +744,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Carina by Rackspace]]></title>
-      <url>http://feiskyer.github.io/2016/02/29/Carina-by-Rackspace/</url>
+      <url>http://feisky.xyz/2016/02/29/Carina-by-Rackspace/</url>
       <content type="html"><![CDATA[<h2 id="What-is-Carina"><a href="#What-is-Carina" class="headerlink" title="What is Carina?"></a>What is Carina?</h2><p>Carina is a container runtime environment (currently in Beta) that offers performance, container-native tools, and portability without sacrificing ease of use. You can get started in minutes by using open-source software on managed infrastructure to run your containerized applications.</p>
 <p>Your containers run in a bare-metal environment, which avoids the “hypervisor tax” on performance. Applications in this environment launch as much as 20 percent faster and run as much as 60 percent faster. This environment builds on the standard restrictions set out by libcontainer by using an AppArmor profile as an additional security layer to keep your resources isolated.</p>
 <p>Carina is built on the open-source Docker Swarm project. It exposes the Docker API, which gives you maximum portability for easily moving applications from development to test and production environments, thus reducing errors and saving time. In the future, other container orchestration environments will be available to you.</p>
@@ -762,7 +762,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Docker Datacenter]]></title>
-      <url>http://feiskyer.github.io/2016/02/26/Docker-Datacenter/</url>
+      <url>http://feisky.xyz/2016/02/26/Docker-Datacenter/</url>
       <content type="html"><![CDATA[<p>Docker annonced <code>Docker Datacenter (DDC)</code> at Februrary 23. It is an integrated, end-to-end platform for agile application development and management from the datacenter to the cloud.</p>
 <p>With Docker Datacenter, organizations are empowered to deploy a Containers as a Services (CaaS) on-premises or in your virtual private cloud. A CaaS provides an IT managed and secured application environment of content and infrastructure where developers can build and deploy applications in a self service manner.</p>
 <p>DDC includes severial Docker projects:</p>
@@ -814,7 +814,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Notes about serverless]]></title>
-      <url>http://feiskyer.github.io/2016/02/26/Notes-about-serverless/</url>
+      <url>http://feisky.xyz/2016/02/26/Notes-about-serverless/</url>
       <content type="html"><![CDATA[<p>“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。</p>
 <p>(未完待续)</p>
 <h2 id="serverless的主要玩家"><a href="#serverless的主要玩家" class="headerlink" title="serverless的主要玩家"></a>serverless的主要玩家</h2><h4 id="AWS-Lambda"><a href="#AWS-Lambda" class="headerlink" title="AWS Lambda"></a>AWS Lambda</h4><p>AWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并自动管理后端的服务器、高可用以及自动扩展等：</p>
@@ -910,7 +910,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Google's Transition From Single Datacenter, To Failover, To A Native Multihomed Architecture]]></title>
-      <url>http://feiskyer.github.io/2016/02/24/Google-s-Transition-From-Single-Datacenter-To-Failover-To-A-Native-Multihomed-Architecture/</url>
+      <url>http://feisky.xyz/2016/02/24/Google-s-Transition-From-Single-Datacenter-To-Failover-To-A-Native-Multihomed-Architecture/</url>
       <content type="html"><![CDATA[<p>The main idea of the paper is that the typical <a href="https://en.wikipedia.org/wiki/Failover" target="_blank" rel="external">failover</a> architecture used when moving from a single datacenter to multiple datacenters doesn’t work well in practice. What does work, where work means using fewer resources while providing high availability and consistency, is a <strong>natively multihomed architecture</strong>:</p>
 <blockquote>
 <p>Our current approach is to build natively multihomed systems. Such systems <strong>run hot in multiple datacenters all the time, and adaptively move load between datacenters</strong>, with the ability to handle outages of any scale completely transparently. Additionally, planned datacenter outages and maintenance events are completely transparent, causing minimal disruption to the operational systems. In the past, such events required labor-intensive efforts to move operational systems from one datacenter to another</p>
@@ -941,7 +941,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Kubernetes drain]]></title>
-      <url>http://feiskyer.github.io/2016/02/17/Kubernetes-drain/</url>
+      <url>http://feisky.xyz/2016/02/17/Kubernetes-drain/</url>
       <content type="html"><![CDATA[<p>Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：</p>
 <ul>
 <li>首先patch NODE，将其改为不可调度状态： <code>kubectl patch nodes $NODENAME -p &#39;{&quot;spec&quot;: {&quot;unschedulable&quot;: true}}&#39;</code></li>
@@ -972,7 +972,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Kubernetes network policy]]></title>
-      <url>http://feiskyer.github.io/2016/02/17/Kubernetes-network-policy/</url>
+      <url>http://feisky.xyz/2016/02/17/Kubernetes-network-policy/</url>
       <content type="html"><![CDATA[<p>Kubernetes network policy</p>
 <p>Kubernetes社区（确切的说是Kubernetes Network SIG [1]）正在讨论Network Policy Proposal，以实现SDN、网络隔离、IP Overlapping等[2]复杂的网络需求。</p>
 <p>目前，正在讨论的Proposals有多个：</p>
@@ -1024,14 +1024,14 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Hypernetes简介 - feisky]]></title>
-      <url>http://feiskyer.github.io/2015/11/18/Hypernetes%E7%AE%80%E4%BB%8B-feisky/</url>
+      <url>http://feisky.xyz/2015/11/18/Hypernetes%E7%AE%80%E4%BB%8B-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】好久没有更新博客了，今天给大家介绍下最近在Hypernetes上做的工作，这个也是之前在微信群里的一个分享。Hypernetes是一个真正多租户的Kubernetes Distro。Hypernetes在Kubernetes基础上增加了多租户认证授权、容器SDN网络、基于Hyper的容器执行引擎以及… <a href="http://www.cnblogs.com/feisky/p/4975173.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4975173" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[Hypernetes wechat share]]></title>
-      <url>http://feiskyer.github.io/2015/11/11/hypernetes-wechat-share/</url>
+      <url>http://feisky.xyz/2015/11/11/hypernetes-wechat-share/</url>
       <content type="html"><![CDATA[<p>今天给大家介绍下最近在Hypernetes上做的工作。</p>
 <p>Hypernetes是一个真正多租户的Kubernetes Distro。</p>
 <p>Hypernetes在Kubernetes基础上增加了多租户认证授权、容器SDN网络、基于Hyper的容器执行引擎以及基于Cinder的持久化存储等。</p>
@@ -1078,7 +1078,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Hypernetes   The multi tenant Kubernetes distribution]]></title>
-      <url>http://feiskyer.github.io/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/</url>
+      <url>http://feisky.xyz/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/</url>
       <content type="html"><![CDATA[<p>“<a href="https://hyper.sh/blog/post/2015/07/06/the-caas-revolution.html" target="_blank" rel="external">The Caas Revolution</a>“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) <a href="http://www.docker.com/" target="_blank" rel="external">Docker</a>, and embraced by Cloud providers like <a href="https://cloud.google.com/container-engine/" target="_blank" rel="external">Google</a> and <a href="https://aws.amazon.com/ecs/" target="_blank" rel="external">AWS</a>.</p>
 <p>However, most multi-tenant CaaS solutions today run on a public IaaS, and use fully isolated virtual machine clusters to schedule containers. This is in contrast to the solely container-based implementation provided in private CaaS deployments. The public “hybrid” VM/container isolation approach is a direct result from the shared kernel architecture in container technology.</p>
 <p>Which got us thinking… do users really need to configure a cluster of full-blown virtual machines to ship containers in a secure cloud? Isn’t there a native container approach to perform true isolation?</p>
@@ -1109,7 +1109,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Use kubectl to connect kubernetes cluster]]></title>
-      <url>http://feiskyer.github.io/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/</url>
+      <url>http://feisky.xyz/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/</url>
       <content type="html"><![CDATA[<p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
 <p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
 <figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
@@ -1118,7 +1118,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Something about kubernetes authentication]]></title>
-      <url>http://feiskyer.github.io/2015/09/22/something-about-kubernetes-authentication/</url>
+      <url>http://feisky.xyz/2015/09/22/something-about-kubernetes-authentication/</url>
       <content type="html"><![CDATA[<p>You can enable kubernetes authentication by through <a href="https://github.com/kubernetes/kubernetes/blob/master/docs/admin/authentication.md" target="_blank" rel="external">this documentation</a>. Then you happily access kube-apiserve by curl: </p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><div class="line"><span class="meta"># curl -k -N -X GET -H <span class="meta-string">"Authorization: Basic XXXXXXXXXX"</span> http:<span class="comment">//localhost:8080/api/v1/namespaces/default/pods</span></span></div><div class="line">&#123;</div><div class="line">  <span class="string">"kind"</span>: <span class="string">"PodList"</span>,</div><div class="line">  <span class="string">"apiVersion"</span>: <span class="string">"v1"</span>,</div><div class="line">  <span class="string">"metadata"</span>: &#123;</div><div class="line">    <span class="string">"selfLink"</span>: <span class="string">"/api/v1/namespaces/default/pods"</span>,</div><div class="line">    <span class="string">"resourceVersion"</span>: <span class="string">"74034"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">"items"</span>: []</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Nothing blocks this request! What is wrong? Wait a moment and checkout kubernetes documentation, I find this:</p>
@@ -1159,7 +1159,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Stateless Floating IPs]]></title>
-      <url>http://feiskyer.github.io/2015/06/24/stateless-floating-ips/</url>
+      <url>http://feisky.xyz/2015/06/24/stateless-floating-ips/</url>
       <content type="html"><![CDATA[<p>Neutron里面的Floating IPs目前是基于iptables NAT来实现的，它使用ip_conntrack来跟踪所有连接（五元组），而ip_conntrack会大大降低NAT的性能，并且也有一些安全问题（比如<a href="https://review.openstack.org/#/c/124375/" target="_blank" rel="external">conntrack未释放问题</a>）。从Floating IPs的作用来看，它只需要完成源目的IP地址的转换即可，完全可以不需要conntrack，因而就有了一个<a href="https://blueprints.launchpad.net/neutron/+spec/stateless-floatingips" target="_blank" rel="external">Stateless Floating IPs</a>的BP, </p>
 <p>Stateless Floating IPs的大致实现方法是使用iptables将特定的包跳过conntrack，然后再用tc执行源目的地址的转换：</p>
 <figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">iptables -t raw -A PREROUTING -d <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> -j NOTRACK</div><div class="line">iptables -t raw -A PREROUTING -s <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.25</span>/<span class="number">32</span> -j NOTRACK</div><div class="line"></div><div class="line">###### ingress</div><div class="line"># to <span class="built_in">do</span> once</div><div class="line">tc qdisc <span class="keyword">add</span> dev qg-xxxx ingress handle ffff:</div><div class="line"># to <span class="built_in">do</span> for <span class="number">each</span> floating-<span class="built_in">ip</span>,fixed-<span class="built_in">ip</span> tuple</div><div class="line">tc filter <span class="keyword">add</span> dev qg-xxxx parent ffff: protocol <span class="built_in">ip</span> prio <span class="number">10</span> u32 match <span class="built_in">ip</span> dst <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> action nat ingress <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.250</span></div><div class="line"></div><div class="line">###### egress</div><div class="line"># to <span class="built_in">do</span> once</div><div class="line">tc qdisc <span class="keyword">add</span> dev qg-xxxx root handle <span class="number">10</span>: htb</div><div class="line"># to <span class="built_in">do</span> for <span class="number">each</span> floating-<span class="built_in">ip</span>,fixed-<span class="built_in">ip</span> tuple</div><div class="line">tc filter <span class="keyword">add</span> dev qg-xxxx parent <span class="number">10</span>: protocol <span class="built_in">ip</span> prio <span class="number">10</span> u32 match <span class="built_in">ip</span> src <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.25</span>/<span class="number">32</span> action nat egress <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.250</span>/<span class="number">32</span> <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span></div></pre></td></tr></table></figure>
@@ -1185,7 +1185,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Weekly reading list (20150626)]]></title>
-      <url>http://feiskyer.github.io/2015/06/23/weekly-reading-list-20150626/</url>
+      <url>http://feisky.xyz/2015/06/23/weekly-reading-list-20150626/</url>
       <content type="html"><![CDATA[<p>这周最热的就是Dockercon了，列表里面很多都是docker相关的。</p>
 <h2 id="Open-Container-Project-OCP"><a href="#Open-Container-Project-OCP" class="headerlink" title="Open Container Project (OCP)"></a>Open Container Project (OCP)</h2><blockquote>
 <p>Today we’re pleased to announce that CoreOS, Docker, and a large group of industry leaders are working together on a standard container format through the formation of the Open Container Project (OCP). OCP is housed under the Linux Foundation, and is chartered to establish common standards for software containers. This announcement means we are starting to see the concepts behind the App Container spec and Docker converge. This is a win for both users of containers and our industry at large.</p>
@@ -1297,7 +1297,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[sysdig]]></title>
-      <url>http://feiskyer.github.io/2015/06/23/sysdig/</url>
+      <url>http://feisky.xyz/2015/06/23/sysdig/</url>
       <content type="html"><![CDATA[<p>Sysdig captures system calls and other system level events using a linux kernel facility called tracepoints, providing a rich set of real-time, system-level information.</p>
 <p>Sysdig “packetizes” this information, so that you can do things like save it into trace files and easily filter it, a bit like you would do with tcpdump. This makes it very flexible to explore what processes are doing.</p>
 <p>Sysdig instruments your physical and virtual machines at the OS level by installing into the Linux kernel and capturing system calls and other OS events. Then, using sysdig’s command line interface, you can filter and decode these events in order to extract useful information. Sysdig can be used to inspect systems live in real-time, or to generate trace files that can be analyzed at a later stage.</p>
@@ -1534,7 +1534,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[OpenStack Magnum社区及项目介绍]]></title>
-      <url>http://feiskyer.github.io/2015/06/23/openstack-magnum/</url>
+      <url>http://feisky.xyz/2015/06/23/openstack-magnum/</url>
       <content type="html"><![CDATA[<p><img src="/images/magnum.png" alt=""></p>
 <p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
 <p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
@@ -1544,7 +1544,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Weekly reading list (20150607)]]></title>
-      <url>http://feiskyer.github.io/2015/06/09/weekly-reading-list-20150607/</url>
+      <url>http://feisky.xyz/2015/06/09/weekly-reading-list-20150607/</url>
       <content type="html"><![CDATA[<h3 id="OpenStack-Magnum"><a href="#OpenStack-Magnum" class="headerlink" title="OpenStack Magnum"></a>OpenStack Magnum</h3><p><a href="http://www.csdn.net/article/2015-06-02/2824827" target="_blank" rel="external">http://www.csdn.net/article/2015-06-02/2824827</a></p>
 <blockquote>
 <p>Magnum是去年巴黎峰会后开始的一个新项目，专门用来向用户提供容器服务，其最新的架构如图2所示。从去年11月份开始在StackForge提交第一个Patch，到今年3月份进入OpenStack Namespace，Magnum应该是OpenStack社区从StackForge迁移到OpenStack Namespace最快的一个项目。Magnum现在可以为用户提供Kubernetes as a Service和Swarm as a Service，大家应该会很快在L版看到Mesos as a Service。Magnum的一些Contributor，Adrian Otto是Rackspace的杰出工程师，Magnum和Solum的双重PTL；Steven Dake刚刚离开Redhat加入Cisco，他是Heat的创始人，现在Kolla的PTL，同时还在积极推动一个新项目Machine Learning as a Service；Davanum Srinivas (Dims)刚刚从IBM加入Mirantis，现在担任Oslo的PTL。关于他们的时间分配问题，Adrian的原话是会重点放在Magnum。</p>
@@ -1721,7 +1721,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[git commit修改前一次提交的方法]]></title>
-      <url>http://feiskyer.github.io/2015/06/04/git-commit/</url>
+      <url>http://feisky.xyz/2015/06/04/git-commit/</url>
       <content type="html"><![CDATA[<p>方法一：用–amend选项</p>
 <figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"><span class="comment">#修改需要修改的地方。</span></div><div class="line">git <span class="keyword">add</span><span class="bash"> .</span></div><div class="line">git commit –amend</div></pre></td></tr></table></figure>
 <p>注：这种方式可以比较方便的保持原有的Change-Id，推荐使用。</p>
@@ -1740,7 +1740,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Mininet links]]></title>
-      <url>http://feiskyer.github.io/2015/06/03/mininet-links/</url>
+      <url>http://feisky.xyz/2015/06/03/mininet-links/</url>
       <content type="html"><![CDATA[<p>Introduction to Mininet: <a href="http://mininet.org/walkthrough/" target="_blank" rel="external">http://mininet.org/walkthrough/</a></p>
 <p>OpenFlow Tutorial: <a href="https://github.com/mininet/openflow-tutorial/wiki" target="_blank" rel="external">https://github.com/mininet/openflow-tutorial/wiki</a></p>
 <p>Mininet walkthrough: <a href="http://mininet.org/walkthrough/" target="_blank" rel="external">http://mininet.org/walkthrough/</a></p>
@@ -1751,7 +1751,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[docker in tencent]]></title>
-      <url>http://feiskyer.github.io/2015/03/19/docker-in-tencent/</url>
+      <url>http://feisky.xyz/2015/03/19/docker-in-tencent/</url>
       <content type="html"><![CDATA[<p>腾讯内部对Docker有着广泛的使用，其基于Yarn的代号为Gaia的调度平台可以同时兼容Docker和非Docker类型的应用，并提供高并发任务调度和资源管理，它具有高度可伸缩性和可靠性，能够支持MR等离线业务。</p>
 <pre><code>Gaia平台是腾讯数据平台部大数据平台的底层资源管理和调度系统，其上层业务包括离线、实时以及在线service服务，如Hadoop MR、Spark、Storm、Hive以及腾讯内部的Lhotse、Hermes、广点通等业务。最大单集群规模达8800台、并发资源池个数达2500个，服务于腾讯所有事业群。我们是2014年10月份正式上线Docker，之所以选择Docker，一方面是因为Gaia本来就一直在使用cgroups类型的容器，深知其在共享机器资源、灵活、轻量、易扩展、隔离等方面的重要意义。另一重要原因，是Gaia作为一个通用的云操作系统，适合所有类型的业务，但是各个业务的环境依赖是一个比较困扰用户的问题，因此我们引入Docker来解决，主要目的还是通过Docker来将Gaia云平台以更有效的方式呈献给各个业务。
 
@@ -1811,7 +1811,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[awesome quick start]]></title>
-      <url>http://feiskyer.github.io/2015/03/19/awesome-quick-start/</url>
+      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
       <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
 <p>常用快捷键整理：</p>
@@ -1860,7 +1860,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[How to disable ubuntu services]]></title>
-      <url>http://feiskyer.github.io/2015/03/17/how-to-disable-ubuntu-services/</url>
+      <url>http://feisky.xyz/2015/03/17/how-to-disable-ubuntu-services/</url>
       <content type="html"><![CDATA[<p>To toggle a service from starting or stopping permanently you would need to:</p>
 <pre><code>echo manual | sudo tee /etc/init/SERVICE.override
 </code></pre><p>where the stanza manual will stop Upstart from automatically loading the service on next boot. Any service with the .override ending will take precedence over the original service file. You will only be able to start the service manually afterwards. If you do not want this then simply delete the .override. For example:</p>
@@ -1873,7 +1873,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Microservice Infrastructure]]></title>
-      <url>http://feiskyer.github.io/2015/03/16/microservice-infrastructure/</url>
+      <url>http://feisky.xyz/2015/03/16/microservice-infrastructure/</url>
       <content type="html"><![CDATA[<h2 id="Microservices-Infrastructure"><a href="#Microservices-Infrastructure" class="headerlink" title="Microservices Infrastructure"></a>Microservices Infrastructure</h2><p>Modern platform for rapidly deploying globally distributed services provided by cisco.</p>
 <p><a href="https://github.com/CiscoCloud/microservices-infrastructure" target="_blank" rel="external">https://github.com/CiscoCloud/microservices-infrastructure</a></p>
 <h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><ul>
@@ -1906,7 +1906,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Using cAdvisor to monitor docker]]></title>
-      <url>http://feiskyer.github.io/2015/03/12/usging-cadvisor-to-monitor-docker/</url>
+      <url>http://feisky.xyz/2015/03/12/usging-cadvisor-to-monitor-docker/</url>
       <content type="html"><![CDATA[<p>cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage, histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.</p>
 <p>cAdvisor has native support for Docker containers and should support just about any other container type out of the box. We strive for support accross the board so feel free to open an issue if that is not the case. cAdvisor’s container abstraction is based on lmctfy’s so containers are inherently nested hierarchically.</p>
 <p>To quickly tryout cAdvisor on your machine with Docker, we have a Docker image that includes everything you need to get started. Simply run:</p>
@@ -1919,7 +1919,7 @@ Available Commands:
     
     <entry>
       <title><![CDATA[Redhat Atomic Host]]></title>
-      <url>http://feiskyer.github.io/2015/03/05/redhat-atomic-host/</url>
+      <url>http://feisky.xyz/2015/03/05/redhat-atomic-host/</url>
       <content type="html"><![CDATA[<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Red Hat has announced first public beta of <a href="http://www.projectatomic.io/" target="_blank" rel="external">Red Hat Enterprise Linux 7 Atomic Host</a>. The beta is available from Red Hat and on Amazon Web Services and Google Compute Platform.</p>
 <p>What can you expect from the Red Hat Enterprise Linux 7 Atomic Host Beta?</p>
 <h4 id="Specifically-Designed-to-Run-Containers"><a href="#Specifically-Designed-to-Run-Containers" class="headerlink" title="Specifically Designed to Run Containers"></a>Specifically Designed to Run Containers</h4><p>Red Hat Enterprise Linux 7 Atomic Host Beta provides a streamlined host platform that is optimized to run application containers. The software components included in Red Hat Enterprise Linux 7 Atomic Host Beta, as well as the default system tunings, have been designed to enhance the performance, scalability and security of containers, giving you the optimal platform on which to deploy and run application containers.</p>
@@ -2106,7 +2106,7 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     
     <entry>
       <title><![CDATA[Python __file__ not defined problem]]></title>
-      <url>http://feiskyer.github.io/2015/03/04/python-not-defined-problem/</url>
+      <url>http://feisky.xyz/2015/03/04/python-not-defined-problem/</url>
       <content type="html"><![CDATA[<p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
 <figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
 ]]></content>
@@ -2114,7 +2114,7 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     
     <entry>
       <title><![CDATA[Docker acquires SDN startup SocketPlane]]></title>
-      <url>http://feiskyer.github.io/2015/03/04/docker-acquires-sdn-startup-socketplane/</url>
+      <url>http://feisky.xyz/2015/03/04/docker-acquires-sdn-startup-socketplane/</url>
       <content type="html"><![CDATA[<p>At <a href="http://socketplane.io/" target="_blank" rel="external">Socketplane</a> we started out as four guys with a collectively strong belief in open source and open communities. &nbsp;We aligned around a shared vision that we wanted to be a critical part of Docker’s once in a decade disruption. Now that we are <a href="http://www.businesswire.com/news/home/20150304005595/en/Docker-Acquires-SocketPlane-Drive-Open-Collaborative-Networking#.VPcQAVPF-Tk" target="_blank" rel="external">part of the Docker team</a>, we couldn’t be happier.</p>
 <p>We never looked to hedge our bets, our success was and obviously still is tied to the success of Docker. While there are many reasons that we decided to join the team, first and foremost Docker is unlike any other projects we have worked on in the past; the focus on user experience and simplicity is unmatched.  Our early work with Docker during the open network design sprints gave us clear indications that the Docker maintainers were interested in being good open source stewards for the networking community in a project with an already staggering community of users and contributors.  We also saw a genuine desire from Docker leadership to do right by both, individual contributors and the ecosystem. That made it all the more easy to jump in head first.</p>
 <p>The majority of users want networking to just work, but just as importantly, integrate into their existing networks. Focusing on a “batteries included but swappable” approach, addresses a fair amount of well known simple deployments that developers care about. This enables opportunity for partners and ecosystem to address their customer use-cases.</p>
@@ -2125,7 +2125,7 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     
     <entry>
       <title><![CDATA[OVS 2.0 call flow]]></title>
-      <url>http://feiskyer.github.io/2015/03/03/ovs-20-call-flow/</url>
+      <url>http://feisky.xyz/2015/03/03/ovs-20-call-flow/</url>
       <content type="html"><![CDATA[<p><img src="/images/ovs_flow.jpg" alt=""></p>
 <p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/37600791" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/37600791</a></p>
 ]]></content>
@@ -2133,7 +2133,7 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     
     <entry>
       <title><![CDATA[Linux kernel network call flow]]></title>
-      <url>http://feiskyer.github.io/2015/03/03/linux-kernel-network-call-flow/</url>
+      <url>http://feisky.xyz/2015/03/03/linux-kernel-network-call-flow/</url>
       <content type="html"><![CDATA[<p><img src="/images/network_flow.jpg" alt=""></p>
 <p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/19935813" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/19935813</a></p>
 ]]></content>
@@ -2141,7 +2141,7 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     
     <entry>
       <title><![CDATA[Dive in Linux capabilites]]></title>
-      <url>http://feiskyer.github.io/2015/03/02/dive-in-linux-capabilites/</url>
+      <url>http://feisky.xyz/2015/03/02/dive-in-linux-capabilites/</url>
       <content type="html"><![CDATA[<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Capabilities in Linux are flags that tell the kernel what the application is allowed to do, If you have no additional security mechanism in place, the Linux root user has all capabilities assigned to it. As capabilities are a way for running processes with some privileges, without having the need to grant them root privileges, it is important to understand that they exist.</p>
 <p>Consider the ping utility. It is marked setuid root on some distributions, because the utility requires the (cap)ability to send raw packets. This capability is known as CAP_NET_RAW. However, thanks to capabilities, you can now mark the ping application with this capability and drop the setuid from the file. As a result, the application does not run with full root privileges anymore, but with the restricted privileges of the user plus one capability, namely the CAP_NET_RAW.</p>
 <figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">➜  ~  cp /bin/ping .</div><div class="line">➜  ~  ll ping</div><div class="line">-rwxr-xr-x <span class="number">1</span> fei fei <span class="number">44</span>K  <span class="number">3</span>月  <span class="number">3</span> <span class="number">14</span>:<span class="number">42</span> ping</div><div class="line">➜  ~  ll /bin/ping</div><div class="line">-rwsr-xr-x <span class="number">1</span> root root <span class="number">44</span>K  <span class="number">5</span>月  <span class="number">8</span>  <span class="number">2014</span> /bin/ping</div><div class="line">➜  ~  ./ping -c <span class="number">1</span> www<span class="selector-class">.baidu</span><span class="selector-class">.com</span></div><div class="line">ping: icmp open socket: Operation not permitted</div><div class="line">➜  ~  sudo setcap cap_net_raw+<span class="selector-tag">p</span> ping</div><div class="line">➜  ~  getcap ping</div><div class="line">ping = cap_net_raw+<span class="selector-tag">p</span></div><div class="line">➜  ~  ./ping -c <span class="number">1</span> www<span class="selector-class">.baidu</span><span class="selector-class">.com</span></div><div class="line">PING www<span class="selector-class">.a</span><span class="selector-class">.shifen</span><span class="selector-class">.com</span> (<span class="number">115.239</span>.<span class="number">211.112</span>) <span class="number">56</span>(<span class="number">84</span>) bytes of data.</div><div class="line"><span class="number">64</span> bytes from <span class="number">115.239</span>.<span class="number">211.112</span>: icmp_seq=<span class="number">1</span> ttl=<span class="number">51</span> time=<span class="number">6.83</span> ms</div><div class="line"></div><div class="line">--- www<span class="selector-class">.a</span><span class="selector-class">.shifen</span><span class="selector-class">.com</span> ping statistics ---</div><div class="line"><span class="number">1</span> packets transmitted, <span class="number">1</span> received, <span class="number">0%</span> packet loss, <span class="selector-tag">time</span> <span class="number">0ms</span></div><div class="line">rtt min/avg/max/mdev = <span class="number">6.833</span>/<span class="number">6.833</span>/<span class="number">6.833</span>/<span class="number">0.000</span> ms</div></pre></td></tr></table></figure>
@@ -2162,8 +2162,18 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
+      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
+      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
+      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Open vSwitch over DPDK on Ubuntu]]></title>
-      <url>http://feiskyer.github.io/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/</url>
+      <url>http://feisky.xyz/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/</url>
       <content type="html"><![CDATA[<p>There are two approaches for using DPDK acceleration in DPDK. One is the openvswitch fork from intel, called dpdk-ovs the other is done directly in openvswitch with a different approach from intel. <span class="anchor" id="line-10">&lt;/span&gt;<br><span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span></span></p>
 <ul>
 <li><a href="http://dpdk.org/ml/archives/dev/2014-March/001770.html" target="_blank" rel="external">http://dpdk.org/ml/archives/dev/2014-March/001770.html</a> <span class="anchor" id="line-13">&lt;/span&gt;<br><span class="anchor" id="line-14"></span>- <a href="https://github.com/01org/dpdk-ovs" target="_blank" rel="external">https://github.com/01org/dpdk-ovs</a> <span class="anchor" id="line-15">&lt;/span&gt;<span class="anchor" id="line-16"></span></span></span></li>
@@ -2518,18 +2528,8 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
-      <url>http://feiskyer.github.io/2015/03/01/setting-up-gre-for-kubernetes/</url>
-      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
-      <url>http://feiskyer.github.io/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
+      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
       <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
 <figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
 <p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
@@ -2539,7 +2539,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Integrating Openstack and Kubernetes with Murano]]></title>
-      <url>http://feiskyer.github.io/2015/02/25/integrating-openstack-and-kubernetes-with-murano/</url>
+      <url>http://feisky.xyz/2015/02/25/integrating-openstack-and-kubernetes-with-murano/</url>
       <content type="html"><![CDATA[<p>There’s a perceived competition between OpenStack and containers such as Docker, but in reality, the two technologies are a powerful combination. They both solve similar problems, but on different layers of the stack, so combining the two can give users more scalability and automation than ever before.</p>
 <p>That containers app you wrote needs to run somewhere. This is particularly true for orchestrated container applications, such as those managed by Kubernetes. What’s more, if your application is complicated enough that it needs to scale up and down, you need to be running it in an environment that can, itself, scale up and down. This is where OpenStack comes in.</p>
 <p>The idea of making OpenStack and Kubernetes work together might seem a little daunting, but as of today, it just got easier. &nbsp;A lot easier.</p>
@@ -2593,7 +2593,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feiskyer.github.io/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
       <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
 <h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
 <p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
@@ -2640,7 +2640,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Going Native with OpenStack Centric Applications: Murano]]></title>
-      <url>http://feiskyer.github.io/2015/02/25/going-native-with-openstack-centric-applications-murano/</url>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-murano/</url>
       <content type="html"><![CDATA[<p>Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Murano, currently an incubation status project, having seen its functionality and core services integration advanced over the past few OpenStack releases.</p>
 <h3 id="What-is-it"><a href="#What-is-it" class="headerlink" title="What is it?"></a>What is it?</h3><p>An application catalog developed by Mirantis, HP and others (now including Cisco), that allows application developers and cloud administrators to publish applications in a categorized catalog to be perused and deployed by application consumers. The selection of applications available within the catalog is intended to be that of released versions (ready-state) of applications (cloud-native or enterprise-architected), not application versions that are mid-development. Ideally, these are applications ready to be consumed and run by application users.</p>
 <h3 id="Functionality-Highlights"><a href="#Functionality-Highlights" class="headerlink" title="Functionality Highlights"></a>Functionality Highlights</h3><p><img src="http://blog.gingergeek.com/wp-content/uploads/2014/11/OpenStack-Centric-Applications-Murano-Application-Catalog-UI.png" alt="ui"></p>
@@ -2761,7 +2761,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Installing Realtek rltwifi driver for Ubuntu 14.10]]></title>
-      <url>http://feiskyer.github.io/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/</url>
+      <url>http://feisky.xyz/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/</url>
       <content type="html"><![CDATA[<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>Ubuntu 14默认内核版本没有带RTL8192ee的网卡驱动，因而就无法通过无线网络联网，并且Reltek官方网站也没有提供合适的驱动。而最新的Linux内核已经带了相应驱动，所以一般建议修复的方法就是升级内核版本到最新。但如果不想内核升级咋办呢？幸好Github上已经有人将这个驱动写好了，直接安装即可：</p>
 <figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">git clone git@github<span class="selector-class">.com</span>:lwfinger/rtlwifi_new<span class="selector-class">.git</span></div><div class="line">cd rtlwifi_new</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
 <h3 id="无线网卡管理"><a href="#无线网卡管理" class="headerlink" title="无线网卡管理"></a>无线网卡管理</h3><ul>
@@ -2780,7 +2780,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Docker 笔记]]></title>
-      <url>http://feiskyer.github.io/2015/02/12/docker-intro/</url>
+      <url>http://feisky.xyz/2015/02/12/docker-intro/</url>
       <content type="html"><![CDATA[<h2 id="一、Docker-简介"><a href="#一、Docker-简介" class="headerlink" title="一、Docker 简介"></a>一、Docker 简介</h2><p>Docker 两个主要部件：</p>
 <ul>
 <li>Docker: 开源的容器虚拟化平台</li>
@@ -2925,7 +2925,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#104;&#x61;&#x6e;&#x6e;&#x69;&#98;&#x61;&#108;&#x40;&#97;&#45;&#x74;&#101;&#97;&#x6d;&#46;&#99;&#111;&#x6d;">&#104;&#x61;&#x6e;&#x6e;&#x69;&#98;&#x61;&#108;&#x40;&#97;&#45;&#x74;&#101;&#97;&#x6d;&#46;&#99;&#111;&#x6d;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#104;&#97;&#110;&#x6e;&#105;&#x62;&#x61;&#108;&#64;&#97;&#x2d;&#116;&#101;&#x61;&#109;&#x2e;&#99;&#111;&#109;">&#104;&#97;&#110;&#x6e;&#105;&#x62;&#x61;&#108;&#64;&#97;&#x2d;&#116;&#101;&#x61;&#109;&#x2e;&#99;&#111;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -3348,7 +3348,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Installing nova docker on OpenStack Juno]]></title>
-      <url>http://feiskyer.github.io/2015/02/12/installing-nova-docker-on-openstack-juno/</url>
+      <url>http://feisky.xyz/2015/02/12/installing-nova-docker-on-openstack-juno/</url>
       <content type="html"><![CDATA[<p>This post comes about indirectly by a request on IRC in #rdo for help getting nova-docker installed on Fedora 21. I ran through the process from start to finish and decided to write everything down for posterity.</p>
 <p>Getting started<br>I started with the Fedora 21 Cloud Image, because I’m installing onto OpenStack and the cloud images include some features that are useful in this environment.</p>
 <p>We’ll be using OpenStack packages from the RDO Juno repository. Because there is often some skew between the RDO packages and the current Fedora selinux policy, we’re going to start by putting SELinux into permissive mode (sorry, Dan):</p>
@@ -3420,7 +3420,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[Linux netcat examples]]></title>
-      <url>http://feiskyer.github.io/2015/02/11/linux-netcat-examples/</url>
+      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
       <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
 <h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
 <p>Client: nc 172.31.100.7 1567</p>
@@ -3443,7 +3443,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
     
     <entry>
       <title><![CDATA[How to use docker compose to deploy a flask app]]></title>
-      <url>http://feiskyer.github.io/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
+      <url>http://feisky.xyz/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
       <content type="html"><![CDATA[<p>The flask app is very simple, you have an index page where your can write and read comments.</p>
 <h2 id="To-start"><a href="#To-start" class="headerlink" title="To start"></a>To start</h2><p>So what we need ?</p>
 <p>In my case a <a href="https://www.digitalocean.com/?refcode=16e2312f412e" title="Digital Ocean" target="_blank" rel="external">Digital Ocean</a> droplet (I’m using Fedora 21).</p>
@@ -3672,7 +3672,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[好书推荐]]></title>
-      <url>http://feiskyer.github.io/2015/02/10/good-books/</url>
+      <url>http://feisky.xyz/2015/02/10/good-books/</url>
       <content type="html"><![CDATA[<h3 id="推荐最多的书籍"><a href="#推荐最多的书籍" class="headerlink" title="推荐最多的书籍"></a>推荐最多的书籍</h3><h4 id="技术书籍"><a href="#技术书籍" class="headerlink" title="技术书籍"></a>技术书籍</h4><ol>
 <li><a href="http://www.amazon.cn/gp/product/B00G1ZT2C0/ref=as_li_tf_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00G1ZT2C0&amp;linkCode=as2&amp;tag=manongio-23" target="_blank" rel="external">黑客与画家:来自计算机时代的高见</a><img src="http://ir-cn.amazon-adsystem.com/e/ir?t=manongio-23&amp;l=as2&amp;o=28&amp;a=B00G1ZT2C0" alt=""></li>
 <li><a href="http://www.amazon.cn/gp/product/B0084ASO7E/ref=as_li_tf_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B0084ASO7E&amp;linkCode=as2&amp;tag=manongio-23" target="_blank" rel="external">数学之美</a><img src="http://ir-cn.amazon-adsystem.com/e/ir?t=manongio-23&amp;l=as2&amp;o=28&amp;a=B0084ASO7E" alt=""></li>
@@ -3914,7 +3914,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[Programming Resources]]></title>
-      <url>http://feiskyer.github.io/2015/02/10/ios-blog-resources/</url>
+      <url>http://feisky.xyz/2015/02/10/ios-blog-resources/</url>
       <content type="html"><![CDATA[<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p><a href="#ANDROID">ANDROID</a></p>
 <p><a href="#ANGULAR">ANGULAR</a></p>
 <p><a href="#BOOTSTRAP">BOOTSTRAP</a></p>
@@ -5867,7 +5867,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[Perform Consistent Snapshots with qemu guest agent]]></title>
-      <url>http://feiskyer.github.io/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/</url>
+      <url>http://feisky.xyz/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/</url>
       <content type="html"><![CDATA[<p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
 <p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
 <h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
@@ -5908,7 +5908,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[cannot change locale]]></title>
-      <url>http://feiskyer.github.io/2015/02/09/cannot-change-locale/</url>
+      <url>http://feisky.xyz/2015/02/09/cannot-change-locale/</url>
       <content type="html"><![CDATA[<p>运行locale命令<span id="more-912"></span><br>LANG=<br>LANGUAGE=<br>LC_CTYPE=”POSIX”<br>LC_NUMERIC=”POSIX”<br>LC_TIME=”POSIX”<br>LC_COLLATE=”POSIX”<br>LC_MONETARY=”POSIX”<br>LC_MESSAGES=”POSIX”<br>LC_PAPER=”POSIX”<br>LC_NAME=”POSIX”<br>LC_ADDRESS=”POSIX”<br>LC_TELEPHONE=”POSIX”<br>LC_MEASUREMENT=”POSIX”<br>LC_IDENTIFICATION=”POSIX”<br>LC_ALL=  </p>
 <p>修改profile</p>
 <p>vi /etc/profile</p>
@@ -5933,7 +5933,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[使用Mesos来管理Docker集群]]></title>
-      <url>http://feiskyer.github.io/2015/02/05/mesosdocker/</url>
+      <url>http://feisky.xyz/2015/02/05/mesosdocker/</url>
       <content type="html"><![CDATA[<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Apache Mesos能够在同样的集群机器上运行多种分布式系统类型，更加动态有效率低共享资源。提供失败侦测，任务发布，任务跟踪，任务监控，低层次资源管理和细粒度的资源共享，可以扩展伸缩到数千个节点。Mesos已经被Twitter用来管理它们的数据中心。</p>
 <p><img src="/assets/mesos_1.png" alt=""></p>
 <p>Mesos架构图如下：</p>
@@ -5983,7 +5983,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[Apache的Mesos和Google的Kubernetes 有什么区别]]></title>
-      <url>http://feiskyer.github.io/2015/02/05/apachemesosgooglekubernetes-/</url>
+      <url>http://feisky.xyz/2015/02/05/apachemesosgooglekubernetes-/</url>
       <content type="html"><![CDATA[<p>Kubernetes是一个开源项目，它把谷歌的集群管理工具引入到虚拟机和裸机场景中。它可以完美运行在现代的操作系统环境（比如CoreOS和Red Hat Atomic），并提供可以被你管控的轻量级的计算节点。Kubernetes使用Golang开发，具有轻量化、模块化、便携以及可扩展的特点。我们（Kubernetes开发团队）正在和一些不同的技术公司（包括维护着Mesos项目的MesoSphere）合作来把Kubernetes升级为一种与计算集群交互的标准方式。Kubernetes重新实现了Google在构建集群应用时积累的经验。这些概念包括如下内容：  </p>
 <ul>
 <li>Pods：一种将容器组织在一起的方法；</li>
@@ -6006,7 +6006,7 @@ ADD static/ /www/static
     
     <entry>
       <title><![CDATA[Deploy a Mesos Cluster Using Docker]]></title>
-      <url>http://feiskyer.github.io/2015/02/04/deploy-a-mesos-cluster-using-docker/</url>
+      <url>http://feisky.xyz/2015/02/04/deploy-a-mesos-cluster-using-docker/</url>
       <content type="html"><![CDATA[<p>his tutorial will show you how to bring up a single node <a href="http://mesosphere.com/" target="_blank" rel="external">Mesos</a> cluster all provisioned out using <a href="http://docker.io/" target="_blank" rel="external">Docker</a> containers (a future post will show how to easily scale this out to multi nodes or see the update on the bottom). This means that you can startup an entire cluster with 7 commands! Nothing to install except for starting out with a working Docker server.</p>
 <p>This will startup 4 containers:</p>
 <ol>
@@ -6121,7 +6121,7 @@ root@ca83bf0ea76a:/# tail -f /tmp/output.txt
     
     <entry>
       <title><![CDATA[reverse shell]]></title>
-      <url>http://feiskyer.github.io/2015/01/27/reverse-shell/</url>
+      <url>http://feisky.xyz/2015/01/27/reverse-shell/</url>
       <content type="html"><![CDATA[<h3 id="Listen-for-8080-first"><a href="#Listen-for-8080-first" class="headerlink" title="Listen for 8080 first"></a>Listen for 8080 first</h3><pre>
 nc -l -p 8080 -vvv
 </pre>
@@ -6189,7 +6189,7 @@ xhost +targetip
     
     <entry>
       <title><![CDATA[awk examples]]></title>
-      <url>http://feiskyer.github.io/2015/01/27/awk-examples/</url>
+      <url>http://feisky.xyz/2015/01/27/awk-examples/</url>
       <content type="html"><![CDATA[<ul>
 <li>precede each line by line number</li>
 </ul>
@@ -6248,7 +6248,7 @@ xhost +targetip
     
     <entry>
       <title><![CDATA[vagrant]]></title>
-      <url>http://feiskyer.github.io/2015/01/26/vagrant/</url>
+      <url>http://feisky.xyz/2015/01/26/vagrant/</url>
       <content type="html"><![CDATA[<p>简易虚拟机管理工具vagrant</p>
 <h3 id="Vagrant简介"><a href="#Vagrant简介" class="headerlink" title="Vagrant简介"></a>Vagrant简介</h3><p>Vagrant是一款跨平台的虚拟机管理工具，可以用来封装跨平台的开发环境，分发给团队成员共享。</p>
 <h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><p>1.安装 VirtualBox</p>
@@ -6289,14 +6289,14 @@ xhost +targetip
     
     <entry>
       <title><![CDATA[Pluribus Networks]]></title>
-      <url>http://feiskyer.github.io/2015/01/26/pluribus-networks/</url>
+      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
       <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[Neutron Layer 3 High Availability]]></title>
-      <url>http://feiskyer.github.io/2015/01/26/neutron-layer-3-high-availability/</url>
+      <url>http://feisky.xyz/2015/01/26/neutron-layer-3-high-availability/</url>
       <content type="html"><![CDATA[<p><strong>L3 Agent Low Availability</strong></p>
 <p>Today, you can utilize multiple network nodes to achieve load sharing, but not high availability or redundancy. Assuming three network nodes, creation of new routers will be scheduled and distributed amongst those three nodes. However, if a node&nbsp;drops, all routers on that node will cease to exist as well as any traffic normally forwarded by those routers. Neutron, in the Icehouse release, doesn’t support any built-in solution.</p>
 <p><strong>A Detour to the DHCP Agent</strong></p>
@@ -6459,7 +6459,7 @@ neutron router-create --ha=<true |="" false=""> router1
     
     <entry>
       <title><![CDATA[Docker]]></title>
-      <url>http://feiskyer.github.io/2015/01/26/docker/</url>
+      <url>http://feisky.xyz/2015/01/26/docker/</url>
       <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规模 web 应用、数据库部署、持续部署、集群、测试环境、面向服务的云计算、虚拟桌面 VDI 等等。</p>
 <p>Docker 使用 Go 语言编写，用 cgroup 实现资源隔离，容器技术采用 LXC. LXC 已经足够成熟，被多个主流 PaaS 服务商采用（比如 dotCloud），国内的一些互联网公司也在用（比如腾讯）。虽然都是企图解决自动化部署方面的问题，Docker 的解决方式有别于我们常提到的 Puppet/Chef，他们虽然走的是不同的路，但也可以拿来一起用。</p>
 <h3 id="安装-ubuntu-12-04"><a href="#安装-ubuntu-12-04" class="headerlink" title="安装 (ubuntu 12.04)"></a>安装 (ubuntu 12.04)</h3><p>Due to a bug in LXC, Docker works best on the 3.8 kernel. Precise comes with a 3.2 kernel, so we need to upgrade it. The kernel you’ll install when following these steps comes with AUFS built in. We also include the generic headers to enable packages that depend on them, like ZFS and the VirtualBox guest additions.</p>
@@ -6484,7 +6484,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x66;&#x65;&#x69;&#x73;&#x6b;&#121;&#x40;&#114;&#x6f;&#111;&#116;">&#x66;&#x65;&#x69;&#x73;&#x6b;&#121;&#x40;&#114;&#x6f;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#102;&#101;&#x69;&#115;&#x6b;&#x79;&#64;&#x72;&#111;&#x6f;&#116;">&#102;&#101;&#x69;&#115;&#x6b;&#x79;&#64;&#x72;&#111;&#x6f;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
@@ -6526,7 +6526,7 @@ neutron router-create --ha=<true |="" false=""> router1
     
     <entry>
       <title><![CDATA[docker internal]]></title>
-      <url>http://feiskyer.github.io/2015/01/26/docker-internal/</url>
+      <url>http://feisky.xyz/2015/01/26/docker-internal/</url>
       <content type="html"><![CDATA[<p>&lt;/style&gt;<title>docker-base</title>&lt;/head&gt;<body><h2 id="abstract">Abstract</h2></body></p>
 <p>本文在现有文档的基础上总结了以下几点内容</p>
 <ol>
@@ -6882,7 +6882,7 @@ This means that there is no need for manual setup of block devices, and that gen
     
     <entry>
       <title><![CDATA[bigdata]]></title>
-      <url>http://feiskyer.github.io/2015/01/26/bigdata/</url>
+      <url>http://feisky.xyz/2015/01/26/bigdata/</url>
       <content type="html"><![CDATA[<h1 id="Awesome-Big-Data"><a href="#Awesome-Big-Data" class="headerlink" title="Awesome Big Data"></a>Awesome Big Data</h1><p>A curated list of awesome big data frameworks, resources and other awesomeness. Inspired by <a href="https://github.com/ziadoz/awesome-php" target="_blank" rel="external">awesome-php</a>, <a href="https://github.com/vinta/awesome-python" target="_blank" rel="external">awesome-python</a>, <a href="https://github.com/Sdogruyol/awesome-ruby" target="_blank" rel="external">awesome-ruby</a>, <a href="http://hadoopecosystemtable.github.io/" target="_blank" rel="external">hadoopecosystemtable</a> &amp; <a href="http://blog.andreamostosi.name/big-data/" target="_blank" rel="external">big-data</a>.</p>
 <p>Your contributions are always welcome!</p>
 <ul>
@@ -7372,7 +7372,7 @@ This means that there is no need for manual setup of block devices, and that gen
     
     <entry>
       <title><![CDATA[Hello World]]></title>
-      <url>http://feiskyer.github.io/2015/01/19/hello-world/</url>
+      <url>http://feisky.xyz/2015/01/19/hello-world/</url>
       <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
@@ -7387,63 +7387,63 @@ This means that there is no need for manual setup of block devices, and that gen
     
     <entry>
       <title><![CDATA[kubernetes多节点部署解析 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/19/kubernetes%E5%A4%9A%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2%E8%A7%A3%E6%9E%90-feisky/</url>
+      <url>http://feisky.xyz/2014/11/19/kubernetes%E5%A4%9A%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2%E8%A7%A3%E6%9E%90-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】注：以下操作均基于centos7系统。安装ansibleansilbe可以通过yum或者pip安装，由于kubernetes-ansible用到了密码，故而还需要安装sshpass：pip install ansiblewget <a href="http://sourceforge.net/projects/ssh" target="_blank" rel="external">http://sourceforge.net/projects/ssh</a>… <a href="http://www.cnblogs.com/feisky/p/4108477.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4108477" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[docker底层技术概览 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/19/docker%E5%BA%95%E5%B1%82%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88-feisky/</url>
+      <url>http://feisky.xyz/2014/11/19/docker%E5%BA%95%E5%B1%82%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】docker解决了云计算环境难于分发并且管理复杂，而用KVM、Xen等虚拟化又浪费系统资源的问题。Docker最初是基于lxc构建了容器引擎，为了提供跨平台支持，后又专门开发了libcontainer来抽象容器引擎。但无论是libcontainer还是lxc，其底层所依赖的内核特性都是相同的。我们来… <a href="http://www.cnblogs.com/feisky/p/4105739.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105739" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[docker存储结构解析 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/19/docker%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90-feisky/</url>
+      <url>http://feisky.xyz/2014/11/19/docker%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】由于aufs并未并入内核，故而目前只有Ubuntu系统上能够使用aufs作为docker的存储引擎，而其他系统上使用lvm thin provisioning（overlayfs是一个和aufs类似的union filesystem，未来有可能进入内核，但目前还没有；Lvm snapshot are… <a href="http://www.cnblogs.com/feisky/p/4106212.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106212" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[OpenStack部署工具总结 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/18/OpenStack%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93-feisky/</url>
+      <url>http://feisky.xyz/2014/11/18/OpenStack%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】目前感觉比较简单直观的部署工具有RDO、devstack、Fuel等：1. RDO<a href="https://openstack.redhat.com/QuickstartREDHAT出品，支持Redhat、CentOS等系统。RDO基于puppet部署各个组件，支持单节点或多节点部署，在Redhat系操作系统" target="_blank" rel="external">https://openstack.redhat.com/QuickstartREDHAT出品，支持Redhat、CentOS等系统。RDO基于puppet部署各个组件，支持单节点或多节点部署，在Redhat系操作系统</a>… <a href="http://www.cnblogs.com/feisky/p/4105084.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105084" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[使用 Device Mapper来改变Docker容器的大小 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/18/%E4%BD%BF%E7%94%A8-Device-Mapper%E6%9D%A5%E6%94%B9%E5%8F%98Docker%E5%AE%B9%E5%99%A8%E7%9A%84%E5%A4%A7%E5%B0%8F-feisky/</url>
+      <url>http://feisky.xyz/2014/11/18/%E4%BD%BF%E7%94%A8-Device-Mapper%E6%9D%A5%E6%94%B9%E5%8F%98Docker%E5%AE%B9%E5%99%A8%E7%9A%84%E5%A4%A7%E5%B0%8F-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】作者：Jérôme Petazzoni（ Docker 布道师）译者：Mark Shao（ EMC 中国高级工程师）如果在 CentOS 、 REHL 、 Fedor 或者其他默认没有 AUFS 支持的 Linux 发行版上使用 Docker ，你可能需要用到 Device Mapper 的存储插件… <a href="http://www.cnblogs.com/feisky/p/4106004.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106004" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[从veth看虚拟网络设备的qdisc - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/18/%E4%BB%8Eveth%E7%9C%8B%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E7%9A%84qdisc-feisky/</url>
+      <url>http://feisky.xyz/2014/11/18/%E4%BB%8Eveth%E7%9C%8B%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E7%9A%84qdisc-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】背景前段时间在测试docker的网络性能的时候，发现了一个veth的性能问题，后来给docker官方提交了一个PR，参考set tx_queuelen to 0 when create veth device，引起了一些讨论。再后来，RedHat的网络专家Jesper Brouer出来详细的讨论了一… <a href="http://www.cnblogs.com/feisky/p/4105884.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105884" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
+      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
+      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[集群工具ansible使用方法 - feisky]]></title>
-      <url>http://feiskyer.github.io/2014/11/16/%E9%9B%86%E7%BE%A4%E5%B7%A5%E5%85%B7ansible%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-feisky/</url>
+      <url>http://feisky.xyz/2014/11/16/%E9%9B%86%E7%BE%A4%E5%B7%A5%E5%85%B7ansible%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-feisky/</url>
       <content type="html"><![CDATA[<p>【摘要】ansible简介ansible是与puppet、saltstack类似的集群管理工具，其优点是仅需要ssh和Python即可使用，而不像puppet、saltstack那样都需要客户端。与puppet类似，ansible也支持丰富的功能：批量执行支持模块化，支持playbook（相比puppet还… <a href="http://www.cnblogs.com/feisky/p/4102613.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4102613" alt=""></p>
 ]]></content>
     </entry>
