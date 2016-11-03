@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://feiskyer.github.io</loc>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/virtualization/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.409Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/virtualization/GPU/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.409Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/virtualization/SR-IOV/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.409Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/virtualization/pvcall/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.409Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/virtualization/vsocks/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.409Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/programing/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.405Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/tags/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.405Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/tracing/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.405Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/programing/go.html</loc>
+        <lastmod>2016-11-03T13:13:00.405Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/tracing/sysdig/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.405Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/tracing/systemtap/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.405Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/pages/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.381Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.129Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/guide.html</loc>
+        <lastmod>2016-11-03T13:13:00.129Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/PCIe.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/forwarding.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/hardware.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/introduction.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/io-virtualization.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/offload.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/numa.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/networking/dpdk/queue.html</loc>
+        <lastmod>2016-11-03T13:13:00.125Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/visualization/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.117Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/tensorflow/hello.html</loc>
+        <lastmod>2016-11-03T13:13:00.113Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/tensorflow/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.113Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/tensorflow/setup.html</loc>
+        <lastmod>2016-11-03T13:13:00.113Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/octave/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.109Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/tensorflow/getting-started/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.109Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/cheatsheet.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/basic/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/deep-learning/setup.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/jupyter/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/jupyter/magic.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/linear-regression/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/linear-regression/linear-regression-regularized.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/logistic-regression/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/numpy/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/linear-regression/graphlab/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/ml/logistic-regression/graphlab/index.html</loc>
+        <lastmod>2016-11-03T13:13:00.105Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/categories/index.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/container/cri-o.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/container/index.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/container/kubernetes-dev.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/docker/1.12.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/docker/internal.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/docker/networking.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/docker/storage.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/docker/swarmkit.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/docker/index.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/container/selinux/index.html</loc>
+        <lastmod>2016-11-03T13:12:59.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/about/index.html</loc>
+        <lastmod>2016-11-03T13:12:59.909Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/404.html</loc>
+        <lastmod>2016-11-03T13:12:59.901Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feiskyer.github.io/Cloud-Native/index.html</loc>
+        <lastmod>2016-11-03T13:12:59.901Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+</urlset>
+<!-- XML Sitemap generated by Hexo SEO Friendly Sitemap Generator -->

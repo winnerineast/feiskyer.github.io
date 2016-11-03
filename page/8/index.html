@@ -1,0 +1,1827 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud,Container,Kubernetes,SDN,Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Notes about anything.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feiskyer.github.io/page/8/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Notes about anything.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="Notes about anything.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feiskyer.github.io/page/8/"/>
+
+
+  <title> Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/24/stateless-floating-ips/" itemprop="url">
+                  Stateless Floating IPs
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-25T00:00:00+08:00" content="2015-06-25">
+              2015-06-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Networking/" itemprop="url" rel="index">
+                    <span itemprop="name">Networking</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Neutron里面的Floating IPs目前是基于iptables NAT来实现的，它使用ip_conntrack来跟踪所有连接（五元组），而ip_conntrack会大大降低NAT的性能，并且也有一些安全问题（比如<a href="https://review.openstack.org/#/c/124375/" target="_blank" rel="external">conntrack未释放问题</a>）。从Floating IPs的作用来看，它只需要完成源目的IP地址的转换即可，完全可以不需要conntrack，因而就有了一个<a href="https://blueprints.launchpad.net/neutron/+spec/stateless-floatingips" target="_blank" rel="external">Stateless Floating IPs</a>的BP, </p>
+<p>Stateless Floating IPs的大致实现方法是使用iptables将特定的包跳过conntrack，然后再用tc执行源目的地址的转换：</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">iptables -t raw -A PREROUTING -d <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> -j NOTRACK</div><div class="line">iptables -t raw -A PREROUTING -s <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.25</span>/<span class="number">32</span> -j NOTRACK</div><div class="line"></div><div class="line">###### ingress</div><div class="line"># to <span class="built_in">do</span> once</div><div class="line">tc qdisc <span class="keyword">add</span> dev qg-xxxx ingress handle ffff:</div><div class="line"># to <span class="built_in">do</span> for <span class="number">each</span> floating-<span class="built_in">ip</span>,fixed-<span class="built_in">ip</span> tuple</div><div class="line">tc filter <span class="keyword">add</span> dev qg-xxxx parent ffff: protocol <span class="built_in">ip</span> prio <span class="number">10</span> u32 match <span class="built_in">ip</span> dst <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> action nat ingress <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.250</span></div><div class="line"></div><div class="line">###### egress</div><div class="line"># to <span class="built_in">do</span> once</div><div class="line">tc qdisc <span class="keyword">add</span> dev qg-xxxx root handle <span class="number">10</span>: htb</div><div class="line"># to <span class="built_in">do</span> for <span class="number">each</span> floating-<span class="built_in">ip</span>,fixed-<span class="built_in">ip</span> tuple</div><div class="line">tc filter <span class="keyword">add</span> dev qg-xxxx parent <span class="number">10</span>: protocol <span class="built_in">ip</span> prio <span class="number">10</span> u32 match <span class="built_in">ip</span> src <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.25</span>/<span class="number">32</span> action nat egress <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.250</span>/<span class="number">32</span> <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span></div></pre></td></tr></table></figure>
+<p>当然，这种方法也还是有很多限制的：</p>
+<blockquote>
+<p>stateless NAT always rewrites egress packets;<br>an external machine sending packets to the fixed-ip of a natted vm/port will<br>receive packets with the floating-ip as source ip.  So external machines must<br>use floating-ips of natted vms/ports.</p>
+<p>There is a shared SNAT feature of neutron routers for ports which do not have<br>an associated floating ip.  This shared SNAT will still use conntrack (i.e. it<br>will still use the iptables nat table with SNAT and DNAT targets).  It is<br>necessary to demultiplex return traffic back to the various ports using it.</p>
+</blockquote>
+<p>对于较老的内核，还可以使用下面的方法来实现stateless nat：</p>
+<p>The kernel once had stateless nat built in to the routing rules feature [#]_.<br>This was removed (or deprecated) long ago and so it is not viable::</p>
+<pre><code>--&gt; ip rule add nat 205.254.211.17 from 192.168.100.17
+     Warning: route NAT is deprecated
+
+--&gt; ip route add nat 205.254.211.17 via 192.168.100.17
+    RTNETLINK answers: Invalid argument
+</code></pre><p><a href="http://linux-ip.net/html/nat-stateless.html" target="_blank" rel="external">http://linux-ip.net/html/nat-stateless.html</a></p>
+<p>The Xtables-addons project [#]_ had an implementation for performing stateless<br>NAT in the iptables raw table::</p>
+<pre><code>-t raw -A PREROUTING -i lan0 -d 212.201.100.135 -j RAWDNAT --to-destination 199.181.132.250
+-t rawpost -A POSTROUTING -o lan0 -s 199.181.132.250 -j RAWSNAT --to-source 212.201.100.135
+</code></pre><p>But RAWSNAT/RAWDNAT were removed in recent xtable-addons (for kernel &gt;= 3.13)<br>because the feature was unmaintained.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/23/weekly-reading-list-20150626/" itemprop="url">
+                  Weekly reading list (20150626)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
+              2015-06-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Readings/" itemprop="url" rel="index">
+                    <span itemprop="name">Readings</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这周最热的就是Dockercon了，列表里面很多都是docker相关的。</p>
+<h2 id="Open-Container-Project-OCP"><a href="#Open-Container-Project-OCP" class="headerlink" title="Open Container Project (OCP)"></a>Open Container Project (OCP)</h2><blockquote>
+<p>Today we’re pleased to announce that CoreOS, Docker, and a large group of industry leaders are working together on a standard container format through the formation of the Open Container Project (OCP). OCP is housed under the Linux Foundation, and is chartered to establish common standards for software containers. This announcement means we are starting to see the concepts behind the App Container spec and Docker converge. This is a win for both users of containers and our industry at large.</p>
+</blockquote>
+<p><a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">https://coreos.com/blog/app-container-and-the-open-container-project/</a></p>
+<p>Docker is donating draft specifications and code for container image format and runtime for the new project. Docker’s <a href="https://github.com/docker/libcontainer" target="_blank" rel="external">LibContainer project</a> will become part of <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">the new RunC project</a>. CoreOS cofounder and chief executive Alex Polvi wrote in a <a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">blog post</a> that he expects a good portion of its appc container specification to become part of the project, while his team will turn its rkt container runtime “into a leading container runtime around the new shared container format.”</p>
+<p><a href="http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/</a></p>
+<p>runc <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">https://github.com/opencontainers/runc</a></p>
+<p>OCP <a href="http://www.opencontainers.org/" target="_blank" rel="external">http://www.opencontainers.org/</a></p>
+<p>OCP spec <a href="https://github.com/opencontainers/specs" target="_blank" rel="external">https://github.com/opencontainers/specs</a> 暂未公布，需要2-3周时间</p>
+<h2 id="Docker-hackathon"><a href="#Docker-hackathon" class="headerlink" title="Docker hackathon"></a>Docker hackathon</h2><p>一些有趣的项目包括：</p>
+<ul>
+<li><a href="https://github.com/dockervlan/" target="_blank" rel="external">docker vlan</a> implements the VLAN driver in libnetwork</li>
+<li><a href="https://github.com/snrism/swarm-sec" target="_blank" rel="external">swarm-sec</a>  Swarm Security Assessment tool</li>
+<li><a href="https://github.com/advanderveer/libsecurity" target="_blank" rel="external">libsecurity</a> A POC for using Docker to act on vulnerability releases in real time</li>
+<li>BenchRock 用来测试IaaS平台性能的工具</li>
+<li><a href="https://github.com/rancherio/sherdock" target="_blank" rel="external">sherdock</a> Automatic GC of images based on regexp, Find and delete orphan Docker volumes</li>
+</ul>
+<p>更多的项目见<a href="http://www.dockercon.com/hackathon" target="_blank" rel="external">http://www.dockercon.com/hackathon</a></p>
+<h2 id="Docker-experimental-binary"><a href="#Docker-experimental-binary" class="headerlink" title="Docker experimental binary"></a>Docker experimental binary</h2><blockquote>
+<p>Docker’s experimental binary gives you access to bleeding edge features that are not in, and may never make it into, Docker’s official release.  An experimental build allows users to try out features early and give feedback to the Docker maintainers.  In this way, we hope to refine our feature designs by exposing earlier to real-world usage.</p>
+<p>In all cases, experimental features have gone through the same level of refining and quality control than any code that makes it into Docker: the difference is that the user interface and APIs may change.</p>
+<p>Network and volume plugins are the very first experimental features introduced</p>
+<p>Unlike the regular Docker binary, the experimental channels is built and updated nightly on <a href="https://experimental.docker.com" target="_blank" rel="external">https://experimental.docker.com</a>. From one day to the next, new features may appear, while existing experimental features may be refined or entirely removed.</p>
+<p>Each experimental feature is documented in a dedicated experimental section.  This section explains the feature’s function and design goals. Because your feedback is essential to refine and decide on a feature’s future, you will also find links to GitHub issues where you can leave your comments, look for reported problems, or report on your experience.</p>
+</blockquote>
+<p><a href="http://blog.docker.com/2015/06/experimental-binary/" target="_blank" rel="external">http://blog.docker.com/2015/06/experimental-binary/</a></p>
+<h2 id="Docker-plugins"><a href="#Docker-plugins" class="headerlink" title="Docker plugins"></a>Docker plugins</h2><p>The Docker plugins mechanism is now available in the new <a href="https://github.com/docker/docker/tree/master/experimental" target="_blank" rel="external">Docker experimental channel</a>. Also available are the first Docker plugins, including <a href="http://clusterhq.com/docker-plugin" target="_blank" rel="external">Flocker</a> for portable volumes across hosts, and networking plugins available from <a href="http://blog.weave.works/2015/06/22/weave-as-a-docker-network-plugin/" target="_blank" rel="external">Weave</a>, <a href="http://www.projectcalico.org/calico-docker-1-7-libnetwork/" target="_blank" rel="external">Project Calico</a>, <a href="http://www.nuagenetworks.net/libnetwork-is-license-to-hyper-scale-for-docker-and-sdn/" target="_blank" rel="external">Nuage Networks</a>, <a href="http://blogs.cisco.com/datacenter/docker-and-the-rise-of-microservices" target="_blank" rel="external">Cisco</a>, <a href="http://blogs.vmware.com/networkvirtualization/2015/06/vmware-docker-networking.html" target="_blank" rel="external">VMware</a>, Microsoft, and <a href="http://blog.midonet.org/docker-networking-midonet/" target="_blank" rel="external">Midokura</a>.</p>
+<ul>
+<li>Network plugins**, which allow third-party container networking solutions to connect containers to container networks, making it easier for containers to talk to each other even if they are running on different machines.  </li>
+<li>Volume plugins**, which allow third-party container data management solutions to provide data volumes for containers which operate on data, such as databases, queues and key-value stores and other stateful applications that use the filesystem.</li>
+</ul>
+<p>To demonstrate the value of plugins we are going to show you an example, that <a href="https://plugins-demo-2015.github.io" target="_blank" rel="external">anyone can replicate themselves today</a>. The example two plugins to enable container migration for an application on the Docker platform.  We enhance an application with two extension points.</p>
+<p>• <a href="http://blog.weave.works/2015/06/18/weave-1-0-is-out-and-it-is-good/" target="_blank" rel="external">Weave</a> for portable networking, discovery, monitoring.<br>• <a href="https://clusterhq.com/" target="_blank" rel="external">Flocker</a> for portable volumes and data.<br>• A Docker Swarm cluster runs the application described by Docker Compose<br>• We start a database on node 1, then later reschedule it on node 2, and it keeps its volumes and network identity!<br>• All of this is combined into one easy Docker experience via plugins.</p>
+<p>See demo at <a href="https://plugins-demo-2015.github.io/" target="_blank" rel="external">https://plugins-demo-2015.github.io/</a> </p>
+<p><a href="http://blog.docker.com/2015/06/extending-docker-with-plugins/" target="_blank" rel="external">http://blog.docker.com/2015/06/extending-docker-with-plugins/</a></p>
+<h2 id="Disney-docker-deployment"><a href="#Disney-docker-deployment" class="headerlink" title="Disney docker deployment"></a>Disney docker deployment</h2><p>Here are some of the components that are in use in the Disney environment:</p>
+<ul>
+<li>Chef: Chef handles the hosts and laying down the configuration for the Mesos master, the Marathon framework, the ZooKeeper endpoint configurations, etc. Chef also handles the initial setup of Consul and HAProxy.</li>
+<li><ul>
+<li>Docker: Docker is the packaging solution. Services are packaged using Docker. The Dockerfile for an application resides in the application repo. Application builds include building the Docker image and pushing it to the appropriate registry.</li>
+</ul>
+</li>
+<li><ul>
+<li>Mesos: Mesos provides cluster scheduling, placing containers onto hosts. All interaction with Mesos comes through the frameworks (i.e., Marathon, spark, Cassandra, etc.). </li>
+</ul>
+</li>
+<li><ul>
+<li>Marathon: The main framework in use is Marathon, which enables running Docker on Mesos. Marathon deployments (handled via JSON descriptions) will deploy Docker images and configure them appropriately (which image to use, which ports to expose, etc.). Health checks are also included in the Marathon deployment file. Marathon also allows Disney to define the upgrade strategy, which enables them to control how new images are deployed.</li>
+</ul>
+</li>
+<li><ul>
+<li>Consul: Disney only uses the distributed key-value store functionality of Consul (not the service discovery aspect). Containers use consul-template to pull information from Consul to customize the configuration at run-time.</li>
+</ul>
+</li>
+<li><ul>
+<li>HAProxy: HAProxy handles the routing of requests. Two health checks are involved: one on the HAProxy side, and one on the back-end service side. HAProxy is completely configured via Marathon’s service discovery mechanism.</li>
+</ul>
+</li>
+<li><ul>
+<li>Jenkins: Jenkins handles the Docker build/push/deploy.</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://blog.scottlowe.org/2015/06/23/scaling-new-services/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/scaling-new-services/</a></p>
+<h2 id="Docker-security"><a href="#Docker-security" class="headerlink" title="Docker security"></a>Docker security</h2><p>Docker能提供的安全保障将涵盖以下7点：</p>
+<ul>
+<li>namespace保障系统资源的隔离</li>
+<li>cgroup完成进程组资源的限制</li>
+<li>Linux的安全模块提供MAC（apparmor， SELinux）</li>
+<li>capabilities将root的权限细分为多种类型</li>
+<li>ulimit的功能更多维度的限制资源（docker 1.6之后支持）</li>
+<li>user namespace保障容器内部的root在host上并非root（预计docker 1.8支持）</li>
+<li>seccomp使得容器内进程受到系统调用权限的控制</li>
+</ul>
+<p>Docker在安全方面还做了以下工作：</p>
+<h3 id="降低镜像带来的安全风向"><a href="#降低镜像带来的安全风向" class="headerlink" title="降低镜像带来的安全风向"></a>降低镜像带来的安全风向</h3><ul>
+<li>设置更为精简的Linux发行版：</li>
+<li>移除不需要的package、用户以及二进制工具文件，</li>
+</ul>
+<h3 id="提出Tailored-Profiles"><a href="#提出Tailored-Profiles" class="headerlink" title="提出Tailored Profiles"></a>提出Tailored Profiles</h3><ul>
+<li>容器可以创建least-privildge的文件</li>
+<li>文件有能力随容器传递</li>
+<li>通过独立的文件配置表明所有的权限</li>
+<li>已经规划入runC</li>
+<li>描述所有的隔离特性</li>
+</ul>
+<p>Docker安全贡献的公司</p>
+<ul>
+<li>HuaWei在支持Docker的seccomp方面贡献有目共睹</li>
+<li>IBM大力贡献Docker的user namespace的支持</li>
+<li>Intel在Docker的bootchain方面投入效果可观</li>
+<li>RedHat则在SELinux方面的贡献受到社区的肯定</li>
+</ul>
+<p><a href="http://blog.daocloud.io/dockercon-day-2-security/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-security/</a></p>
+<h2 id="Project-Orca"><a href="#Project-Orca" class="headerlink" title="Project Orca"></a>Project Orca</h2><p>Project Orca has a vision of providing a top-to-bottom integrated stack that takes all the tools and plumbing (Docker Engine, Docker Swarm, Networking, GUI, Docker Compose, security, plus tools for installation, deployment, configuration, etc.). Project Orca fits into the “run” portion of the “build-ship-run” triangle on which Docker focuses.</p>
+<blockquote>
+<p>The Orca demo starts out with a log in to a web-based UI. Hazlett shows how Orca integrates into directory services and provides role-based access controls, and shows the logging/auditing functionality, so that users can see what has happened. Orca will provide lists of images, as well as what’s inside the images (such as showing layers, and the sizes of layers). Orca has integration into Docker Swarm, to show the nodes in a Swarm cluster and manage the nodes in a Swarm cluster. Hazlett also shows how to see the images that are present in a cluster, pull updated images, and push them across the entire Swarm cluster. Naturally, Orca also shows the images that are running across the cluster, the images used by each container, and display the details for running containers (the node on which it’s running, the ports that are exposed, the resources that are in use, the volumes associated with the container). Viewing the logs from a Docker container is also readily accessible from within Orca, as is real-time streaming statistics for the containers. Orca introduces the idea of “stacks,” which correspond to a Docker Compose configuration (sounds a lot like OpenStack Heat to me). Deploying a stack is like docker-compose up, and application-specific (stack-specific) metrics are available within Orca. Orca also integrates the ability to scale the number of containers associated with a stack. Developers can update their application definitions (via changes to the Compose YAML definition), and Orca will allow those changes to be dynamically deployed to production without adverse affect to operations’ ability to scale up or scale down capacity.</p>
+</blockquote>
+<p><a href="http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/</a></p>
+<p><a href="http://blog.daocloud.io/dockercon-day-2-production-readiness/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-production-readiness/</a></p>
+<h2 id="Project-Bonneville"><a href="#Project-Bonneville" class="headerlink" title="Project Bonneville"></a>Project Bonneville</h2><blockquote>
+<p>Bonneville is a Docker daemon with custom VMware graph, execution and network drivers that delivers a fully-compatible API to vanilla Docker clients. The pure approach Bonneville takes is that the container is a VM, and the VM is a container. There is no distinction, no encapsulation, and no in-guest virtualization. All of the necessary container infrastructure is outside of the VM in the container host. The container is an x86 hardware virtualized VM – nothing more, nothing less.</p>
+</blockquote>
+<p><a href="http://blogs.vmware.com/cloudnative/introducing-project-bonneville" target="_blank" rel="external">http://blogs.vmware.com/cloudnative/introducing-project-bonneville</a></p>
+<p><a href="http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/23/sysdig/" itemprop="url">
+                  sysdig
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
+              2015-06-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Sysdig captures system calls and other system level events using a linux kernel facility called tracepoints, providing a rich set of real-time, system-level information.</p>
+<p>Sysdig “packetizes” this information, so that you can do things like save it into trace files and easily filter it, a bit like you would do with tcpdump. This makes it very flexible to explore what processes are doing.</p>
+<p>Sysdig instruments your physical and virtual machines at the OS level by installing into the Linux kernel and capturing system calls and other OS events. Then, using sysdig’s command line interface, you can filter and decode these events in order to extract useful information. Sysdig can be used to inspect systems live in real-time, or to generate trace files that can be analyzed at a later stage.</p>
+<h4 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h4><ul>
+<li><p>See the top processes in terms of network bandwidth usage</p>
+<blockquote>
+<p>sysdig -c topprocs_net</p>
+</blockquote>
+</li>
+<li><p>Show the network data exchanged with the host 192.168.0.1  </p>
+<blockquote>
+<p>as binary:<br>sysdig -s2000 -X -c echo_fds fd.cip=192.168.0.1<br>as ASCII:<br>sysdig -s2000 -A -c echo_fds fd.cip=192.168.0.1</p>
+</blockquote>
+</li>
+<li><p>See the top local server ports  </p>
+<blockquote>
+<p>in terms of established connections:<br>sysdig -c fdcount_by fd.sport “evt.type=accept”<br>in terms of total bytes:<br>sysdig -c fdbytes_by fd.sport</p>
+</blockquote>
+</li>
+<li><p>See the top client IPs  </p>
+<blockquote>
+<p>in terms of established connections<br>sysdig -c fdcount_by fd.cip “evt.type=accept”<br>in terms of total bytes<br>sysdig -c fdbytes_by fd.cip</p>
+</blockquote>
+</li>
+<li><p>List all the incoming connections that are not served by apache.</p>
+<blockquote>
+<p>sysdig -p”%proc.name %fd.name” “evt.type=accept and proc.name!=httpd”</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Containers"><a href="#Containers" class="headerlink" title="Containers"></a>Containers</h4><ul>
+<li><p>View the CPU usage of the processes running inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topprocs_cpu container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the network bandwidth usage of the processes running inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the processes using most network bandwidth inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the top files in terms of I/O bytes inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topfiles_bytes container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the top network connections inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topconns container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>Show all the interactive commands executed inside the wordpress1 container</p>
+<blockquote>
+<p>sudo sysdig -pc -c spy_users container.name=wordpress1</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h4><ul>
+<li><p>See all the GET HTTP requests made by the machine</p>
+<blockquote>
+<p>sudo sysdig -s 2000 -A -c echo_fds fd.port=80 and evt.buffer contains GET</p>
+</blockquote>
+</li>
+<li><p>See all the SQL select queries made by the machine</p>
+<blockquote>
+<p>sudo sysdig -s 2000 -A -c echo_fds evt.buffer contains SELECT </p>
+</blockquote>
+</li>
+<li><p>See queries made via apache to an external MySQL server happening in real time</p>
+<blockquote>
+<p>sysdig -s 2000 -A -c echo_fds fd.sip=192.168.30.5 and proc.name=apache2 and evt.buffer contains SELECT</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Disk-I-O"><a href="#Disk-I-O" class="headerlink" title="Disk I/O"></a>Disk I/O</h4><ul>
+<li><p>See the top processes in terms of disk bandwidth usage</p>
+<blockquote>
+<p>sysdig -c topprocs_file</p>
+</blockquote>
+</li>
+<li><p>List the processes that are using a high number of files</p>
+<blockquote>
+<p>sysdig -c fdcount_by proc.name “fd.type=file”</p>
+</blockquote>
+</li>
+<li><p>See the top files in terms of read+write bytes</p>
+<blockquote>
+<p>sysdig -c topfiles_bytes</p>
+</blockquote>
+</li>
+<li><p>Print the top files that apache has been reading from or writing to</p>
+<blockquote>
+<p>sysdig -c topfiles_bytes proc.name=httpd</p>
+</blockquote>
+</li>
+<li><p>Basic opensnoop: snoop file opens as they occur</p>
+<blockquote>
+<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open</p>
+</blockquote>
+</li>
+<li><p>See the top directories in terms of R+W disk activity</p>
+<blockquote>
+<p>sysdig -c fdbytes_by fd.directory “fd.type=file”</p>
+</blockquote>
+</li>
+<li><p>See the top files in terms of R+W disk activity in the /tmp directory</p>
+<blockquote>
+<p>sysdig -c fdbytes_by fd.filename “fd.directory=/tmp/“</p>
+</blockquote>
+</li>
+<li><p>Observe the I/O activity on all the files named ‘passwd’</p>
+<blockquote>
+<p>sysdig -A -c echo_fds “fd.filename=passwd”</p>
+</blockquote>
+</li>
+<li><p>Display I/O activity by FD type  </p>
+<blockquote>
+<p>sysdig -c fdbytes_by fd.type</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Processes-and-CPU-usage"><a href="#Processes-and-CPU-usage" class="headerlink" title="Processes and CPU usage"></a>Processes and CPU usage</h4><ul>
+<li><p>See the top processes in terms of CPU usage</p>
+<blockquote>
+<p>sysdig -c topprocs_cpu</p>
+</blockquote>
+</li>
+<li><p>See the top processes for CPU 0</p>
+<blockquote>
+<p>sysdig -c topprocs_cpu evt.cpu=0</p>
+</blockquote>
+</li>
+<li><p>Observe the standard output of a process</p>
+<blockquote>
+<p>sysdig -s4096 -A -c stdout proc.name=cat</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Performance-and-Errors"><a href="#Performance-and-Errors" class="headerlink" title="Performance and Errors"></a>Performance and Errors</h4><ul>
+<li><p>See the files where most time has been spent</p>
+<blockquote>
+<p>sysdig -c topfiles_time</p>
+</blockquote>
+</li>
+<li><p>See the files where apache spent most time</p>
+<blockquote>
+<p>sysdig -c topfiles_time proc.name=httpd</p>
+</blockquote>
+</li>
+<li><p>See the top processes in terms of I/O errors</p>
+<blockquote>
+<p>sysdig -c topprocs_errors</p>
+</blockquote>
+</li>
+<li><p>See the top files in terms of I/O errors</p>
+<blockquote>
+<p>sysdig -c topfiles_errors</p>
+</blockquote>
+</li>
+<li><p>See all the failed disk I/O calls</p>
+<blockquote>
+<p>sysdig fd.type=file and evt.failed=true</p>
+</blockquote>
+</li>
+<li><p>See all the failed file opens by httpd</p>
+<blockquote>
+<p>sysdig “proc.name=httpd and evt.type=open and evt.failed=true”</p>
+</blockquote>
+</li>
+<li><p>See the system calls where most time has been spent</p>
+<blockquote>
+<p>sysdig -c topscalls_time</p>
+</blockquote>
+</li>
+<li><p>See the top system calls returning errors</p>
+<blockquote>
+<p>sysdig -c topscalls “evt.failed=true”</p>
+</blockquote>
+</li>
+<li><p>snoop failed file opens as they occur</p>
+<blockquote>
+<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open and evt.failed=true</p>
+</blockquote>
+</li>
+<li><p>Print the file I/O calls that have a latency greater than 1ms:</p>
+<blockquote>
+<p>sysdig -c fileslower 1</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><ul>
+<li><p>Show the directories that the user “root” visits</p>
+<blockquote>
+<p>sysdig -p”%evt.arg.path” “evt.type=chdir and user.name=root”</p>
+</blockquote>
+</li>
+<li><p>Observe ssh activity</p>
+<blockquote>
+<p>sysdig -A -c echo_fds fd.name=/dev/ptmx and proc.name=sshd</p>
+</blockquote>
+</li>
+<li><p>Show every file open that happens in /etc</p>
+<blockquote>
+<p>sysdig evt.type=open and fd.name contains /etc</p>
+</blockquote>
+</li>
+<li><p>Show the ID of all the login shells that have launched the “tar” command</p>
+<blockquote>
+<p>sysdig -r file.scap -c list_login_shells tar</p>
+</blockquote>
+</li>
+<li><p>Show all the commands executed by the login shell with the given ID</p>
+<blockquote>
+<p>sysdig -r trace.scap.gz -c spy_users proc.loginshellid=5459</p>
+</blockquote>
+</li>
+<li><p>Applied use of sysdig for forensics analysis:</p>
+<ul>
+<li><a href="http://draios.com/fishing-for-hackers/" target="_blank" rel="external">Fishing for Hackers: Analysis of a Linux Server Attack</a></li>
+<li><a href="http://draios.com/fishing-for-hackers-part-2/" target="_blank" rel="external">Fishing for Hackers (Part 2): Quickly Identify Suspicious Activity With Sysdig</a></li>
+</ul>
+</li>
+</ul>
+<p>User Guide: <a href="https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide" target="_blank" rel="external">https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide</a></p>
+<p>Source code: <a href="https://github.com/draios/sysdig" target="_blank" rel="external">https://github.com/draios/sysdig</a></p>
+<p>Support website: <a href="http://www.sysdig.org/" target="_blank" rel="external">http://www.sysdig.org/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/23/openstack-magnum/" itemprop="url">
+                  OpenStack Magnum社区及项目介绍
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
+              2015-06-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OpenStack/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenStack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/magnum.png" alt=""></p>
+<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
+<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
+<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/09/weekly-reading-list-20150607/" itemprop="url">
+                  Weekly reading list (20150607)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-10T00:00:00+08:00" content="2015-06-10">
+              2015-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Readings/" itemprop="url" rel="index">
+                    <span itemprop="name">Readings</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="OpenStack-Magnum"><a href="#OpenStack-Magnum" class="headerlink" title="OpenStack Magnum"></a>OpenStack Magnum</h3><p><a href="http://www.csdn.net/article/2015-06-02/2824827" target="_blank" rel="external">http://www.csdn.net/article/2015-06-02/2824827</a></p>
+<blockquote>
+<p>Magnum是去年巴黎峰会后开始的一个新项目，专门用来向用户提供容器服务，其最新的架构如图2所示。从去年11月份开始在StackForge提交第一个Patch，到今年3月份进入OpenStack Namespace，Magnum应该是OpenStack社区从StackForge迁移到OpenStack Namespace最快的一个项目。Magnum现在可以为用户提供Kubernetes as a Service和Swarm as a Service，大家应该会很快在L版看到Mesos as a Service。Magnum的一些Contributor，Adrian Otto是Rackspace的杰出工程师，Magnum和Solum的双重PTL；Steven Dake刚刚离开Redhat加入Cisco，他是Heat的创始人，现在Kolla的PTL，同时还在积极推动一个新项目Machine Learning as a Service；Davanum Srinivas (Dims)刚刚从IBM加入Mirantis，现在担任Oslo的PTL。关于他们的时间分配问题，Adrian的原话是会重点放在Magnum。</p>
+</blockquote>
+<p><img src="https://wiki.openstack.org/w/images/thumb/6/61/Magnum_architecture.png/800px-Magnum_architecture.png" alt=""></p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzA4NTA0NjgwNg==&amp;mid=207823495&amp;idx=1&amp;sn=cc13b6cc0106c48950019377bd9ff5e1&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MzA4NTA0NjgwNg==&amp;mid=207823495&amp;idx=1&amp;sn=cc13b6cc0106c48950019377bd9ff5e1&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd</a></p>
+<p>Magnum 6问6答</p>
+<blockquote>
+<p>提问1：Magnum与Nova的区别？<br>Magnum提供了一个用于管理应用容器的特制API。它们与Nova（机器）实例在生命周期和操作方面有着显著的不同。Magnum实际上是在使用Nova实例运行应用容器。</p>
+<p>提问2：Magnum和Docker或者Kubernetes的区别？<br>Magnum提供了一个可与Keystone和多租户部署兼容的异步API。它们不能在内部进行编排，而要借助于OpenStack编排系统。Magnum可将Kubernetes和Docker作为组件使用。</p>
+<p>提问3：Magnum与Nova-Docker一样吗？<br>不一样。Nova-Docker是针对Nova的虚拟化驱动，允许容器被当做Nova实例创建。它们适用于当你需要将容器作为轻量化机器的场景。Magnum可以提供一些Nova API无法提供的容器功能，并且可以通过其自己的API实现一些与其他OpenStack服务相似的功能。由Magnum启动的容器可以在由Heat 创建的Nova实例上运行。</p>
+<p>提问4：Magnum的用户是谁？<br>Magnum的用户是OpenStack（公有或私有）云的运营人员。这些运营人员希望提供一个自助式的解决方案，以便将容器作为托管服务提供给他们的云用户。Magnum简化了与OpenStack的整合工作，让那些已经拥有Nova实例、Cinder卷和Trove数据库等资源的用户也可以创建应用容器，并提供比已有资源更多高级特性的运行环境。</p>
+<p>创建IaaS资源的身份证书可以用来运行使用Magnum的容器化应用。适用于Magnum的一些高级功能可以将应用扩展到一定数量的实例当中。一旦出现故障，这些功能还可让你的应用自动重新生成一个实例。此外，与使用虚拟机相比，它们还可以更为紧密地将应用打包在一起。</p>
+<p>提问5：如果我在Heat中使用Docker资源，是否可以获得相同的效果？<br>不可以。Docker Heat资源无法提供资源调度器，也无法对所用的容器技术进行选择。它们是专门针对Docker和使用Glance存储容器镜像所设计的。它们目前还没有分层镜像功能。如果分层镜像与本地缓存的基础镜像共同使用，那么这会导致启动容器的时间更长。Magnum利用了所有Docker在启动速度上的优势。</p>
+<p>提问6：在Magnum中，多租户意味着什么（Magnum是否安全）？<br>由Magnum启动的容器、服务、Pod和Bay等资源仅能够被创建它们的租户使用者看到和访问。Bay不是共享的，这意味着容器无法作为附近租户在相同的内核上运行。这是一个关键的安全功能，它允许属于同一个租户的容器在相同的Pod和Bay中被打包，但是在不同租户之间各自运行独立的内核（在独立的Nova实例中）。这一点与使用无Magnum的Kubernetes系统不同，后者的设计初衷是仅供一个单租户环境，将安全隔离设计留给了系统实施者。在同一计算节点中运行属于不同租户的虚拟机时，Magnum可以提供与Nova同等水平的安全隔离。</p>
+</blockquote>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzA5MTAxNzI2Mw==&amp;mid=206191946&amp;idx=1&amp;sn=0a3734831fcc4f92c30e3b5f44c539f0&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MzA5MTAxNzI2Mw==&amp;mid=206191946&amp;idx=1&amp;sn=0a3734831fcc4f92c30e3b5f44c539f0&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd</a></p>
+<p>从小往大的顺序的基本概念：</p>
+<ul>
+<li>Node：容器运行的节点，可以是裸机、虚拟机甚至容器。</li>
+<li>Bay：一组 Node 的集合（底层同一个驱动机制），是 Magnum 中容器调度的基本单元。Bay 在租户之间是隔离的。</li>
+<li>BayModle：类似于 Nova 中的 flavor，定义一个 Docker 集群的规格。</li>
+</ul>
+<p>下面几个是来自 Kubernetes 中的概念。</p>
+<ul>
+<li>Container：容器。</li>
+<li>Pod：最小的管理单元，一个或多个相互关联的容器（一般运行相同应用），运行在同一个 Minion Node 上，共享同样的数据挂载和网络空间，代表某种应用的一个实例。</li>
+<li>Service：由一个或者多个 Pod 组成，代表一个抽象的应用服务，对外呈现为同一个访问接口，这样访问可以通过 service 来路由，而无需具体知道 pod 的地址。</li>
+<li>ReplicationController：对 pod 指定副本数，RC 可以保证一直存在该数目的副本存在并运行。</li>
+</ul>
+<h3 id="Hyper：基于Hypervisor的容器化解决方案"><a href="#Hyper：基于Hypervisor的容器化解决方案" class="headerlink" title="Hyper：基于Hypervisor的容器化解决方案"></a>Hyper：基于Hypervisor的容器化解决方案</h3><p>Hyper是前同事搞的一个可以在hypervisor上运行Docker镜像的引擎，它融合了Docker容器和虚拟机的优点，旨在打造一个性能更好、更安全的引擎。Hyper与Docker的核心区别在于Hyper没有使用Container技术，而是通过VM直接运行Docker镜像，它是一个完全基于虚拟化的解决方案。</p>
+<blockquote>
+<p>王旭： Hypervisor的最明显的好处就在于，hypervisor的进程是由另一个kernel调度，系统调用由另一个kernel处理，而并非宿主机的kernel。这样，一方面用户可以选择自己的kernel，另一方面也增强了隔离性，hypervisor发生漏洞，对宿主机和其它虚拟机的威胁的概率是远低于容器漏洞的，毕竟容器向用户进程暴露了太多的入口点。</p>
+<p>虚拟机的另一个优势是，虚拟机相关的产业链已经非常成熟，Xen/KVM已经有十多年的历史了，围绕虚拟机打造的OpenStack也有五年的历史了，和虚拟机有顺畅合作的软硬件上下游产品非常多，容器正在赶超，但虚拟机无疑是先行者。</p>
+<p>王旭：我们把App-Centric的理念带回到虚机来，我们让虚机回到了它的原本使命——承载应用，而不是完全模拟物理机，承载完整的Linux发行版</p>
+</blockquote>
+<p>hyper还搞了一个hyperstack的项目，通过magnum与openstack集成，值得期待。</p>
+<p><a href="http://server.zdnet.com.cn/server/2015/0608/3054676.shtml" target="_blank" rel="external">http://server.zdnet.com.cn/server/2015/0608/3054676.shtml</a></p>
+<h3 id="tcptrace"><a href="#tcptrace" class="headerlink" title="tcptrace"></a>tcptrace</h3><p><a href="https://fasterdata.es.net/performance-testing/network-troubleshooting-tools/tcpdump-tcptrace/" target="_blank" rel="external">https://fasterdata.es.net/performance-testing/network-troubleshooting-tools/tcpdump-tcptrace/</a></p>
+<blockquote>
+<p>Tcpdump captures packets according to specific filters,  while the tcptrace tool is used to analyze the data and output succinct summaries.  Tcptrace will analyze a complete dump file (e.g. output the contents of the tcpdump into a file with the ‘-F’ option), and will categorize the output into distinct flow sumaries in the event that multiple exchanges exits.  There are options to view the summaries, as well as produce files that can be viewed through the xplot viewer.  The end goal is to identify the behavior of a specific flow for a given dump file, and be able to make judgements on the flow of the data and acknowledgements.</p>
+</blockquote>
+<p><a href="http://prefetch.net/blog/index.php/2006/04/17/debugging-tcp-connections-with-tcptrace/" target="_blank" rel="external">http://prefetch.net/blog/index.php/2006/04/17/debugging-tcp-connections-with-tcptrace/</a></p>
+<blockquote>
+<p>tcptrace(1) operates on tcpdump and snoop binary files, and provides numerous statistics and connection details for each capture file passed as an argument. To get started with tcptrace(1), tcpdump(1) or snoop(1m) needs to be run to collect raw packet information. This information can be saved to a file with tcpdump(1)’s “-w” option, and complex filters can be applied to limit which hosts and ports data is collected from.<br>$ tcpdump -i hme1 -w tcpdump.out -s 1520 port 80<br>$ tcptrace tcpdump.out<br>1 arg remaining, starting with ‘tcpdump.out’<br>Ostermann’s tcptrace — version 6.2.0 — Fri Jul 26, 2002</p>
+<p>44 packets seen, 44 TCP packets traced<br>elapsed wallclock time: 0:00:00.025033, 1757 pkts/sec analyzed<br>trace file elapsed time: 0:00:00.435121<br>TCP connection info:<br>   1: c-24-98-83-96.hsd1.ga.comcast.net:63807 - prefetch.net:www (a2b)    7&gt;    6&lt;<br>   2: c-24-98-83-96.hsd1.ga.comcast.net:62941 - prefetch.net:www (c2d)    6&gt;    4&lt;<br>   3: c-24-98-83-96.hsd1.ga.comcast.net:57312 - prefetch.net:www (e2f)    6&gt;    5&lt;<br>   4: c-24-98-83-96.hsd1.ga.comcast.net:55792 - prefetch.net:www (g2h)    6&gt;    4&lt; </p>
+</blockquote>
+<h3 id="WWDC-swift-2-0"><a href="#WWDC-swift-2-0" class="headerlink" title="WWDC swift 2.0"></a>WWDC swift 2.0</h3><p><a href="https://news.ycombinator.com/item?id=9680982" target="_blank" rel="external">https://news.ycombinator.com/item?id=9680982</a></p>
+<p>WWDC最大的亮点是swift 2.0要发布了，开源，并且支持Linux了，比较好奇swift在Linux上会怎么样，拭目以待吧。</p>
+<h3 id="青云雷击事件"><a href="#青云雷击事件" class="headerlink" title="青云雷击事件"></a>青云雷击事件</h3><blockquote>
+<p>2015年6月6日下午，因服务商“睿江科技”机房遭遇雷暴天气引发电力故障，青云广东1区全部硬件设备意外关机重启，造成青云官网及控制台短时无法访问、部署于GD1的用户业务暂时不可用。 与此同时，另一家云服务商LeanCloud也发生了长达4小时的服务中断情况。<br>Richard：机房遭遇雷击后，承载QingCloud设备所在区的两组UPS输出均出现了2秒钟的瞬时波动，从而导致了机柜出现瞬时断电再加电。UPS厂家给出的书面判断是，雷击楼体后，对UPS主机造成干扰，UPS浪涌保护器未生效，引起UPS并机线通信故障，电压回流造成电压高报警，逆变器过载关机，短时短路。</p>
+<p>目前青云在全国共运行着8个区域，其中公有云的4个区是青云自营租用的，我们在每个省份都是选择当地最好 IDC 供应商，比如这次出问题的机房隶属广东睿江科技，这家 IDC 运营商在华南是绝对的领先者。这次事故机房是当地电信的枢纽机房，T3 等级，即便如此，也遇见了此次雷击引发电力闪断的巨大灾难。我们非常清楚云平台的服务能力一方面体现在软件技术实力，另一方面也取决于物理层面的稳定和可靠。我们已经下定决心自行投资运营数据中心，以将物理层面事故概率降到最低。需要强调的一点是，无论是云计算还是传统IT，都依赖于数据中心基础设施的稳定运行，而作为云服务商，我们的系统承载着众多用户的业务，因此要在数据中心的可靠性方面再下大力气。</p>
+</blockquote>
+<p>来自InfoQ高效运维群的讨论主要观点如下：</p>
+<ul>
+<li>机房整体崩溃的容灾切换方案和演练有必要加强。通讯基站都会做防雷，一个IDC不能因雷击就影响用户，雷击只是一个诱因。</li>
+<li>现阶段国内云服务商还是以开发为主，并没有对网络、IDC、运维看的特别重要。</li>
+<li>网络与IDC已成为运维的重要话题。运营商机房限制很多，多线融合是第三方IDC的优势，但网络是其瓶颈。</li>
+<li>由于IDC互联成本太高，可以根据需求做DPN＋DRaaS对部分或整个DC做实时异地容灾。但互联互通将成为趋势，也是市场发展的必然。</li>
+<li>异地容灾的成本也不容小觑。目前看来，冷备有问题、双活有门槛，云服务商需要看自己的业务需要，看SLA。中断服务影响最大，所以稳定和高可用是架构设计第一要素。</li>
+<li>做运维就是把更多的不可控变成可控。没做到高可用、实时异地容灾，设计上的单点故障也就难以解决。</li>
+<li>现在的云产品只能谈可用性，还谈不上易用性。</li>
+</ul>
+<p><a href="http://www.infoq.com/cn/news/2015/06/QingCloud-IDC" target="_blank" rel="external">http://www.infoq.com/cn/news/2015/06/QingCloud-IDC</a></p>
+<h3 id="基于Mesos和Docker的分布式计算平台"><a href="#基于Mesos和Docker的分布式计算平台" class="headerlink" title="基于Mesos和Docker的分布式计算平台"></a>基于Mesos和Docker的分布式计算平台</h3><p>数人科技基于Mesos和Docker的分布式计算平台的实践，基于Mesos+Marathon，介绍了Mesos的集群管理、资源分配和任务调度、基于Zookeeper的服务发现、Graphite监控以及Ganglia监控。</p>
+<p><a href="http://www.csdn.net/article/2015-06-09/2824906" target="_blank" rel="external">http://www.csdn.net/article/2015-06-09/2824906</a><br>这周最热的就是Dockercon了，列表里面很多都是docker相关的。</p>
+<h2 id="Open-Container-Project-OCP"><a href="#Open-Container-Project-OCP" class="headerlink" title="Open Container Project (OCP)"></a>Open Container Project (OCP)</h2><blockquote>
+<p>Today we’re pleased to announce that CoreOS, Docker, and a large group of industry leaders are working together on a standard container format through the formation of the Open Container Project (OCP). OCP is housed under the Linux Foundation, and is chartered to establish common standards for software containers. This announcement means we are starting to see the concepts behind the App Container spec and Docker converge. This is a win for both users of containers and our industry at large.</p>
+</blockquote>
+<p><a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">https://coreos.com/blog/app-container-and-the-open-container-project/</a></p>
+<p>Docker is donating draft specifications and code for container image format and runtime for the new project. Docker’s <a href="https://github.com/docker/libcontainer" target="_blank" rel="external">LibContainer project</a> will become part of <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">the new RunC project</a>. CoreOS cofounder and chief executive Alex Polvi wrote in a <a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">blog post</a> that he expects a good portion of its appc container specification to become part of the project, while his team will turn its rkt container runtime “into a leading container runtime around the new shared container format.”</p>
+<p><a href="http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/</a></p>
+<p>runc <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">https://github.com/opencontainers/runc</a></p>
+<p>OCP <a href="http://www.opencontainers.org/" target="_blank" rel="external">http://www.opencontainers.org/</a></p>
+<p>OCP spec <a href="https://github.com/opencontainers/specs" target="_blank" rel="external">https://github.com/opencontainers/specs</a> 暂未公布，需要2-3周时间</p>
+<h2 id="Docker-hackathon"><a href="#Docker-hackathon" class="headerlink" title="Docker hackathon"></a>Docker hackathon</h2><p>一些有趣的项目包括：</p>
+<ul>
+<li><a href="https://github.com/dockervlan/" target="_blank" rel="external">docker vlan</a> implements the VLAN driver in libnetwork</li>
+<li><a href="https://github.com/snrism/swarm-sec" target="_blank" rel="external">swarm-sec</a>  Swarm Security Assessment tool</li>
+<li><a href="https://github.com/advanderveer/libsecurity" target="_blank" rel="external">libsecurity</a> A POC for using Docker to act on vulnerability releases in real time</li>
+<li>BenchRock 用来测试IaaS平台性能的工具</li>
+<li><a href="https://github.com/rancherio/sherdock" target="_blank" rel="external">sherdock</a> Automatic GC of images based on regexp, Find and delete orphan Docker volumes</li>
+</ul>
+<p>更多的项目见<a href="http://www.dockercon.com/hackathon" target="_blank" rel="external">http://www.dockercon.com/hackathon</a></p>
+<h2 id="Docker-experimental-binary"><a href="#Docker-experimental-binary" class="headerlink" title="Docker experimental binary"></a>Docker experimental binary</h2><blockquote>
+<p>Docker’s experimental binary gives you access to bleeding edge features that are not in, and may never make it into, Docker’s official release.  An experimental build allows users to try out features early and give feedback to the Docker maintainers.  In this way, we hope to refine our feature designs by exposing earlier to real-world usage.</p>
+<p>In all cases, experimental features have gone through the same level of refining and quality control than any code that makes it into Docker: the difference is that the user interface and APIs may change.</p>
+<p>Network and volume plugins are the very first experimental features introduced</p>
+<p>Unlike the regular Docker binary, the experimental channels is built and updated nightly on <a href="https://experimental.docker.com" target="_blank" rel="external">https://experimental.docker.com</a>. From one day to the next, new features may appear, while existing experimental features may be refined or entirely removed.</p>
+<p>Each experimental feature is documented in a dedicated experimental section.  This section explains the feature’s function and design goals. Because your feedback is essential to refine and decide on a feature’s future, you will also find links to GitHub issues where you can leave your comments, look for reported problems, or report on your experience.</p>
+</blockquote>
+<p><a href="http://blog.docker.com/2015/06/experimental-binary/" target="_blank" rel="external">http://blog.docker.com/2015/06/experimental-binary/</a></p>
+<h2 id="Docker-plugins"><a href="#Docker-plugins" class="headerlink" title="Docker plugins"></a>Docker plugins</h2><p>The Docker plugins mechanism is now available in the new <a href="https://github.com/docker/docker/tree/master/experimental" target="_blank" rel="external">Docker experimental channel</a>. Also available are the first Docker plugins, including <a href="http://clusterhq.com/docker-plugin" target="_blank" rel="external">Flocker</a> for portable volumes across hosts, and networking plugins available from <a href="http://blog.weave.works/2015/06/22/weave-as-a-docker-network-plugin/" target="_blank" rel="external">Weave</a>, <a href="http://www.projectcalico.org/calico-docker-1-7-libnetwork/" target="_blank" rel="external">Project Calico</a>, <a href="http://www.nuagenetworks.net/libnetwork-is-license-to-hyper-scale-for-docker-and-sdn/" target="_blank" rel="external">Nuage Networks</a>, <a href="http://blogs.cisco.com/datacenter/docker-and-the-rise-of-microservices" target="_blank" rel="external">Cisco</a>, <a href="http://blogs.vmware.com/networkvirtualization/2015/06/vmware-docker-networking.html" target="_blank" rel="external">VMware</a>, Microsoft, and <a href="http://blog.midonet.org/docker-networking-midonet/" target="_blank" rel="external">Midokura</a>.</p>
+<ul>
+<li>Network plugins**, which allow third-party container networking solutions to connect containers to container networks, making it easier for containers to talk to each other even if they are running on different machines.  </li>
+<li>Volume plugins**, which allow third-party container data management solutions to provide data volumes for containers which operate on data, such as databases, queues and key-value stores and other stateful applications that use the filesystem.</li>
+</ul>
+<p>To demonstrate the value of plugins we are going to show you an example, that <a href="https://plugins-demo-2015.github.io" target="_blank" rel="external">anyone can replicate themselves today</a>. The example two plugins to enable container migration for an application on the Docker platform.  We enhance an application with two extension points.</p>
+<p>• <a href="http://blog.weave.works/2015/06/18/weave-1-0-is-out-and-it-is-good/" target="_blank" rel="external">Weave</a> for portable networking, discovery, monitoring.<br>• <a href="https://clusterhq.com/" target="_blank" rel="external">Flocker</a> for portable volumes and data.<br>• A Docker Swarm cluster runs the application described by Docker Compose<br>• We start a database on node 1, then later reschedule it on node 2, and it keeps its volumes and network identity!<br>• All of this is combined into one easy Docker experience via plugins.</p>
+<p>See demo at <a href="https://plugins-demo-2015.github.io/" target="_blank" rel="external">https://plugins-demo-2015.github.io/</a> </p>
+<p><a href="http://blog.docker.com/2015/06/extending-docker-with-plugins/" target="_blank" rel="external">http://blog.docker.com/2015/06/extending-docker-with-plugins/</a></p>
+<h2 id="Disney-docker-deployment"><a href="#Disney-docker-deployment" class="headerlink" title="Disney docker deployment"></a>Disney docker deployment</h2><p>Here are some of the components that are in use in the Disney environment:</p>
+<ul>
+<li>Chef: Chef handles the hosts and laying down the configuration for the Mesos master, the Marathon framework, the ZooKeeper endpoint configurations, etc. Chef also handles the initial setup of Consul and HAProxy.</li>
+<li><ul>
+<li>Docker: Docker is the packaging solution. Services are packaged using Docker. The Dockerfile for an application resides in the application repo. Application builds include building the Docker image and pushing it to the appropriate registry.</li>
+</ul>
+</li>
+<li><ul>
+<li>Mesos: Mesos provides cluster scheduling, placing containers onto hosts. All interaction with Mesos comes through the frameworks (i.e., Marathon, spark, Cassandra, etc.). </li>
+</ul>
+</li>
+<li><ul>
+<li>Marathon: The main framework in use is Marathon, which enables running Docker on Mesos. Marathon deployments (handled via JSON descriptions) will deploy Docker images and configure them appropriately (which image to use, which ports to expose, etc.). Health checks are also included in the Marathon deployment file. Marathon also allows Disney to define the upgrade strategy, which enables them to control how new images are deployed.</li>
+</ul>
+</li>
+<li><ul>
+<li>Consul: Disney only uses the distributed key-value store functionality of Consul (not the service discovery aspect). Containers use consul-template to pull information from Consul to customize the configuration at run-time.</li>
+</ul>
+</li>
+<li><ul>
+<li>HAProxy: HAProxy handles the routing of requests. Two health checks are involved: one on the HAProxy side, and one on the back-end service side. HAProxy is completely configured via Marathon’s service discovery mechanism.</li>
+</ul>
+</li>
+<li><ul>
+<li>Jenkins: Jenkins handles the Docker build/push/deploy.</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://blog.scottlowe.org/2015/06/23/scaling-new-services/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/scaling-new-services/</a></p>
+<h2 id="Docker-security"><a href="#Docker-security" class="headerlink" title="Docker security"></a>Docker security</h2><p>Docker能提供的安全保障将涵盖以下7点：</p>
+<ul>
+<li>namespace保障系统资源的隔离</li>
+<li>cgroup完成进程组资源的限制</li>
+<li>Linux的安全模块提供MAC（apparmor， SELinux）</li>
+<li>capabilities将root的权限细分为多种类型</li>
+<li>ulimit的功能更多维度的限制资源（docker 1.6之后支持）</li>
+<li>user namespace保障容器内部的root在host上并非root（预计docker 1.8支持）</li>
+<li>seccomp使得容器内进程受到系统调用权限的控制</li>
+</ul>
+<p>Docker在安全方面还做了以下工作：</p>
+<h3 id="降低镜像带来的安全风向"><a href="#降低镜像带来的安全风向" class="headerlink" title="降低镜像带来的安全风向"></a>降低镜像带来的安全风向</h3><ul>
+<li>设置更为精简的Linux发行版：</li>
+<li>移除不需要的package、用户以及二进制工具文件，</li>
+</ul>
+<h3 id="提出Tailored-Profiles"><a href="#提出Tailored-Profiles" class="headerlink" title="提出Tailored Profiles"></a>提出Tailored Profiles</h3><ul>
+<li>容器可以创建least-privildge的文件</li>
+<li>文件有能力随容器传递</li>
+<li>通过独立的文件配置表明所有的权限</li>
+<li>已经规划入runC</li>
+<li>描述所有的隔离特性</li>
+</ul>
+<p>Docker安全贡献的公司</p>
+<ul>
+<li>HuaWei在支持Docker的seccomp方面贡献有目共睹</li>
+<li>IBM大力贡献Docker的user namespace的支持</li>
+<li>Intel在Docker的bootchain方面投入效果可观</li>
+<li>RedHat则在SELinux方面的贡献受到社区的肯定</li>
+</ul>
+<p><a href="http://blog.daocloud.io/dockercon-day-2-security/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-security/</a></p>
+<h2 id="Project-Orca"><a href="#Project-Orca" class="headerlink" title="Project Orca"></a>Project Orca</h2><p>Project Orca has a vision of providing a top-to-bottom integrated stack that takes all the tools and plumbing (Docker Engine, Docker Swarm, Networking, GUI, Docker Compose, security, plus tools for installation, deployment, configuration, etc.). Project Orca fits into the “run” portion of the “build-ship-run” triangle on which Docker focuses.</p>
+<blockquote>
+<p>The Orca demo starts out with a log in to a web-based UI. Hazlett shows how Orca integrates into directory services and provides role-based access controls, and shows the logging/auditing functionality, so that users can see what has happened. Orca will provide lists of images, as well as what’s inside the images (such as showing layers, and the sizes of layers). Orca has integration into Docker Swarm, to show the nodes in a Swarm cluster and manage the nodes in a Swarm cluster. Hazlett also shows how to see the images that are present in a cluster, pull updated images, and push them across the entire Swarm cluster. Naturally, Orca also shows the images that are running across the cluster, the images used by each container, and display the details for running containers (the node on which it’s running, the ports that are exposed, the resources that are in use, the volumes associated with the container). Viewing the logs from a Docker container is also readily accessible from within Orca, as is real-time streaming statistics for the containers. Orca introduces the idea of “stacks,” which correspond to a Docker Compose configuration (sounds a lot like OpenStack Heat to me). Deploying a stack is like docker-compose up, and application-specific (stack-specific) metrics are available within Orca. Orca also integrates the ability to scale the number of containers associated with a stack. Developers can update their application definitions (via changes to the Compose YAML definition), and Orca will allow those changes to be dynamically deployed to production without adverse affect to operations’ ability to scale up or scale down capacity.</p>
+</blockquote>
+<p><a href="http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/</a></p>
+<p><a href="http://blog.daocloud.io/dockercon-day-2-production-readiness/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-production-readiness/</a></p>
+<h2 id="Project-Bonneville"><a href="#Project-Bonneville" class="headerlink" title="Project Bonneville"></a>Project Bonneville</h2><blockquote>
+<p>Bonneville is a Docker daemon with custom VMware graph, execution and network drivers that delivers a fully-compatible API to vanilla Docker clients. The pure approach Bonneville takes is that the container is a VM, and the VM is a container. There is no distinction, no encapsulation, and no in-guest virtualization. All of the necessary container infrastructure is outside of the VM in the container host. The container is an x86 hardware virtualized VM – nothing more, nothing less.</p>
+</blockquote>
+<p><a href="http://blogs.vmware.com/cloudnative/introducing-project-bonneville" target="_blank" rel="external">http://blogs.vmware.com/cloudnative/introducing-project-bonneville</a></p>
+<p><a href="http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud,Container,Kubernetes,SDN,Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Jupyter Magic CommandsJupyter has a system of commands we call ‘magics’ that provide effectively a mini command language that is orthogonal to the syntax of Python and is extensible by the user with n">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feiskyer.github.io/ml/jupyter/magic.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Jupyter Magic CommandsJupyter has a system of commands we call ‘magics’ that provide effectively a mini command language that is orthogonal to the syntax of Python and is extensible by the user with n">
+<meta property="og:image" content="http://feiskyer.github.io/output_21_1.png">
+<meta property="og:updated_time" content="2016-11-03T13:13:00.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="Jupyter Magic CommandsJupyter has a system of commands we call ‘magics’ that provide effectively a mini command language that is orthogonal to the syntax of Python and is extensible by the user with n">
+<meta name="twitter:image" content="http://feiskyer.github.io/output_21_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feiskyer.github.io/ml/jupyter/magic.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h1 id="Jupyter-Magic-Commands"><a href="#Jupyter-Magic-Commands" class="headerlink" title="Jupyter Magic Commands"></a>Jupyter Magic Commands</h1><p>Jupyter has a system of commands we call ‘magics’ that provide effectively a mini command language that is orthogonal to the syntax of Python and is extensible by the user with new commands. Magics are meant to be typed interactively, so they use command-line conventions, such as using whitespace for separating arguments, dashes for options and other conventions typical of a command-line environment.</p>
+<p>Magics come in two kinds:</p>
+<p>Line magics: these are commands prepended by one % character and whose arguments only extend to the end of the current line.</p>
+<p>Cell magics: these use two percent characters as a marker (%%), and they receive as argument both the current line where they are declared and the whole body of the cell.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line"># brings up a documentation pane with an overview of IPython's feature</div><div class="line">?</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># quick reference guide</span></div><div class="line">%quickref</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># use the ! operator to run system shell commands</span></div><div class="line">!ping www.google.com</div></pre></td></tr></table></figure>
+<pre><code>Pinging www.google.com [74.125.228.242] with 32 bytes of data:
+Reply from 74.125.228.242: bytes=32 time=37ms TTL=52
+Reply from 74.125.228.242: bytes=32 time=35ms TTL=52
+Reply from 74.125.228.242: bytes=32 time=32ms TTL=52
+Reply from 74.125.228.242: bytes=32 time=33ms TTL=52
+
+Ping statistics for 74.125.228.242:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 32ms, Maximum = 37ms, Average = 34ms
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># several ways to interactively access help documentation</span></div><div class="line">help</div></pre></td></tr></table></figure>
+<pre><code>Type help() for interactive help, or help(object) for help about object.
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># help module for magic commands</span></div><div class="line">%magic</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># list of all available magic commands</span></div><div class="line">%lsmagic</div></pre></td></tr></table></figure>
+<pre><code>Available line magics:
+%alias  %alias_magic  %autocall  %automagic  %autosave  %bookmark  %cd  %clear  %cls  %colors  %config  %connect_info  %copy  %ddir  %debug  %dhist  %dirs  %doctest_mode  %echo  %ed  %edit  %env  %gui  %hist  %history  %install_default_config  %install_ext  %install_profiles  %killbgscripts  %ldir  %less  %load  %load_ext  %loadpy  %logoff  %logon  %logstart  %logstate  %logstop  %ls  %lsmagic  %macro  %magic  %matplotlib  %mkdir  %more  %notebook  %page  %pastebin  %pdb  %pdef  %pdoc  %pfile  %pinfo  %pinfo2  %popd  %pprint  %precision  %profile  %prun  %psearch  %psource  %pushd  %pwd  %pycat  %pylab  %qtconsole  %quickref  %recall  %rehashx  %reload_ext  %ren  %rep  %rerun  %reset  %reset_selective  %rmdir  %run  %save  %sc  %set_env  %store  %sx  %system  %tb  %time  %timeit  %unalias  %unload_ext  %who  %who_ls  %whos  %xdel  %xmode
+
+Available cell magics:
+%%!  %%HTML  %%SVG  %%bash  %%capture  %%cmd  %%debug  %%file  %%html  %%javascript  %%latex  %%perl  %%prun  %%pypy  %%python  %%python2  %%python3  %%ruby  %%script  %%sh  %%svg  %%sx  %%system  %%time  %%timeit  %%writefile
+
+Automagic is ON, % prefix IS NOT needed for line magics.
+</code></pre><figure class="highlight"><table><tr><td class="code"><pre><div class="line"># bring up the help module for a specific command</div><div class="line">%timeit?</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line"># the ? syntax also works for any generic object</div><div class="line">x = 5</div><div class="line">x?</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># run a python script from within the notebook</span></div><div class="line">%run scripts/hello</div></pre></td></tr></table></figure>
+<pre><code>Hello world!
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># debug a statement either in-line or after the fact</span></div><div class="line">%debug</div></pre></td></tr></table></figure>
+<pre><code>ERROR: No traceback has been produced, nothing to debug.
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># time the execution of a statement</span></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">%timeit np.linalg.eigvals(np.random.rand(<span class="number">100</span>,<span class="number">100</span>))</div></pre></td></tr></table></figure>
+<pre><code>100 loops, best of 3: 6.59 ms per loop
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># additional magic can be loaded using load_ext</span></div><div class="line">%load_ext Cython</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># list all environment variables or specific variables</span></div><div class="line">%env SYSTEMROOT</div></pre></td></tr></table></figure>
+<pre><code>&#39;C:\\Windows&#39;
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># print the cache of previously executed commands</span></div><div class="line">%history</div></pre></td></tr></table></figure>
+<pre><code># brings up a documentation pane with an overview of IPython&#39;s feature
+?
+# quick reference guide
+%quickref
+# use the ! operator to run system shell commands
+!ping www.google.com
+# several ways to interactively access help documentation
+help
+# help module for magic commands
+%magic
+# list of all available magic commands
+%lsmagic
+# bring up the help module for a specific command
+%timeit?
+# the ? syntax also works for any generic object
+x = 5
+x?
+# run a python script from within the notebook
+%run scripts/hello
+# debug a statement either in-line or after the fact
+%debug
+# time the execution of a statement
+import numpy as np
+%timeit np.linalg.eigvals(np.random.rand(100,100))
+# additional magic can be loaded using load_ext
+%load_ext Cython
+# list all environment variables or specific variables
+%env SYSTEMROOT
+# print the cache of previously executed commands
+%history
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># set matplotlib to inline or interactive (qt) mode</span></div><div class="line">%matplotlib inline</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># print the call signature for any object</span></div><div class="line"><span class="keyword">import</span> urllib</div><div class="line">%pdef urllib.urlopen</div></pre></td></tr></table></figure>
+<pre><code> [0murllib[0m[1;33m.[0m[0murlopen[0m[1;33m([0m[0murl[0m[1;33m,[0m [0mdata[0m[1;33m=[0m[0mNone[0m[1;33m,[0m [0mproxies[0m[1;33m=[0m[0mNone[0m[1;33m,[0m [0mcontext[0m[1;33m=[0m[0mNone[0m[1;33m)[0m[1;33m[0m[0m
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># print the docstring for a class/callable object</span></div><div class="line">%pdoc urllib</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># print all interactive variables</span></div><div class="line">%who</div></pre></td></tr></table></figure>
+<pre><code>np     urllib     x     
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># same as who but more information</span></div><div class="line">%whos</div></pre></td></tr></table></figure>
+<pre><code>Variable   Type      Data/Info
+------------------------------
+np         module    &lt;module &#39;numpy&#39; from &#39;C:\&lt;...&gt;ages\numpy\__init__.pyc&#39;&gt;
+urllib     module    &lt;module &#39;urllib&#39; from &#39;C:&lt;...&gt;Anaconda\lib\urllib.pyc&#39;&gt;
+x          int       5
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># example using cProfile</span></div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">return</span> x**<span class="number">3</span> - <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fprime</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">3</span>*x**<span class="number">2</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">newton</span><span class="params">(z, f, fprime, max_iter=<span class="number">100</span>, tol=<span class="number">1e-6</span>)</span>:</span></div><div class="line">    <span class="string">"""The Newton-Raphson method."""</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(max_iter):</div><div class="line">        step = f(z)/fprime(z)</div><div class="line">        <span class="keyword">if</span> abs(step) &lt; tol:</div><div class="line">            <span class="keyword">return</span> i, z</div><div class="line">        z -= step</div><div class="line">    <span class="keyword">return</span> i, z</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_newton_iters</span><span class="params">(p, pprime, n=<span class="number">200</span>, extent=[<span class="number">-1</span>,<span class="number">1</span>,<span class="number">-1</span>,<span class="number">1</span>], cmap=<span class="string">'hsv'</span>)</span>:</span></div><div class="line">    <span class="string">"""Shows how long it takes to converge to a root using the Newton-Raphson method."""</span></div><div class="line">    m = np.zeros((n,n))</div><div class="line">    xmin, xmax, ymin, ymax = extent</div><div class="line">    <span class="keyword">for</span> r, x <span class="keyword">in</span> enumerate(np.linspace(xmin, xmax, n)):</div><div class="line">        <span class="keyword">for</span> s, y <span class="keyword">in</span> enumerate(np.linspace(ymin, ymax, n)):</div><div class="line">            z = x + y*<span class="number">1j</span></div><div class="line">            m[s, r] = newton(z, p, pprime)[<span class="number">0</span>]</div><div class="line">    plt.imshow(m, cmap=cmap, extent=extent)</div><div class="line"></div><div class="line">stats = %prun -r -q plot_newton_iters(f, fprime)</div></pre></td></tr></table></figure>
+<p><img src="output_21_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">stats.sort_stats(<span class="string">'time'</span>).print_stats(<span class="number">10</span>)</div></pre></td></tr></table></figure>
+<pre><code>         1089400 function calls (1089026 primitive calls) in 1.218 seconds
+
+   Ordered by: internal time
+   List reduced from 458 to 10 due to restriction &lt;10&gt;
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    40000    0.355    0.000    0.823    0.000 &lt;ipython-input-20-38d8350aa4f3&gt;:10(newton)
+        1    0.336    0.336    1.218    1.218 &lt;ipython-input-20-38d8350aa4f3&gt;:19(plot_newton_iters)
+   324388    0.204    0.000    0.204    0.000 &lt;ipython-input-20-38d8350aa4f3&gt;:4(f)
+   324388    0.199    0.000    0.199    0.000 &lt;ipython-input-20-38d8350aa4f3&gt;:7(fprime)
+    40004    0.037    0.000    0.037    0.000 {range}
+   324392    0.027    0.000    0.027    0.000 {abs}
+      421    0.003    0.000    0.006    0.000 path.py:199(_update_values)
+      837    0.003    0.000    0.004    0.000 weakref.py:47(__init__)
+      996    0.002    0.000    0.002    0.000 {numpy.core.multiarray.array}
+      424    0.002    0.000    0.002    0.000 {method &#39;reduce&#39; of &#39;numpy.ufunc&#39; objects}
+
+
+
+
+
+
+
+&lt;pstats.Stats instance at 0x000000000C774D48&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># reset the namespace</span></div><div class="line">%reset</div></pre></td></tr></table></figure>
+<pre><code>Once deleted, variables cannot be recovered. Proceed (y/[n])? y
+</code></pre>
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jupyter-Magic-Commands"><span class="nav-number">1.</span> <span class="nav-text">Jupyter Magic Commands</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

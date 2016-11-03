@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Feisky&#39;s Blog</title>
+  <subtitle>Notes about anything.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://feiskyer.github.io/"/>
+  <updated>2016-11-03T13:12:59.909Z</updated>
+  <id>http://feiskyer.github.io/</id>
+  
+  <author>
+    <name>Feisky</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kubernetes container runtime interface</title>
+    <link href="http://feiskyer.github.io/2016/09/24/Kubernetes-container-runtime-interface/"/>
+    <id>http://feiskyer.github.io/2016/09/24/Kubernetes-container-runtime-interface/</id>
+    <published>2016-09-24T22:59:31.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
+<h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
+<ul>
+<li>Runtime接口的抽象度太高，导致一些原本该在Kubelet控制的逻辑被放到了Runtime实现里面。比如在当前的实现中，rkt和docker的<code>SyncPod</code>（负责Pod创建的接口）存在大量重复的逻辑，每次修改docker部分的时，都有可能需要同时修改rkt部分。这样，如果再加入新的容器引擎的话，同时修改多个Runtime部分的代码是没法维护的。</li>
+<li>Runtime接口是集成在Kubelet内部的，集成容器引擎相关的代码需要放到Kubernetes代码库里面，这同样带来了维护的问题：代码维护麻烦，任何一个容器引擎修改了代码都需要发布新的kubelet；集成测试麻烦，要为每个不同的容器引擎部署不同的集成测试环境。</li>
+<li>没有提供容器创建的接口，无法直接在Kubelet里面做到对容器的精细控制。</li>
+<li>耦合了镜像和容器管理，而它们的生命周期本来就是独立的。</li>
+</ul>
+<p>既然Runtime接口有很多问题，并且有很多容器引擎想要集成到Kubernetes中，所以有必要重新定义CRI，并且提供一种插件机制，允许容器引擎以外部独立进程的方式接入。所以，Brendan Burns在<a href="http://hypercontainer.io" target="_blank" rel="external">Hyper</a>集成的时候就提供了一种以客户端/服务器方式接入外部容器引擎的思路。在大量的社区讨论后，Node team重新抽象了容器引擎接口（也就是CRI），并决定以gRPC的方式接入外部容器引擎。</p>
+<h2 id="CRI是如何工作的"><a href="#CRI是如何工作的" class="headerlink" title="CRI是如何工作的"></a>CRI是如何工作的</h2><p>CRI比Runtime接口提供了更细粒度的抽象，解耦了镜像管理和容器管理，并为Pod和Container提供了独立的操作接口。CRI以gRPC的方式接入，Kubelet是gPRC API的客户端，而容器引擎则是gRPC API的服务端。gRPC已经自动实现了它们之间交互的细节，容器引擎只需要实现每个具体的API。</p>
+<p>一个典型的启动Pod的流程为</p>
+<p><img src="/images/createpod.png" alt="createpod"></p>
+<p>而停止Pod的流程为</p>
+<p><img src="/images/killpod.png" alt="killpod"></p>
+<h2 id="CRI带了什么"><a href="#CRI带了什么" class="headerlink" title="CRI带了什么"></a>CRI带了什么</h2><p>CRI解决了上述提到的Runtime接口的问题，使得新的容器引擎可以更方便的集成到Kubernetes中来，这必将给Kubernetes社区带来新一轮的变革，并促进Kubernetes走入更多的应用场景中。比如，Redhat借助OCI容器引擎runc摆脱对docker依赖，Hyper以虚拟化的方式解决多租户场景下的容器隔离问题，甚至Mirantis直接用Kubernetes来管理原生的虚拟机。</p>
+<p>CRI也解耦了容器和镜像的管理，可以方便的扩展其他镜像格式，比如ACI等。</p>
+<p>CRI还在着力解决一些很有挑战的问题，比如</p>
+<ul>
+<li>容器日志的管理，包括日志格式化规范、日志文件rotate、日志文件磁盘IO控制以及日志的统一收集处理等。</li>
+<li>解除streaming API（exec、attach、logs等）对kubelet的网络压力。当前所有的streaming API都是从<code>apiserver-&gt;kubelet-&gt;runtime</code>，apiserver是无状态的，可以水平扩展，但kubelet和runtime则是每台机器只能有一个，streaming API有可能会给他们带来处理的瓶颈。所以在CRI中，将会考虑使用一个独立进程（需要对apiserver开放端口）来单独处理这些请求<code>apiserver-&gt;newStreamProcess</code>，释放kubelet来做更核心的事情。</li>
+<li>更灵活的网络配置，将Pod网络的配置完全交给容器引擎，而Kubernetes只需要最终的网络状态。</li>
+</ul>
+<h2 id="CRI的未来"><a href="#CRI的未来" class="headerlink" title="CRI的未来"></a>CRI的未来</h2><p>虽然CRI还在持续开发中（目前还没有任何release），但已经有很多厂商已经开始了引入新容器引擎的进程：</p>
+<ul>
+<li>Frakti：为解决多租户场景下的容器隔离问题，Hyper以虚拟化的方式运行容器。关于frakti的更多细节见<a href="https://github.com/kubernetes/frakti。" target="_blank" rel="external">https://github.com/kubernetes/frakti。</a></li>
+<li>OCI-O：为解耦对docker的依赖，Redhat提供对OCI容器引擎的支持（目前主要是runc）。关于oci-o的更多细节见<a href="https://github.com/kubernetes-incubator/oci-o。" target="_blank" rel="external">https://github.com/kubernetes-incubator/oci-o。</a></li>
+<li>Rktlet：为了加速rkt容器引擎的开发维护，CoreOS提议将rkt集成的代码独立出Kubelet（vendor到kubelet，同集成到kubelet内部便于发布），并重构rkt以适应CRI的变化。关于rktlet的更多细节见<a href="https://github.com/kubernetes-incubator/rktlet。" target="_blank" rel="external">https://github.com/kubernetes-incubator/rktlet。</a></li>
+<li>Virtlet：为了支持原生的虚拟机管理，Mirantis提议直接用Kubernetes来管理原生的虚拟机（需要将docker镜像替换成qcow2镜像）。关于virtlet的更多细节见<a href="https://github.com/Mirantis/virtlet。" target="_blank" rel="external">https://github.com/Mirantis/virtlet。</a></li>
+<li>当然，docker相关的代码还会继续保留在kubelet内部，只不过要重构到CRI上面来。</li>
+</ul>
+<p>CRI预计在Kubernetes v1.5发布第一个alpha版。届时，上面各个容器引擎的实现也将会发布第一个release。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。&lt;/p&gt;
+&lt;h2 id=&quot;什么是CRI&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://feiskyer.github.io/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes中的服务发现与负载均衡</title>
+    <link href="http://feiskyer.github.io/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+    <id>http://feiskyer.github.io/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
+    <published>2016-09-11T01:48:09.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
+<ul>
+<li>Service：直接用Service提供cluster内部的负载均衡，并借助cloud provider提供的LB提供外部访问</li>
+<li>Ingress Controller：还是用Service提供cluster内部的负载均衡，但是通过自定义LB提供外部访问</li>
+<li>Service Load Balancer：把load balancer直接跑在容器中，实现Bare Metal的Service Load Balancer</li>
+<li>Custom Load Balancer：自定义负载均衡，并替代kube-proxy，一般在物理部署Kubernetes时使用，方便接入公司已有的外部服务</li>
+</ul>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p><img src="/images/k8s-service.png" alt=""></p>
+<p>Service是对一组提供相同功能的Pods的抽象，并为它们提供一个统一的入口。借助Service，应用可以方便的实现服务发现与负载均衡，并实现应用的零宕机升级。Service通过标签来选取服务后端，一般配合Replication Controller或者Deployment来保证后端容器的正常运行。</p>
+<p>Service有三种类型：</p>
+<ul>
+<li>ClusterIP：默认类型，自动分配一个仅cluster内部可以访问的虚拟IP</li>
+<li>NodePort：在ClusterIP基础上为Service在每台机器上绑定一个端口，这样就可以通过<code>&lt;NodeIP&gt;:NodePort</code>来访问改服务</li>
+<li>LoadBalancer：在NodePort的基础上，借助cloud provider创建一个外部的负载均衡器，并将请求转发到<code>&lt;NodeIP&gt;:NodePort</code></li>
+</ul>
+<p>另外，也可以讲已有的服务以Service的形式加入到Kubernetes集群中来，只需要在创建Service的时候不指定Label selector，而是在Service创建好后手动为其添加endpoint。</p>
+<h2 id="Ingress-Controller"><a href="#Ingress-Controller" class="headerlink" title="Ingress Controller"></a>Ingress Controller</h2><p>Service虽然解决了服务发现和负载均衡的问题，但它在使用上还是有一些限制，比如</p>
+<p>－ 只支持4层负载均衡，没有7层功能<br>－ 对外访问的时候，NodePort类型需要在外部搭建额外的负载均衡，而LoadBalancer要求kubernetes必须跑在支持的cloud provider上面</p>
+<p>Ingress就是为了解决这些限制而引入的新资源，主要用来将服务暴露到cluster外面，并且可以自定义服务的访问策略。比如想要通过负载均衡器实现不同子域名到不同服务的访问：</p>
+<figure class="highlight gherkin"><table><tr><td class="code"><pre><div class="line">foo.bar.com --|<span class="string">                 </span>|<span class="string">-&gt; foo.bar.com s1:80</span></div><div class="line">              |<span class="string"> 178.91.123.132  </span>|</div><div class="line">bar.foo.com --|<span class="string">                 </span>|<span class="string">-&gt; bar.foo.com s2:80</span></div></pre></td></tr></table></figure>
+<p>可以这样来定义Ingress：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> extensions/v1beta1</div><div class="line"><span class="attr">kind:</span> Ingress</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> test</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  rules:</span></div><div class="line"><span class="attr">  - host:</span> foo.bar.com</div><div class="line"><span class="attr">    http:</span></div><div class="line"><span class="attr">      paths:</span></div><div class="line"><span class="attr">      - backend:</span></div><div class="line"><span class="attr">          serviceName:</span> s1</div><div class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></div><div class="line"><span class="attr">  - host:</span> bar.foo.com</div><div class="line"><span class="attr">    http:</span></div><div class="line"><span class="attr">      paths:</span></div><div class="line"><span class="attr">      - backend:</span></div><div class="line"><span class="attr">          serviceName:</span> s2</div><div class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></div></pre></td></tr></table></figure>
+<p>注意Ingress本身并不会自动创建负载均衡器，cluster中需要运行一个ingress controller来根据Ingress的定义来管理负载均衡器。目前社区提供了nginx和gce的参考实现。</p>
+<h2 id="Service-Load-Balancer"><a href="#Service-Load-Balancer" class="headerlink" title="Service Load Balancer"></a>Service Load Balancer</h2><p>在Ingress出现以前，Service Load Balancer是推荐的解决Service局限性的方式。Service Load Balancer将haproxy跑在容器中，并监控service和endpoint的变化，通过容器IP对外提供4层和7层负载均衡服务。</p>
+<p>社区提供的Service Load Balancer支持四种负载均衡协议：TCP、HTTP、HTTPS和SSL TERMINATION，并支持ACL访问控制。</p>
+<h2 id="Custom-Load-Balancer"><a href="#Custom-Load-Balancer" class="headerlink" title="Custom Load Balancer"></a>Custom Load Balancer</h2><p>虽然Kubernetes提供了丰富的负载均衡机制，但在实际使用的时候，还是会碰到一些复杂的场景是它不能支持的，比如</p>
+<ul>
+<li>接入已有的负载均衡设备</li>
+<li>多租户网络情况下，容器网络和主机网络是隔离的，这样<code>kube-proxy</code>就不能正常工作</li>
+</ul>
+<p>这个时候就可以自定义组件，并代替kube-proxy来做负载均衡。基本的思路是监控kubernetes中service和endpoints的变化，并根据这些变化来配置负载均衡器。比如weave flux、nginx plus、kube2haproxy等</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://kubernetes.io/docs/user-guide/services/" target="_blank" rel="external">http://kubernetes.io/docs/user-guide/services/</a></li>
+<li><a href="http://kubernetes.io/docs/user-guide/ingress/" target="_blank" rel="external">http://kubernetes.io/docs/user-guide/ingress/</a></li>
+<li><a href="https://github.com/kubernetes/contrib/tree/master/service-loadbalancer" target="_blank" rel="external">https://github.com/kubernetes/contrib/tree/master/service-loadbalancer</a></li>
+<li><a href="https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/" target="_blank" rel="external">https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/</a></li>
+<li><a href="https://github.com/weaveworks/flux" target="_blank" rel="external">https://github.com/weaveworks/flux</a></li>
+<li><a href="https://github.com/AdoHe/kube2haproxy" target="_blank" rel="external">https://github.com/AdoHe/kube2haproxy</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://feiskyer.github.io/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何快速启动一个Kubernetes集群</title>
+    <link href="http://feiskyer.github.io/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
+    <id>http://feiskyer.github.io/2016/08/24/如何快速启动一个Kubernetes集群/</id>
+    <published>2016-08-24T06:48:44.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
+<h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
+<p>OSX</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.8.0/mi</span>nikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<p>Linux</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.8.0/mi</span>nikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<p>Windows</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">下载http<span class="variable">s:</span>//storage.googleapis.<span class="keyword">com</span>/minikube/releases/v0.<span class="number">8.0</span>/minikube-windows-amd64.<span class="keyword">exe</span>，并重命名为minikube.<span class="keyword">exe</span></div></pre></td></tr></table></figure>
+<p>minikube支持xhyve(on OSX)、VirtualBox、VMWare Fusion等多种不同的driver，这些driver也需要单独安装，比如在OSX上安装xhyve driver:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">brew install docker-machine-driver-xhyve</div><div class="line"><span class="comment"># docker-machine-driver-xhyve need root owner and uid</span></div><div class="line">sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</div><div class="line">sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</div></pre></td></tr></table></figure>
+<p>另外，还需要安装一个<code>kubectl</code>客户端，用来跟kubernetes交互：</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><div class="line">gcloud components <span class="keyword">install</span> kubectl</div></pre></td></tr></table></figure>
+<h2 id="启动Kubernetes-Cluster"><a href="#启动Kubernetes-Cluster" class="headerlink" title="启动Kubernetes Cluster"></a>启动Kubernetes Cluster</h2><p>启动Kubernetes Cluster就非常简单了，一个命令即可：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">$ minikube <span class="keyword">start</span></div><div class="line"><span class="keyword">Starting</span> <span class="keyword">local</span> Kubernetes cluster...</div><div class="line">Kubectl <span class="keyword">is</span> <span class="keyword">now</span> configured <span class="keyword">to</span> <span class="keyword">use</span> the cluster.</div></pre></td></tr></table></figure>
+<p>当然了，国内环境下，最好加上代理：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line"><span class="symbol">minikube</span> start --docker-env HTTP_PROXY<span class="symbol">=http</span>://proxy-<span class="built_in">ip</span>:port --docker-env HTTPS_PROXY<span class="symbol">=http</span>://proxy-<span class="built_in">ip</span>:port</div></pre></td></tr></table></figure>
+<p>然后就可以通过kubectl来玩Kubernetes了，比如启动一个简单的nginx服务：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line">$ kubectl run nginx <span class="comment">--image=nginx --port=80</span></div><div class="line">deployment <span class="string">"nginx"</span> created</div><div class="line">$ kubectl expose deployment nginx <span class="comment">--port=80 --type=NodePort --name=nginx-http</span></div><div class="line">service <span class="string">"nginx-http"</span> exposed</div><div class="line">$ kubectl <span class="built_in">get</span> pods</div><div class="line">NAME                     READY     STATUS    RESTARTS   AGE</div><div class="line">nginx<span class="number">-2032906785</span><span class="number">-81</span>t56   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">2</span>m</div><div class="line">$ kubectl <span class="built_in">get</span> services</div><div class="line">NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</div><div class="line">kubernetes   <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>     &lt;<span class="literal">none</span>&gt;        <span class="number">443</span>/TCP   <span class="number">20</span>m</div><div class="line">nginx-<span class="keyword">http</span>   <span class="number">10.0</span><span class="number">.0</span><span class="number">.146</span>   &lt;<span class="literal">none</span>&gt;        <span class="number">80</span>/TCP    <span class="number">2</span>m</div><div class="line">$ minikube service nginx-<span class="keyword">http</span> <span class="comment">--url</span></div><div class="line"><span class="keyword">http</span>://<span class="number">192.168</span><span class="number">.64</span><span class="number">.10</span>:<span class="number">30569</span></div></pre></td></tr></table></figure>
+<p>这样就可以通过<code>http://192.168.64.10:30569</code>来直接访问nginx服务。</p>
+<p>minikube默认还部署了最新的dashboard，可以通过<code>minikube dashboard</code>命令在默认浏览器中打开：</p>
+<p><img src="/images/k8s-dashboard.png" alt="k8s-dashboard"></p>
+<p>更多的玩法可以参考minikube的帮助文档：</p>
+<pre><code>Usage:
+  minikube [command]
+
+Available Commands:
+  dashboard        Opens/displays the kubernetes dashboard URL for your local cluster
+  delete           Deletes a local kubernetes cluster.
+  docker-env       sets up docker env variables; similar to &#39;$(docker-machine env)&#39;
+  get-k8s-versions Gets the list of available kubernetes versions available for minikube.
+  ip               Retrieve the IP address of the running cluster.
+  logs             Gets the logs of the running localkube instance, used for debugging minikube, not user code.
+  service          Gets the kubernetes URL for the specified service in your local cluster
+  ssh              Log into or run a command on a machine with SSH; similar to &#39;docker-machine ssh&#39;
+  start            Starts a local kubernetes cluster.
+  status           Gets the status of a local kubernetes cluster.
+  stop             Stops a running local kubernetes cluster.
+  version          Print the version of minikube.
+</code></pre><p>更多请参考<a href="https://github.com/kubernetes/minikube。" target="_blank" rel="external">https://github.com/kubernetes/minikube。</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助&lt;a href=&quot;https://github.com/kubernetes/mini
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+      <category term="Kubernetes" scheme="http://feiskyer.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Setup hyperd with flannel network</title>
+    <link href="http://feiskyer.github.io/2016/07/19/Setup-hyperd-with-flannel-network/"/>
+    <id>http://feiskyer.github.io/2016/07/19/Setup-hyperd-with-flannel-network/</id>
+    <published>2016-07-19T07:58:26.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
+<p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
+<p>flannel runs an agent, flanneld, on each host and is responsible for allocating a subnet lease out of a preconfigured address space. flannel uses etcd to store the network configuration, allocated subnets, and auxiliary data (such as host’s IP). The forwarding of packets is achieved using one of several strategies that are known as backends. The simplest backend is udp and uses a TUN device to encapsulate every IP fragment in a UDP packet, forming an overlay network. The following diagram demonstrates the path a packet takes as it traverses the overlay network:</p>
+<p><img src="/images/14689151388980.jpg" alt=""></p>
+<h1 id="Flannel-install"><a href="#Flannel-install" class="headerlink" title="Flannel install"></a>Flannel install</h1><p>First install etcd:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.3/etcd-v3.0.3-linux-amd64.tar.gz -o etcd-v3.0.3-linux-amd64.tar.gz</div><div class="line">tar xzvf etcd-v3.0.3-linux-amd64.tar.gz</div><div class="line">cp etcd-v3.0.3-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin</div><div class="line">rm -rf etcd-v3.0.3-linux-amd64 etcd-v3.0.3-linux-amd64.tar.gz</div></pre></td></tr></table></figure>
+<p>Then, install flannel:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl -L https://github.com/coreos/flannel/releases/download/v0.5.5/flannel-0.5.5-linux-amd64.tar.gz -o flannel-0.5.5-linux-amd64.tar.gz</div><div class="line">tar zxvf flannel-0.5.5-linux-amd64.tar.gz</div><div class="line">cp flannel-0.5.5/flanneld /usr/bin</div><div class="line">rm -rf flannel-0.5.5*</div></pre></td></tr></table></figure>
+<p>Start etcd and setup default network:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">nohup etcd --advertise-client-urls <span class="string">'http://192.168.33.10:2379'</span> --listen-client-urls <span class="string">'http://192.168.33.10:2379'</span> &amp;</div><div class="line">etcdctl --endpoints=192.168.33.10:2379 <span class="built_in">set</span> /coreos.com/network/config  <span class="string">'&#123; "Network": "172.168.0.0/16", "Backend": &#123; "Type": "vxlan", "VNI": 2000 &#125; &#125;'</span></div></pre></td></tr></table></figure>
+<p>Start flanneld on all nodes:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">nohup flanneld -etcd-endpoints=http://192.168.33.10:2379 -iface=eth1 &amp;</div></pre></td></tr></table></figure>
+<h1 id="Hyperd-install"><a href="#Hyperd-install" class="headerlink" title="Hyperd install"></a>Hyperd install</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install qemu-system-x86 -y</div><div class="line">curl <span class="_">-s</span>SL http://hypercontainer.io/install | bash</div></pre></td></tr></table></figure>
+<p>Configure hyperd to use subnet provided by flannel：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">source</span> /run/flannel/subnet.env</div><div class="line">brctl addbr docker0</div><div class="line">ip addr add dev docker0 <span class="variable">$&#123;FLANNEL_SUBNET&#125;</span></div><div class="line">ip link <span class="built_in">set</span> docker0 up</div><div class="line"></div><div class="line">cat &gt;/etc/hyper/config &lt;&lt;EOF</div><div class="line">Kernel=/var/lib/hyper/kernel</div><div class="line">Initrd=/var/lib/hyper/hyper-initrd.img</div><div class="line">Hypervisor=qemu</div><div class="line">StorageDriver=devicemapper</div><div class="line">Bridge=docker0</div><div class="line">BridgeIP=<span class="variable">$&#123;FLANNEL_SUBNET&#125;</span></div><div class="line">EOF</div><div class="line"></div><div class="line">nohup hyperd --nondaemon --v=3 &amp;</div></pre></td></tr></table></figure>
+<h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">root@s2:~<span class="comment"># hyper run -d busybox</span></div><div class="line">POD id is pod-hZviZLulsb</div><div class="line">Time to run a POD is 3648 ms</div><div class="line">root@s2:~<span class="comment"># hyper exec pod-hZviZLulsb ip addr</span></div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</div><div class="line">    link/ether 52:54:51:e5:db:2f brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.168.12.3/24 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::5054:51ff:fee5:db2f/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line"></div><div class="line">root@s1:~<span class="comment"># hyper run -d busybox</span></div><div class="line">POD id is pod-GbccOdYKjK</div><div class="line">Time to run a POD is 3631 ms</div><div class="line">root@s1:~<span class="comment"># hyper exec pod-GbccOdYKjK ip addr</span></div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</div><div class="line">    link/ether 52:54:da:0c:b6:<span class="built_in">cd</span> brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.168.95.3/24 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::5054:daff:fe0c:b6<span class="built_in">cd</span>/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@s1:~<span class="comment"># hyper exec pod-GbccOdYKjK ping -c3 172.168.12.3</span></div><div class="line">PING 172.168.12.3 (172.168.12.3): 56 data bytes</div><div class="line">64 bytes from 172.168.12.3: seq=0 ttl=62 time=57.400 ms</div><div class="line">64 bytes from 172.168.12.3: seq=1 ttl=62 time=6.563 ms</div><div class="line">64 bytes from 172.168.12.3: seq=2 ttl=62 time=1.580 ms</div><div class="line"></div><div class="line">--- 172.168.12.3 ping statistics ---</div><div class="line">3 packets transmitted, 3 packets received, 0% packet loss</div><div class="line">round-trip min/avg/max = 1.580/21.847/57.400 ms</div></pre></td></tr></table></figure>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://github.com/coreos/flannel" target="_blank" rel="external">https://github.com/coreos/flannel</a></li>
+<li><a href="http://docs.hypercontainer.io/get_started/install/linux.html" target="_blank" rel="external">http://docs.hypercontainer.io/get_started/install/linux.html</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Flannel&quot;&gt;&lt;a href=&quot;#Flannel&quot; class=&quot;headerlink&quot; title=&quot;Flannel&quot;&gt;&lt;/a&gt;Flannel&lt;/h1&gt;&lt;p&gt;Flannel is a virtual network that gives a subnet t
+    
+    </summary>
+    
+    
+      <category term="hyper" scheme="http://feiskyer.github.io/tags/hyper/"/>
+    
+      <category term="container" scheme="http://feiskyer.github.io/tags/container/"/>
+    
+      <category term="flannel" scheme="http://feiskyer.github.io/tags/flannel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Play with docker v1.12</title>
+    <link href="http://feiskyer.github.io/2016/06/24/Play-with-docker-v1-12/"/>
+    <id>http://feiskyer.github.io/2016/06/24/Play-with-docker-v1-12/</id>
+    <published>2016-06-24T04:39:49.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
+<blockquote>
+<p>Starting with Docker 1.12, we have added features to the core Docker Engine to make multi-host and multi-container orchestration easy.  We’ve added new API objects, like Service and Node, that will let you use the Docker API to deploy and manage apps on a group of Docker Engines called a swarm. With Docker 1.12, the best way to orchestrate Docker is Docker!</p>
+</blockquote>
+<p><img src="https://cloud.githubusercontent.com/assets/676637/16327966/a4f34346-3a07-11e6-8d21-153509596cec.png" alt="docker-v1 12"></p>
+<h2 id="Playing-on-GCE"><a href="#Playing-on-GCE" class="headerlink" title="Playing on GCE"></a>Playing on GCE</h2><p>Create swarm-manager:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">gcloud init</div><div class="line">docker-machine create swarm-manager --engine-install-url experimental.docker.com <span class="_">-d</span> google --google-machine-type n1-standard-1 --google-zone us-central1<span class="_">-f</span> --google-disk-size <span class="string">"500"</span> --google-tags swarm-cluster --google-project k8s-dev-prj</div></pre></td></tr></table></figure>
+<p>Check what version has been installed:</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">$ <span class="built_in">eval</span> $(docker-machine env swarm-manager)</div><div class="line">$ docker <span class="keyword">version</span></div><div class="line">Clien<span class="variable">t:</span></div><div class="line"> Version:      <span class="number">1.12</span>.<span class="number">0</span>-rc2</div><div class="line"> API <span class="keyword">version</span>:  <span class="number">1.24</span></div><div class="line"> Go <span class="keyword">version</span>:   go1.<span class="number">6.2</span></div><div class="line"> Git commi<span class="variable">t:</span>   <span class="number">906</span>eacd</div><div class="line"> Buil<span class="variable">t:</span>        Fri Jun <span class="number">17</span> <span class="number">20</span>:<span class="number">35</span>:<span class="number">33</span> <span class="number">2016</span></div><div class="line"> OS/Arch:      darwin/amd64</div><div class="line"> Experimenta<span class="variable">l:</span> true</div><div class="line"></div><div class="line">Server:</div><div class="line"> Version:      <span class="number">1.12</span>.<span class="number">0</span>-rc2</div><div class="line"> API <span class="keyword">version</span>:  <span class="number">1.24</span></div><div class="line"> Go <span class="keyword">version</span>:   go1.<span class="number">6.2</span></div><div class="line"> Git commi<span class="variable">t:</span>   <span class="number">906</span>eacd</div><div class="line"> Buil<span class="variable">t:</span>        Fri Jun <span class="number">17</span> <span class="number">21</span>:<span class="number">07</span>:<span class="number">35</span> <span class="number">2016</span></div><div class="line"> OS/Arch:      linux/amd64</div><div class="line"> Experimenta<span class="variable">l:</span> true</div></pre></td></tr></table></figure>
+<p>Create worker node:</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">docker-machine create swarm-worker-1 \</div><div class="line">    -<span class="ruby">-engine-install-url experimental.docker.com \</span></div><div class="line">    -<span class="ruby">d google \</span></div><div class="line">    -<span class="ruby">-google-machine-type n1-standard-<span class="number">1</span> \</span></div><div class="line">    -<span class="ruby">-google-zone us-central1-f \</span></div><div class="line">    -<span class="ruby">-google-disk-size <span class="string">"500"</span> \</span></div><div class="line">    -<span class="ruby">-google-tags swarm-cluster \</span></div><div class="line">    -<span class="ruby">-google-project k8s-dev-prj</span></div></pre></td></tr></table></figure>
+<p>Initialize swarm</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># init manager</span></div><div class="line"><span class="built_in">eval</span> $(docker-machine env swarm-manager)</div><div class="line">docker swarm init</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Under the hood this creates a Raft consensus group of one node.  This first node has the role of manager, meaning it accepts commands and schedule tasks.  As you join more nodes to the swarm, they will by default be workers, which simply execute containers dispatched by the manager.  You can optionally add additional manager nodes.  The manager nodes will be part of the Raft consensus group. We use an optimized Raft store in which reads are serviced directly from memory which makes scheduling performance fast.</p>
+</blockquote>
+<figure class="highlight mel"><table><tr><td class="code"><pre><div class="line"># join worker</div><div class="line"><span class="keyword">eval</span> $(docker-machine <span class="keyword">env</span> swarm-worker<span class="number">-1</span>)</div><div class="line">manager_ip=$(gcloud compute instances list | awk <span class="string">'/swarm-manager/&#123;print $4&#125;'</span>)</div><div class="line">docker swarm join $&#123;manager_ip&#125;:<span class="number">2377</span></div></pre></td></tr></table></figure>
+<p>List all nodes:</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">$ eval $(docker-machine env swarm-manager)</div><div class="line">$ docker <span class="keyword">node</span> <span class="title">ls</span></div><div class="line">ID                           NAME            MEMBERSHIP  STATUS  AVAILABILITY  MANAGER STATUS</div><div class="line"><span class="number">0m</span>2qy40ch1nqfpmhnsvj8jzch *  swarm-manager   Accepted    Ready   Active        Leader</div><div class="line"><span class="number">4</span>v1oo055unqiz9fy14u8wg3fn    swarm-worker-<span class="number">1</span>  Accepted    Ready   Active</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-service"><a href="#Playing-with-service" class="headerlink" title="Playing with service"></a>Playing with service</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">eval</span> $(docker-machine env swarm-manager)</div><div class="line">docker service create --replicas 2 -p 80:80/tcp --name nginx nginx</div></pre></td></tr></table></figure>
+<blockquote>
+<p>This command declares a desired state on your swarm of 2 nginx containers, reachable as a single, internally load balanced service on port 80 of any node in your swarm.  Internally, we make this work using Linux IPVS, an in-kernel Layer 4 multi-protocol load balancer that’s been in the Linux kernel for more than 15 years.  With IPVS routing packets inside the kernel, swarm’s routing mesh delivers high performance container-aware load-balancing.</p>
+<p>When you create services, can optionally create replicated or global services.  Replicated services mean any number of containers that you define will be spread across the available hosts.  Global services, by contrast, schedule one instance the same container on every host in the swarm.</p>
+<p>Let’s turn to how Docker provides resiliency.  Swarm mode enabled engines are self-healing, meaning that they are aware of the application you defined and will continuously check and reconcile the environment when things go awry.  For example, if you unplug one of the machines running an nginx instance, a new container will come up on another node.  Unplug the network switch for half the machines in your swarm, and the other half will take over, redistributing the containers amongst themselves.  For updates, you now have flexibility in how you re-deploy services once you make a change. You can set a rolling or parallel update of the containers on your swarm.</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker service scale nginx=3</div><div class="line"></div><div class="line">$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</div><div class="line">b51a902db8bc        nginx:latest        <span class="string">"nginx -g 'daemon off"</span>   2 minutes ago       Up 2 minutes        80/tcp, 443/tcp     nginx.1.8yvwxbquvz1ptuqsc8hewwbau</div></pre></td></tr></table></figure>
+<figure class="highlight vbscript"><table><tr><td class="code"><pre><div class="line"># switch <span class="keyword">to</span> worker</div><div class="line">$ <span class="built_in">eval</span> $(docker-machine env swarm-worker<span class="number">-1</span>)</div><div class="line">$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES</div><div class="line">da6a8250bef4        nginx:latest        <span class="string">"nginx -g 'daemon off"</span>   About a <span class="built_in">minute</span> ago   Up About a <span class="built_in">minute</span>   <span class="number">80</span>/tcp, <span class="number">443</span>/tcp     nginx<span class="number">.2</span>.bqko7fyj1nowwj1flxva3ur0g</div><div class="line"><span class="number">54</span>d9ffd07894        nginx:latest        <span class="string">"nginx -g 'daemon off"</span>   About a <span class="built_in">minute</span> ago   Up About a <span class="built_in">minute</span>   <span class="number">80</span>/tcp, <span class="number">443</span>/tcp     nginx<span class="number">.3</span><span class="number">.02</span>k4d34gjooa9f8m6yhfi5hyu</div></pre></td></tr></table></figure>
+<p>As seen above, one container runs on swarm-manager, and the others run on swarm-worker-1.</p>
+<h2 id="Expose-services"><a href="#Expose-services" class="headerlink" title="Expose services"></a>Expose services</h2><h3 id="Visit-by-node-node-ip"><a href="#Visit-by-node-node-ip" class="headerlink" title="Visit by node node ip"></a>Visit by node node ip</h3><figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">gcloud compute firewall-rules create nginx-swarm \</div><div class="line">  -<span class="ruby">-allow <span class="symbol">tcp:</span><span class="number">80</span> \</span></div><div class="line">  -<span class="ruby">-description <span class="string">"nginx swarm service"</span> \</span></div><div class="line">  -<span class="ruby">-target-tags swarm-cluster</span></div></pre></td></tr></table></figure>
+<p>Then use external IP (get by exec <code>gcloud compute instances list</code>) to visit nginx service.</p>
+<h3 id="GCP-Load-Balancer-tcp"><a href="#GCP-Load-Balancer-tcp" class="headerlink" title="GCP Load Balancer (tcp)"></a>GCP Load Balancer (tcp)</h3><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">gcloud compute addresses <span class="keyword">create</span> network-lb-ip<span class="number">-1</span> <span class="comment">--region us-central1</span></div><div class="line">gcloud <span class="keyword">compute</span> <span class="keyword">http</span>-health-checks <span class="keyword">create</span> basic-<span class="keyword">check</span></div><div class="line">gcloud <span class="keyword">compute</span> target-pools <span class="keyword">create</span> www-pool <span class="comment">--region us-central1 --health-check basic-check</span></div><div class="line">gcloud <span class="keyword">compute</span> target-pools <span class="keyword">add</span>-instances www-pool <span class="comment">--instances swarm-manager,swarm-worker-1 --zone us-central1-f</span></div><div class="line"></div><div class="line"># <span class="keyword">Get</span> lb addresses</div><div class="line">STATIC_EXTERNAL_IP=$(gcloud <span class="keyword">compute</span> addresses <span class="keyword">list</span> | awk <span class="string">'/network-lb-ip-1/&#123;print $3&#125;'</span>)</div><div class="line"># <span class="keyword">create</span> forwarding <span class="keyword">rules</span></div><div class="line">gcloud <span class="keyword">compute</span> forwarding-<span class="keyword">rules</span> <span class="keyword">create</span> www-rule <span class="comment">--region us-central1 --port-range 80 --address $&#123;STATIC_EXTERNAL_IP&#125; --target-pool www-pool</span></div></pre></td></tr></table></figure>
+<p>Now you could visit <a href="http://${STATIC_EXTERNAL_IP}" target="_blank" rel="external">http://${STATIC_EXTERNAL_IP}</a> for nginx service.</p>
+<p>BTW, <a href="https://blog.docker.com/2016/06/azure-aws-beta/" target="_blank" rel="external">Docker for aws and azure</a> will do this more easily as integrated:</p>
+<ul>
+<li>Use an SSH key already associated with your IaaS account for access control</li>
+<li>Provision infrastructure load balancers and update them dynamically as apps are created and updated</li>
+<li>Configure security groups and virtual networks to create secure Docker setups that are easy for operations to understand and manage</li>
+</ul>
+<blockquote>
+<p>By default, apps deployed with bundles do not have ports publicly exposed. Update port mappings for services, and Docker will automatically wire up the underlying platform loadbalancers:<code>docker service update -p 80:80 &lt;example-service&gt;</code></p>
+</blockquote>
+<h3 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h3><h4 id="Local-networking"><a href="#Local-networking" class="headerlink" title="Local networking"></a>Local networking</h4><p><img width="1239" alt="2016-06-24 12 05 13" src="https://cloud.githubusercontent.com/assets/676637/16327964/9dfd842a-3a07-11e6-9031-c79c9c43ec83.png"></p>
+<p>Create local scope network and place containers in existing vlans:</p>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">docker network create -d macvlan --subnet=<span class="number">192.168</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">16</span> --ip-range=<span class="number">192.168</span><span class="number">.41</span><span class="number">.0</span>/<span class="number">24</span> --aux-address=<span class="string">"favoriate_ip_ever=192.168.41.2"</span> --gateway=<span class="number">192.168</span><span class="number">.41</span><span class="number">.1</span> -o parent=eth0<span class="number">.41</span> macnet41</div><div class="line">docker run --net=macnet41 -it --rm alpine /bin/sh</div></pre></td></tr></table></figure>
+<h4 id="Multi-host-networking"><a href="#Multi-host-networking" class="headerlink" title="Multi-host networking"></a>Multi-host networking</h4><p>A typical two-tier (web+db) application runs on swarm scope network would be created like this:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">docker network <span class="keyword">create</span> -d overlay mynet</div><div class="line">docker service <span class="keyword">create</span> –<span class="keyword">name</span> frontend –replicas <span class="number">5</span> -p <span class="number">80</span>:<span class="number">80</span>/tcp –network mynet mywebapp</div><div class="line">docker service <span class="keyword">create</span> –<span class="keyword">name</span> redis –network mynet redis:latest</div></pre></td></tr></table></figure>
+<p><img width="1133" alt="2016-06-26 10 27 20" src="https://cloud.githubusercontent.com/assets/676637/16362920/7dbd339e-3bed-11e6-9987-8d425480ba59.png"></p>
+<p><img width="1169" alt="2016-06-24 12 05 30" src="https://cloud.githubusercontent.com/assets/676637/16327980/c4af9432-3a07-11e6-93ed-9e94d12f0c9b.png"><br><img width="1228" alt="2016-06-24 12 05 58" src="https://cloud.githubusercontent.com/assets/676637/16327982/c4b2a906-3a07-11e6-8e97-70a26c5fc701.png"><br><img width="1235" alt="2016-06-24 12 06 11" src="https://cloud.githubusercontent.com/assets/676637/16327981/c4b14fc0-3a07-11e6-84f0-260a716044cb.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Docker v1.12 indeeds introduced easy-of-use interface for orchestrating containers, but I’m concerned whether this way could scale for large clusters. Maybe we could see it on Docker’s further iterations.</p>
+<h3 id="Further-more"><a href="#Further-more" class="headerlink" title="Further more"></a>Further more</h3><ul>
+<li><a href="https://blog.docker.com/2016/06/docker-1-12-built-in-orchestration/" target="_blank" rel="external">https://blog.docker.com/2016/06/docker-1-12-built-in-orchestration/</a></li>
+<li><a href="http://www.slideshare.net/MadhuVenugopal2/dockercon-us-2016-docker-networking-deep-dive" target="_blank" rel="external">http://www.slideshare.net/MadhuVenugopal2/dockercon-us-2016-docker-networking-deep-dive</a></li>
+<li><a href="https://medium.com/google-cloud/docker-swarm-on-google-cloud-platform-c9925bd7863c#.3plkwmxss" target="_blank" rel="external">https://medium.com/google-cloud/docker-swarm-on-google-cloud-platform-c9925bd7863c#.3plkwmxss</a></li>
+<li><a href="https://beta.docker.com/docs/" target="_blank" rel="external">https://beta.docker.com/docs/</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;Docker v1.12 brings in its integrated orchestration into docker engine.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Starting with Docker 1.12, we ha
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Playing docker with hypervisor container runtime runV</title>
+    <link href="http://feiskyer.github.io/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
+    <id>http://feiskyer.github.io/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
+    <published>2016-06-17T09:12:38.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>Table of contents:</p>
+<p>[TOC]</p>
+<hr>
+<p>The latest master branch of <a href="https://github.com/hyperhq/runv" target="_blank" rel="external">runV</a> has already supported running as an runtime in docker. Since v1.11, docker introduced OCI contain runtime (runc) integration via containerd. Since runc and runV are both <a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">recommended implementation of OCI</a>, it is natural to make runV working with containerd. </p>
+<p>Now let’s have a try.</p>
+<h3 id="Install-runv-and-docker"><a href="#Install-runv-and-docker" class="headerlink" title="Install runv and docker"></a>Install runv and docker</h3><p>Docker could be installed via <a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">https://docs.docker.com/engine/installation/</a>.</p>
+<p>Since only master branch of runV supports running integrated with docker, we should compile runV by source.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo apt-get install -y autoconf automake pkg-config libdevmapper-dev libsqlite3-dev libvirt-dev qemu libvirt-bin</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h3 id="Start-docker-with-runV-runtime"><a href="#Start-docker-with-runV-runtime" class="headerlink" title="Start docker with runV runtime"></a>Start docker with runV runtime</h3><p>Stop docker first since it is running with runc by default.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">systemctl stop docker</div></pre></td></tr></table></figure>
+<p>Now start docker with runV:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># start containerd</span></div><div class="line">systemd-run --unit=containerd-runv docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --runtime /usr/<span class="built_in">local</span>/bin/runv --runtime-args --debug --runtime-args --driver=libvirt --runtime-args --kernel=/var/lib/hyper/kernel --runtime-args --initrd=/var/lib/hyper/hyper-initrd.img --start-timeout 2m</div><div class="line"></div><div class="line"><span class="comment"># start docker</span></div><div class="line">systemd-run --unit=docker-runv docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line"></div><div class="line"><span class="comment"># check status</span></div><div class="line">[root@linux ~]<span class="comment"># systemctl status containerd-runv</span></div><div class="line">● containerd-runv.service - /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --runtime /usr/<span class="built_in">local</span>/bin/runv --runtime-args --debug --runtime-args --driver=libvirt --runtime-args --kernel=/var/lib/hyper/kernel --runtime-args --initrd=/var/lib/hyper/hyper-initrd.img --start-timeout 2m</div><div class="line">   Loaded: loaded (/run/systemd/system/containerd-runv.service; static; vendor preset: disabled)</div><div class="line">  Drop-In: /run/systemd/system/containerd-runv.service.d</div><div class="line">           └─50-Description.conf, 50-ExecStart.conf</div><div class="line">   Active: active (running) since 五 2016-06-17 09:47:57 UTC; 10s ago</div><div class="line"> Main PID: 12650 (docker-containe)</div><div class="line">   Memory: 1.8M</div><div class="line">   CGroup: /system.slice/containerd-runv.service</div><div class="line">           └─12650 /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --run...</div><div class="line"></div><div class="line">6月 17 09:47:57 linux systemd[1]: Started /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker...</div><div class="line">6月 17 09:47:57 linux systemd[1]: Starting /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docke...</div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=warning msg=<span class="string">"containerd: low ...=4096</span></div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time="2016-06-17T09:47:57Z<span class="string">" level=debug msg="</span>containerd: <span class="built_in">read</span> p...unt=0</div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=debug msg=<span class="string">"containerd: superv...nerd"</span></div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=debug msg=<span class="string">"containerd: grpc a...sock"</span></div><div class="line">Hint: Some lines were ellipsized, use <span class="_">-l</span> to show <span class="keyword">in</span> full.</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># systemctl status docker-runv</span></div><div class="line">● docker-runv.service - /usr/bin/docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line">   Loaded: loaded (/run/systemd/system/docker-runv.service; static; vendor preset: disabled)</div><div class="line">  Drop-In: /run/systemd/system/docker-runv.service.d</div><div class="line">           └─50-Description.conf, 50-ExecStart.conf</div><div class="line">   Active: active (running) since 五 2016-06-17 09:34:11 UTC; 25s ago</div><div class="line"> Main PID: 11120 (docker)</div><div class="line">   Memory: 20.8M</div><div class="line">   CGroup: /system.slice/docker-runv.service</div><div class="line">           └─11120 /usr/bin/docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line"></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019309548Z"</span> level=debug msg=<span class="string">"Registering POST, /volumes/create"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019448115Z"</span> level=debug msg=<span class="string">"Registering DELETE, /volumes/&#123;name:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019551244Z"</span> level=debug msg=<span class="string">"Registering POST, /build"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019607895Z"</span> level=debug msg=<span class="string">"Registering GET, /networks"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019675700Z"</span> level=debug msg=<span class="string">"Registering GET, /networks/&#123;id:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019771551Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/create"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020256142Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/&#123;id:.*&#125;/connect"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020369131Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/&#123;id:.*&#125;/disconnect"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020463042Z"</span> level=debug msg=<span class="string">"Registering DELETE, /networks/&#123;id:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.021491071Z"</span> level=info msg=<span class="string">"API listen on /var/run/docker.sock"</span></div></pre></td></tr></table></figure>
+<h3 id="Create-container"><a href="#Create-container" class="headerlink" title="Create container"></a>Create container</h3><p>Let’s create a nginx container.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[root@linux ~]<span class="comment"># docker run -i -d  nginx</span></div><div class="line">6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c</div><div class="line">[root@linux ~]<span class="comment"># docker ps</span></div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</div><div class="line">6a34a0513ebb        nginx               <span class="string">"nginx -g 'daemon off"</span>   9 seconds ago       Up 3 seconds        80/tcp, 443/tcp     berserk_mcnulty</div><div class="line"></div><div class="line"><span class="comment"># Is it working</span></div><div class="line">[root@linux ~]<span class="comment"># docker inspect --format '&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;' 6a34a0513ebb</span></div><div class="line">172.17.0.2</div><div class="line">[root@linux ~]<span class="comment"># curl -I 172.17.0.2</span></div><div class="line">HTTP/1.1 200 OK</div><div class="line">Server: nginx/1.11.1</div><div class="line">Date: Fri, 17 Jun 2016 09:52:37 GMT</div><div class="line">Content-Type: text/html</div><div class="line">Content-Length: 612</div><div class="line">Last-Modified: Tue, 31 May 2016 14:40:22 GMT</div><div class="line">Connection: keep-alive</div><div class="line">ETag: <span class="string">"574da256-264"</span></div><div class="line">Accept-Ranges: bytes</div></pre></td></tr></table></figure>
+<p>Is the container really running in runV with hypervisor?</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">root@linux ~]<span class="comment"># runv list</span></div><div class="line">ID                                                                 PID         STATUS      BUNDLE                                                                                           CREATED</div><div class="line">6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c   12756       running     /var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c   2016-06-17T09:48:38.324839156Z</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># runv state 6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"ociVersion"</span>: <span class="string">"0.6.0-dev"</span>,</div><div class="line">  <span class="string">"id"</span>: <span class="string">"6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c"</span>,</div><div class="line">  <span class="string">"pid"</span>: 12756,</div><div class="line">  <span class="string">"bundlePath"</span>: <span class="string">"/var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c"</span>,</div><div class="line">  <span class="string">"rootfsPath"</span>: <span class="string">"/var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c/rootfs"</span>,</div><div class="line">  <span class="string">"status"</span>: <span class="string">"running"</span>,</div><div class="line">  <span class="string">"created"</span>: <span class="string">"2016-06-17T09:48:38.324839156Z"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># virsh list</span></div><div class="line"> Id    名称                         状态</div><div class="line">----------------------------------------------------</div><div class="line"> 919   vm-CeaKLvbPEg                  running</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># ps -ef | grep vm-CeaKLvbPEg | grep -v grep</span></div><div class="line">root     12743     1  1 09:48 ?        00:00:06 /usr/bin/qemu-system-x86_64 -name vm-CeaKLvbPEg -S -machine pc-i440fx-2.0,accel=tcg,usb=off -cpu Haswell-noTSX,+abm,+hypervisor,+rdrand,+f16c,+osxsave,+ht,+vme -m 128 -realtime mlock=off -smp 1,sockets=1,cores=1,threads=1 -uuid 4f158103-bd5e-4fd1<span class="_">-a</span>62f-9e18093ceaf4 -nographic -no-user-config -nodefaults -chardev socket,id=charmonitor,path=/var/lib/libvirt/qemu/domain-vm-CeaKLvbPEg/monitor.sock,server,nowait -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc -no-reboot -boot strict=on -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append console=ttyS0 panic=1 no_timer_check -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -fsdev <span class="built_in">local</span>,security_model=none,id=fsdev-fs0,path=/var/run/hyper/vm-CeaKLvbPEg/share_dir -device virtio-9p-pci,id=fs0,fsdev=fsdev-fs0,mount_tag=share_dir,bus=pci.0,addr=0x4 -chardev socket,id=charserial0,path=/var/run/hyper/vm-CeaKLvbPEg/console.sock,server,nowait -device isa-serial,chardev=charserial0,id=serial0 -chardev socket,id=charchannel0,path=/var/run/hyper/vm-CeaKLvbPEg/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charchannel1,path=/var/run/hyper/vm-CeaKLvbPEg/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charchannel1,id=channel1,name=sh.hyper.channel.1 -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x5 -msg timestamp=on</div></pre></td></tr></table></figure>
+<h3 id="Is-it-stable"><a href="#Is-it-stable" class="headerlink" title="Is it stable?"></a>Is it stable?</h3><p>Of course not, runV is still under quick development and features are not complete now. For example, there are a lot of commands not supported now:</p>
+<ul>
+<li><code>docker stop</code></li>
+<li><code>docker stats</code></li>
+<li><code>docker exec</code></li>
+</ul>
+<p>Although there are still problems, I’m exited by what runV has done. Looking forward to its release.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Table of contents:&lt;/p&gt;
+&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;The latest master branch of &lt;a href=&quot;https://github.com/hyperhq/runv&quot; target=&quot;_blank&quot; rel=&quot;ex
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+      <category term="runV" scheme="http://feiskyer.github.io/tags/runV/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-mesos architecture</title>
+    <link href="http://feiskyer.github.io/2016/06/07/Kubernetes-mesos-architecture/"/>
+    <id>http://feiskyer.github.io/2016/06/07/Kubernetes-mesos-architecture/</id>
+    <published>2016-06-07T05:21:07.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
+<p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/kubernetes_mesos_architecture.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;From &lt;a href=&quot;http://cdn.yongbok.net/ruo91/architecture/k8s/kubernete
+    
+    </summary>
+    
+    
+      <category term="mesos" scheme="http://feiskyer.github.io/tags/mesos/"/>
+    
+      <category term="kubernetes" scheme="http://feiskyer.github.io/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hypernetes: Bringing Security and Multi-tenancy to Kubernetes</title>
+    <link href="http://feiskyer.github.io/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
+    <id>http://feiskyer.github.io/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
+    <published>2016-06-06T08:10:25.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
+</blockquote>
+<p><em>Today’s guest post is written by Harry Zhang and Pengfei Ni, engineers at HyperHQ, describing a new hypervisor based container called HyperContainer</em>  </p>
+<p>While many developers and security professionals are comfortable with Linux containers as an effective boundary, many users need a stronger degree of isolation, particularly for those running in a multi-tenant environment. Sadly, today, those users are forced to run their containers inside virtual machines, even one VM per container.  </p>
+<p>Unfortunately, this results in the loss of many of the benefits of a cloud-native deployment: slow startup time of VMs; a memory tax for every container; low utilization resulting in wasting resources.  </p>
+<p>In this post, we will introduce HyperContainer, a hypervisor based container and see how it naturally fits into the Kubernetes design, and enables users to serve their customers directly with virtualized containers, instead of wrapping them inside of full blown VMs.  </p>
+<p><strong>HyperContainer</strong>  </p>
+<p><a href="http://hypercontainer.io/" target="_blank" rel="external">HyperContainer</a> is a hypervisor-based container, which allows you to launch Docker images with standard hypervisors (KVM, Xen, etc.). As an open-source project, HyperContainer consists of an <a href="https://github.com/opencontainers/runtime-spec" target="_blank" rel="external">OCI</a> compatible runtime implementation, named <a href="https://github.com/hyperhq/runv/" target="_blank" rel="external">runV</a>, and a management daemon named <a href="https://github.com/hyperhq/hyperd" target="_blank" rel="external">hyperd</a>. The idea behind HyperContainer is quite straightforward: to combine the best of both virtualization and container.  </p>
+<p>We can consider containers as two parts (as Kubernetes does). The first part is the container runtime, where HyperContainer uses virtualization to achieve execution isolation and resource limitation instead of namespaces and cgroups. The second part is the application data, where HyperContainer leverages Docker images. So in HyperContainer, virtualization technology makes it possible to build a fully isolated sandbox with an independent guest kernel (so things like <code>top</code> and /proc all work), but from developer’s view, it’s portable and behaves like a standard container.  </p>
+<p><strong>HyperContainer as Pod</strong>  </p>
+<p>The interesting part of HyperContainer is not only that it is secure enough for multi-tenant environments (such as a public cloud), but also how well it fits into the Kubernetes philosophy.  </p>
+<p>One of the most important concepts in Kubernetes is Pods. The design of Pods is a lesson learned (<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf" target="_blank" rel="external">Borg paper section 8.1</a>) from real world workloads, where in many cases people want an atomic scheduling unit composed of multiple containers (please check this <a href="https://github.com/kubernetes/kubernetes/tree/master/examples/javaweb-tomcat-sidecar" target="_blank" rel="external">example</a> for further information). In the context of Linux containers, a Pod wraps and encapsulates several containers into a logical group. But in HyperContainer, the hypervisor serves as a natural boundary, and Pods are introduced as first-class objects:  </p>
+<p><img src="https://lh6.googleusercontent.com/8DjNb9IE0HjinFxkaoGbPaaKbts5_Osbj-8NVWQMgY_8D32643Aum0SaMc2OedV2gECG3EXov8qj_f8XDe0IfpptZt61HxfJEonLo3RA5xkr5zSmd2nxqVc8yESc423nPEZTj1H3" alt=""></p>
+<p>HyperContainer wraps a Pod of light-weight application containers and exposes the container interface at Pod level. Inside the Pod, a minimalist Linux kernel called HyperKernel is booted. This HyperKernel is built with a tiny Init service called HyperStart. It will act as the PID 1 process and creates the Pod, setup Mount namespace, and launch apps from the loaded images. </p>
+<p>This model works nicely with Kubernetes. The integration of HyperContainer with Kubernetes, as we indicated in the title, is what makes up the <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Hypernetes</a> project. </p>
+<p><strong>Hypernetes</strong></p>
+<p>One of the best parts of Kubernetes is that it is designed to support multiple container runtimes, meaning users are not locked-in to a single vendor. We are very pleased to announce that we have already begun working with the Kubernetes team to integrate HyperContainer into Kubernetes upstream. This integration involves:</p>
+<ol>
+<li>container runtime optimizing and refactoring</li>
+<li>new client-server mode runtime interface</li>
+<li>containerd integration to support runV</li>
+</ol>
+<p>The OCI standard and kubelet’s multiple runtime architecture make this integration much easier even though HyperContainer is not based on Linux container technology stack.</p>
+<p>On the other hand, in order to run HyperContainers in multi-tenant environment, we also created a new network plugin and modified an existing volume plugin. Since Hypernetes runs Pod as their own VMs, it can make use of your existing IaaS layer technologies for multi-tenant network and persistent volumes. The current Hypernetes implementation uses standard Openstack components.</p>
+<p>Below we go into further details about how all those above are implemented.</p>
+<p><strong>Identity and Authentication</strong></p>
+<hr>
+<p>In Hypernetes we chose <a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> to manage different tenants and perform identification and authentication for tenants during any administrative operation. Since Keystone comes from the OpenStack ecosystem, it works seamlessly with the network and storage plugins we used in Hypernetes.</p>
+<p><strong>Multi-tenant Network Model</strong></p>
+<p>For a multi-tenant container cluster, each tenant needs to have strong network isolation from each other tenant. In Hypernetes, each tenant has its own Network. Instead of configuring a new network using OpenStack, which is complex, with Hypernetes, you just create a Network object like below.  </p>
+<p>apiVersion: v1  kind: Network  metadata:    name: net1  spec:    tenantID: 065f210a2ca9442aad898ab129426350    subnets:      subnet1:        cidr: 192.168.0.0/24        gateway: 192.168.0.1</p>
+<p>Note that the tenantID is supplied by Keystone. This yaml will automatically create a new Neutron network with a default router and a subnet 192.168.0.0/24. </p>
+<p>A Network controller will be responsible for the life-cycle management of any Network instance created by the user. This Network can be assigned to one or more Namespaces, and any Pods belonging to the same Network can reach each other directly through IP address.  </p>
+<p>apiVersion: v1  kind: Namespace  metadata:    name: ns1  spec:    network: net1  </p>
+<p>If a Namespace does not have a Network spec, it will use the default Kubernetes network model instead, including the default kube-proxy. So if a user creates a Pod in a Namespace with an associated Network, Hypernetes will follow the <a href="http://kubernetes.io/docs/admin/network-plugins/" target="_blank" rel="external">Kubernetes Network Plugin Model</a> to set up a Neutron network for this Pod. Here is a high level example:</p>
+<p><img src="https://lh4.googleusercontent.com/ij88fHWT3wDSxDh4W7S0sARfjdRd5oTJTZGT_r8oQoqoGGjZWmHLJtPG8TT3U_tZ2rFqK7lwK56l3UIq3csSUxSdgGvfzORaAEAkl9fChxiLzVgz-mExTMi8sxUlfsesS59G0Fsa" alt="A Hypernetes Network Workflow.png"></p>
+<p>Hypernetes uses a standalone gRPC handler named kubestack to translate the Kubernetes Pod request into the Neutron network API. Moreover, kubestack is also responsible for handling another important networking feature: a multi-tenant Service proxy.</p>
+<p>In a multi-tenant environment, the default iptables-based kube-proxy can not reach the individual Pods, because they are isolated into different networks. Instead, Hypernetes uses a <a href="https://github.com/hyperhq/hyperd/blob/2072dd8e28a02a25ae6a819f81029b47a579e683/servicediscovery/servicediscovery.go" target="_blank" rel="external">built-in HAproxy in every HyperContainer</a> as the portal. This HAproxy will proxy all the Service instances in the namespace of that Pod. Kube-proxy will be responsible for updating these backend servers by following the standard OnServiceUpdate and OnEndpointsUpdate processes, so that users will not notice any difference. A downside of this method is that HAproxy has to listen to some specific ports which may conflicts with user’s containers.That’s why we are planning to use LVS to replace this proxy in the next release.</p>
+<p>With the help of the Neutron based network plugin, the Hypernetes Service is able to provide an OpenStack load balancer, just like how the “external” load balancer does on GCE. When user creates a Service with external IPs, an OpenStack load balancer will be created and endpoints will be automatically updated through the kubestack workflow above.</p>
+<p><strong>Persistent Storage</strong></p>
+<p>When considering storage, we are actually building a tenant-aware persistent volume in Kubernetes. The reason we decided not to use existing Cinder volume plugin of Kubernetes is that its model does not work in the virtualization case. Specifically:</p>
+<p>The Cinder volume plugin requires OpenStack as the Kubernetes provider.</p>
+<p>The OpenStack provider will find on which VM the target Pod is running on</p>
+<p>Cinder volume plugin will mount a Cinder volume to a path inside the host VM of Kubernetes.</p>
+<p>The kubelet will bind mount this path as a volume into containers of target Pod.</p>
+<p>But in Hypernetes, things become much simpler. Thanks to the physical boundary of Pods, HyperContainer can mount Cinder volumes directly as block devices into Pods, just like a normal VM. This mechanism eliminates extra time to query Nova to find out the VM of target Pod in the existing Cinder volume workflow listed above.</p>
+<p>The current implementation of the Cinder plugin in Hypernetes is based on Ceph RBD backend, and it works the same as all other Kubernetes volume plugins, one just needs to remember to create the Cinder volume (referenced by volumeID below) beforehand.  </p>
+<p>apiVersion: v1  kind: Pod  metadata:    name: nginx    labels:      app: nginx  spec:    containers:    - name: nginx      image: nginx      ports:      - containerPort: 80      volumeMounts:      - name: nginx-persistent-storage        mountPath: /var/lib/nginx    volumes:    - name: nginx-persistent-storage      cinder:        volumeID: 651b2a7b-683e-47e1-bdd6-e3c62e8f91c0        fsType: ext4  </p>
+<p>So when the user provides a Pod yaml with a Cinder volume, Hypernetes will check if kubelet is using the Hyper container runtime. If so, the Cinder volume can be mounted directly to the Pod without any extra path mapping. Then the volume metadata will be passed to the Kubelet RunPod process as part of HyperContainer spec. Done!</p>
+<p>Thanks to the plugin model of Kubernetes network and volume, we can easily build our own solutions above for HyperContainer though it is essentially different from the traditional Linux container. We also plan to propose these solutions to Kubernetes upstream by following the CNI model and volume plugin standard after the runtime integration is completed.</p>
+<p>We believe all of these <a href="https://github.com/hyperhq/" target="_blank" rel="external">open source projects</a> are important components of the container ecosystem, and their growth depends greatly on the open source spirit and technical vision of the Kubernetes team. </p>
+<p><strong>Conclusion</strong></p>
+<p>This post introduces some of the technical details about HyperContainer and the Hypernetes project. We hope that people will be interested in this new category of secure container and its integration with Kubernetes. If you are looking to try out Hypernetes and HyperContainer, we have just announced the public beta of our new secure container cloud service (<a href="https://hyper.sh/" target="_blank" rel="external">Hyper_</a>), which is built on these technologies. But even if you are running on-premise, we believe that Hypernetes and HyperContainer will let you run Kubernetes in a more secure way.</p>
+<p><em>~Harry Zhang and Pengfei Ni, engineers at HyperHQ</em></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Notes: this post is copied from &lt;a href=&quot;http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernet
+    
+    </summary>
+    
+    
+      <category term="Kubernetes" scheme="http://feiskyer.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>How docker 1.11 share network accross containers</title>
+    <link href="http://feiskyer.github.io/2016/05/11/How-docker-1-11-share-network-accross-containers/"/>
+    <id>http://feiskyer.github.io/2016/05/11/How-docker-1-11-share-network-accross-containers/</id>
+    <published>2016-05-11T02:25:06.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
+<p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -itd --net=container:75599a6f387b alpine sh</div></pre></td></tr></table></figure>
+<p>This will generate a runc <code>config.json</code> as follows:</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"ociVersion"</span>: <span class="string">"0.6.0-dev"</span>,</div><div class="line">    <span class="attr">"platform"</span>: &#123;</div><div class="line">        <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">        <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"process"</span>: &#123;</div><div class="line">        <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">"user"</span>: &#123;</div><div class="line">            <span class="attr">"additionalGids"</span>: [</div><div class="line">                <span class="number">0</span>,</div><div class="line">                <span class="number">1</span>,</div><div class="line">                <span class="number">2</span>,</div><div class="line">                <span class="number">3</span>,</div><div class="line">                <span class="number">4</span>,</div><div class="line">                <span class="number">6</span>,</div><div class="line">                <span class="number">10</span>,</div><div class="line">                <span class="number">11</span>,</div><div class="line">                <span class="number">20</span>,</div><div class="line">                <span class="number">26</span>,</div><div class="line">                <span class="number">27</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"args"</span>: [</div><div class="line">            <span class="string">"sh"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"env"</span>: [</div><div class="line">            <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">            <span class="string">"HOSTNAME=75599a6f387b"</span>,</div><div class="line">            <span class="string">"TERM=xterm"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"cwd"</span>: <span class="string">"/"</span>,</div><div class="line">        <span class="attr">"capabilities"</span>: [</div><div class="line">            <span class="string">"CAP_CHOWN"</span>,</div><div class="line">            <span class="string">"CAP_DAC_OVERRIDE"</span>,</div><div class="line">            <span class="string">"CAP_FSETID"</span>,</div><div class="line">            <span class="string">"CAP_FOWNER"</span>,</div><div class="line">            <span class="string">"CAP_MKNOD"</span>,</div><div class="line">            <span class="string">"CAP_NET_RAW"</span>,</div><div class="line">            <span class="string">"CAP_SETGID"</span>,</div><div class="line">            <span class="string">"CAP_SETUID"</span>,</div><div class="line">            <span class="string">"CAP_SETFCAP"</span>,</div><div class="line">            <span class="string">"CAP_SETPCAP"</span>,</div><div class="line">            <span class="string">"CAP_NET_BIND_SERVICE"</span>,</div><div class="line">            <span class="string">"CAP_SYS_CHROOT"</span>,</div><div class="line">            <span class="string">"CAP_KILL"</span>,</div><div class="line">            <span class="string">"CAP_AUDIT_WRITE"</span></div><div class="line">        ]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"root"</span>: &#123;</div><div class="line">        <span class="attr">"path"</span>: <span class="string">"/var/lib/docker/devicemapper/mnt/d33c7932917e64bde482b437fc3ccaad9a00a04e0cf49e39f9d3be5d71991db6/rootfs"</span>,</div><div class="line">        <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"hostname"</span>: <span class="string">"75599a6f387b"</span>,</div><div class="line">    <span class="attr">"mounts"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"proc"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"strictatime"</span>,</div><div class="line">                <span class="string">"mode=755"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"newinstance"</span>,</div><div class="line">                <span class="string">"ptmxmode=0666"</span>,</div><div class="line">                <span class="string">"mode=0620"</span>,</div><div class="line">                <span class="string">"gid=5"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span>,</div><div class="line">                <span class="string">"ro"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"ro"</span>,</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/resolv.conf"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/resolv.conf"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/hostname"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/hostname"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/hosts"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/hosts"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/d8230e57e88d15515a94138ef512a4271e31d03bb6fb257b3d57a847e70b5c68/shm"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"linux"</span>: &#123;</div><div class="line">        <span class="attr">"resources"</span>: &#123;</div><div class="line">            <span class="attr">"devices"</span>: [</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">3</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">9</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">8</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">0</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">10</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">229</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;</div><div class="line">            ],</div><div class="line">            <span class="attr">"disableOOMKiller"</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">"oomScoreAdj"</span>: <span class="number">0</span>,</div><div class="line">            <span class="attr">"memory"</span>: &#123;</div><div class="line">                <span class="attr">"kernelTCP"</span>: <span class="literal">null</span>,</div><div class="line">                <span class="attr">"swappiness"</span>: <span class="number">18446744073709551615</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">"cpu"</span>: &#123;&#125;,</div><div class="line">            <span class="attr">"pids"</span>: &#123;</div><div class="line">                <span class="attr">"limit"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">"blockIO"</span>: &#123;</div><div class="line">                <span class="attr">"blkioWeight"</span>: <span class="number">0</span></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"cgroupsPath"</span>: <span class="string">"/docker/d8230e57e88d15515a94138ef512a4271e31d03bb6fb257b3d57a847e70b5c68"</span>,</div><div class="line">        <span class="attr">"namespaces"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"network"</span>,</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/proc/14702/ns/net"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"devices"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/zero"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">5</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/null"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">3</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/urandom"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">9</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/random"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">8</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/fuse"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">10</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">229</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"maskedPaths"</span>: [</div><div class="line">            <span class="string">"/proc/kcore"</span>,</div><div class="line">            <span class="string">"/proc/latency_stats"</span>,</div><div class="line">            <span class="string">"/proc/timer_stats"</span>,</div><div class="line">            <span class="string">"/proc/sched_debug"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"readonlyPaths"</span>: [</div><div class="line">            <span class="string">"/proc/asound"</span>,</div><div class="line">            <span class="string">"/proc/bus"</span>,</div><div class="line">            <span class="string">"/proc/fs"</span>,</div><div class="line">            <span class="string">"/proc/irq"</span>,</div><div class="line">            <span class="string">"/proc/sys"</span>,</div><div class="line">            <span class="string">"/proc/sysrq-trigger"</span></div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>So, it is very clear how it works:</p>
+<ul>
+<li>New container mounts same network namespace <code>/proc/14702/ns/net</code></li>
+<li>New container mounts same network related configs, such as <code>/etc/resolv.conf</code>, <code>/etc/hosts</code> and <code>/etc/hostname</code></li>
+</ul>
+<p>There is still a little problem when first container is deleted: it could be deleted without any warning, but after delete operation, the second container will become not functional:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[~]<span class="comment"># docker ps</span></div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div><div class="line">d8230e57e88d        alpine              <span class="string">"sh"</span>                14 minutes ago      Up 14 minutes                           focused_spence</div><div class="line">[~]<span class="comment"># docker exec d8230e57e88d echo aaa</span></div><div class="line">rpc error: code = 2 desc = <span class="string">"oci runtime error: exec failed: lstat /proc/14702/ns/net: no such file or directory"</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.&lt;/p&gt;
+&lt;p&gt;For example, 
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go performance optimize</title>
+    <link href="http://feiskyer.github.io/2016/05/06/Go-performance-optimize/"/>
+    <id>http://feiskyer.github.io/2016/05/06/Go-performance-optimize/</id>
+    <published>2016-05-06T12:40:06.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
+<ol>
+<li>字符串（string）作为一种不可变类型，在与字节数组（slice, [ ]byte）转换时需付出 “沉重” 代价，根本原因是对底层字节数组的复制。</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">str2bytes</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</div><div class="line">    ptr := (*[<span class="number">2</span>]<span class="keyword">uintptr</span>)(unsafe.Pointer(&amp;s))</div><div class="line">    btr := [<span class="number">3</span>]<span class="keyword">uintptr</span>&#123;ptr[<span class="number">0</span>], ptr[<span class="number">1</span>], ptr[<span class="number">1</span>]&#125;</div><div class="line">    <span class="keyword">return</span> *(*[]<span class="keyword">byte</span>)(unsafe.Pointer(&amp;btr))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">bytes2str</span><span class="params">(b []<span class="keyword">byte</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> *(*<span class="keyword">string</span>)(unsafe.Pointer(&amp;b))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s := <span class="string">"abcdefghi"</span></div><div class="line">    b := str2bytes(s)</div><div class="line">    s2 := bytes2str(b)</div><div class="line"></div><div class="line">    fmt.Println(s, b, s2)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>Go Proverbs: A little copying is better than a little dependency. 对于一些短小的对象，复制成本远小于在堆上分配和回收操作。</p>
+</li>
+<li><p>map预设容量：map 会按需扩张，但须付出数据拷贝和重新哈希成本。如有可能，应尽可能预设足够容量空间，避免此类行为发生。</p>
+</li>
+<li><p>map直接存储，对于小对象，直接将数据交由 map 保存，远比用指针高效。这不但减少了堆内存分配，关键还在于垃圾回收器不会扫描非指针类型 key/value 对象。</p>
+</li>
+<li><p>defer的代价:编译器通过 runtime.deferproc “注册” 延迟调用，除目标函数地址外，还会复制相关参数（包括 receiver）。在函数返回前，执行 runtime.deferreturn 提取相关信息执行延迟调用。这其中的代价自然不是普通函数调用一条 CALL 指令所能比拟的。可以考虑将内层处理逻辑转换为匿名函数.</p>
+</li>
+<li><p>不合理的闭包会造成性能问题，比如闭包引用原环境变量会导致Data Race并变量逃逸到堆上，增加GC扫描和回收的负担.</p>
+</li>
+<li><p>Channel： Don’t communicate by sharing memory, share memory by communicating.</p>
+</li>
+</ol>
+<blockquote>
+<p>如果说 channel 适用于结构层面解耦，那么 mutex 则适合保护语句级别的数据安全。至于 atomic，虽然也可实现 lock-free 结构，但处理起来要复杂得多（比如 ABA 等问题），也未必就比 mutex 快很多。还有，sync.Mutex 本就没有使用内核实现，而是像 Futex 那样，直接在用户空间以 atomic 操作完成，因为 runtime 没有任何理由将剩余 CPU 时间片还给内核。</p>
+</blockquote>
+<ol>
+<li>关于interface:</li>
+</ol>
+<blockquote>
+<p>接口的用途无需多言。但这并不意味着可在任何场合使用接口，要知道通过接口调用和普通调用存在很大差别。首先，相比静态绑定，动态绑定性能要差很多；其次，运行期需额外开销，比如接口会复制对象，哪怕仅是个指针，也会在堆上增加一个需 GC 处理的目标。</p>
+</blockquote>
+<ol>
+<li><p>尽管反射（reflect）存在性能问题，但依然被频繁使用，以弥补静态语言在动态行为上的不足。只是某些时候，我们须对此做些变通，以提升性能。利用指针类型转换实现性能优化，本就是 “非常手段”，是一种为了性能而放弃 “其他” 的做法。与其担心代码是否适应未来的变化，不如写个单元测试，确保在升级时做出必要的安全检查。 <a href="http://mp.weixin.qq.com/s?timestamp=1462538257&amp;src=3&amp;ver=1&amp;signature=dth4TWXJxgxWRCAQDVFbKniJE-JCeVdqp0eMklk4f0kgrbb7QuS7xs5KDDFwmZg0ba6tMcn41JsyNZceCzyp5nErTGnWK-K9wlgOp9wAw5S3bbeBa3-BkGp3r*kN-ORevh9Iuo1UnjtFWtOoEoSX0vTH6uxMcP7*Ts0r0f4yhzE=" target="_blank" rel="external">Link</a></p>
+</li>
+<li><p>作为内置类型，通道（channel）从运行时得到很多支持，其自身设计也算得上精巧。但不管怎么说，它本质上依旧是一种队列，当多个 goroutine 并发操作时，免不了要使用锁。某些时候，这种竞争机制，会导致性能问题。[在研究 go runtime 源码实现过程中，会看到大量利用 “批操作” 来提升性能的样例)(<a href="http://mp.weixin.qq.com/s?timestamp=1462538257&amp;src=3&amp;ver=1&amp;signature=dth4TWXJxgxWRCAQDVFbKniJE-JCeVdqp0eMklk4f0kgrbb7QuS7xs5KDDFwmZg0ba6tMcn41JsyNZceCzyp5pZfVq*Q5bYXUHM1nH0kMNsPL3e92xy5a0zTraWNTSnQ9u8Ie3b9rjnbg0blEE3NEoenRnmCV3MpZdqseFiuy*A=" target="_blank" rel="external">http://mp.weixin.qq.com/s?timestamp=1462538257&amp;src=3&amp;ver=1&amp;signature=dth4TWXJxgxWRCAQDVFbKniJE-JCeVdqp0eMklk4f0kgrbb7QuS7xs5KDDFwmZg0ba6tMcn41JsyNZceCzyp5pZfVq*Q5bYXUHM1nH0kMNsPL3e92xy5a0zTraWNTSnQ9u8Ie3b9rjnbg0blEE3NEoenRnmCV3MpZdqseFiuy*A=</a>)</p>
+</li>
+<li><p>Goroutine Leak: 极简单的演示，我们注释掉数据读取方，让发送方全部进入休眠等待状态。按理说，当 test 执行结束后，通道 c 已超出作用域，理应被释放回收，但实际情况是：这些处于 “chan send” 状态的 G 对象（goroutine）会一直存在，直到唤醒或进程结束，这就是所谓的 “Goroutine Leak”。解决方法很简单，可设置 timeout。或定期用 runtime.Stack 扫描所有 goroutine 调用栈，如果发现某个 goroutine 长时间（阈值）处于 “chan send” 状态，可用一个类似 “/dev/null hole” 的接收器负责唤醒并 “处理” 掉相关数据。 <a href="http://mp.weixin.qq.com/s?timestamp=1462538257&amp;src=3&amp;ver=1&amp;signature=dth4TWXJxgxWRCAQDVFbKniJE-JCeVdqp0eMklk4f0kgrbb7QuS7xs5KDDFwmZg0ba6tMcn41JsyNZceCzyp5o9mcQPs7Eqi*KhEEPKyOoiDvyJHFBWSxCetuDBLPPTsdi-SZQypc24ZMdm5qRs13Je5vyZgLwIlLqhUsErg9oI=" target="_blank" rel="external">Link</a></p>
+</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;em&gt;*[Go性能优化技巧(By 雨痕)](&lt;a href=&quot;http://mp.weixin.qq.com/s?src=3&amp;amp;timestamp=1461920086&amp;amp;ver=1&amp;amp;signature=dvsw--b6KnMYdRt43I2g4kMR
+    
+    </summary>
+    
+    
+      <category term="go" scheme="http://feiskyer.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>The Rise of Cloud Computing Systems - Jeff Dean</title>
+    <link href="http://feiskyer.github.io/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/"/>
+    <id>http://feiskyer.github.io/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</id>
+    <published>2016-05-05T09:16:46.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[
+
+	<div class="row">
+	  <iframe src="http://nagland.github.io/viewer/web/viewer.html?val=http://feiskyer.github.io/assets/ccs.pdf" style="width:100%; height:550px"></iframe>
+	</div>
+
+
+
+]]></content>
+    
+    <summary type="html">
+    
+      
+
+	&lt;div class=&quot;row&quot;&gt;
+	  &lt;iframe src=&quot;http://nagland.github.io/viewer/web/viewer.html?val=http://feiskyer.github.io/assets/ccs.pdf&quot; style=&quot;wi
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Reading notes of week 17</title>
+    <link href="http://feiskyer.github.io/2016/04/29/Reading-notes-of-week-17/"/>
+    <id>http://feiskyer.github.io/2016/04/29/Reading-notes-of-week-17/</id>
+    <published>2016-04-29T08:50:14.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
+<blockquote>
+<p>One problem many users have is that the open access network policy of Kubernetes is not suitable for applications that need more precise control over the traffic that accesses a pod or service. Today, this could be a multi-tier application where traffic is only allowed from a tier’s neighbor. But as new Cloud Native applications are built by composing microservices, the ability to control traffic as it flows among these services becomes even more critical.</p>
+<p>From these scenarios several possible approaches were considered and a minimal policy specification was defined. The basic idea is that if isolation were enabled on a per namespace basis, then specific pods would be selected where specific traffic types would be allowed.</p>
+</blockquote>
+<p>Network isolation is enabled by defining the network-isolation annotation on namespaces as shown below:</p>
+<pre><code>    net.alpha.kubernetes.io/network-isolation: [ on | off ]
+</code></pre><p>Once network isolation is enabled, explicit network policies must be applied to enable pod communication.</p>
+<p>A policy specification can be applied to a namespace to define the details of the policy as shown below:</p>
+<figure class="highlight xquery"><table><tr><td class="code"><pre><div class="line">POST /apis/net.alpha.kubernetes.io/v1alpha1/namespaces/tenant-a/networkpolicys/</div><div class="line"></div><div class="line">&#123;</div><div class="line"><span class="string">"kind"</span>: <span class="string">"NetworkPolicy"</span>,</div><div class="line"><span class="string">"metadata"</span>: &#123;</div><div class="line"><span class="string">"name"</span>: <span class="string">"pol1"</span></div><div class="line">&#125;,</div><div class="line"><span class="string">"spec"</span>: &#123;</div><div class="line"><span class="string">"allowIncoming"</span>: &#123;</div><div class="line"><span class="string">"from"</span>: [</div><div class="line">&#123; <span class="string">"pods"</span>: &#123; <span class="string">"segment"</span>: <span class="string">"frontend"</span> &#125; &#125;</div><div class="line">],</div><div class="line"><span class="string">"toPorts"</span>: [</div><div class="line">&#123; <span class="string">"port"</span>: <span class="number">80</span>, <span class="string">"protocol"</span>: <span class="string">"TCP"</span> &#125;</div><div class="line">]</div><div class="line">&#125;,</div><div class="line"><span class="string">"podSelector"</span>: &#123; <span class="string">"segment"</span>: <span class="string">"backend"</span> &#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="https://lh5.googleusercontent.com/zMEpLMYmask-B-rYWnbMyGb0M7YusPQFPS6EfpNOSLbkf-cM49V7rTDBpA6k9-Zdh2soMul39rz9rHFJfL-jnEn_mHbpg0E1WlM-wjU-qvQu9KDTQqQ9uBmdaeWynDDNhcT3UjX5" alt=""></p>
+<p><a href="https://docs.google.com/document/d/1qAm-_oSap-f1d6a-xRTj6xaH1sYQBfK36VyjB5XOZug/edit" target="_blank" rel="external">https://docs.google.com/document/d/1qAm-_oSap-f1d6a-xRTj6xaH1sYQBfK36VyjB5XOZug/edit</a></p>
+<p>**<a href="http://www.infoq.com/articles/build-a-container-golang?utm_source=golangweekly&amp;utm_medium=email" target="_blank" rel="external">Build Your Own Container Using Less than 100 Lines of Go</a></p>
+<blockquote>
+<p>a super super simple container, in (way) less than 100 lines of go</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"os"</span></div><div class="line">    <span class="string">"os/exec"</span></div><div class="line">    <span class="string">"syscall"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">switch</span> os.Args[<span class="number">1</span>] &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">"run"</span>:</div><div class="line">        parent()</div><div class="line">    <span class="keyword">case</span> <span class="string">"child"</span>:</div><div class="line">        child()</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="built_in">panic</span>(<span class="string">"wat should I do"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">parent</span><span class="params">()</span></span> &#123;</div><div class="line">    cmd := exec.Command(<span class="string">"/proc/self/exe"</span>, <span class="built_in">append</span>([]<span class="keyword">string</span>&#123;<span class="string">"child"</span>&#125;, os.Args[<span class="number">2</span>:]...)...)</div><div class="line">    cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</div><div class="line">        Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,</div><div class="line">    &#125;</div><div class="line">    cmd.Stdin = os.Stdin</div><div class="line">    cmd.Stdout = os.Stdout</div><div class="line">    cmd.Stderr = os.Stderr</div><div class="line"></div><div class="line">    <span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</div><div class="line">        fmt.Println(<span class="string">"ERROR"</span>, err)</div><div class="line">        os.Exit(<span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">child</span><span class="params">()</span></span> &#123;</div><div class="line">    must(syscall.Mount(<span class="string">"rootfs"</span>, <span class="string">"rootfs"</span>, <span class="string">""</span>, syscall.MS_BIND, <span class="string">""</span>))</div><div class="line">    must(os.MkdirAll(<span class="string">"rootfs/oldrootfs"</span>, <span class="number">0700</span>))</div><div class="line">    must(syscall.PivotRoot(<span class="string">"rootfs"</span>, <span class="string">"rootfs/oldrootfs"</span>))</div><div class="line">    must(os.Chdir(<span class="string">"/"</span>))</div><div class="line"></div><div class="line">    cmd := exec.Command(os.Args[<span class="number">2</span>], os.Args[<span class="number">3</span>:]...)</div><div class="line">    cmd.Stdin = os.Stdin</div><div class="line">    cmd.Stdout = os.Stdout</div><div class="line">    cmd.Stderr = os.Stderr</div><div class="line"></div><div class="line">    <span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</div><div class="line">        fmt.Println(<span class="string">"ERROR"</span>, err)</div><div class="line">        os.Exit(<span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">must</span><span class="params">(err error)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">        <span class="built_in">panic</span>(err)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
+<ol>
+<li>字符串（string）作为一种不可变类型，在与字节数组（slice, [ ]byte）转换时需付出 “沉重” 代价，根本原因是对底层字节数组的复制。</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">str2bytes</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</div><div class="line">    ptr := (*[<span class="number">2</span>]<span class="keyword">uintptr</span>)(unsafe.Pointer(&amp;s))</div><div class="line">    btr := [<span class="number">3</span>]<span class="keyword">uintptr</span>&#123;ptr[<span class="number">0</span>], ptr[<span class="number">1</span>], ptr[<span class="number">1</span>]&#125;</div><div class="line">    <span class="keyword">return</span> *(*[]<span class="keyword">byte</span>)(unsafe.Pointer(&amp;btr))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">bytes2str</span><span class="params">(b []<span class="keyword">byte</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> *(*<span class="keyword">string</span>)(unsafe.Pointer(&amp;b))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s := <span class="string">"abcdefghi"</span></div><div class="line">    b := str2bytes(s)</div><div class="line">    s2 := bytes2str(b)</div><div class="line"></div><div class="line">    fmt.Println(s, b, s2)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>Go Proverbs: A little copying is better than a little dependency. 对于一些短小的对象，复制成本远小于在堆上分配和回收操作。</p>
+</li>
+<li><p>map预设容量：map 会按需扩张，但须付出数据拷贝和重新哈希成本。如有可能，应尽可能预设足够容量空间，避免此类行为发生。</p>
+</li>
+<li><p>map直接存储，对于小对象，直接将数据交由 map 保存，远比用指针高效。这不但减少了堆内存分配，关键还在于垃圾回收器不会扫描非指针类型 key/value 对象。</p>
+</li>
+<li><p>defer的代价:编译器通过 runtime.deferproc “注册” 延迟调用，除目标函数地址外，还会复制相关参数（包括 receiver）。在函数返回前，执行 runtime.deferreturn 提取相关信息执行延迟调用。这其中的代价自然不是普通函数调用一条 CALL 指令所能比拟的。可以考虑将内层处理逻辑转换为匿名函数.</p>
+</li>
+<li><p>不合理的闭包会造成性能问题，比如闭包引用原环境变量会导致Data Race并变量逃逸到堆上，增加GC扫描和回收的负担.</p>
+</li>
+</ol>
+<p><strong><a href="http://www.sdnlab.com/16646.html" target="_blank" rel="external">基于组的策略（GBP）开启新型网络设计时代</a></strong></p>
+<p>很早就玩过GBP，当时还是基于思科ACI的。GBP这个东西从概念上完全照搬了ACI的那套理论，将原有网络的概念转换成了面向应用的网络策策略。对大部分做网络的人来说，有一定的接受难度；但对应用开发人员挺友好的。不过ACI需要增加路由器的控制，才能算是一个完整的方案。</p>
+<p>现在GBP也集成了ODL，终于有更多的玩家进来。</p>
+<p>顺便说下，Kubernetes Network Policy跟GBP的概念很像，都是面向应用的接口.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;&lt;a href=&quot;http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SIG-Networking: Ku
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+      <category term="container" scheme="http://feiskyer.github.io/tags/container/"/>
+    
+      <category term="blockchain" scheme="http://feiskyer.github.io/tags/blockchain/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>runc and runV</title>
+    <link href="http://feiskyer.github.io/2016/04/28/runc/"/>
+    <id>http://feiskyer.github.io/2016/04/28/runc/</id>
+    <published>2016-04-28T03:15:03.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
+<h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y libseccomp-devel</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line">git <span class="built_in">clone</span> https://github.com/opencontainers/runc</div><div class="line"><span class="built_in">cd</span> runc</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>Run busybox:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runc spec .</div><div class="line">$ runc start <span class="built_in">test</span></div><div class="line">/ <span class="comment"># ps</span></div><div class="line">PID   USER     COMMAND</div><div class="line">1 root     sh</div><div class="line">9 root     ps</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-docker-containerd"><a href="#Playing-with-docker-containerd" class="headerlink" title="Playing with docker-containerd"></a>Playing with docker-containerd</h2><p>docker-containerd is installed togather with docker 1.11.</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers</div><div class="line">ID                                                                 PATH                                                                                             STATUS              PROCESSES</div><div class="line"><span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c   /var/run/docker/libcontainerd/<span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c   running             init</div><div class="line">bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc   /var/run/docker/libcontainerd/bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc   running             init</div><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers exec --id=<span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c --pid=<span class="number">20</span> --cwd=/ -<span class="selector-tag">a</span> /bin/ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    <span class="number">1</span> root       <span class="number">0</span>:<span class="number">00</span> sh</div><div class="line">   <span class="number">51</span> root       <span class="number">0</span>:<span class="number">00</span> /bin/ps aux</div><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> state <span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c</div><div class="line">&#123;<span class="string">"containers"</span>:[&#123;<span class="string">"id"</span>:<span class="string">"346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"bundlePath"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"processes"</span>:[&#123;<span class="string">"pid"</span>:<span class="string">"init"</span>,<span class="string">"terminal"</span>:true,<span class="string">"user"</span>:&#123;<span class="string">"additionalGids"</span>:[<span class="number">10</span>]&#125;,<span class="string">"args"</span>:[<span class="string">"sh"</span>],<span class="string">"env"</span>:[<span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,<span class="string">"HOSTNAME=346c1b7bbb04"</span>,<span class="string">"TERM=xterm"</span>],<span class="string">"cwd"</span>:<span class="string">"/"</span>,<span class="string">"systemPid"</span>:<span class="number">3716</span>,<span class="string">"stdin"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdin"</span>,<span class="string">"stdout"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdout"</span>,<span class="string">"stderr"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stderr"</span>,<span class="string">"capabilities"</span>:[<span class="string">"CAP_CHOWN"</span>,<span class="string">"CAP_DAC_OVERRIDE"</span>,<span class="string">"CAP_FSETID"</span>,<span class="string">"CAP_FOWNER"</span>,<span class="string">"CAP_MKNOD"</span>,<span class="string">"CAP_NET_RAW"</span>,<span class="string">"CAP_SETGID"</span>,<span class="string">"CAP_SETUID"</span>,<span class="string">"CAP_SETFCAP"</span>,<span class="string">"CAP_SETPCAP"</span>,<span class="string">"CAP_NET_BIND_SERVICE"</span>,<span class="string">"CAP_SYS_CHROOT"</span>,<span class="string">"CAP_KILL"</span>,<span class="string">"CAP_AUDIT_WRITE"</span>]&#125;],<span class="string">"status"</span>:<span class="string">"running"</span>,<span class="string">"pids"</span>:[<span class="number">3716</span>],<span class="string">"runtime"</span>:<span class="string">"docker-runc"</span>&#125;],<span class="string">"machine"</span>:&#123;<span class="string">"cpus"</span>:<span class="number">2</span>,<span class="string">"memory"</span>:<span class="number">7982</span>&#125;&#125;</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-runV"><a href="#Playing-with-runV" class="headerlink" title="Playing with runV"></a>Playing with runV</h2><p>Install runV:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv/</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>To run container in runV, kernel and initrd are needed since runV is based on hypervisor. They could be compiled from <a href="https://github.com/hyperhq/hyperstart" target="_blank" rel="external">hyperstart</a>.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runv spec .</div><div class="line">$ runv --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img start <span class="built_in">test</span></div></pre></td></tr></table></figure>
+<h2 id="Playing-with-runv-containerd"><a href="#Playing-with-runv-containerd" class="headerlink" title="Playing with runv-containerd"></a>Playing with runv-containerd</h2><p>Install ctr CLI from containerd</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/docker</div><div class="line">git <span class="built_in">clone</span> https://github.com/docker/containerd.git</div><div class="line"><span class="built_in">cd</span> containerd</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p>Start runv containerd</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">runv-containerd --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img</div></pre></td></tr></table></figure>
+<p>Run ctr command now:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Creating OCI bundles</span></div><div class="line">mkdir -p busybox/rootfs</div><div class="line">docker <span class="built_in">export</span> $(docker create busybox) | tar -C busybox/rootfs -xvf -</div><div class="line"><span class="built_in">cd</span> busybox</div><div class="line">runv spec .</div></pre></td></tr></table></figure>
+<p>Change the contents of config.json to </p>
+<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"ociVersion"</span>: <span class="string">"0.5.0-dev"</span>,</div><div class="line">  <span class="attr">"platform"</span>: &#123;</div><div class="line">    <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">    <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"process"</span>: &#123;</div><div class="line">    <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"user"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"args"</span>: [</div><div class="line">      <span class="string">"sh"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"env"</span>: [</div><div class="line">      <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">      <span class="string">"TERM=xterm"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"cwd"</span>: <span class="string">"/"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"root"</span>: &#123;</div><div class="line">    <span class="attr">"path"</span>: <span class="string">"rootfs"</span>,</div><div class="line">    <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"hostname"</span>: <span class="string">"shell"</span>,</div><div class="line">  <span class="attr">"mounts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"proc"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"strictatime"</span>,</div><div class="line">        <span class="string">"mode=755"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"newinstance"</span>,</div><div class="line">        <span class="string">"ptmxmode=0666"</span>,</div><div class="line">        <span class="string">"mode=0620"</span>,</div><div class="line">        <span class="string">"gid=5"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"shm"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"mode=1777"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"relatime"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">  <span class="attr">"linux"</span>: &#123;</div><div class="line">    <span class="attr">"resources"</span>: &#123;</div><div class="line">      <span class="attr">"devices"</span>: [</div><div class="line">				&#123;</div><div class="line">          <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">          <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">        &#125;</div><div class="line">			]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"namespaces"</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">		<span class="attr">"devices"</span>: <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Start container:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers start <span class="built_in">test</span> /root/busybox</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers</div><div class="line">ID                  PATH                STATUS              PROCESSES</div><div class="line"><span class="built_in">test</span>                /root/busybox       running             init</div><div class="line"></div><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers <span class="built_in">exec</span> --id=<span class="built_in">test</span> --pid=20 --cwd=/ <span class="_">-a</span>  ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    1 root       0:00 /init</div><div class="line">    2 root       0:00 sh</div><div class="line">    4 root       0:00 ps aux</div><div class="line"></div><div class="line">ps -ef | grep qemu</div><div class="line">qemu-system-x86_64 -machine pc-i440fx-2.0,usb=off -cpu core2duo -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append <span class="string">"console=ttyS0 panic=1 no_timer_check"</span> -realtime mlock=off -no-user-config -nodefaults -no-hpet -rtc base=utc,driftfix=slew -no-reboot -display none -boot strict=on -m 128 -smp 1 -qmp unix:/var/run/hyper/vm-JRPdDUOkqA/qmp.sock,server,nowait -serial unix:/var/run/hyper/vm-JRPdDUOkqA/console.sock,server,nowait -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -chardev socket,id=charch0,path=/var/run/hyper/vm-JRPdDUOkqA/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charch0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charch1,path=/var/run/hyper/vm-JRPdDUOkqA/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charch1,id=channel1,name=sh.hyper.channel.1 -fsdev <span class="built_in">local</span>,id=virtio9p,path=/var/run/hyper/vm-JRPdDUOkqA/share_dir,security_model=none -device virtio-9p-pci,fsdev=virtio9p,mount_tag=share_dir</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for O
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+      <category term="container" scheme="http://feiskyer.github.io/tags/container/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Container runtime in Docker v1.11</title>
+    <link href="http://feiskyer.github.io/2016/04/28/Docker-1-11-Runtime/"/>
+    <id>http://feiskyer.github.io/2016/04/28/Docker-1-11-Runtime/</id>
+    <published>2016-04-28T02:07:23.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：</p>
+<ul>
+<li>docker</li>
+<li>docker-containerd</li>
+<li>docker-containerd-shim</li>
+<li>docker-runc</li>
+<li>docker-containerd-ctr</li>
+</ul>
+<p><img src="/images/docker-v11.png" alt=""></p>
+<p>这么做的好处很明显：</p>
+<ul>
+<li>最重要的可以在docker或者containerd重启的时候container还保持running</li>
+<li>container runtime pluggable，比如以后可以选择用runV（当然默认肯定是runc）</li>
+<li>性能，新的containerd没有历史包袱，一开始就针对性能做了优化（100 containers in 1.64 seconds）</li>
+<li>docker daemon的角色变化，docker只需要做少量的准备工作，把真正运行容器的工作交给containerd：<ul>
+<li>Image management</li>
+<li>Generate OCI bundle for containers</li>
+<li>Mount the container’s root filesystem inside the bundle</li>
+<li>Call containerd to start container</li>
+</ul>
+</li>
+</ul>
+<p><strong><a href="https://github.com/docker/containerd" target="_blank" rel="external">Containerd</a></strong></p>
+<p>containerd is a daemon to control runC, built for performance and density. containerd leverages runC’s advanced features such as seccomp and user namespace support as well as checkpoint and restore for cloning and live migration of containers:</p>
+<p><img src="/images/containerd.png" alt=""></p>
+<p><strong>docker-containerd-ctr</strong></p>
+<p>docker-containerd-ctr is the CLI for docker-containerd, which is based on gPRC APIs.</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers</div><div class="line">ID                                                                 PATH                                                                                             STATUS              PROCESSES</div><div class="line"><span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c   /var/run/docker/libcontainerd/<span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c   running             init</div><div class="line">bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc   /var/run/docker/libcontainerd/bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc   running             init</div><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers exec --id=<span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c --pid=<span class="number">20</span> --cwd=/ -<span class="selector-tag">a</span> /bin/ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    <span class="number">1</span> root       <span class="number">0</span>:<span class="number">00</span> sh</div><div class="line">   <span class="number">51</span> root       <span class="number">0</span>:<span class="number">00</span> /bin/ps aux</div><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> state <span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c</div><div class="line">&#123;<span class="string">"containers"</span>:[&#123;<span class="string">"id"</span>:<span class="string">"346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"bundlePath"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"processes"</span>:[&#123;<span class="string">"pid"</span>:<span class="string">"init"</span>,<span class="string">"terminal"</span>:true,<span class="string">"user"</span>:&#123;<span class="string">"additionalGids"</span>:[<span class="number">10</span>]&#125;,<span class="string">"args"</span>:[<span class="string">"sh"</span>],<span class="string">"env"</span>:[<span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,<span class="string">"HOSTNAME=346c1b7bbb04"</span>,<span class="string">"TERM=xterm"</span>],<span class="string">"cwd"</span>:<span class="string">"/"</span>,<span class="string">"systemPid"</span>:<span class="number">3716</span>,<span class="string">"stdin"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdin"</span>,<span class="string">"stdout"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdout"</span>,<span class="string">"stderr"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stderr"</span>,<span class="string">"capabilities"</span>:[<span class="string">"CAP_CHOWN"</span>,<span class="string">"CAP_DAC_OVERRIDE"</span>,<span class="string">"CAP_FSETID"</span>,<span class="string">"CAP_FOWNER"</span>,<span class="string">"CAP_MKNOD"</span>,<span class="string">"CAP_NET_RAW"</span>,<span class="string">"CAP_SETGID"</span>,<span class="string">"CAP_SETUID"</span>,<span class="string">"CAP_SETFCAP"</span>,<span class="string">"CAP_SETPCAP"</span>,<span class="string">"CAP_NET_BIND_SERVICE"</span>,<span class="string">"CAP_SYS_CHROOT"</span>,<span class="string">"CAP_KILL"</span>,<span class="string">"CAP_AUDIT_WRITE"</span>]&#125;],<span class="string">"status"</span>:<span class="string">"running"</span>,<span class="string">"pids"</span>:[<span class="number">3716</span>],<span class="string">"runtime"</span>:<span class="string">"docker-runc"</span>&#125;],<span class="string">"machine"</span>:&#123;<span class="string">"cpus"</span>:<span class="number">2</span>,<span class="string">"memory"</span>:<span class="number">7982</span>&#125;&#125;</div></pre></td></tr></table></figure>
+<p><strong>containerd-shim</strong></p>
+<p>containerd-shim is a small shim that sits in front of a runtime implementation that allows it to be repartented to init and handle reattach from the caller.</p>
+<p>The cwd of the shim should be the bundle for the container.  Arg1 should be the path to the state directory where the shim can locate fifos and other information.</p>
+<p><strong><a href="https://github.com/opencontainers/runc.git" target="_blank" rel="external">runc</a></strong></p>
+<p>runc is a CLI tool for spawning and running containers according to the OCI specification.</p>
+<p><strong>cgroups结构</strong></p>
+<p>从cgroups里面可以直接看到这几个进程之间的管理关系，比如启动两个container之后：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">│ ├─docker.service</div><div class="line">│ │ ├─ <span class="number">961</span> /usr/bin/docker daemon -H fd://</div><div class="line">│ │ ├─ <span class="number">967</span> docker-containerd -l /var/<span class="keyword">run</span><span class="bash">/docker/libcontainerd/docker-containerd.sock --runtime docker-runc</span></div><div class="line">│ │ ├─<span class="number">1063</span> docker-proxy -proto tcp -host-ip <span class="number">0.0</span>.<span class="number">0.0</span> -host-port <span class="number">27017</span> -container-ip <span class="number">172.17</span>.<span class="number">0.2</span> -container-port <span class="number">27017</span></div><div class="line">│ │ ├─<span class="number">1070</span> docker-containerd-shim bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc /var/<span class="keyword">run</span><span class="bash">/docker/libcontainerd/bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc docker-runc</span></div><div class="line">│ │ └─<span class="number">3703</span> docker-containerd-shim <span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c /var/<span class="keyword">run</span><span class="bash">/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c docker-runc</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker&lt;/li&gt;
+&lt;li&gt;docker-containerd&lt;/li&gt;
+&lt;li&gt;docker-c
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feiskyer.github.io/tags/docker/"/>
+    
+      <category term="runc" scheme="http://feiskyer.github.io/tags/runc/"/>
+    
+      <category term="container" scheme="http://feiskyer.github.io/tags/container/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DPDK Introduction</title>
+    <link href="http://feiskyer.github.io/2016/04/24/DPDK-Introduction/"/>
+    <id>http://feiskyer.github.io/2016/04/24/DPDK-Introduction/</id>
+    <published>2016-04-24T11:43:07.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DPDK-Introduction"><a href="#DPDK-Introduction" class="headerlink" title="DPDK Introduction"></a>DPDK Introduction</h2><p>Intel DPDK全称Intel Data Plane Development Kit，是intel提供的数据平面开发工具集，为Intel architecture（IA）处理器架构下用户空间高效的数据包处理提供库函数和驱动的支持，它不同于Linux系统以通用性设计为目的，而是专注于网络应用中数据包的高性能处理。DPDK应用程序是运行在用户空间上利用自身提供的数据平面库来收发数据包，绕过了Linux内核协议栈对数据包处理过程。Linux内核将DPDK应用程序看作是一个普通的用户态进程，包括它的编译、连接和加载方式和普通程序没有什么两样。DPDK程序启动后只能有一个主线程，然后创建一些子线程并绑定到指定CPU核心上运行。</p>
+<p>DPDK官方网站为<a href="http://dpdk.org/" target="_blank" rel="external">http://dpdk.org/</a>，官方文档为<a href="http://dpdk.org/doc/guides/index.html" target="_blank" rel="external">http://dpdk.org/doc/guides/index.html</a></p>
+<p>DPDK基本组件包括：</p>
+<p><img src="https://cloud.githubusercontent.com/assets/676637/14767274/70bb59c0-0a54-11e6-862d-2f19c721c45d.png" alt="dpdk_lib"></p>
+<ul>
+<li>EAL（Environment Abstraction Layer）即环境抽象层，为应用提供了一个通用接口，隐藏了与底层库与设备打交道的相关细节。EAL实现了DPDK运行的初始化工作，基于大页表的内存分配，多核亲缘性设置，原子和锁操作，并将PCI设备地址映射到用户空间，方便应用程序访问。</li>
+<li>Buffer Manager API通过预先从EAL上分配固定大小的多个内存对象，避免了在运行过程中动态进行内存分配和回收来提高效率，常常用作数据包buffer来使用。</li>
+<li>Queue Manager API以高效的方式实现了无锁的FIFO环形队列，适合与一个生产者多个消费者、一个消费者多个生产者模型来避免等待，并且支持批量无锁的操作。</li>
+<li>Flow Classification API通过Intel SSE基于多元组实现了高效的hash算法，以便快速的将数据包进行分类处理。该API一般用于路由查找过程中的最长前缀匹配中，安全产品中根据Flow五元组来标记不同用户的场景也可以使用。</li>
+<li>PMD则实现了Intel 1GbE、10GbE和40GbE网卡下基于轮询收发包的工作模式，大大加速网卡收发包性能。</li>
+</ul>
+<p>DPDK核心思想：</p>
+<ul>
+<li>PMD: DPDK针对Intel网卡实现了基于轮询方式的PMD（Poll Mode Drivers）驱动，该驱动由API、用户空间运行的驱动程序构成，该驱动使用无中断方式直接操作网卡的接收和发送队列（除了链路状态通知仍必须采用中断方式以外）。目前PMD驱动支持Intel的大部分1G、10G和40G的网卡。PMD驱动从网卡上接收到数据包后，会直接通过DMA方式传输到预分配的内存中，同时更新无锁环形队列中的数据包指针，不断轮询的应用程序很快就能感知收到数据包，并在预分配的内存地址上直接处理数据包，这个过程非常简洁。如果要是让Linux来处理收包过程，首先网卡通过中断方式通知协议栈对数据包进行处理，协议栈先会对数据包进行合法性进行必要的校验，然后判断数据包目标是否本机的socket，满足条件则会将数据包拷贝一份向上递交给用户socket来处理，不仅处理路径冗长，还需要从内核到应用层的一次拷贝过程。</li>
+<li>hugetlbfs: 这样有两个好处：第一是使用hugepage的内存所需的页表项比较少，对于需要大量内存的进程来说节省了很多开销，像oracle之类的大型数据库优化都使用了大页面配置；第二是TLB冲突概率降低，TLB是cpu中单独的一块高速cache，采用hugepage可以大大降低TLB miss的开销。DPDK目前支持了2M和1G两种方式的hugepage。通过修改默认/etc/grub.conf中hugepage配置为“default_hugepagesz=1G hugepagesz=1G hugepages=32 isolcpus=0-22”，然后通过<code>mount –t hugetlbfs nodev /mnt/huge</code>就将hugepage文件系统hugetlbfs挂在/mnt/huge目录下，然后用户进程就可以使用mmap映射hugepage目标文件来使用大页面了。测试表明应用使用大页表比使用4K的页表性能提高10%~15%。</li>
+<li>CPU亲缘性: 多核则是每个CPU核一个线程，核心之间访问数据无需上锁。为了最大限度减少线程调度的资源消耗，需要将Linux绑定在特定的核上，释放其余核心来专供应用程序使用。 同时还需要考虑CPU特性和系统是否支持NUMA架构，如果支持的话，不同插槽上CPU的进程要避免访问远端内存，尽量访问本端内存。</li>
+<li>减少内存访问: 少用数组和指针，多用局部变量；少用全局变量；一次多访问一些数据；自己管理内存分配；进程间传递指针而非整个数据块</li>
+<li>Cache有效性得益于空间局部性（附近的数据也会被用到）和时间局部性（今后一段时间内会被多次访问）原理，通过合理的使用cache，能够使得应用程序性能得到大幅提升</li>
+<li>避免False Sharing: 多核CPU中每个核都拥有自己的L1/L2 cache，当运行多线程程序时，尽管算法上不需要共享变量，但实际执行中两个线程访问同一cache line的数据时就会引起冲突，每个线程在读取自己的数据时也会把别人的cacheline读进来，这时一个核修改改变量，CPU的cache一致性算法会迫使另一个核的cache中包含该变量所在的cache line无效，这就产生了false sharing（伪共享）问题. Falsing sharing会导致大量的cache冲突，应该尽量避免。 访问全局变量和动态分配内存是falsesharing问题产生的根源，当然访问在内存中相邻的但完全不同的全局变量也可能会导致false sharing，多使用线程本地变量是解决false sharing的根源办法。</li>
+<li>内存对齐：根据不同存储硬件的配置来优化程序，性能也能够得到极大的提升。在硬件层次，确保对象位于不同channel和rank的起始地址，这样能保证对象并并行加载。字节对齐：众所周知，内存最小的存储单元为字节，在32位CPU中，寄存器也是32位的，为了保证访问更加高效，在32位系统中变量存储的起始地址默认是4的倍数（64位系统则是8的倍数），定义一个32位变量时，只需要一次内存访问即可将变量加载到寄存器中，这些工作都是编译器完成的，不需人工干预，当然我们可以使用<strong>attribute</strong>((aligned(n)))来改变对齐的默认值。</li>
+<li>cache对齐，这也是程序开发中需要关注的。Cache line是CPU从内存加载数据的最小单位，一般L1 cache的cache line大小为64字节。如果CPU访问的变量不在cache中，就需要先从内存调入到cache，调度的最小单位就是cache line。因此，内存访问如果没有按照cache line边界对齐，就会多读写一次内存和cache了。</li>
+<li>NUMA: NUMA系统节点一般是由一组CPU和本地内存组成。NUMA调度器负责将进程在同一节点的CPU间调度，除非负载太高，才迁移到其它节点，但这会导致数据访问延时增大。</li>
+<li>减少进程上下文切换: 需要了解哪些场景会触发CS操作。首先就介绍的就是不可控的场景：进程时间片到期；更高优先级进程抢占CPU。其次是可控场景：休眠当前进程(pthread_cond_wait)；唤醒其它进程(pthread_cond_signal)；加锁函数、互斥量、信号量、select、sleep等非常多函数都是可控的。对于可控场景是在应用编程需要考虑的问题，只要程序逻辑设计合理就能较少CS的次数。对于不可控场景，首先想到的是适当减少活跃进程或线程数量，因此保证活跃进程数目不超过CPU个数是一个明智的选择；然后有些场景下，我们并不知道有多少个活跃线程的时候怎么来保证上下文切换次数最少呢？这是我们就需要使用线程池模型：让每个线程工作前都持有带计数器的信号量，在信号量达到最大值之前，每个线程被唤醒时仅进行一次上下文切换，当信号量达到最大值时，其它线程都不会再竞争资源了。</li>
+<li>分组预测机制，如果预测的一个分支指令加入流水线，之后却发现它是错误的分支，处理器要回退该错误预测执行的工作，再用正确的指令填充流水线。这样一个错误的预测会严重浪费时钟周期，导致程序性能下降。《计算机体系结构：量化研究方法》指出分支指令产生的性能影响为10%~30%，流水线越长，性能影响越大。Core i7和Xen等较新的处理器当分支预测失效时无需刷新全部流水，当错误指令加载和计算仍会导致一部分开销。分支预测中最核心的是分支目标缓冲区（Branch Target Buffer，简称BTB），每条分支指令执行后，都会BTB都会记录指令的地址及它的跳转信息。BTB一般比较小，并且采用Hash表的方式存入，在CPU取值时，直接将PC指针和BTB中记录对比来查找，如果找到了，就直接使用预测的跳转地址，如果没有记录，必须通过cache或内存取下一条指令。</li>
+<li>利用流水线并发: 像Pentium处理器就有U/V两条流水，并且可以独自独立读写缓存，循环2可以将两条指令安排在不同流水线上执行，性能得到极大提升。另外两条流水线是非对称的，简单指令（mpv,add,push,inc,cmp,lea等）可以在两条流水上并行执行、位操作和跳转操作并发的前提是在特定流水线上工作、而某些复杂指令却只能独占CPU。</li>
+<li>为了利用空间局部性，同时也为了覆盖数据从内存传输到CPU的延迟，可以在数据被用到之前就将其调入缓存，这一技术称为预取Prefetch，加载整个cache即是一种预取。CPU在进行计算过程中可以并行的对数据进行预取操作，因此预取使得数据/指令加载与CPU执行指令可以并行进行。</li>
+</ul>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://cloud.githubusercontent.com/assets/676637/14767276/7dfb9ed8-0a54-11e6-914f-b041ddcdd40d.png" alt="dpdk"></p>
+<p>在最底部的内核态(Linux Kernel)DPDK 有两个模块:KNI 与 IGB_UIO。 其中,KNI 提供给用户一个使用 Linux 内核态的协议栈,以及传统的 Linux 网络工具(如ethtool, ifconfig)。IGB_UIO(igb_uio.ko 和 kni.ko. IGB_UIO)则借助了 UIO 技术,在初始化过程中将网卡硬件寄存器映射到用户态。</p>
+<p>DPDK 的上层用户态由很多库组成,主要包括核心部件库(Core Libraries)、平台相关模块(Platform)、网卡轮询模式驱动模块(PMD-Natives&amp; Virtual)、QoS 库、报文转发分类算法(Classify)等几大类,用户应用程序可以使用这些库进行二次开发.</p>
+<h2 id="ivshmem"><a href="#ivshmem" class="headerlink" title="ivshmem"></a>ivshmem</h2><p>The DPDK IVSHMEM library facilitates fast zero-copy data sharing among virtual machines (host-to-guest or guest-to-guest) by means of QEUMU’s IVSHMEM mechanism.</p>
+<p>The library works by providing a command line for QEMU to map several hugepages into a single IVSHMEM device. For the guest to know what is inside any given IVSHMEM device (and to distinguish between DPDK and non-DPDK IVSHMEM devices), a metadata file is also mapped into the IVSHMEM segment. No work needs to be done by the guest application to map IVSHMEM devices into memory; they are automatically recognized by the DPDK Environment Abstraction Layer (EAL).</p>
+<p>See <a href="http://dpdk.org/doc/guides/prog_guide/ivshmem_lib.html" target="_blank" rel="external">http://dpdk.org/doc/guides/prog_guide/ivshmem_lib.html</a></p>
+<h2 id="vhost"><a href="#vhost" class="headerlink" title="vhost"></a>vhost</h2><p>The vhost library implements a user space vhost driver. It supports both vhost-cuse (cuse: user space character device) and vhost-user(user space socket server). It also creates, manages and destroys vhost devices for corresponding virtio devices in the guest. Vhost supported vSwitch could register callbacks to this library, which will be called when a vhost device is activated or deactivated by guest virtual machine.</p>
+<p>See <a href="http://dpdk.org/doc/guides/prog_guide/vhost_lib.html" target="_blank" rel="external">http://dpdk.org/doc/guides/prog_guide/vhost_lib.html</a></p>
+<h2 id="dpdk-model"><a href="#dpdk-model" class="headerlink" title="dpdk model"></a>dpdk model</h2><p>The DPDK implements a run to completion model for packet processing, where all resources must be allocated prior to calling Data Plane applications, running as execution units on logical processing cores. The model does not support a scheduler and all devices are accessed by polling. The primary reason for not using interrupts is the performance overhead imposed by interrupt processing.</p>
+<p>In addition to the run-to-completion model, a pipeline model may also be used by passing packets or messages between cores via the rings. This allows work to be performed in stages and may allow more efficient use of code on cores.</p>
+<p>更多参考</p>
+<ul>
+<li><a href="http://dpdk.org" target="_blank" rel="external">http://dpdk.org</a></li>
+<li><a href="http://dpdk.org/doc/guides/" target="_blank" rel="external">http://dpdk.org/doc/guides/</a></li>
+<li><a href="https://github.com/yanwushuang/mospan-hugo-blog/blob/d81411e1121ee94301e59ba78039c0efdf96b367/content/post/2016/2016-03-14-xns-on-dpdk.md" target="_blank" rel="external">https://github.com/yanwushuang/mospan-hugo-blog/blob/d81411e1121ee94301e59ba78039c0efdf96b367/content/post/2016/2016-03-14-xns-on-dpdk.md</a></li>
+<li><a href="http://intel.com/go/dpdk" target="_blank" rel="external">http://intel.com/go/dpdk</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;DPDK-Introduction&quot;&gt;&lt;a href=&quot;#DPDK-Introduction&quot; class=&quot;headerlink&quot; title=&quot;DPDK Introduction&quot;&gt;&lt;/a&gt;DPDK Introduction&lt;/h2&gt;&lt;p&gt;Intel DPDK
+    
+    </summary>
+    
+    
+      <category term="dpdk" scheme="http://feiskyer.github.io/tags/dpdk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tips for cgo</title>
+    <link href="http://feiskyer.github.io/2016/04/24/Tips-for-cgo/"/>
+    <id>http://feiskyer.github.io/2016/04/24/Tips-for-cgo/</id>
+    <published>2016-04-24T00:29:02.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>cgo的一些tips</p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>The standard C numeric types are available under the names C.char, C.schar (signed char), C.uchar (unsigned char), C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int), C.long, C.ulong (unsigned long), C.longlong (long long), C.ulonglong (unsigned long long), C.float, C.double, C.complexfloat (complex float), and C.complexdouble (complex double). The C type void* is represented by Go’s unsafe.Pointer. The C types <code>__int128_t</code> and <code>__uint128_t</code> are represented by [16]byte.</p>
+<p>To access a struct, union, or enum type directly, prefix it with struct<em>, union</em>, or enum_, as in C.struct_stat.</p>
+<p>The size of any C type T is available as C.sizeof_T, as in C.sizeof_struct_stat.</p>
+<p>As Go doesn’t have support for C’s union type in the general case, C’s union types are represented as a Go byte array with the same length.</p>
+<p>Go structs cannot embed fields with C types.</p>
+<p>Any C function (even void functions) may be called in a multiple assignment context to retrieve both the return value (if any) and the C errno variable as an error (use _ to skip the result value if the function returns void). For example:</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><div class="line"><span class="keyword">n</span>, <span class="keyword">err</span> := C.<span class="built_in">sqrt</span>(-1)</div><div class="line">_, <span class="keyword">err</span> := C.voidFunc()</div></pre></td></tr></table></figure>
+<h2 id="字符串类型转换"><a href="#字符串类型转换" class="headerlink" title="字符串类型转换"></a>字符串类型转换</h2><p><code>C.CString</code>和<code>C.GoString</code>都会对原始数据做拷贝，不要忘记释放CString创建的内存：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// Go string to C string</span></div><div class="line"><span class="comment">// The C string is allocated in the C heap using malloc.</span></div><div class="line"><span class="comment">// It is the caller's responsibility to arrange for it to be</span></div><div class="line"><span class="comment">// freed, such as by calling C.free (be sure to include stdlib.h</span></div><div class="line"><span class="comment">// if C.free is needed).</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">C</span>.<span class="title">CString</span><span class="params">(<span class="keyword">string</span>)</span> *<span class="title">C</span>.<span class="title">char</span></span></div><div class="line"></div><div class="line">// <span class="title">C</span> <span class="title">string</span> <span class="title">to</span> <span class="title">Go</span> <span class="title">string</span></div><div class="line"><span class="title">func</span> <span class="title">C</span>.<span class="title">GoString</span><span class="params">(*C.char)</span> <span class="title">string</span></div><div class="line"></div><div class="line">// <span class="title">C</span> <span class="title">data</span> <span class="title">with</span> <span class="title">explicit</span> <span class="title">length</span> <span class="title">to</span> <span class="title">Go</span> <span class="title">string</span></div><div class="line"><span class="title">func</span> <span class="title">C</span>.<span class="title">GoStringN</span><span class="params">(*C.char, C.<span class="keyword">int</span>)</span> <span class="title">string</span></div><div class="line"></div><div class="line">// <span class="title">C</span> <span class="title">data</span> <span class="title">with</span> <span class="title">explicit</span> <span class="title">length</span> <span class="title">to</span> <span class="title">Go</span> []<span class="title">byte</span></div><div class="line"><span class="title">func</span> <span class="title">C</span>.<span class="title">GoBytes</span><span class="params">(unsafe.Pointer, C.<span class="keyword">int</span>)</span> []<span class="title">byte</span></div></pre></td></tr></table></figure>
+<p><code>C.CString</code>使用示例：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line">ch := C.CString(str)</div><div class="line"><span class="keyword">defer</span> C.free(unsafe.Pointer(ch))</div><div class="line">....</div></pre></td></tr></table></figure>
+<h2 id="数组的使用"><a href="#数组的使用" class="headerlink" title="数组的使用"></a>数组的使用</h2><p>Go切片转为C数组：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">void foo(double *arr, int len) &#123;</div><div class="line">	for(int i=0;i&lt;len;i++) &#123;</div><div class="line">		printf("%f\n", arr[i]);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	arr := []<span class="keyword">float64</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</div><div class="line">	carr := (*C.double)(unsafe.Pointer(&amp;arr[<span class="number">0</span>]))</div><div class="line">	C.foo(carr, C.<span class="keyword">int</span>(<span class="built_in">len</span>(arr)))</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>C数组转为Go切片</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">double* get_array(int n) &#123;</div><div class="line">	double *arr;</div><div class="line">	arr = (double*)malloc(n*sizeof(arr));</div><div class="line">	for(int i=0;i&lt;n;i++)</div><div class="line">	&#123;</div><div class="line">		arr[i]=i;</div><div class="line">	&#125;</div><div class="line">	return arr;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	size := <span class="number">10</span></div><div class="line">	carr := C.get_array(C.<span class="keyword">int</span>(size))</div><div class="line">	<span class="keyword">defer</span> C.free(unsafe.Pointer(carr))</div><div class="line">	arr := (*[<span class="number">1</span> &lt;&lt; <span class="number">30</span>]<span class="keyword">float64</span>)(unsafe.Pointer(carr))[:size:size]</div><div class="line">	fmt.Println(arr)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>C指针操作</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line">size := <span class="number">10</span></div><div class="line">carr := C.get_array(C.<span class="keyword">int</span>(size))</div><div class="line"><span class="keyword">defer</span> C.free(unsafe.Pointer(carr))</div><div class="line"></div><div class="line"><span class="comment">// To go slice</span></div><div class="line">arr := (*[<span class="number">1</span> &lt;&lt; <span class="number">30</span>]<span class="keyword">float64</span>)(unsafe.Pointer(carr))[:size:size]</div><div class="line"><span class="keyword">for</span> index := <span class="number">0</span>; index &lt; size; index++ &#123;</div><div class="line">    <span class="comment">// get value by C pointer operation</span></div><div class="line">    value := *(*C.double)(unsafe.Pointer(<span class="keyword">uintptr</span>(unsafe.Pointer(carr)) + <span class="keyword">uintptr</span>(index)*unsafe.Sizeof(carr)))</div><div class="line">    <span class="comment">// get value by Go slice index</span></div><div class="line">    gvalue := arr[index]</div><div class="line">    fmt.Println(value, <span class="string">" == "</span>, gvalue)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>更多文档见<a href="https://golang.org/cmd/cgo/" target="_blank" rel="external">https://golang.org/cmd/cgo/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;cgo的一些tips&lt;/p&gt;
+&lt;h2 id=&quot;基本类型&quot;&gt;&lt;a href=&quot;#基本类型&quot; class=&quot;headerlink&quot; title=&quot;基本类型&quot;&gt;&lt;/a&gt;基本类型&lt;/h2&gt;&lt;p&gt;The standard C numeric types are available u
+    
+    </summary>
+    
+    
+      <category term="go" scheme="http://feiskyer.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>cgo in go 1.6</title>
+    <link href="http://feiskyer.github.io/2016/04/19/cgo-in-go-1-6/"/>
+    <id>http://feiskyer.github.io/2016/04/19/cgo-in-go-1-6/</id>
+    <published>2016-04-19T14:04:48.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with Go’s garbage collector. Briefly, Go and C may share memory allocated by Go when a pointer to that memory is passed to C as part of a cgo call, provided that the memory itself contains no pointers to Go-allocated memory, and provided that C does not retain the pointer after the call returns. These rules are checked by the runtime during program execution: if the runtime detects a violation, it prints a diagnosis and crashes the program. The checks can be disabled by setting the environment variable GODEBUG=cgocheck=0, but note that the vast majority of code identified by the checks is subtly incompatible with garbage collection in one way or another. Disabling the checks will typically only lead to more mysterious failure modes. Fixing the code in question should be strongly preferred over turning off the checks.</p>
+</blockquote>
+<p>Because of those change, we must notice the rules for sharing pointers with C code.</p>
+<h3 id="Go-code-may-pass-a-Go-pointer-to-C-provided-the-Go-memory-to-which-it-points-does-not-contain-any-Go-pointers"><a href="#Go-code-may-pass-a-Go-pointer-to-C-provided-the-Go-memory-to-which-it-points-does-not-contain-any-Go-pointers" class="headerlink" title="Go code may pass a Go pointer to C provided the Go memory to which it points does not contain any Go pointers."></a>Go code may pass a Go pointer to C provided the Go memory to which it points does not contain any Go pointers.</h3><p>The C code must preserve this property: it must not store any Go pointers in Go memory, even temporarily. When passing a pointer to a field in a struct, the Go memory in question is the memory occupied by the field, not the entire struct. When passing a pointer to an element in an array or slice, the Go memory in question is the entire array or the entire backing array of the slice.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">struct Foo&#123;</div><div class="line">    int a;</div><div class="line">    int *p;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void plusOne(struct Foo *f) &#123;</div><div class="line">    (f-&gt;a)++;</div><div class="line">    *(f-&gt;p)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    f := &amp;C.struct_Foo&#123;&#125;</div><div class="line">    f.a = <span class="number">5</span></div><div class="line">    f.p = (*C.<span class="keyword">int</span>)((unsafe.Pointer)(<span class="built_in">new</span>(<span class="keyword">int</span>)))</div><div class="line"></div><div class="line">    C.plusOne(f)</div><div class="line">    fmt.Println(<span class="keyword">int</span>(f.a))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go run test.go</div><div class="line">panic: runtime error: cgo argument has Go pointer to Go pointer</div><div class="line"></div><div class="line">goroutine 1 [running]:</div><div class="line">panic(0x4dc3e0, 0xc82000a280)</div><div class="line">    /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:464 +0x3e6</div><div class="line">main.main()</div><div class="line">    /go/test.go:24 +0xc1</div><div class="line"><span class="built_in">exit</span> status 2</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">void plusOne(int **i) &#123;</div><div class="line">    (**i)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    sl := <span class="built_in">make</span>([]*<span class="keyword">int</span>, <span class="number">5</span>)</div><div class="line">    <span class="keyword">var</span> a <span class="keyword">int</span> = <span class="number">5</span></div><div class="line">    sl[<span class="number">1</span>] = &amp;a</div><div class="line">    C.plusOne((**C.<span class="keyword">int</span>)((unsafe.Pointer)(&amp;sl[<span class="number">0</span>])))</div><div class="line">    fmt.Println(sl[<span class="number">0</span>])</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go run <span class="built_in">test</span>2.go</div><div class="line">panic: runtime error: cgo argument has Go pointer to Go pointer</div><div class="line"></div><div class="line">goroutine 1 [running]:</div><div class="line">panic(0x4dc260, 0xc82000a270)</div><div class="line">    /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:464 +0x3e6</div><div class="line">main.main()</div><div class="line">    /go/<span class="built_in">test</span>2.go:19 +0xe4</div><div class="line"><span class="built_in">exit</span> status 2</div></pre></td></tr></table></figure>
+<h3 id="C-code-may-not-keep-a-copy-of-a-Go-pointer-after-the-call-returns"><a href="#C-code-may-not-keep-a-copy-of-a-Go-pointer-after-the-call-returns" class="headerlink" title="C code may not keep a copy of a Go pointer after the call returns."></a>C code may not keep a copy of a Go pointer after the call returns.</h3><h3 id="A-Go-function-called-by-C-code-may-not-return-a-Go-pointer"><a href="#A-Go-function-called-by-C-code-may-not-return-a-Go-pointer" class="headerlink" title="A Go function called by C code may not return a Go pointer."></a>A Go function called by C code may not return a Go pointer.</h3><p>A Go function called by C code may take C pointers as arguments, and it may store non-pointer or C pointer data through those pointers, but it may not store a Go pointer in memory pointed to by a C pointer. </p>
+<p>A Go function called by C code may take a Go pointer as an argument, but it must preserve the property that the Go memory to which it points does not contain any Go pointers.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// extern int* goAdd(int, int);</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// static int cAdd(int a, int b) &#123;</span></div><div class="line"><span class="comment">//     int *i = goAdd(a, b);</span></div><div class="line"><span class="comment">//     return *i;</span></div><div class="line"><span class="comment">// &#125;</span></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="comment">//export goAdd</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">goAdd</span><span class="params">(a, b C.<span class="keyword">int</span>)</span> *<span class="title">C</span>.<span class="title">int</span></span> &#123;</div><div class="line">    c := a + b</div><div class="line">    <span class="keyword">return</span> &amp;c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> a, b <span class="keyword">int</span> = <span class="number">5</span>, <span class="number">6</span></div><div class="line">    i := C.cAdd(C.<span class="keyword">int</span>(a), C.<span class="keyword">int</span>(b))</div><div class="line">    fmt.Println(<span class="keyword">int</span>(i))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go run <span class="built_in">test</span>3.go</div><div class="line">panic: runtime error: cgo result has Go pointer</div><div class="line"></div><div class="line">goroutine 1 [running]:</div><div class="line">panic(0x4dc100, 0xc82000a260)</div><div class="line">    /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:464 +0x3e6</div><div class="line">main._cgoexpwrap_6c682d6da1ed_goAdd.func1(0xc820041d98)</div><div class="line">    <span class="built_in">command</span>-line-arguments/_obj/_cgo_gotypes.go:64 +0x3a</div><div class="line">main._cgoexpwrap_6c682d6da1ed_goAdd(0x600000005, 0xc82000a23c)</div><div class="line">    <span class="built_in">command</span>-line-arguments/_obj/_cgo_gotypes.go:66 +0x89</div><div class="line">main._Cfunc_cAdd(0x600000005, 0x0)</div><div class="line">    <span class="built_in">command</span>-line-arguments/_obj/_cgo_gotypes.go:45 +0x41</div><div class="line">main.main()</div><div class="line">    /go/<span class="built_in">test</span>3.go:20 +0x35</div><div class="line"><span class="built_in">exit</span> status 2</div></pre></td></tr></table></figure>
+<h3 id="Go-code-may-not-store-a-Go-pointer-in-C-memory-C-code-may-store-Go-pointers-in-C-memory-subject-to-the-rule-above-it-must-stop-storing-the-Go-pointer-when-the-C-function-returns"><a href="#Go-code-may-not-store-a-Go-pointer-in-C-memory-C-code-may-store-Go-pointers-in-C-memory-subject-to-the-rule-above-it-must-stop-storing-the-Go-pointer-when-the-C-function-returns" class="headerlink" title="Go code may not store a Go pointer in C memory. C code may store Go pointers in C memory, subject to the rule above: it must stop storing the Go pointer when the C function returns."></a>Go code may not store a Go pointer in C memory. C code may store Go pointers in C memory, subject to the rule above: it must stop storing the Go pointer when the C function returns.</h3><h3 id="These-rules-are-checked-dynamically-at-runtime"><a href="#These-rules-are-checked-dynamically-at-runtime" class="headerlink" title="These rules are checked dynamically at runtime."></a>These rules are checked dynamically at runtime.</h3><p>The checking is controlled by the cgocheck setting of the GODEBUG environment variable. The default setting is GODEBUG=cgocheck=1, which implements reasonably cheap dynamic checks. These checks may be disabled entirely using GODEBUG=cgocheck=0. Complete checking of pointer handling, at some cost in run time, is available via GODEBUG=cgocheck=2.</p>
+<h3 id="It-is-possible-to-defeat-this-enforcement-by-using-the-unsafe-package-and-ofcourse-there-is-nothing-stopping-the-C-code-from-doing-anything-it-likes-However-programs-that-break-these-rules-are-likely-to-fail-in-unexpected-and-unpredictable-ways"><a href="#It-is-possible-to-defeat-this-enforcement-by-using-the-unsafe-package-and-ofcourse-there-is-nothing-stopping-the-C-code-from-doing-anything-it-likes-However-programs-that-break-these-rules-are-likely-to-fail-in-unexpected-and-unpredictable-ways" class="headerlink" title="It is possible to defeat this enforcement by using the unsafe package, and ofcourse there is nothing stopping the C code from doing anything it likes. However, programs that break these rules are likely to fail in unexpected and unpredictable ways."></a>It is possible to defeat this enforcement by using the unsafe package, and ofcourse there is nothing stopping the C code from doing anything it likes. However, programs that break these rules are likely to fail in unexpected and unpredictable ways.</h3><p>Reference: <a href="https://golang.org/cmd/cgo/" target="_blank" rel="external">https://golang.org/cmd/cgo/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with
+    
+    </summary>
+    
+    
+      <category term="go" scheme="http://feiskyer.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello world to Docker Mac</title>
+    <link href="http://feiskyer.github.io/2016/04/15/Hello-world-to-Docker-Mac/"/>
+    <id>http://feiskyer.github.io/2016/04/15/Hello-world-to-Docker-Mac/</id>
+    <published>2016-04-15T08:34:00.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
+<ul>
+<li>安装简单了，标准的Mac Application<br>  <img src="/images/docker-mac-setting.png" alt=""></li>
+<li>VPN无障碍</li>
+<li>原生的（osxfs）文件系统共享（其实还支持9p方式）</li>
+<li>Docker Application管理 xhyve VM，更改配置后会自动重启</li>
+<li>速度快，在使用体验上跟在Linux上面已经差别不大</li>
+<li>可以与docker toolbox共存：Docker for Mac也会像Linux上面一样监听一个<code>/var/run/docker.sock</code>，这样客户端默认情况下就会走它的API；但也可以通过环境变量告诉docker CLI调用其他Docker Daemon的API（比如docker-machine管理的vm等）</li>
+</ul>
+<p><img src="/images/docker-for-mac-and-toolbox.png" alt=""></p>
+<p>跑一个nginx试试：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">➜  ~ docker version</div><div class="line">Client:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   4dc5990</div><div class="line"> Built:        Wed Apr 13 19:36:04 2016</div><div class="line"> OS/Arch:      darwin/amd64</div><div class="line"></div><div class="line">Server:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   a5315b8</div><div class="line"> Built:        Thu Apr 14 10:19:52 2016</div><div class="line"> OS/Arch:      linux/amd64</div><div class="line">➜  ~</div><div class="line">➜  ~ ls /var/run/docker.sock</div><div class="line">/var/run/docker.sock</div><div class="line">➜  ~ docker run -itd -p 9191:80 nginx</div><div class="line">53a8b3d5f1846273e10ff08086c679695d7f0536a9678e49b44990806ce03d54</div><div class="line"></div><div class="line">➜  ~ curl localhost:9191</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;title&gt;Welcome to nginx!&lt;/title&gt;</div><div class="line">&lt;style&gt;</div><div class="line">    body &#123;</div><div class="line">        width: 35em;</div><div class="line">        margin: 0 auto;</div><div class="line">        font-family: Tahoma, Verdana, Arial, sans-serif;</div><div class="line">    &#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;</div><div class="line">&lt;p&gt;If you see this page, the nginx web server is successfully installed and</div><div class="line">working. Further configuration is required.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;For online documentation and support please refer to</div><div class="line">&lt;a href=<span class="string">"http://nginx.org/"</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;</div><div class="line">Commercial support is available at</div><div class="line">&lt;a href=<span class="string">"http://nginx.com/"</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;&lt;em&gt;Thank you <span class="keyword">for</span> using nginx.&lt;/em&gt;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>当然了，由于还是Beta版，小问题还是有的。不过感觉目前的状态已经可以替代Linux vm作大部分的开发测试了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;终于等到了Docker for Mac。如之前期待的，体验真的很棒：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装简单了，标准的Mac Application&lt;br&gt;  &lt;img src=&quot;/images/docker-mac-setting.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;li&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Upgrade CentOS kernel</title>
+    <link href="http://feiskyer.github.io/2016/03/30/Upgrade-CentOS-kernel/"/>
+    <id>http://feiskyer.github.io/2016/03/30/Upgrade-CentOS-kernel/</id>
+    <published>2016-03-30T14:25:00.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>终于耐不住要升级下kernel了，目前epel提供两个版本: kernel-lt (4.4)和kernel-ml (4.5):</p>
+<ul>
+<li>The kernel-ml packages are built from the sources available from the “mainline stable” branch of The Linux Kernel Archives (external link). The kernel configuration is based upon the default RHEL-7 configuration with added functionality enabled as appropriate. The packages are intentionally named kernel-ml so as not to conflict with the RHEL-7 kernels and, as such, they may be installed and updated alongside the regular kernel.</li>
+<li>The kernel-lt packages are built from the sources available from The Linux Kernel Archives (external link), just like the kernel-ml packages. The difference is that kernel-lt is based on a “long term support” branch and kernel-ml is based on the “mainline stable” branch.</li>
+</ul>
+<p>升级到lt的步骤很简单：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</div><div class="line">yum install -y http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</div><div class="line">yum --enablerepo=elrepo-kernel install -y kernel<span class="_">-lt</span></div></pre></td></tr></table></figure>
+<p>然后重启机器即可。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$  uname -r</div><div class="line">4.4.6-1.el7.elrepo.x86_64</div></pre></td></tr></table></figure>
+<p>当然了，相应的内核头文件和开发库也需要安装下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum --enablerepo=elrepo-kernel install -y kernel<span class="_">-lt</span>-headers kernel<span class="_">-lt</span>-tools kernel<span class="_">-lt</span>-devel</div></pre></td></tr></table></figure>
+<p>参考 <a href="http://elrepo.org/tiki/kernel-lt" target="_blank" rel="external">http://elrepo.org/tiki/kernel-lt</a> <a href="http://elrepo.org/tiki/kernel-ml" target="_blank" rel="external">http://elrepo.org/tiki/kernel-ml</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;终于耐不住要升级下kernel了，目前epel提供两个版本: kernel-lt (4.4)和kernel-ml (4.5):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The kernel-ml packages are built from the sources available 
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://feiskyer.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Alpine Linux</title>
+    <link href="http://feiskyer.github.io/2016/03/26/Alpine-Linux/"/>
+    <id>http://feiskyer.github.io/2016/03/26/Alpine-Linux/</id>
+    <published>2016-03-26T06:27:00.000Z</published>
+    <updated>2016-11-03T13:12:59.909Z</updated>
+    
+    <content type="html"><![CDATA[<p>Alpine Linux</p>
+<p>随着Alpine Linux被越来越多的官方镜像使用，我们有必要了解一下Alpine Linux到底是个什么鬼。</p>
+<p>Alpine Linux 是一个面向安全应用的轻量级 Linux 发行版。它采用了musl libc和busybox以减小系统的体积和运行时资源消耗，同时还提供了自己的包管理工具apk。Alpine Linux的内核都打了grsecurity/PaX补丁，并且所有的程序都编译为Position Independent Executables (PIE) 以增强系统的安全性。</p>
+<h3 id="Alpine-Linux小试"><a href="#Alpine-Linux小试" class="headerlink" title="Alpine Linux小试"></a>Alpine Linux小试</h3><p>我们可以通过虚拟机来体验一下完整的Alpine Linux。从alpinelinux.org下载iso（当前是v3.3.3版本，大小为78MB），然后就可以通过Virtual Box或者VMWare创建虚拟机了。默认情况下，启动的虚拟机是diskless模式，重启虚拟机会丢掉所有的变更。因而，建议通过<code>setup-alpine</code>来修改安装模式，同时也对系统进行一些配置的初始化。</p>
+<p>Alpine社区提供了Docker包，可以方便的安装Docker：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">echo “http://nl.alpinelinux.org/alpine/v3.<span class="number">3</span>/community” &gt;&gt; /etc/apk/repositories</div><div class="line">apk update</div><div class="line">apk <span class="keyword">add</span><span class="bash"> docker</span></div><div class="line">rc-update <span class="keyword">add</span><span class="bash"> docker boot</span></div><div class="line">service docker start</div></pre></td></tr></table></figure>
+<h3 id="Alpine-Docker镜像"><a href="#Alpine-Docker镜像" class="headerlink" title="Alpine Docker镜像"></a>Alpine Docker镜像</h3><p>Docker官方还维护了一个Alpine Linux镜像，大小只有4.7MB，比起大家常用的Ubuntu要小的多。现在有很多镜像都已经用这个镜像来代替了以前的Ubuntu/Debian了，比如常用的haproxy、nginx等。</p>
+<p>Alpine Linux的官方网站为[<a href="http://alpinelinux.org]，从[http://wiki.alpinelinux.org]可以找到更多的使用指南。" target="_blank" rel="external">http://alpinelinux.org]，从[http://wiki.alpinelinux.org]可以找到更多的使用指南。</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Alpine Linux&lt;/p&gt;
+&lt;p&gt;随着Alpine Linux被越来越多的官方镜像使用，我们有必要了解一下Alpine Linux到底是个什么鬼。&lt;/p&gt;
+&lt;p&gt;Alpine Linux 是一个面向安全应用的轻量级 Linux 发行版。它采用了musl libc和bu
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

@@ -1,0 +1,993 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OpenStack," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Muran">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Going Native with OpenStack Centric Applications: Murano">
+<meta property="og:url" content="http://feiskyer.github.io/2015/02/25/going-native-with-openstack-centric-applications-murano/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Muran">
+<meta property="og:image" content="http://blog.gingergeek.com/wp-content/uploads/2014/11/OpenStack-Centric-Applications-Murano-Application-Catalog-UI.png">
+<meta property="og:image" content="http://feiskyer.github.io/assets/OpenStack-Centric-Applications-Murano-Application-Packaging.png">
+<meta property="og:image" content="http://feiskyer.github.io/assets/OpenStack-Centric-Applications-Murano-Architectural-Overview.png">
+<meta property="og:image" content="http://feiskyer.github.io/assets/OpenStack-Centric-Applications-Murano-Actions.png">
+<meta property="og:updated_time" content="2016-11-03T13:12:59.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Going Native with OpenStack Centric Applications: Murano">
+<meta name="twitter:description" content="Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Muran">
+<meta name="twitter:image" content="http://blog.gingergeek.com/wp-content/uploads/2014/11/OpenStack-Centric-Applications-Murano-Application-Catalog-UI.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feiskyer.github.io/2015/02/25/going-native-with-openstack-centric-applications-murano/"/>
+
+
+  <title> Going Native with OpenStack Centric Applications: Murano | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Going Native with OpenStack Centric Applications: Murano
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-25T16:00:00+00:00" content="2015-02-26">
+              2015-02-26
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Murano, currently an incubation status project, having seen its functionality and core services integration advanced over the past few OpenStack releases.</p>
+<h3 id="What-is-it"><a href="#What-is-it" class="headerlink" title="What is it?"></a>What is it?</h3><p>An application catalog developed by Mirantis, HP and others (now including Cisco), that allows application developers and cloud administrators to publish applications in a categorized catalog to be perused and deployed by application consumers. The selection of applications available within the catalog is intended to be that of released versions (ready-state) of applications (cloud-native or enterprise-architected), not application versions that are mid-development. Ideally, these are applications ready to be consumed and run by application users.</p>
+<h3 id="Functionality-Highlights"><a href="#Functionality-Highlights" class="headerlink" title="Functionality Highlights"></a>Functionality Highlights</h3><p><img src="http://blog.gingergeek.com/wp-content/uploads/2014/11/OpenStack-Centric-Applications-Murano-Application-Catalog-UI.png" alt="ui"></p>
+<ol>
+<li>Supports Windows and Linux applications</li>
+<li>Leverages HOT templates for application definition</li>
+<li>Controls Heat stack creation and updates processes</li>
+<li>Track application properties and dependencies</li>
+<li>Defines provisioning workflow definitions and executes them</li>
+<li>Introduces “Application” and “Environment” constructs</li>
+<li>Provides UI for application topology visualization</li>
+<li>Control lifecycle of a deployed application</li>
+<li>Allows simple management of access to an application</li>
+<li>Compose an environment from multiple application components</li>
+<li>Out of the Box Cataloged Applications<ul>
+<li>16 sample applications available now</li>
+<li>6 production-grade applications の Mirantis OpenStack Express**</li>
+</ul>
+</li>
+<li>Multiple application formats supported:<ul>
+<li>HOT Templates</li>
+<li>MuranoPL</li>
+</ul>
+</li>
+<li>Vision to support<ul>
+<li>Other application model formats:</li>
+<li>Parallels APS format</li>
+<li>TOSCA format</li>
+<li>Pricing; billing system integration</li>
+</ul>
+</li>
+</ol>
+<h3 id="User-Personas-amp-Capabilities"><a href="#User-Personas-amp-Capabilities" class="headerlink" title="User Personas &amp; Capabilities"></a>User Personas &amp; Capabilities</h3><p>As an application catalog, Murano, primarily focuses on three user personas, the Cloud Administrator, Application Consumer and Application Publisher receiving the most emphasis upfront in the development of this project.</p>
+<h3 id="Application-Consumer"><a href="#Application-Consumer" class="headerlink" title="Application Consumer"></a>Application Consumer</h3><p>The Application Consumer selects and deploys instances of applications into environments they define. The Application Consumer also* </p>
+<ul>
+<li>browses catalog (search, category, tags, etc)</li>
+<li>creates new environments</li>
+<li>deploys applications in environments</li>
+<li>monitors application statistics</li>
+</ul>
+<h3 id="Application-Publisher"><a href="#Application-Publisher" class="headerlink" title="Application Publisher"></a>Application Publisher</h3><p>The Application Publisher creates application definitions (packages) that are imported as entries into the application catalog for perusal by Application Consumers. The Application Publisher also* </p>
+<ul>
+<li>defines application metadata (author, help message, version, etc)</li>
+<li>identifies cloud resource allocation (HOT templates)</li>
+<li>creates application deployment specifications (HOT templates)</li>
+<li>defines a template for dynamic visualization of application topology (Horizon)</li>
+<li>identifies metrics collection (Ceilometer)</li>
+<li>establishes actions and events (Murano and Mistral)</li>
+<li>imports and publishes application definition to catalog</li>
+</ul>
+<h3 id="Cloud-Administrator"><a href="#Cloud-Administrator" class="headerlink" title="Cloud Administrator"></a>Cloud Administrator</h3><p>The Cloud Administrator is responsible for running the application catalog and providing stable infrastructure upon which to deploy and run applications. The Cloud Administrator also* </p>
+<ul>
+<li>curates application catalog (certification and signing of packages)</li>
+<li>configures access to applications</li>
+<li>defines billing rules*</li>
+</ul>
+<h3 id="Application-Packaging-Process"><a href="#Application-Packaging-Process" class="headerlink" title="Application Packaging Process"></a>Application Packaging Process</h3><p>Currently, Murano applications may be packaged using two different formats to describe the application – the MuranoPL or a HOT template. There’s roadmap to support addition application description formats. While these two methodologies vary in terms of how the orchestration is performed during provisioning of an instance of the app, their are common attributes (catalog metadata) like an application display name, logo, description, author, tags. For those familiar with other domain-specific languages of other popular configuration management frameworks, the MuranoPL is of little challenge to pick up (you may lean into  use Bash or Powershell if more comfortable) or you may opt to use SoftwareConfig and SoftwareDeploy of HOT.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Murano-Application-Packaging.png" alt=""></p>
+<h3 id="Architectural-Overview-amp-Core-Services-Integration"><a href="#Architectural-Overview-amp-Core-Services-Integration" class="headerlink" title="Architectural Overview &amp; Core Services Integration"></a>Architectural Overview &amp; Core Services Integration</h3><p>See the “Murano Architectural Overview” diagram for a visual representation of how Murano is tightly integrated with core OpenStack services. It’s relationship to existing core services breaks down as follows:</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Murano-Architectural-Overview.png" alt="Overview" width="800px"></p>
+<ul>
+<li>Glance: Originally designed as an image repository, Murano will use Glance to store &amp; query application definitions. Glance is used as an artifact repository to store application definitions, query &amp; search them and store images required by applications. Images used by Murano are marked with specific metadata, which is used by Murano to derive appropriate selections within the UI during application deployment time.</li>
+<li>Heat: Cloud resource allocation specific to the application, Resources required by application is allocated using Heat, Application provisioning / deployment via Heat Software Configuration, Life-cycle callbacks</li>
+<li>Horizon: Horizon is used to provide the Application Catalog user interface wherein Application Publishers may browse and deploy applications. Horizon is also used to both build applications and visualize the topology provisioned applications. The need for this type of dynamic user interface (application topology canvas) has been proposed as separate project to provide common support to other Application-oriented projects – Heat, Solum, Mistral and Murano. This application blueprint designer project is codename – Merlin.</li>
+<li>Docker: Murano supports existing Nova and Heat plugins. </li>
+<li>Ceilometer: Murano uses Ceilometer for application metric collection &amp; processing. Additionally, Ceilometer events may be subscribed to and trigger specific actions (see below) for autoscaling, HA, DR and other.</li>
+<li>Workflows are used when complex workflow outside of Heat is needed.</li>
+<li>Actions: Application level ad-hoc actions (e.g. create backup, enable/disable some feature, or create user for an application) will also be defined in Mistral. Classic runbook automation applies here – Murano allows the Application Publisher to define various custom actions to be taken upon trigger by an interesting event. What constitutes and interesting event is up to the Application Publisher, who may define any action in the application definition and associate the action to a specific workflow. By exposing a webhook to trigger the action (and workflow), they may be triggered by Ceilometer alarms or any 3rd party tool. Common use cases are auto-scaling, HA and DR. The “Murano Actions” diagram shows an example of an autoscaling scenario in which an application might require additional database instance based web server load.</li>
+</ul>
+<p><img src="/assets/OpenStack-Centric-Applications-Murano-Actions.png" alt="Drawing" width="800px"></p>
+<h3 id="Murano-and-Containers"><a href="#Murano-and-Containers" class="headerlink" title="Murano and Containers"></a>Murano and Containers</h3><p>Murano inherently supports Docker containers by relying upon existing OpenStack components for container integration and orchestration. This means that there are no considerations to be accounted for within the MuranoPL to describe the application package to support containers. Similarly, when using Heat templates at the core of the application package, only&nbsp;reference to Docker resources and images is needed to support container orchestration by Heat. There are different ways of using Docker in OpenStack via Murano:</p>
+<p>1) Heat template can use Heat::Docker</p>
+<ul>
+<li><span style="line-height: 1em;">Heat::Docker driver leverages Heat engine directly to instantiate containers</span></li>
+<li><span style="line-height: 1em;">Use Heat when Nova does not support Docker</span></li>
+</ul>
+<p>2) Heat template can use Nova::Docker</p>
+<ul>
+<li><span style="line-height: 1em;">Use when you have a bare metal Docker installation</span></li>
+<li><span style="line-height: 1em;">Through Nova API, create a container without a VM being created to host</span></li>
+<li><span style="line-height: 1em;">Nova can go to bare metale to create Docker container</span></li>
+<li><p><span style="line-height: 1em;">User provides Heat template, workflow (Murano DSL) and image</span></p>
+<p>3) Not recommended – Use Heat resource to create a VM with Dockerénside and boot an image file to the VM with <code>docker run</code>.</p>
+</li>
+</ul>
+<ul>
+<li>The Murano team is looking to add autoscaling for Docker services, facilitate Docker application placement and integration with monitoring and network services.</li>
+</ul>
+<h3 id="Murano-as-a-Southbound-Catalog"><a href="#Murano-as-a-Southbound-Catalog" class="headerlink" title="Murano as a Southbound Catalog"></a>Murano as a Southbound Catalog</h3><p>Murano has two different northbound APIs to expose access to applications in the catalog – REST and AMQP (Services Broker). Within the Juno release, the Services Broker has only been prototyped. It’s scheduled to be fully-implemented in Kilo. While other use cases may exist, the primary use case for these northbound API revolves around allowing northbound catalogs to access and expose OpenStack-native applications.</p>
+<p>The Services Broker supports CRUD and binds service with your application. A proof of concept has been completed to integrate Cloud Foundry with Murano via the Service Broker. When CloudFoundry is integrated to Murano, CloudFoundry users see and order Murano applications in CloudFoundry.</p>
+<p>Using the REST API, Murano may be integrated as a southbound application catalog to expose OpenStack-native applications as SaaS application profiles available for users of a northbound catalog. Users benefit from existing services offered on top of OpenStack. This enables application components to be split across infrastructure (having application components deployed into different infrastructures).</p>
+<h3 id="Kilo-Roadmap"><a href="#Kilo-Roadmap" class="headerlink" title="Kilo Roadmap"></a>Kilo Roadmap</h3><p>While subject to change, based on Kilo design summit discussions this week, the project team aims to bite off the following capabilities before the next release in May.</p>
+<ul>
+<li>Implementing CloudFoundry ServiceBroker API</li>
+<li>Use of Glance as an artifact repository</li>
+<li><p>Support pluggable package definitions formats:</p>
+<ul>
+<li>TOSCA (Topology and Orchestration Specification for Cloud Applications)</li>
+<li>APS (Parallels Application Standard)</li>
+</ul>
+</li>
+<li><p>Multiple Heat Stacks and OpenStack Cloud support</p>
+<ul>
+<li>Availability Zones (for DR)</li>
+<li>Multiple OpenStack clouds</li>
+</ul>
+</li>
+<li><p>Pluggable Architecture</p>
+<ul>
+<li>Integration with 3rd party API (F5, Brocade etc.)</li>
+<li>Package format plugins</li>
+</ul>
+</li>
+</ul>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenStack/" rel="tag">#OpenStack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/" rel="next" title="Installing Realtek rltwifi driver for Ubuntu 14.10">
+                <i class="fa fa-chevron-left"></i> Installing Realtek rltwifi driver for Ubuntu 14.10
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/25/going-native-with-openstack-centric-applications-overview/" rel="prev" title="Going Native with OpenStack Centric Applications: Overview">
+                Going Native with OpenStack Centric Applications: Overview <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-it"><span class="nav-number">1.</span> <span class="nav-text">What is it?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functionality-Highlights"><span class="nav-number">2.</span> <span class="nav-text">Functionality Highlights</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Personas-amp-Capabilities"><span class="nav-number">3.</span> <span class="nav-text">User Personas & Capabilities</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-Consumer"><span class="nav-number">4.</span> <span class="nav-text">Application Consumer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-Publisher"><span class="nav-number">5.</span> <span class="nav-text">Application Publisher</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cloud-Administrator"><span class="nav-number">6.</span> <span class="nav-text">Cloud Administrator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-Packaging-Process"><span class="nav-number">7.</span> <span class="nav-text">Application Packaging Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Architectural-Overview-amp-Core-Services-Integration"><span class="nav-number">8.</span> <span class="nav-text">Architectural Overview & Core Services Integration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Murano-and-Containers"><span class="nav-number">9.</span> <span class="nav-text">Murano and Containers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Murano-as-a-Southbound-Catalog"><span class="nav-number">10.</span> <span class="nav-text">Murano as a Southbound Catalog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kilo-Roadmap"><span class="nav-number">11.</span> <span class="nav-text">Kilo Roadmap</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
