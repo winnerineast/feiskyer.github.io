@@ -612,103 +612,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/03/01/setting-up-gre-for-kubernetes/" itemprop="url">
-                  Setting up GRE for Kubernetes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
-              2015-03-02
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" itemprop="url">
                   Open vSwitch over DPDK on Ubuntu
                 </a>
@@ -1103,6 +1006,103 @@ From the host try to ping the guest. With the virtual machine configuration desc
 
 
 <p>备注：本文转自 <a href="https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu" target="_blank" rel="external">https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/01/setting-up-gre-for-kubernetes/" itemprop="url">
+                  Setting up GRE for Kubernetes
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
+              2015-03-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
 
           
         
