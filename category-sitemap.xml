@@ -8,98 +8,98 @@
 
     <url>
         <loc>http://feisky.xyz/categories/vagrant/</loc>
-        <lastmod>2016-11-05T00:11:09.766Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.085Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/mesos/</loc>
-        <lastmod>2016-11-05T00:11:09.766Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.085Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/linux/</loc>
-        <lastmod>2016-11-05T00:11:09.766Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.085Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Book/</loc>
-        <lastmod>2016-11-05T00:11:09.770Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/docker/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.089Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Docker/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Linux/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/OpenStack/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/SDN/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Readings/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Networking/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/kubernetes/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Kubernetes/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.093Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/docker/</loc>
+        <lastmod>2016-11-05T14:38:41.097Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/cluster/</loc>
-        <lastmod>2016-11-05T00:11:09.774Z</lastmod>
+        <lastmod>2016-11-05T14:38:41.097Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

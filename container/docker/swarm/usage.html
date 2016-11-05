@@ -1,0 +1,805 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="使用在使用 swarm 管理集群前，需要把集群中所有的节点的 docker daemon 的监听方式更改为 0.0.0.0:2375。
+可以有两种方式达到这个目的，第一种是在启动docker daemon的时候指定sudo docker -H 0.0.0.0:2375&amp;amp;
+第二种方式是直接修改 Docker 的配置文件(Ubuntu 上是 /etc/default/docker，其他版本的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/container/docker/swarm/usage.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="使用在使用 swarm 管理集群前，需要把集群中所有的节点的 docker daemon 的监听方式更改为 0.0.0.0:2375。
+可以有两种方式达到这个目的，第一种是在启动docker daemon的时候指定sudo docker -H 0.0.0.0:2375&amp;amp;
+第二种方式是直接修改 Docker 的配置文件(Ubuntu 上是 /etc/default/docker，其他版本的">
+<meta property="og:updated_time" content="2016-11-05T14:38:41.153Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="使用在使用 swarm 管理集群前，需要把集群中所有的节点的 docker daemon 的监听方式更改为 0.0.0.0:2375。
+可以有两种方式达到这个目的，第一种是在启动docker daemon的时候指定sudo docker -H 0.0.0.0:2375&amp;amp;
+第二种方式是直接修改 Docker 的配置文件(Ubuntu 上是 /etc/default/docker，其他版本的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/container/docker/swarm/usage.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在使用 swarm 管理集群前，需要把集群中所有的节点的 docker daemon 的监听方式更改为 <code>0.0.0.0:2375</code>。</p>
+<p>可以有两种方式达到这个目的，第一种是在启动docker daemon的时候指定<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker -H 0.0.0.0:2375&amp;</div></pre></td></tr></table></figure></p>
+<p>第二种方式是直接修改 Docker 的配置文件(Ubuntu 上是 <code>/etc/default/docker</code>，其他版本的 Linux 上略有不同)</p>
+<p>在文件的最后添加下面这句代码：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">DOCKER_OPTS=<span class="string">"-H 0.0.0.0:2375 -H unix:///var/run/docker.sock"</span></div></pre></td></tr></table></figure></p>
+<p>需要注意的是，一定要在所有希望被 Swarm 管理的节点上进行的。修改之后要重启 Docker<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo service docker restart</div></pre></td></tr></table></figure></p>
+<p>Docker 集群管理需要使用服务发现(Discovery service backend)功能，Swarm支持以下的几种方式：DockerHub 提供的服务发现功能，本地的文件，etcd，consul，zookeeper 和 IP 列表，本文会详细讲解前两种方式，其他的用法都是大同小异的。</p>
+<p>先说一下本次试验的环境，本次试验包括三台机器，IP地址分别为192.168.1.84,192.168.1.83和192.168.1.124.利用这三台机器组成一个docker集群，其中83这台机器同时充当swarm manager节点。</p>
+<h3 id="使用-DockerHub-提供的服务发现功能"><a href="#使用-DockerHub-提供的服务发现功能" class="headerlink" title="使用 DockerHub 提供的服务发现功能"></a>使用 DockerHub 提供的服务发现功能</h3><h4 id="创建集群-token"><a href="#创建集群-token" class="headerlink" title="创建集群 token"></a>创建集群 token</h4><p>在上面三台机器中的任何一台机器上面执行 <code>swarm create</code> 命令来获取一个集群标志。这条命令执行完毕后，Swarm 会前往 DockerHub 上内置的发现服务中获取一个全球唯一的 token，用来标识要管理的集群。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker run --rm swarm create</div></pre></td></tr></table></figure></p>
+<p>我们在84这台机器上执行这条命令，输出如下：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@084:~$ sudo docker run --rm swarm create</div><div class="line">b7625e5a7a2dc7f8c4faacf2b510078e</div></pre></td></tr></table></figure></p>
+<p>可以看到我们返回的 token 是 <code>b7625e5a7a2dc7f8c4faacf2b510078e</code>，每次返回的结果都是不一样的。这个 token 一定要记住，后面的操作都会用到这个 token。</p>
+<h4 id="加入集群"><a href="#加入集群" class="headerlink" title="加入集群"></a>加入集群</h4><p>在所有要加入集群的节点上面执行 <code>swarm join</code> 命令，表示要把这台机器加入这个集群当中。在本次试验中，就是要在 83、84 和 124 这三台机器上执行下面的这条命令：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker run <span class="_">-d</span> swarm join --addr=ip_address:2375 token://token_id</div></pre></td></tr></table></figure></p>
+<p>其中的 ip_address 换成执行这条命令的机器的 IP，token_id 换成上一步执行 <code>swarm create</code> 返回的 token。</p>
+<p>在83这台机器上面的执行结果如下：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@083:~$ sudo docker run <span class="_">-d</span> swarm join --addr=192.168.1.83:2375 token://b7625e5a7a2dc7f8c4faacf2b510078e</div><div class="line">3b3d9da603d7c121588f796eab723458af5938606282787fcbb03b6f1ac2000b</div></pre></td></tr></table></figure></p>
+<p>这条命令通过 <code>-d</code> 参数启动了一个容器，使得83这台机器加入到集群。如果这个容器被停止或者被删除，83这台机器就会从集群中消失。</p>
+<h4 id="启动swarm-manager"><a href="#启动swarm-manager" class="headerlink" title="启动swarm manager"></a>启动swarm manager</h4><p>因为我们要使用 83 这台机器充当 swarm 管理节点，所以需要在83这台机器上面执行 <code>swarm manage</code> 命令：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker run <span class="_">-d</span> -p 2376:2375 swarm manage token://b7625e5a7a2dc7f8c4faacf2b510078e</div></pre></td></tr></table></figure></p>
+<p>执行结果如下：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@083:~$ sudo docker run <span class="_">-d</span> -p 2376:2375 swarm manage token://b7625e5a7a2dc7f8c4faacf2b510078e</div><div class="line">83de3e9149b7a0ef49916d1dbe073e44e8c31c2fcbe98d962a4f85380ef25f76</div></pre></td></tr></table></figure></p>
+<p>这条命令如果执行成功会返回已经启动的 Swarm 的容器的 ID，此时整个集群已经启动起来了。</p>
+<p>现在通过 <code>docker ps</code> 命令来看下有没有启动成功。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@083:~$ sudo docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                    NAMES</div><div class="line">83de3e9149b7        swarm:latest        <span class="string">"/swarm manage token   4 minutes ago       Up 4 minutes        0.0.0.0:2376-&gt;2375/tcp   stupefied_stallman</span></div></pre></td></tr></table></figure></p>
+<p>可以看到，Swarm 已经成功启动。<br>在执行 <code>Swarm manage</code> 这条命令的时候，有几点需要注意的：</p>
+<ul>
+<li>这条命令需要在充当 swarm 管理者的机器上执行</li>
+<li>Swarm 要以 daemon 的形式执行</li>
+<li>映射的端口可以使任意的除了 2375 以外的并且是未被占用的端口，但一定不能是 2375 这个端口，因为 2375 已经被 Docker 本身给占用了。</li>
+</ul>
+<p>集群启动成功以后，现在我们可以在任何一台节点上使用 <code>swarm list</code> 命令查看集群中的节点了，本实验在 124 这台机器上执行 <code>swarm list</code> 命令：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@124:~$ sudo docker run --rm swarm list token://b7625e5a7a2dc7f8c4faacf2b510078e</div><div class="line">192.168.1.84:2375</div><div class="line">192.168.1.124:2375</div><div class="line">192.168.1.83:2375</div></pre></td></tr></table></figure></p>
+<p>输出结果列出的IP地址正是我们使用 <code>swarm join</code> 命令加入集群的机器的IP地址。</p>
+<p>现在我们可以在任何一台安装了 Docker 的机器上面通过命令(命令中要指明swarm manager机器的IP地址)来在集群中运行container了。<br>本次试验，我们在 192.168.1.85 这台机器上使用 <code>docker info</code> 命令来查看集群中的节点的信息。</p>
+<p>其中 info 也可以换成其他的 Docker 支持的命令。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 info</div><div class="line">Containers: 8</div><div class="line">Strategy: spread</div><div class="line">Filters: affinity, health, constraint, port, dependency</div><div class="line">Nodes: 2</div><div class="line"> sclu083: 192.168.1.83:2375</div><div class="line">  └ Containers: 1</div><div class="line">  └ Reserved CPUs: 0 / 2</div><div class="line">  └ Reserved Memory: 0 B / 4.054 GiB</div><div class="line"> sclu084: 192.168.1.84:2375</div><div class="line">  └ Containers: 7</div><div class="line">  └ Reserved CPUs: 0 / 2</div><div class="line">  └ Reserved Memory: 0 B / 4.053 GiB</div></pre></td></tr></table></figure></p>
+<p>结果输出显示这个集群中只有两个节点，IP地址分别是 192.168.1.83 和 192.168.1.84，结果不对呀，我们明明把三台机器加入了这个集群，还有 124 这一台机器呢？<br>经过排查，发现是忘了修改 124 这台机器上面改 docker daemon 的监听方式，只要按照上面的步骤修改写 docker daemon 的监听方式就可以了。</p>
+<p>在使用这个方法的时候，使用swarm create可能会因为网络的原因会出现类似于下面的这个问题：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@227:~$ sudo docker run --rm swarm create</div><div class="line">[sudo] password <span class="keyword">for</span> rio:</div><div class="line">time=<span class="string">"2015-05-19T12:59:26Z"</span> level=fatal msg=<span class="string">"Post https://discovery-stage.hub.docker.com/v1/clusters: dial tcp: i/o timeout"</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用文件"><a href="#使用文件" class="headerlink" title="使用文件"></a>使用文件</h3><p>第二种方法相对于第一种方法要简单得多，也不会出现类似于上面的问题。</p>
+<p>第一步：在 swarm 管理节点上新建一个文件，把要加入集群的机器 IP 地址和端口号写入文件中，本次试验就是要在83这台机器上面操作：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@083:~$ <span class="built_in">echo</span> 192.168.1.83:2375 &gt;&gt; cluster</div><div class="line">rio@083:~$ <span class="built_in">echo</span> 192.168.1.84:2375 &gt;&gt; cluster</div><div class="line">rio@083:~$ <span class="built_in">echo</span> 192.168.1.124:2375 &gt;&gt; cluster</div><div class="line">rio@083:~$ cat cluster</div><div class="line">192.168.1.83:2375</div><div class="line">192.168.1.84:2375</div><div class="line">192.168.1.124:2375</div></pre></td></tr></table></figure></p>
+<p>第二步：在083这台机器上面执行 <code>swarm manage</code> 这条命令：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@083:~$ sudo docker run <span class="_">-d</span> -p 2376:2375 -v $(<span class="built_in">pwd</span>)/cluster:/tmp/cluster swarm manage file:///tmp/cluster</div><div class="line">364af1f25b776f99927b8ae26ca8db5a6fe8ab8cc1e4629a5a68b48951f598ad</div></pre></td></tr></table></figure></p>
+<p>使用<code>docker ps</code>来查看有没有启动成功：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@083:~$ sudo docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                CREATED              STATUS              PORTS                    NAMES</div><div class="line">364af1f25b77        swarm:latest        <span class="string">"/swarm manage file:   About a minute ago   Up About a minute   0.0.0.0:2376-&gt;2375/tcp   happy_euclid</span></div></pre></td></tr></table></figure></p>
+<p>可以看到，此时整个集群已经启动成功。</p>
+<p>在使用这条命令的时候需要注意的是注意：这里一定要使用-v命令，因为cluster文件是在本机上面，启动的容器默认是访问不到的，所以要通过-v命令共享。</p>
+<p>接下来的就可以在任何一台安装了docker的机器上面通过命令使用集群，同样的，在85这台机器上执行docker info命令查看集群的节点信息：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@s085:~$ sudo docker -H 192.168.1.83:2376 info</div><div class="line">Containers: 9</div><div class="line">Strategy: spread</div><div class="line">Filters: affinity, health, constraint, port, dependency</div><div class="line">Nodes: 3</div><div class="line"> atsgxxx: 192.168.1.227:2375</div><div class="line">  └ Containers: 0</div><div class="line">  └ Reserved CPUs: 0 / 4</div><div class="line">  └ Reserved Memory: 0 B / 2.052 GiB</div><div class="line"> sclu083: 192.168.1.83:2375</div><div class="line">  └ Containers: 2</div><div class="line">  └ Reserved CPUs: 0 / 2</div><div class="line">  └ Reserved Memory: 0 B / 4.054 GiB</div><div class="line"> sclu084: 192.168.1.84:2375</div><div class="line">  └ Containers: 7</div><div class="line">  └ Reserved CPUs: 0 / 2</div><div class="line">  └ Reserved Memory: 0 B / 4.053 GiB</div></pre></td></tr></table></figure></p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-DockerHub-提供的服务发现功能"><span class="nav-number">1.1.</span> <span class="nav-text">使用 DockerHub 提供的服务发现功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建集群-token"><span class="nav-number">1.1.1.</span> <span class="nav-text">创建集群 token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加入集群"><span class="nav-number">1.1.2.</span> <span class="nav-text">加入集群</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动swarm-manager"><span class="nav-number">1.1.3.</span> <span class="nav-text">启动swarm manager</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用文件"><span class="nav-number">1.2.</span> <span class="nav-text">使用文件</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

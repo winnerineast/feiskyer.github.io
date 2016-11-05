@@ -1,0 +1,792 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Swarm 过滤器swarm 的调度器(scheduler)在选择节点运行容器的时候支持几种过滤器 (filter)：Constraint,Affinity,Port,Dependency,Health
+可以在执行 swarm manage 命令的时候通过 --filter 选项来设置。
+Constraint Filterconstraint 是一个跟具体节点相关联的键值对，可以看做是每个节点的标">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/container/docker/swarm/filter.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Swarm 过滤器swarm 的调度器(scheduler)在选择节点运行容器的时候支持几种过滤器 (filter)：Constraint,Affinity,Port,Dependency,Health
+可以在执行 swarm manage 命令的时候通过 --filter 选项来设置。
+Constraint Filterconstraint 是一个跟具体节点相关联的键值对，可以看做是每个节点的标">
+<meta property="og:updated_time" content="2016-11-05T14:38:41.153Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="Swarm 过滤器swarm 的调度器(scheduler)在选择节点运行容器的时候支持几种过滤器 (filter)：Constraint,Affinity,Port,Dependency,Health
+可以在执行 swarm manage 命令的时候通过 --filter 选项来设置。
+Constraint Filterconstraint 是一个跟具体节点相关联的键值对，可以看做是每个节点的标">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/container/docker/swarm/filter.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="Swarm-过滤器"><a href="#Swarm-过滤器" class="headerlink" title="Swarm 过滤器"></a>Swarm 过滤器</h2><p>swarm 的调度器(scheduler)在选择节点运行容器的时候支持几种过滤器 (filter)：Constraint,Affinity,Port,Dependency,Health</p>
+<p>可以在执行 <code>swarm manage</code> 命令的时候通过 <code>--filter</code> 选项来设置。</p>
+<h3 id="Constraint-Filter"><a href="#Constraint-Filter" class="headerlink" title="Constraint Filter"></a>Constraint Filter</h3><p>constraint 是一个跟具体节点相关联的键值对，可以看做是每个节点的标签，这个标签可以在启动docker daemon的时候指定，比如<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker <span class="_">-d</span> --label label_name=label01</div></pre></td></tr></table></figure></p>
+<p>也可以写在docker的配置文件里面（在ubuntu上面是 <code>/etc/default/docker</code>）。</p>
+<p>在本次试验中，给083添加标签—label label_name=083,084添加标签—label label_name=084,124添加标签—label label_name=124,</p>
+<p>以083为例，打开/etc/default/docker文件，修改DOCKER_OPTS：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">DOCKER_OPTS=<span class="string">"-H 0.0.0.0:2375 -H unix:///var/run/docker.sock  --label label_name=083"</span></div></pre></td></tr></table></figure></p>
+<p>在使用docker run命令启动容器的时候使用 <code>-e constarint:key=value</code> 的形式，可以指定container运行的节点。</p>
+<p>比如我们想在84上面启动一个 redis 容器。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 run --name redis_1 <span class="_">-d</span> <span class="_">-e</span> constraint:label_name==084 redis</div><div class="line">fee1b7b9dde13d64690344c1f1a4c3f5556835be46b41b969e4090a083a6382d</div></pre></td></tr></table></figure></p>
+<p>注意，是<strong>两个</strong>等号，不是一个等号，这一点会经常被忽略。</p>
+<p>接下来再在084这台机器上启动一个redis 容器。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 run --name redis_2 <span class="_">-d</span> <span class="_">-e</span> constraint:label_name==084 redis         4968d617d9<span class="built_in">cd</span>122<span class="built_in">fc</span>2e17b3bad2f2c3b5812c0f6f51898024a96c4839fa000e1</div></pre></td></tr></table></figure></p>
+<p>然后再在083这台机器上启动另外一个 redis 容器。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 run --name redis_3 <span class="_">-d</span> <span class="_">-e</span> constraint:label_name==083 redis         7786300b8d2232c2335ac6161c715de23f9179d30eb5c7e9c4f920a4f1d39570</div></pre></td></tr></table></figure></p>
+<p>现在来看下执行情况：<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES</div><div class="line">7786300b8d22        redis:latest        <span class="string">"/entrypoint.sh redi   15 minutes ago      Up 53 seconds       6379/tcp            083/redis_3</span></div><div class="line">4968d617d9cd        redis:latest        "/entrypoint.sh redi   16 minutes ago      Up 2 minutes        6379/tcp            084/redis_2</div><div class="line">fee1b7b9dde1        redis:latest        <span class="string">"/entrypoint.sh redi   19 minutes ago      Up 5 minutes        6379/tcp            084/redis_1</span></div></pre></td></tr></table></figure></p>
+<p>可以看到，执行结果跟预期的一样。</p>
+<p>但是如果指定一个不存在的标签的话来运行容器会报错。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 run --name redis_0 <span class="_">-d</span> <span class="_">-e</span> constraint:label_name==0 redis</div><div class="line">FATA[0000] Error response from daemon: unable to find a node that satisfies label_name==0</div></pre></td></tr></table></figure></p>
+<h3 id="Affinity-Filter"><a href="#Affinity-Filter" class="headerlink" title="Affinity Filter"></a>Affinity Filter</h3><p>通过使用 Affinity Filter，可以让一个容器紧挨着另一个容器启动，也就是说让两个容器在同一个节点上面启动。</p>
+<p>现在其中一台机器上面启动一个 redis 容器。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376 run <span class="_">-d</span> --name redis redis</div><div class="line">ea13eddf667992c5d8296557d3c282dd8484bd262c81e2b5af061cdd6c82158d</div><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376  ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS                  PORTS               NAMES</div><div class="line">ea13eddf6679        redis:latest        /entrypoint.sh redis   24 minutes ago      Up Less than a second   6379/tcp            083/redis</div></pre></td></tr></table></figure></p>
+<p>然后再次启动两个 redis 容器。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376  run <span class="_">-d</span> --name redis_1 <span class="_">-e</span> affinity:container==redis redis</div><div class="line">bac50c2e955211047a745008fd1086eaa16d7ae4f33c192f50412e8dcd0a14<span class="built_in">cd</span></div><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376  run <span class="_">-d</span> --name redis_1 <span class="_">-e</span> affinity:container==redis redis</div><div class="line">bac50c2e955211047a745008fd1086eaa16d7ae4f33c192f50412e8dcd0a14<span class="built_in">cd</span></div></pre></td></tr></table></figure></p>
+<p>现在来查看下运行结果,可以看到三个容器都是在一台机器上运行<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">rio@085:~$ sudo docker -H 192.168.1.83:2376  ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS                  PORTS               NAMES</div><div class="line">449ed25ad239        redis:latest        /entrypoint.sh redis   24 minutes ago      Up Less than a second   6379/tcp            083/redis_2</div><div class="line">bac50c2e9552        redis:latest        /entrypoint.sh redis   25 minutes ago      Up 10 seconds           6379/tcp            083/redis_1</div><div class="line">ea13eddf6679        redis:latest        /entrypoint.sh redis   28 minutes ago      Up 3 minutes            6379/tcp            083/redis</div></pre></td></tr></table></figure></p>
+<p>通过 <code>-e affinity:image=image_name</code> 命令可以指定只有已经下载了<code>image_name</code>镜像的机器才运行容器<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker –H 192.168.1.83:2376 run –name redis1 –d –e affinity:image==redis redis</div></pre></td></tr></table></figure></p>
+<p>redis1 这个容器只会在已经下载了 redis 镜像的节点上运行。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker -H 192.168.1.83:2376 run <span class="_">-d</span> --name redis <span class="_">-e</span> affinity:image==~redis redis</div></pre></td></tr></table></figure>
+<p>这条命令达到的效果是：在有 redis 镜像的节点上面启动一个名字叫做 redis 的容器，如果每个节点上面都没有 redis 容器，就按照默认的策略启动 redis 容器。</p>
+<h3 id="Port-Filter"><a href="#Port-Filter" class="headerlink" title="Port Filter"></a>Port Filter</h3><p>Port 也会被认为是一个唯一的资源<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo docker -H 192.168.1.83:2376 run <span class="_">-d</span> -p 80:80 nginx</div></pre></td></tr></table></figure></p>
+<p>执行完这条命令，之后任何使用 80 端口的容器都是启动失败。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Swarm-过滤器"><span class="nav-number">1.</span> <span class="nav-text">Swarm 过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Constraint-Filter"><span class="nav-number">1.1.</span> <span class="nav-text">Constraint Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Affinity-Filter"><span class="nav-number">1.2.</span> <span class="nav-text">Affinity Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Port-Filter"><span class="nav-number">1.3.</span> <span class="nav-text">Port Filter</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
