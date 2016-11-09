@@ -3,22 +3,22 @@
 
     <sitemap>
         <loc>http://feisky.xyz/post-sitemap.xml</loc>
-        <lastmod>2016-11-08T00:03:31.172Z</lastmod>
+        <lastmod>2016-11-09T00:11:54.639Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://feisky.xyz/page-sitemap.xml</loc>
-        <lastmod>2016-11-08T00:03:31.648Z</lastmod>
+        <lastmod>2016-11-09T00:11:55.183Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://feisky.xyz/category-sitemap.xml</loc>
-        <lastmod>2016-11-08T00:03:31.164Z</lastmod>
+        <lastmod>2016-11-09T00:11:54.631Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://feisky.xyz/tag-sitemap.xml</loc>
-        <lastmod>2016-11-08T00:03:31.164Z</lastmod>
+        <lastmod>2016-11-09T00:11:54.631Z</lastmod>
     </sitemap>
 
 </sitemapindex>

