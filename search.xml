@@ -1750,6 +1750,55 @@ Available Commands:
     </entry>
     
     <entry>
+      <title><![CDATA[awesome quick start]]></title>
+      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
+      <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
+<p>常用快捷键整理：</p>
+<pre><code>切换程序
+切换到下一个程序：Mod4 + j
+切换到上一个程序：Mod4 + k
+切换到主窗口中的第一个程序：Mod4 + Ctrl + Return
+
+切换tag
+切换到上一个选择的tag：Mod4 + Esc
+切换到某个指定的tag：Mod4 + 1-9
+切换到前一个tag：Mod4 + Left
+切换到下一个tag：Mod4 + Right
+
+程序窗口状态修改
+最大化/非最大化：Mod4 + m
+浮动/平铺：Mod4 + Ctrl + Space
+最小化：Mod4 + n
+从最小化中恢复：Mod4 + Ctrl + n
+关闭程序：Mod4 + Shift + C
+
+程序窗口的转移和显示
+转移到某个tag：Mod4 + Shift + 1-9（或在某个tag名上按Mod4+鼠标左键）
+增加到某些tag：Mod4 + Shift + Ctrl + 1-9
+转移到下一个窗口中的位置：Mod4 + Shift + j
+转移到上一个窗口中的位置：Mod4 + Shift + k
+
+布局修改
+当前程序窗口宽度增加5％：Mod4 + Shift + h
+当前程序窗口宽度减少5％：Mod4 + Shift + l
+切换到下一种布局方式：Mod4 + Space
+切换到上一种布局方式：Mod4 + Ctrl + Space
+
+窗口管理
+重启awesome：Mod4 + Ctrl + r
+退出awesome：Mod4 + Shift + q
+运行某个命令：Mod4 + r
+打开awesome菜单：Mod4 + w
+
+多显示器下的操作
+切换到下一个屏幕：Mod4 + Ctrl + j
+切换到上一个屏幕：Mod4 + Ctrl + k
+将程序发送到下一个屏幕：Mod4 + o
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[docker in tencent]]></title>
       <url>http://feisky.xyz/2015/03/19/docker-in-tencent/</url>
       <content type="html"><![CDATA[<p>腾讯内部对Docker有着广泛的使用，其基于Yarn的代号为Gaia的调度平台可以同时兼容Docker和非Docker类型的应用，并提供高并发任务调度和资源管理，它具有高度可伸缩性和可靠性，能够支持MR等离线业务。</p>
@@ -1807,55 +1856,6 @@ Available Commands:
 <p>参考资料</p>
 <p><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=205002587&amp;idx=1&amp;sn=2026ddb96e00b42762a8c8fb7717818e&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd&amp;utm_source=tuicool" target="_blank" rel="external">InfoQ1</a><br><a href="http://www.infoq.com/cn/articles/tecent-bigdata-architecture" target="_blank" rel="external">InfoQ2</a></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[awesome quick start]]></title>
-      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
-      <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
-<p>常用快捷键整理：</p>
-<pre><code>切换程序
-切换到下一个程序：Mod4 + j
-切换到上一个程序：Mod4 + k
-切换到主窗口中的第一个程序：Mod4 + Ctrl + Return
-
-切换tag
-切换到上一个选择的tag：Mod4 + Esc
-切换到某个指定的tag：Mod4 + 1-9
-切换到前一个tag：Mod4 + Left
-切换到下一个tag：Mod4 + Right
-
-程序窗口状态修改
-最大化/非最大化：Mod4 + m
-浮动/平铺：Mod4 + Ctrl + Space
-最小化：Mod4 + n
-从最小化中恢复：Mod4 + Ctrl + n
-关闭程序：Mod4 + Shift + C
-
-程序窗口的转移和显示
-转移到某个tag：Mod4 + Shift + 1-9（或在某个tag名上按Mod4+鼠标左键）
-增加到某些tag：Mod4 + Shift + Ctrl + 1-9
-转移到下一个窗口中的位置：Mod4 + Shift + j
-转移到上一个窗口中的位置：Mod4 + Shift + k
-
-布局修改
-当前程序窗口宽度增加5％：Mod4 + Shift + h
-当前程序窗口宽度减少5％：Mod4 + Shift + l
-切换到下一种布局方式：Mod4 + Space
-切换到上一种布局方式：Mod4 + Ctrl + Space
-
-窗口管理
-重启awesome：Mod4 + Ctrl + r
-退出awesome：Mod4 + Shift + q
-运行某个命令：Mod4 + r
-打开awesome菜单：Mod4 + w
-
-多显示器下的操作
-切换到下一个屏幕：Mod4 + Ctrl + j
-切换到上一个屏幕：Mod4 + Ctrl + k
-将程序发送到下一个屏幕：Mod4 + o
-</code></pre>]]></content>
     </entry>
     
     <entry>
@@ -2168,6 +2168,16 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
 <figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
 <p>为上述网桥添加GRE连接</p>
 <figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
+      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
+      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -2528,16 +2538,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
-      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
-      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Integrating Openstack and Kubernetes with Murano]]></title>
       <url>http://feisky.xyz/2015/02/25/integrating-openstack-and-kubernetes-with-murano/</url>
       <content type="html"><![CDATA[<p>There’s a perceived competition between OpenStack and containers such as Docker, but in reality, the two technologies are a powerful combination. They both solve similar problems, but on different layers of the stack, so combining the two can give users more scalability and automation than ever before.</p>
@@ -2588,6 +2588,53 @@ From the host try to ping the guest. With the virtual machine configuration desc
 <p><img src="https://www.mirantis.com/wp-content/uploads/2015/02/test.png" alt="">(<a href="https://www.mirantis.com/wp-content/uploads/2015/02/test.png" target="_blank" rel="external">https://www.mirantis.com/wp-content/uploads/2015/02/test.png</a>)</p>
 <p>That’s it.</p>
 <p>From <a href="https://www.mirantis.com/blog/integrating-openstack-and-kubernetes-with-murano/" target="_blank" rel="external">https://www.mirantis.com/blog/integrating-openstack-and-kubernetes-with-murano/</a>.</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
 ]]></content>
     </entry>
     
@@ -2713,53 +2760,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
-      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Installing Realtek rltwifi driver for Ubuntu 14.10]]></title>
       <url>http://feisky.xyz/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/</url>
       <content type="html"><![CDATA[<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>Ubuntu 14默认内核版本没有带RTL8192ee的网卡驱动，因而就无法通过无线网络联网，并且Reltek官方网站也没有提供合适的驱动。而最新的Linux内核已经带了相应驱动，所以一般建议修复的方法就是升级内核版本到最新。但如果不想内核升级咋办呢？幸好Github上已经有人将这个驱动写好了，直接安装即可：</p>
@@ -2776,6 +2776,78 @@ From the host try to ping the guest. With the virtual machine configuration desc
 <p>附注：对应wep类型的网络配置为</p>
 <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">#/etc/network/interfaces</div><div class="line">auto wlan0</div><div class="line">iface wlan0 inet static</div><div class="line">wireless-essid TP08129</div><div class="line">wireless_keymode restricted</div><div class="line">wireless-<span class="type">key</span> <span class="number">0812992180</span></div><div class="line">address <span class="number">192.168</span><span class="number">.1</span><span class="number">.60</span></div><div class="line">netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></div><div class="line">gateway <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span></div><div class="line">broadcast <span class="number">192.168</span><span class="number">.1</span><span class="number">.255</span></div></pre></td></tr></table></figure>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Installing nova docker on OpenStack Juno]]></title>
+      <url>http://feisky.xyz/2015/02/12/installing-nova-docker-on-openstack-juno/</url>
+      <content type="html"><![CDATA[<p>This post comes about indirectly by a request on IRC in #rdo for help getting nova-docker installed on Fedora 21. I ran through the process from start to finish and decided to write everything down for posterity.</p>
+<p>Getting started<br>I started with the Fedora 21 Cloud Image, because I’m installing onto OpenStack and the cloud images include some features that are useful in this environment.</p>
+<p>We’ll be using OpenStack packages from the RDO Juno repository. Because there is often some skew between the RDO packages and the current Fedora selinux policy, we’re going to start by putting SELinux into permissive mode (sorry, Dan):</p>
+<pre><code># setenforce 0
+# sed -i &#39;/^SELINUX=/ s/=.*/=permissive/&#39; /etc/selinux/config
+</code></pre><p>Next, install the RDO Juno repository:</p>
+<pre><code># yum -y install \
+</code></pre><p>  <a href="https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm" target="_blank" rel="external">https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm</a><br>And upgrade all our existing packages:</p>
+<pre><code># yum -y upgrade
+</code></pre><p>Install OpenStack<br>We’ll be using packstack to install OpenStack onto this host. Start by installing the package:</p>
+<pre><code># yum -y install openstack-packstack
+</code></pre><p>And then run a —allinone install, which sets up all OpenStack services on a single host:</p>
+<pre><code># packstack --allinone
+</code></pre><p>Install nova-docker prequisites<br>Once packstack has completed successfully, we need to install some prerequisites for nova-docker.</p>
+<pre><code># yum -y install git python-pip python-pbr \
+</code></pre><p>  docker-io fedora-repos-rawhide<br>The fedora-repos-rawhide package provides a yum configuration for the rawhide repository (disabled by default). We’re going to need that to pick up more recent versions of systemd (because of this bug) and python-six (because nova-docker needs the six.add_metaclass method):</p>
+<pre><code># yum --enablerepo=rawhide install python-six systemd
+</code></pre><p>At this point, having upgraded systemd, you should probably reboot:</p>
+<pre><code># reboot
+</code></pre><p>Configure Docker<br>Once things are up and running, we will expect the nova-compute service to launch Docker containers. In order for this to work, the nova user will need access to the Docker socket, /var/run/docker.sock. By default, this is owned by root:root and has mode 660:</p>
+<pre><code># ls -l /var/run/docker.sock
+</code></pre><p>srw-rw——. 1 root root 0 Feb  1 12:43 /var/run/docker.sock<br>The nova-compute service runs as the nova user and will not have access to that socket. There are a few ways of resolving this; an expedient method is simply to make this socket owned by the nova group, which we can do with docker’s -G option.</p>
+<p>Edit /etc/sysconfig/docker, and modify the OPTIONS= line to look like:</p>
+<p>OPTIONS=’—selinux-enabled -G nova’<br>Then enable and start the docker service:</p>
+<pre><code># systemctl enable docker
+# systemctl start docker
+</code></pre><p>Install nova-docker<br>Clone the nova-docker repository:</p>
+<pre><code># git clone http://github.com/stackforge/nova-docker.git
+# cd nova-docker
+</code></pre><p>And check out the stable/juno branch, since we’re operating with an OpenStack Juno environment:</p>
+<pre><code># git checkout stable/juno
+</code></pre><p>Now install the driver:</p>
+<pre><code># python setup.py install
+</code></pre><p>Configure Nova<br>Following the README from nova-docker, we need to modify the Nova configuration to use the nova-docker driver. Edit /etc/nova/nova.conf and add the following line to the DEFAULT section:</p>
+<p>compute_driver=novadocker.virt.docker.DockerDriver<br>If there is already a line setting compute_driver, then comment it out or delete before adding the new one.</p>
+<p>Modify the Glance configuration to permit storage of Docker images. Edit /etc/glance/glance-api.conf, and add the following line to the DEFAULT section:</p>
+<p>container_formats=ami,ari,aki,bare,ovf,ova,docker<br>Next, we need to augment the rootwrap configuration such that nova-docker is able run the ln command with root privileges. We’ll install the docker.filters file from the nova-docker source:</p>
+<pre><code># mkdir -p /etc/nova/rootwrap.d
+# cp etc/nova/rootwrap.d/docker.filters \
+</code></pre><p>  /etc/nova/rootwrap.d/docker.filters<br>We’ve changed a number of configuration files, so we should restart the affected services:</p>
+<pre><code># openstack-service restart nova glance
+</code></pre><p>Testing things out<br>Let’s try starting a container! We need to select one that will run in the nova-docker environment. Generally, that means one that does not expect to have an interactive terminal and that will automatically start some sort of web-accessible service. I have a minimal thttpd container that fits the bill nicely:</p>
+<pre><code># docker pull larsks/thttpd
+</code></pre><p>We need to store this image into Glance using the same name:</p>
+<pre><code># docker save larsks/thttpd |
+</code></pre><p>  glance image-create —name larsks/thttpd \<br>  —container-format docker —disk-format raw —is-public true<br>And now we should be able to start a container:</p>
+<pre><code># nova boot --image larsks/thttpd --flavor m1.tiny test0
+</code></pre><p>After a bit, nova list should show:</p>
+<p>+———…+———-+————+…+—————————+<br>| ID   …| Name  | Status |…| Networks         |<br>+———…+———-+————+…+—————————+<br>| 430a1…| test0 | ACTIVE |…| private=10.0.0.6 |<br>+———…+———-+————+…+—————————+<br>And we should also see the container if we run docker ps:</p>
+<pre><code># docker ps
+</code></pre><p>CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS               NAMES<br>ee864da30cf1        larsks/thttpd:latest   “/thttpd -D -l /dev/   7 hours ago         Up 7 hours                              nova-430a197e-a0ca-4e72-a7db-1969d0773cf7<br>Getting connected<br>At this point, the container will not be network accessible; it’s attached to a private tenant network. Let’s assign it a floating ip address:</p>
+<pre><code># nova floating-ip-create public
+</code></pre><p>+———————+—————-+—————+————+<br>| Ip           | Server Id | Fixed Ip | Pool   |<br>+———————+—————-+—————+————+<br>| 172.24.4.229 | -         | -        | public |<br>+———————+—————-+—————+————+</p>
+<pre><code># nova floating-ip-associate test0 172.24.4.229
+</code></pre><p>This isn’t going to be immediately accessible because Packstack left us without a route to the floating ip network. We can fix that temporarily like this:</p>
+<pre><code># ip addr add 172.24.4.225/28 dev br-ex
+</code></pre><p>And now we can ping our Docker container:</p>
+<pre><code># ping -c2 172.24.4.229
+</code></pre><p>PING 172.24.4.229 (172.24.4.229) 56(84) bytes of data.<br>64 bytes from 172.24.4.229: icmp_seq=1 ttl=63 time=0.291 ms<br>64 bytes from 172.24.4.229: icmp_seq=2 ttl=63 time=0.074 ms</p>
+<p>—- 172.24.4.229 ping statistics —-<br>2 packets transmitted, 2 received, 0% packet loss, time 1000ms<br>rtt min/avg/max/mdev = 0.074/0.182/0.291/0.109 ms<br>And access the webserver:</p>
+<pre><code>    # curl http://172.24.4.229
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Your web server is working&lt;/title&gt;
+</code></pre>]]></content>
     </entry>
     
     <entry>
@@ -2925,7 +2997,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#104;&#97;&#x6e;&#110;&#105;&#98;&#x61;&#108;&#x40;&#97;&#x2d;&#x74;&#101;&#97;&#x6d;&#x2e;&#99;&#111;&#x6d;">&#104;&#97;&#x6e;&#110;&#105;&#98;&#x61;&#108;&#x40;&#97;&#x2d;&#x74;&#101;&#97;&#x6d;&#x2e;&#99;&#111;&#x6d;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x68;&#x61;&#x6e;&#x6e;&#105;&#98;&#x61;&#x6c;&#x40;&#97;&#45;&#x74;&#101;&#97;&#x6d;&#46;&#x63;&#111;&#109;">&#x68;&#x61;&#x6e;&#x6e;&#105;&#98;&#x61;&#x6c;&#x40;&#97;&#45;&#x74;&#101;&#97;&#x6d;&#46;&#x63;&#111;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -3344,78 +3416,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
 <li><a href="https://github.com/docker/docker-registry/blob/master/ADVANCED.md" target="_blank" rel="external">Docker-Registry advanced use</a></li>
 </ul>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Installing nova docker on OpenStack Juno]]></title>
-      <url>http://feisky.xyz/2015/02/12/installing-nova-docker-on-openstack-juno/</url>
-      <content type="html"><![CDATA[<p>This post comes about indirectly by a request on IRC in #rdo for help getting nova-docker installed on Fedora 21. I ran through the process from start to finish and decided to write everything down for posterity.</p>
-<p>Getting started<br>I started with the Fedora 21 Cloud Image, because I’m installing onto OpenStack and the cloud images include some features that are useful in this environment.</p>
-<p>We’ll be using OpenStack packages from the RDO Juno repository. Because there is often some skew between the RDO packages and the current Fedora selinux policy, we’re going to start by putting SELinux into permissive mode (sorry, Dan):</p>
-<pre><code># setenforce 0
-# sed -i &#39;/^SELINUX=/ s/=.*/=permissive/&#39; /etc/selinux/config
-</code></pre><p>Next, install the RDO Juno repository:</p>
-<pre><code># yum -y install \
-</code></pre><p>  <a href="https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm" target="_blank" rel="external">https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm</a><br>And upgrade all our existing packages:</p>
-<pre><code># yum -y upgrade
-</code></pre><p>Install OpenStack<br>We’ll be using packstack to install OpenStack onto this host. Start by installing the package:</p>
-<pre><code># yum -y install openstack-packstack
-</code></pre><p>And then run a —allinone install, which sets up all OpenStack services on a single host:</p>
-<pre><code># packstack --allinone
-</code></pre><p>Install nova-docker prequisites<br>Once packstack has completed successfully, we need to install some prerequisites for nova-docker.</p>
-<pre><code># yum -y install git python-pip python-pbr \
-</code></pre><p>  docker-io fedora-repos-rawhide<br>The fedora-repos-rawhide package provides a yum configuration for the rawhide repository (disabled by default). We’re going to need that to pick up more recent versions of systemd (because of this bug) and python-six (because nova-docker needs the six.add_metaclass method):</p>
-<pre><code># yum --enablerepo=rawhide install python-six systemd
-</code></pre><p>At this point, having upgraded systemd, you should probably reboot:</p>
-<pre><code># reboot
-</code></pre><p>Configure Docker<br>Once things are up and running, we will expect the nova-compute service to launch Docker containers. In order for this to work, the nova user will need access to the Docker socket, /var/run/docker.sock. By default, this is owned by root:root and has mode 660:</p>
-<pre><code># ls -l /var/run/docker.sock
-</code></pre><p>srw-rw——. 1 root root 0 Feb  1 12:43 /var/run/docker.sock<br>The nova-compute service runs as the nova user and will not have access to that socket. There are a few ways of resolving this; an expedient method is simply to make this socket owned by the nova group, which we can do with docker’s -G option.</p>
-<p>Edit /etc/sysconfig/docker, and modify the OPTIONS= line to look like:</p>
-<p>OPTIONS=’—selinux-enabled -G nova’<br>Then enable and start the docker service:</p>
-<pre><code># systemctl enable docker
-# systemctl start docker
-</code></pre><p>Install nova-docker<br>Clone the nova-docker repository:</p>
-<pre><code># git clone http://github.com/stackforge/nova-docker.git
-# cd nova-docker
-</code></pre><p>And check out the stable/juno branch, since we’re operating with an OpenStack Juno environment:</p>
-<pre><code># git checkout stable/juno
-</code></pre><p>Now install the driver:</p>
-<pre><code># python setup.py install
-</code></pre><p>Configure Nova<br>Following the README from nova-docker, we need to modify the Nova configuration to use the nova-docker driver. Edit /etc/nova/nova.conf and add the following line to the DEFAULT section:</p>
-<p>compute_driver=novadocker.virt.docker.DockerDriver<br>If there is already a line setting compute_driver, then comment it out or delete before adding the new one.</p>
-<p>Modify the Glance configuration to permit storage of Docker images. Edit /etc/glance/glance-api.conf, and add the following line to the DEFAULT section:</p>
-<p>container_formats=ami,ari,aki,bare,ovf,ova,docker<br>Next, we need to augment the rootwrap configuration such that nova-docker is able run the ln command with root privileges. We’ll install the docker.filters file from the nova-docker source:</p>
-<pre><code># mkdir -p /etc/nova/rootwrap.d
-# cp etc/nova/rootwrap.d/docker.filters \
-</code></pre><p>  /etc/nova/rootwrap.d/docker.filters<br>We’ve changed a number of configuration files, so we should restart the affected services:</p>
-<pre><code># openstack-service restart nova glance
-</code></pre><p>Testing things out<br>Let’s try starting a container! We need to select one that will run in the nova-docker environment. Generally, that means one that does not expect to have an interactive terminal and that will automatically start some sort of web-accessible service. I have a minimal thttpd container that fits the bill nicely:</p>
-<pre><code># docker pull larsks/thttpd
-</code></pre><p>We need to store this image into Glance using the same name:</p>
-<pre><code># docker save larsks/thttpd |
-</code></pre><p>  glance image-create —name larsks/thttpd \<br>  —container-format docker —disk-format raw —is-public true<br>And now we should be able to start a container:</p>
-<pre><code># nova boot --image larsks/thttpd --flavor m1.tiny test0
-</code></pre><p>After a bit, nova list should show:</p>
-<p>+———…+———-+————+…+—————————+<br>| ID   …| Name  | Status |…| Networks         |<br>+———…+———-+————+…+—————————+<br>| 430a1…| test0 | ACTIVE |…| private=10.0.0.6 |<br>+———…+———-+————+…+—————————+<br>And we should also see the container if we run docker ps:</p>
-<pre><code># docker ps
-</code></pre><p>CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS               NAMES<br>ee864da30cf1        larsks/thttpd:latest   “/thttpd -D -l /dev/   7 hours ago         Up 7 hours                              nova-430a197e-a0ca-4e72-a7db-1969d0773cf7<br>Getting connected<br>At this point, the container will not be network accessible; it’s attached to a private tenant network. Let’s assign it a floating ip address:</p>
-<pre><code># nova floating-ip-create public
-</code></pre><p>+———————+—————-+—————+————+<br>| Ip           | Server Id | Fixed Ip | Pool   |<br>+———————+—————-+—————+————+<br>| 172.24.4.229 | -         | -        | public |<br>+———————+—————-+—————+————+</p>
-<pre><code># nova floating-ip-associate test0 172.24.4.229
-</code></pre><p>This isn’t going to be immediately accessible because Packstack left us without a route to the floating ip network. We can fix that temporarily like this:</p>
-<pre><code># ip addr add 172.24.4.225/28 dev br-ex
-</code></pre><p>And now we can ping our Docker container:</p>
-<pre><code># ping -c2 172.24.4.229
-</code></pre><p>PING 172.24.4.229 (172.24.4.229) 56(84) bytes of data.<br>64 bytes from 172.24.4.229: icmp_seq=1 ttl=63 time=0.291 ms<br>64 bytes from 172.24.4.229: icmp_seq=2 ttl=63 time=0.074 ms</p>
-<p>—- 172.24.4.229 ping statistics —-<br>2 packets transmitted, 2 received, 0% packet loss, time 1000ms<br>rtt min/avg/max/mdev = 0.074/0.182/0.291/0.109 ms<br>And access the webserver:</p>
-<pre><code>    # curl http://172.24.4.229
-
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Your web server is working&lt;/title&gt;
-</code></pre>]]></content>
     </entry>
     
     <entry>
@@ -6120,6 +6120,65 @@ root@ca83bf0ea76a:/# tail -f /tmp/output.txt
     </entry>
     
     <entry>
+      <title><![CDATA[awk examples]]></title>
+      <url>http://feisky.xyz/2015/01/27/awk-examples/</url>
+      <content type="html"><![CDATA[<ul>
+<li>precede each line by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>replace first field by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print field 1 and field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
+<ul>
+<li>print last field </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print non empty lines</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print if more than 4 fields</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li><p>print matching lines (egrep)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>print lines where first field matches</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>calcuting sum of field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>for loop</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>make arrays</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>reverse a file</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>Associative Arrays </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[reverse shell]]></title>
       <url>http://feisky.xyz/2015/01/27/reverse-shell/</url>
       <content type="html"><![CDATA[<h3 id="Listen-for-8080-first"><a href="#Listen-for-8080-first" class="headerlink" title="Listen for 8080 first"></a>Listen for 8080 first</h3><pre>
@@ -6184,65 +6243,6 @@ Xnest :1
 xhost +targetip
 </pre>
 
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[awk examples]]></title>
-      <url>http://feisky.xyz/2015/01/27/awk-examples/</url>
-      <content type="html"><![CDATA[<ul>
-<li>precede each line by line number</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>replace first field by line number</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>print field 1 and field 2</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
-<ul>
-<li>print last field </li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>print non empty lines</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>print if more than 4 fields</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li><p>print matching lines (egrep)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li>print lines where first field matches</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>calcuting sum of field 2</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>for loop</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>make arrays</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>reverse a file</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>Associative Arrays </li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -6484,7 +6484,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x66;&#101;&#105;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#116;">&#x66;&#101;&#105;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x66;&#101;&#x69;&#115;&#x6b;&#121;&#64;&#114;&#111;&#111;&#x74;">&#x66;&#101;&#x69;&#115;&#x6b;&#121;&#64;&#114;&#111;&#111;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
@@ -7428,16 +7428,16 @@ This means that there is no need for manual setup of block devices, and that gen
     </entry>
     
     <entry>
-      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
+      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
+      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
 ]]></content>
     </entry>
     
