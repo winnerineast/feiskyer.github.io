@@ -313,6 +313,107 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/26/Alpine-Linux/" itemprop="url">
+                  Alpine Linux
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-26T14:27:00+08:00" content="2016-03-26">
+              2016-03-26
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Alpine Linux</p>
+<p>随着Alpine Linux被越来越多的官方镜像使用，我们有必要了解一下Alpine Linux到底是个什么鬼。</p>
+<p>Alpine Linux 是一个面向安全应用的轻量级 Linux 发行版。它采用了musl libc和busybox以减小系统的体积和运行时资源消耗，同时还提供了自己的包管理工具apk。Alpine Linux的内核都打了grsecurity/PaX补丁，并且所有的程序都编译为Position Independent Executables (PIE) 以增强系统的安全性。</p>
+<h3 id="Alpine-Linux小试"><a href="#Alpine-Linux小试" class="headerlink" title="Alpine Linux小试"></a>Alpine Linux小试</h3><p>我们可以通过虚拟机来体验一下完整的Alpine Linux。从alpinelinux.org下载iso（当前是v3.3.3版本，大小为78MB），然后就可以通过Virtual Box或者VMWare创建虚拟机了。默认情况下，启动的虚拟机是diskless模式，重启虚拟机会丢掉所有的变更。因而，建议通过<code>setup-alpine</code>来修改安装模式，同时也对系统进行一些配置的初始化。</p>
+<p>Alpine社区提供了Docker包，可以方便的安装Docker：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">echo “http://nl.alpinelinux.org/alpine/v3.<span class="number">3</span>/community” &gt;&gt; /etc/apk/repositories</div><div class="line">apk update</div><div class="line">apk <span class="keyword">add</span><span class="bash"> docker</span></div><div class="line">rc-update <span class="keyword">add</span><span class="bash"> docker boot</span></div><div class="line">service docker start</div></pre></td></tr></table></figure>
+<h3 id="Alpine-Docker镜像"><a href="#Alpine-Docker镜像" class="headerlink" title="Alpine Docker镜像"></a>Alpine Docker镜像</h3><p>Docker官方还维护了一个Alpine Linux镜像，大小只有4.7MB，比起大家常用的Ubuntu要小的多。现在有很多镜像都已经用这个镜像来代替了以前的Ubuntu/Debian了，比如常用的haproxy、nginx等。</p>
+<p>Alpine Linux的官方网站为[<a href="http://alpinelinux.org]，从[http://wiki.alpinelinux.org]可以找到更多的使用指南。" target="_blank" rel="external">http://alpinelinux.org]，从[http://wiki.alpinelinux.org]可以找到更多的使用指南。</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/04/Borg-Omega-and-Kubernetes-ACM-Queue/" itemprop="url">
                   Borg, Omega, and Kubernetes (ACM Queue)
                 </a>
@@ -730,111 +831,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/29/Carina-by-Rackspace/" itemprop="url">
-                  Carina by Rackspace
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-29T19:20:27+08:00" content="2016-02-29">
-              2016-02-29
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="What-is-Carina"><a href="#What-is-Carina" class="headerlink" title="What is Carina?"></a>What is Carina?</h2><p>Carina is a container runtime environment (currently in Beta) that offers performance, container-native tools, and portability without sacrificing ease of use. You can get started in minutes by using open-source software on managed infrastructure to run your containerized applications.</p>
-<p>Your containers run in a bare-metal environment, which avoids the “hypervisor tax” on performance. Applications in this environment launch as much as 20 percent faster and run as much as 60 percent faster. This environment builds on the standard restrictions set out by libcontainer by using an AppArmor profile as an additional security layer to keep your resources isolated.</p>
-<p>Carina is built on the open-source Docker Swarm project. It exposes the Docker API, which gives you maximum portability for easily moving applications from development to test and production environments, thus reducing errors and saving time. In the future, other container orchestration environments will be available to you.</p>
-<p>You also have access to an intuitive user interface (UI), a command-line interface (CLI), and Carina specific developer tooling, in addition to the ecosystem of tools already compatible with the Docker API. You also have access to a wealth of documentation, from getting started guides to detailed tutorials and best practices. If you need help, you can access community support directly from other developers.</p>
-<p>The path from creating a free account (no credit card required) to running a containerized application on a cluster takes under two minutes. You will use open-source software like Docker to compose your applications. And because the infrastructure is managed by Carina, you can take advantage of features like autoscaling. Now you can focus on what is important to you, your business, and your applications.</p>
-<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">brew <span class="keyword">install</span> carina</div><div class="line"><span class="keyword">export</span> CARINA_USERNAME=&lt;email&gt;</div><div class="line"><span class="keyword">export</span> CARINA_APIKEY=&lt;api_key&gt;</div><div class="line"></div><div class="line">carina <span class="keyword">create</span> cluster <span class="comment">--wait --segments=2 --autoscale</span></div><div class="line">carina <span class="keyword">list</span></div><div class="line">eval $(carina env cluster)</div><div class="line"></div><div class="line"># <span class="keyword">Now</span> play <span class="keyword">with</span> docker images</div><div class="line">$ docker run -itd -P nginx</div><div class="line">ebca8aff4badb001912cc119fb58a93d6d2209622ec74404c0643ecbbf31a50a</div><div class="line"># Grab <span class="keyword">public</span> ip <span class="keyword">and</span> ports</div><div class="line">$ docker inspect -f &#123;&#123;.NetworkSettings.Ports&#125;&#125; ebca8aff</div><div class="line"><span class="keyword">map</span>[<span class="number">443</span>/tcp:[&#123;<span class="number">104.130</span><span class="number">.0</span><span class="number">.24</span> <span class="number">32768</span>&#125;] <span class="number">80</span>/tcp:[&#123;<span class="number">104.130</span><span class="number">.0</span><span class="number">.24</span> <span class="number">32769</span>&#125;]]</div></pre></td></tr></table></figure>
-<h2 id="Limitations"><a href="#Limitations" class="headerlink" title="Limitations"></a>Limitations</h2><p>For a public container service, Carina of course should only allow containers to run non-privileged processes. For example:</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line">$ docker run --rm --privileged busybox</div><div class="line"><span class="attr">Timestamp:</span> <span class="number">2016</span><span class="bullet">-02</span><span class="bullet">-29</span> <span class="number">02</span>:<span class="number">21</span>:<span class="number">29.151360105</span> +<span class="number">0000</span> UTC</div><div class="line"><span class="attr">Code:</span> System error</div><div class="line"></div><div class="line"><span class="attr">Message:</span> permission denied</div><div class="line"></div><div class="line"><span class="attr">Frames:</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">0</span>: setupRootfs</div><div class="line"><span class="attr">Package:</span> github.com/opencontainers/runc/libcontainer</div><div class="line"><span class="attr">File:</span> rootfs_linux.go@<span class="number">40</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">1</span>: Init</div><div class="line"><span class="attr">Package:</span> github.com/opencontainers/runc/libcontainer.(*linuxStandardInit)</div><div class="line"><span class="attr">File:</span> standard_init_linux.go@<span class="number">57</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">2</span>: StartInitialization</div><div class="line"><span class="attr">Package:</span> github.com/opencontainers/runc/libcontainer.(*LinuxFactory)</div><div class="line"><span class="attr">File:</span> factory_linux.go@<span class="number">240</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">3</span>: initializer</div><div class="line"><span class="attr">Package:</span> github.com/docker/docker/daemon/execdriver/native</div><div class="line"><span class="attr">File:</span> init.go@<span class="number">35</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">4</span>: Init</div><div class="line"><span class="attr">Package:</span> github.com/docker/docker/pkg/reexec</div><div class="line"><span class="attr">File:</span> reexec.go@<span class="number">26</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">5</span>: main</div><div class="line"><span class="attr">Package:</span> main</div><div class="line"><span class="attr">File:</span> docker.go@<span class="number">18</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">6</span>: main</div><div class="line"><span class="attr">Package:</span> runtime</div><div class="line"><span class="attr">File:</span> proc.go@<span class="number">111</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">7</span>: goexit</div><div class="line"><span class="attr">Package:</span> runtime</div><div class="line"><span class="attr">File:</span> asm_amd64.s@<span class="number">1721</span></div><div class="line"><span class="attr">docker:</span> Error response from daemon: <span class="number">500</span> Internal Server Error: Container command could not be invoked..</div></pre></td></tr></table></figure>
-<p>What interests me is Carina allows your container bind to host network, which means processes in container could monitoring all networks the underlying physical machine:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -it --rm --net=host  busybox sh</div><div class="line">/ <span class="comment"># hostname</span></div><div class="line">a0b7f5c6<span class="_">-a</span>069-4ed0-b681-adc9ad8<span class="built_in">cd</span>8de-n1</div><div class="line">/ <span class="comment"># ifconfig</span></div><div class="line">docker0   Link encap:Ethernet  HWaddr 02:42:83:02:E7:0C</div><div class="line">          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0</div><div class="line">          inet6 addr: fe80::42:83ff:fe02:e70c/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1211 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1260 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:0</div><div class="line">          RX bytes:579745 (566.1 KiB)  TX bytes:596826 (582.8 KiB)</div><div class="line"></div><div class="line">eth0      Link encap:Ethernet  HWaddr BC:76:4E:20:ED:26</div><div class="line">          inet addr:104.130.0.23  Bcast:104.130.0.255  Mask:255.255.255.0</div><div class="line">          inet6 addr: fe80::be76:4eff:fe20:ed26/64 Scope:Link</div><div class="line">          inet6 addr: 2001:4802:7800:103:be76:4eff:fe20:ed26/64 Scope:Global</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:105014 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:74924 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:195922683 (186.8 MiB)  TX bytes:10895679 (10.3 MiB)</div><div class="line"></div><div class="line">eth1      Link encap:Ethernet  HWaddr BC:76:4E:20:F5:C3</div><div class="line">          inet addr:10.176.224.183  Bcast:10.176.255.255  Mask:255.255.224.0</div><div class="line">          inet6 addr: fe80::be76:4eff:fe20:f5c3/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:7 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:570 (570.0 B)  TX bytes:648 (648.0 B)</div><div class="line"></div><div class="line">lo        Link encap:Local Loopback</div><div class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</div><div class="line">          inet6 addr: ::1/128 Scope:Host</div><div class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</div><div class="line">          RX packets:509058 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:509058 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:0</div><div class="line">          RX bytes:142964399 (136.3 MiB)  TX bytes:142964399 (136.3 MiB)</div><div class="line"></div><div class="line">veth1a257f6 Link encap:Ethernet  HWaddr DE:DC:7D:59:A4:DE</div><div class="line">          inet6 addr: fe80::dcdc:7dff:fe59:a4de/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1161 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1270 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:0</div><div class="line">          RX bytes:590651 (576.8 KiB)  TX bytes:597163 (583.1 KiB)</div><div class="line">/ <span class="comment"># brctl show</span></div><div class="line">bridge name bridge id       STP enabled interfaces</div><div class="line">docker0     8000.02428302e70c   no      veth1a257f6</div><div class="line">/ <span class="comment"># netstat -anp</span></div><div class="line">Active Internet connections (servers and established)</div><div class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</div><div class="line">tcp        0      0 127.0.0.1:12000         0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:12001    0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:12002    0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:7946     0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:8300     0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 127.0.0.1:8400          0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 127.0.0.1:8600          0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:57711         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:57808         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:54332         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:57808         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:57832         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:54335         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:43695      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:54335         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:54328         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:54332         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:43692      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:57832         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:54328         ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:43694      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:47207      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:57711         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 :::32770                :::*                    LISTEN      -</div><div class="line">tcp        0      0 :::2376                 :::*                    LISTEN      -</div><div class="line">tcp        0      0 :::42376                :::*                    LISTEN      -</div><div class="line">tcp        0      0 :::22                   :::*                    LISTEN      -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:47207 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:43694 ESTABLISHED -</div><div class="line">tcp        0   2500 ::ffff:104.130.0.23:2376 ::ffff:139.227.1.228:50333 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:43695 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:43692 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:2376 ::ffff:139.227.1.228:50332 ESTABLISHED -</div><div class="line">udp        0      0 10.176.224.183:7946     0.0.0.0:*                           -</div><div class="line">udp        0      0 127.0.0.1:8600          0.0.0.0:*                           -</div><div class="line">udp        0      0 10.176.224.183:12001    0.0.0.0:*                           -</div><div class="line">udp        0      0 10.176.224.183:12002    0.0.0.0:*                           -</div><div class="line">Active UNIX domain sockets (servers and established)</div><div class="line">Proto RefCnt Flags       Type       State         I-Node PID/Program name    Path</div><div class="line">unix  2      [ ACC ]     STREAM     LISTENING     1015753155 -                   /var/lib/docker/network/files/33d3542ddd4b10c0411b8c50997cceb8272475bc7a63caeb666e772b57c48a8a.sock</div><div class="line">unix  2      [ ACC ]     STREAM     LISTENING     1015755212 -                   /var/run/docker.sock</div><div class="line">/ <span class="comment"># brctl addbr br0</span></div><div class="line">brctl: bridge br0: Operation not permitted</div></pre></td></tr></table></figure>
-<p>Although you couldn’t manage networks (Operation not permitted), but as you see above, containers could obtain many sensitive machine informations. Actually I don’t understand why Rackspace would like to take this risk for public services, or this is just because they are making mistakes. </p>
-<p>Though Rackspace makes a different way of CaaS (Run docker bare-metally), Docker itself without hypervisor is still not of security for pulic container services. So all of pulic container services, including AWS ECS, Google GKE, Docker Cloud and so on, are running Docker on virtual machines provided by IaaS.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -880,7 +876,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-count">90</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -897,7 +893,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

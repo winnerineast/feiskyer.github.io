@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://feisky.xyz/"/>
-  <updated>2016-11-14T00:02:49.174Z</updated>
+  <updated>2016-11-14T08:51:11.816Z</updated>
   <id>http://feisky.xyz/</id>
   
   <author>
@@ -16,11 +16,122 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>KubeCon/CloudNativeCon 2016见闻</title>
+    <link href="http://feisky.xyz/2016/11/14/KubeCon-2016%E8%A7%81%E9%97%BB/"/>
+    <id>http://feisky.xyz/2016/11/14/KubeCon-2016见闻/</id>
+    <published>2016-11-14T01:49:52.000Z</published>
+    <updated>2016-11-14T08:51:11.816Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Self-hosts-Kubernetes"><a href="#Self-hosts-Kubernetes" class="headerlink" title="Self-hosts Kubernetes"></a>Self-hosts Kubernetes</h2><p>基本的idea是用Kubernetes来管理Kubernetes的部署和升级，这也是一个孵化状态的项目<a href="https://github.com/kubernetes-incubator/bootkube" target="_blank" rel="external">bootkube</a>。由于kubelet初始化需要控制平面的配合，bootkube会在一开始的时候会启动一个暂时的控制平面（api-server, scheduler, controller manager），部署完成后再替换回来。</p>
+<p>部署前将bootkube作为控制平面：</p>
+<p><img src="/images/bootkube-1.png" alt="bootkube-1"></p>
+<p>部署后替换成真正的控制平面：</p>
+<p><img src="/images/bootkube-2.png" alt="bootkube-2"></p>
+<p>相关文档</p>
+<ul>
+<li><a href="https://github.com/kubernetes-incubator/bootkube" target="_blank" rel="external">Incubator BootKube</a></li>
+<li><a href="https://speakerdeck.com/philips/kubecon-2016-self-hosted-scale-and-federation-with-kubernetes-v1-dot-4-and-beyond" target="_blank" rel="external">Slide</a></li>
+<li><a href="https://docs.google.com/document/d/1VNp4CMjPPHevh2_JQGMl-hpz9JSLq3s7HlI87CTjl-8/edit" target="_blank" rel="external">Design of bootkube</a></li>
+<li><a href="https://coreos.com/blog/self-hosted-kubernetes.html" target="_blank" rel="external">Blog of self-booted kubernetes</a></li>
+<li><a href="https://docs.google.com/document/d/1_I6xT0XHCoOqZUT-dtpxzwvYpTR5JmFQY0S4gL2PPkU/edit#heading=h.yeahbhtih70g" target="_blank" rel="external">Kubelet as a Container and Self-Hosted Kubernetes</a></li>
+</ul>
+<h2 id="F2F"><a href="#F2F" class="headerlink" title="F2F"></a>F2F</h2><p><strong><a href="https://docs.google.com/document/d/1ZVQIzLuHsBFDCw-QLO30rqRlSNSc1xynfs9GAFrjeVc/edit" target="_blank" rel="external">Sig-node F2F</a></strong></p>
+<ul>
+<li>Performance-Sensitive Application Platform<ul>
+<li>高性能应用的场景，比如telecom, HFT等，需要NUMA、GPU、sysctls、hugepage、cpuset等等的支持。</li>
+<li>一个idea是通过daemonset并配合NodeAllocatable</li>
+</ul>
+</li>
+<li>CRI blockers and progress<ul>
+<li>1.5的feature基本完成，只剩下一些bug fixes</li>
+<li>per-pod cgroups</li>
+<li>monitoring</li>
+<li>api versioning</li>
+<li>hostport network</li>
+<li>metrics</li>
+<li>CRI validation tests</li>
+<li>auth</li>
+</ul>
+</li>
+<li>Runtime agnostic debugging tools<ul>
+<li>CLI for CRI?</li>
+</ul>
+</li>
+<li>NodeSpec standardization</li>
+<li>Packaging</li>
+</ul>
+<p><strong><a href="https://docs.google.com/document/d/1wtJeXhiVOL7qdDK_zouZPjskTIrsOLmD-9Ij478y7_Y/edit" target="_blank" rel="external">OCI F2F</a></strong></p>
+<p>最主要的是<code>Runtime CLI Spec</code>和<code>Image Spec rc3</code>。比较有趣的是<a href="https://github.com/vbatts/nspawn-oci" target="_blank" rel="external">systemd wrapper / rkt wrapper for OCI runtime-spec CLI</a>，rkt也要加入OCI的大营。</p>
+<h2 id="Developer-Summit"><a href="#Developer-Summit" class="headerlink" title="Developer Summit"></a>Developer Summit</h2><p><strong><a href="https://docs.google.com/presentation/d/1SD6a6eJl47t0qyTFE8GzaiytW4T_crdWgYAMCaLy1W8" target="_blank" rel="external">Scaling the Kubernetes CodeBase</a></strong></p>
+<p>Kubernetes使用github来管理代码库，但现在碰到了明显的瓶颈：从2015年下半年开始<a href="http://velodrome.k8s.io/dashboard/db/kubernetes-developer-velocity" target="_blank" rel="external">merge时间明显加长</a>，open issues和PRs一直再增长，大量无关紧要的github通知等等。未来计划将Kubernetes的代码拆分到多个repo中，kuberentes代码库只保留核心代码，并通过Extension mechanism来支持各种功能：</p>
+<ul>
+<li>Apiserver federation</li>
+<li>Authorization hooks</li>
+<li>Admission-control hooks</li>
+<li>Initializers and finalizers</li>
+<li>ThirdPartyResource</li>
+<li>Kubectl extensions</li>
+<li>Service Broker, Operators</li>
+<li>Controller pattern</li>
+<li>External cloudproviders</li>
+<li>CRI, network, and storage plugins</li>
+<li>Cluster addons: UI, monitoring, logging</li>
+<li>Feature gates, feature discovery, dependency management</li>
+</ul>
+<p>更多记录见<a href="https://docs.google.com/document/d/1zN2DWKerXwbzxZTO52wBRqp_uHMdLp8P52xYOmp5WZ4/edit" target="_blank" rel="external">这里</a>.</p>
+<p><strong>其他的Summit简介</strong></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1dFfN3_9VM4cRKknZB9_0wsM_1YLJToRTEx7dX6BoEhI" target="_blank" rel="external">Kubernetes 2017 Features &amp; Roadmaps</a> <a href="https://docs.google.com/spreadsheets/d/154cAee2mOn3LoQDgpgG2ZzAIdIlQ_KnMlghGjnGwQ1w" target="_blank" rel="external">Roadmap</a><ul>
+<li>Scale the project (tablestakes)</li>
+<li>Reference architectures for application workflows</li>
+<li>Secure multi-tenancy with service catalog</li>
+<li>Production ready cluster lifecycle</li>
+<li>Multi-cloud support for AWS / Azure / on premises</li>
+</ul>
+</li>
+<li><a href="https://docs.google.com/document/d/11kK39Zz3zxIY9-GFa8buqqWYOrctFQ7hvOw5NBFwJL0/edit#heading=h.n0vlwrfu65r1" target="_blank" rel="external">Cluster Lifecycle Deployment &amp; Upgrade Roadmap</a><ul>
+<li>HA</li>
+<li>Upgrades</li>
+<li>Config Management</li>
+<li>Toolbox vs. guided flow</li>
+<li>Documentation</li>
+<li>Conformance Testing</li>
+<li>PKI</li>
+</ul>
+</li>
+<li><a href="https://docs.google.com/presentation/d/1GFuKgN-1kMmcg41T9HsasP8YEWtMAipEibYnwGkQuHo" target="_blank" rel="external">Documentation</a> and <a href="https://docs.google.com/document/d/1VYoVl63Iq2QSKxpoV7HGXmWasxU5EQCAuoIItj-ODvM/edit" target="_blank" rel="external">here</a></li>
+<li><a href="https://docs.google.com/document/d/1cJhpjRcXpTmTWQswEfBqSbrfqrawtD9ZlWW30Q3BWv4/edit" target="_blank" rel="external">K8s Dev Summit: Outstanding Issues and PRs</a><ul>
+<li>Issues 4600+, PRs 600+，还在不断增长中</li>
+<li><a href="https://github.com/kubernetes/community/tree/master/sig-contribx" target="_blank" rel="external">Sig Contribx</a>会跟进处理这个问题</li>
+</ul>
+</li>
+<li><a href="https://docs.google.com/document/d/1WmRwT3nhLXTYRLKlj9rjZmEXv3BEu7TFX29nuaO3enA/edit#heading=h.w90umf5dyer3" target="_blank" rel="external">Multi-tenancy</a></li>
+<li><a href="https://docs.google.com/document/d/1X5i-Z3GsFyknxq4LyB3cObXEm5ds7DTUYOKwHAMHK5A/edit" target="_blank" rel="external">Azure &amp; AWS Kubernetes Discussion</a></li>
+<li><a href="https://docs.google.com/document/d/1klHgGFKtSPHGNlG24LDb5-ornBUtZLcUnEjF8XKXDes/edit" target="_blank" rel="external">Contrib notes</a> and <a href="https://docs.google.com/document/d/19B2vcK6Y3xE3JO7sd4n6lPF0m9bBVZpNucvcR3MwEXA/edit" target="_blank" rel="external">On developer onboarding</a></li>
+<li><a href="https://docs.google.com/document/d/1p7scsTPzPyouktBFTxu4RhRwW8yUn5Lj7VGY9SaOo-8/edit" target="_blank" rel="external">Compute resource management</a></li>
+<li><a href="https://docs.google.com/document/d/1K2hh7nQ9glYzGE-5J7oKBB7oK3S_MKqwCISXZK-sB2Q/edit" target="_blank" rel="external">Logging volumes</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Self-hosts-Kubernetes&quot;&gt;&lt;a href=&quot;#Self-hosts-Kubernetes&quot; class=&quot;headerlink&quot; title=&quot;Self-hosts Kubernetes&quot;&gt;&lt;/a&gt;Self-hosts Kubernetes&lt;/
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://feisky.xyz/tags/kubernetes/"/>
+    
+      <category term="kubecon" scheme="http://feisky.xyz/tags/kubecon/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Kubernetes container runtime interface</title>
     <link href="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/"/>
     <id>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</id>
     <published>2016-09-24T22:59:31.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
@@ -72,7 +183,7 @@
     <link href="http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     <id>http://feisky.xyz/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
     <published>2016-09-11T01:48:09.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -131,7 +242,7 @@
     <link href="http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/</id>
     <published>2016-08-24T06:48:44.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
@@ -192,7 +303,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/"/>
     <id>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</id>
     <published>2016-07-19T07:58:26.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
@@ -236,7 +347,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/"/>
     <id>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</id>
     <published>2016-06-24T04:39:49.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
@@ -315,7 +426,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
     <id>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
     <published>2016-06-17T09:12:38.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
@@ -363,7 +474,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/"/>
     <id>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</id>
     <published>2016-06-07T05:21:07.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
@@ -388,7 +499,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
     <id>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
     <published>2016-06-06T08:10:25.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
@@ -464,7 +575,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/"/>
     <id>http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/</id>
     <published>2016-05-11T02:25:06.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
 <p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
@@ -497,7 +608,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/06/Go-performance-optimize/"/>
     <id>http://feisky.xyz/2016/05/06/Go-performance-optimize/</id>
     <published>2016-05-06T12:40:06.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
 <ol>
@@ -553,7 +664,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/"/>
     <id>http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</id>
     <published>2016-05-05T09:16:46.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[
 
@@ -582,7 +693,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/"/>
     <id>http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/</id>
     <published>2016-04-29T08:50:14.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
 <blockquote>
@@ -644,7 +755,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/runc/"/>
     <id>http://feisky.xyz/2016/04/28/runc/</id>
     <published>2016-04-28T03:15:03.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
 <h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
@@ -689,7 +800,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/"/>
     <id>http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/</id>
     <published>2016-04-28T02:07:23.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：</p>
 <ul>
@@ -753,7 +864,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/DPDK-Introduction/"/>
     <id>http://feisky.xyz/2016/04/24/DPDK-Introduction/</id>
     <published>2016-04-24T11:43:07.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.812Z</updated>
     
     <content type="html"><![CDATA[<h2 id="DPDK-Introduction"><a href="#DPDK-Introduction" class="headerlink" title="DPDK Introduction"></a>DPDK Introduction</h2><p>Intel DPDK全称Intel Data Plane Development Kit，是intel提供的数据平面开发工具集，为Intel architecture（IA）处理器架构下用户空间高效的数据包处理提供库函数和驱动的支持，它不同于Linux系统以通用性设计为目的，而是专注于网络应用中数据包的高性能处理。DPDK应用程序是运行在用户空间上利用自身提供的数据平面库来收发数据包，绕过了Linux内核协议栈对数据包处理过程。Linux内核将DPDK应用程序看作是一个普通的用户态进程，包括它的编译、连接和加载方式和普通程序没有什么两样。DPDK程序启动后只能有一个主线程，然后创建一些子线程并绑定到指定CPU核心上运行。</p>
 <p>DPDK官方网站为<a href="http://dpdk.org/" target="_blank" rel="external">http://dpdk.org/</a>，官方文档为<a href="http://dpdk.org/doc/guides/index.html" target="_blank" rel="external">http://dpdk.org/doc/guides/index.html</a></p>
@@ -817,7 +928,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/Tips-for-cgo/"/>
     <id>http://feisky.xyz/2016/04/24/Tips-for-cgo/</id>
     <published>2016-04-24T00:29:02.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>cgo的一些tips</p>
 <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>The standard C numeric types are available under the names C.char, C.schar (signed char), C.uchar (unsigned char), C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int), C.long, C.ulong (unsigned long), C.longlong (long long), C.ulonglong (unsigned long long), C.float, C.double, C.complexfloat (complex float), and C.complexdouble (complex double). The C type void* is represented by Go’s unsafe.Pointer. The C types <code>__int128_t</code> and <code>__uint128_t</code> are represented by [16]byte.</p>
@@ -857,7 +968,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/19/cgo-in-go-1-6/"/>
     <id>http://feisky.xyz/2016/04/19/cgo-in-go-1-6/</id>
     <published>2016-04-19T14:04:48.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.812Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with Go’s garbage collector. Briefly, Go and C may share memory allocated by Go when a pointer to that memory is passed to C as part of a cgo call, provided that the memory itself contains no pointers to Go-allocated memory, and provided that C does not retain the pointer after the call returns. These rules are checked by the runtime during program execution: if the runtime detects a violation, it prints a diagnosis and crashes the program. The checks can be disabled by setting the environment variable GODEBUG=cgocheck=0, but note that the vast majority of code identified by the checks is subtly incompatible with garbage collection in one way or another. Disabling the checks will typically only lead to more mysterious failure modes. Fixing the code in question should be strongly preferred over turning off the checks.</p>
@@ -893,7 +1004,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/"/>
     <id>http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/</id>
     <published>2016-04-15T08:34:00.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
 <ul>
@@ -927,7 +1038,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/03/30/Upgrade-CentOS-kernel/"/>
     <id>http://feisky.xyz/2016/03/30/Upgrade-CentOS-kernel/</id>
     <published>2016-03-30T14:25:00.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
+    <updated>2016-11-14T08:51:11.816Z</updated>
     
     <content type="html"><![CDATA[<p>终于耐不住要升级下kernel了，目前epel提供两个版本: kernel-lt (4.4)和kernel-ml (4.5):</p>
 <ul>
@@ -953,34 +1064,6 @@ Available Commands:
     
     
       <category term="linux" scheme="http://feisky.xyz/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Alpine Linux</title>
-    <link href="http://feisky.xyz/2016/03/26/Alpine-Linux/"/>
-    <id>http://feisky.xyz/2016/03/26/Alpine-Linux/</id>
-    <published>2016-03-26T06:27:00.000Z</published>
-    <updated>2016-11-14T00:02:49.174Z</updated>
-    
-    <content type="html"><![CDATA[<p>Alpine Linux</p>
-<p>随着Alpine Linux被越来越多的官方镜像使用，我们有必要了解一下Alpine Linux到底是个什么鬼。</p>
-<p>Alpine Linux 是一个面向安全应用的轻量级 Linux 发行版。它采用了musl libc和busybox以减小系统的体积和运行时资源消耗，同时还提供了自己的包管理工具apk。Alpine Linux的内核都打了grsecurity/PaX补丁，并且所有的程序都编译为Position Independent Executables (PIE) 以增强系统的安全性。</p>
-<h3 id="Alpine-Linux小试"><a href="#Alpine-Linux小试" class="headerlink" title="Alpine Linux小试"></a>Alpine Linux小试</h3><p>我们可以通过虚拟机来体验一下完整的Alpine Linux。从alpinelinux.org下载iso（当前是v3.3.3版本，大小为78MB），然后就可以通过Virtual Box或者VMWare创建虚拟机了。默认情况下，启动的虚拟机是diskless模式，重启虚拟机会丢掉所有的变更。因而，建议通过<code>setup-alpine</code>来修改安装模式，同时也对系统进行一些配置的初始化。</p>
-<p>Alpine社区提供了Docker包，可以方便的安装Docker：</p>
-<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">echo “http://nl.alpinelinux.org/alpine/v3.<span class="number">3</span>/community” &gt;&gt; /etc/apk/repositories</div><div class="line">apk update</div><div class="line">apk <span class="keyword">add</span><span class="bash"> docker</span></div><div class="line">rc-update <span class="keyword">add</span><span class="bash"> docker boot</span></div><div class="line">service docker start</div></pre></td></tr></table></figure>
-<h3 id="Alpine-Docker镜像"><a href="#Alpine-Docker镜像" class="headerlink" title="Alpine Docker镜像"></a>Alpine Docker镜像</h3><p>Docker官方还维护了一个Alpine Linux镜像，大小只有4.7MB，比起大家常用的Ubuntu要小的多。现在有很多镜像都已经用这个镜像来代替了以前的Ubuntu/Debian了，比如常用的haproxy、nginx等。</p>
-<p>Alpine Linux的官方网站为[<a href="http://alpinelinux.org]，从[http://wiki.alpinelinux.org]可以找到更多的使用指南。" target="_blank" rel="external">http://alpinelinux.org]，从[http://wiki.alpinelinux.org]可以找到更多的使用指南。</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Alpine Linux&lt;/p&gt;
-&lt;p&gt;随着Alpine Linux被越来越多的官方镜像使用，我们有必要了解一下Alpine Linux到底是个什么鬼。&lt;/p&gt;
-&lt;p&gt;Alpine Linux 是一个面向安全应用的轻量级 Linux 发行版。它采用了musl libc和bu
-    
-    </summary>
-    
     
   </entry>
   
