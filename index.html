@@ -357,7 +357,40 @@
       
         
           
-            <h2 id="Self-hosts-Kubernetes"><a href="#Self-hosts-Kubernetes" class="headerlink" title="Self-hosts Kubernetes"></a>Self-hosts Kubernetes</h2><p>基本的idea是用Kubernetes来管理Kubernetes的部署和升级，这也是一个孵化状态的项目<a href="https://github.com/kubernetes-incubator/bootkube" target="_blank" rel="external">bootkube</a>。由于kubelet初始化需要控制平面的配合，bootkube会在一开始的时候会启动一个暂时的控制平面（api-server, scheduler, controller manager），部署完成后再替换回来。</p>
+            <p>题记：上周去西雅图参加了[KubeCon&amp;CloudNativeCon 2016)(<a href="http://events.linuxfoundation.org/events/kubecon)，不仅见到Dawn、Brendan、Tim以及Sig" target="_blank" rel="external">http://events.linuxfoundation.org/events/kubecon)，不仅见到Dawn、Brendan、Tim以及Sig</a> Node的各路大神，还参加了不少有趣的session。</p>
+<h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
+<ul>
+<li>Simple Service: simply exposes a function as an HTTP service.</li>
+<li>Scatter/Gather: fans all requests out to all leaf nodes (scatter phase), all responses are then aggregated in a root node (gather phase), this aggregate response is returned to the caller.</li>
+<li>Shard: select a shard (replica) for a request.</li>
+<li>Spread: similar to Shard, but uses a randomized shardingFunction.</li>
+</ul>
+<h2 id="Unik-Unikernel-Runtime-for-Kubernetes-Idit-Levine-EMC"><a href="#Unik-Unikernel-Runtime-for-Kubernetes-Idit-Levine-EMC" class="headerlink" title="Unik: Unikernel Runtime for Kubernetes - Idit Levine, EMC"></a><a href="https://cnkc16.sched.org/event/8K8v/unik-unikernel-runtime-for-kubernetes-idit-levine-emc?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Unik: Unikernel Runtime for Kubernetes</a> - Idit Levine, EMC</h2><p><a href="https://github.com/emc-advanced-dev/unik" target="_blank" rel="external">Unik</a>是一个将应用编译成unikernel的工具，支持rump/OSv/IncludeOS/MirageOS等，编译的结果可以直接跑在公有云或者本地的虚拟机中。</p>
+<p>Unik在Kubernetes中实现了一个特殊的<a href="https://github.com/emc-advanced-dev/kubernetes/tree/master/pkg/kubelet/unik" target="_blank" rel="external">runtime</a>，并可以通过kubernetes来管理unik：</p>
+<ul>
+<li>镜像管理：实际上通过rkt来操作镜像</li>
+<li>Pod管理：one Pod == one VM == one Container，通过调用unik daemon来操作</li>
+</ul>
+<h2 id="Technical-View-Comparison-of-Container-Orchestration-and-Management-Systems-Lei-Zhang-HyperHQ"><a href="#Technical-View-Comparison-of-Container-Orchestration-and-Management-Systems-Lei-Zhang-HyperHQ" class="headerlink" title="Technical View: Comparison of Container Orchestration and Management Systems - Lei Zhang, HyperHQ"></a><a href="https://cnkc16.sched.org/event/8K3x/technical-view-comparison-of-container-orchestration-and-management-systems-lei-zhang-hyperhq?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Technical View: Comparison of Container Orchestration and Management Systems</a> - Lei Zhang, HyperHQ</h2><p>我司张磊同学的大作，从架构、控制平面、服务发现与负载均衡、调度等各个角度对比Kubernetes/Swarmkit/Mesos等常见容器编排系统，并以<a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">hypernetes</a>和<a href="http://hyper.sh/" target="_blank" rel="external">Hyper Container Service</a>为例说明为什么kubernetes是一个更好的选择。</p>
+<p><img src="/images/1-4.png" alt="1"><br><img src="/images/2-3.png" alt="2"></p>
+<h2 id="Everything-You-Ever-Wanted-to-Know-About-Resource-Scheduling-But-Were-Afraid-to-Ask-Tim-Hockin-Google"><a href="#Everything-You-Ever-Wanted-to-Know-About-Resource-Scheduling-But-Were-Afraid-to-Ask-Tim-Hockin-Google" class="headerlink" title="Everything You Ever Wanted to Know About Resource Scheduling, But Were Afraid to Ask - Tim Hockin, Google"></a><a href="https://cnkc16.sched.org/event/8K8l/everything-you-ever-wanted-to-know-about-resource-scheduling-but-were-afraid-to-ask-tim-hockin-google?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Everything You Ever Wanted to Know About Resource Scheduling, But Were Afraid to Ask</a> - Tim Hockin, Google</h2><p>Kubernetes is fundamentally about resource management:</p>
+<ul>
+<li>CPU/Memory/Disk</li>
+<li>Network/Ports/IP addresses</li>
+<li>PIDs</li>
+<li>GPUs</li>
+<li>Storage</li>
+<li>Power</li>
+</ul>
+<p>关于资源管理的三方面:</p>
+<ul>
+<li>Isolation：保证应用可以获取想要的资源并且不影响其他应用，目前基于Requests/Limits只支持cpu和内存</li>
+<li>Sizing：应该给用户分配多少资源呢，没有统一的方法，只能靠benchmark，但精确的benchmark很难，所以Kubernetes提供了Horizontal Pod Autoscaler，未来可能还会有VerticalPodAutoscaler</li>
+<li>Utilization：资源的实际使用情况是啥样的，涉及Priority调度、Quota管理、Overcommit等等。</li>
+</ul>
+<p><img src="/images/3-4.png" alt="3"></p>
+<p>Slide见<a href="https://speakerdeck.com/thockin/everything-you-ever-wanted-to-know-about-resource-scheduling-dot-dot-dot-almost" target="_blank" rel="external">这里</a>.</p>
+<h2 id="Self-hosted-Scale-and-Federation-with-Kubernetes-v1-4-and-Beyond-Brandon-Philips-CoreOS"><a href="#Self-hosted-Scale-and-Federation-with-Kubernetes-v1-4-and-Beyond-Brandon-Philips-CoreOS" class="headerlink" title="Self-hosted, Scale, and Federation with Kubernetes v1.4 and Beyond - Brandon Philips, CoreOS"></a><a href="https://cnkc16.sched.org/event/8K3v/self-hosted-scale-and-federation-with-kubernetes-v14-and-beyond-brandon-philips-coreos-inc?iframe=yes&amp;w=100%&amp;sidebar=yes&amp;bg=no#" target="_blank" rel="external">Self-hosted, Scale, and Federation with Kubernetes v1.4 and Beyond</a> - Brandon Philips, CoreOS</h2><p>基本的idea是用Kubernetes来管理Kubernetes的部署和升级，这也是一个孵化状态的项目<a href="https://github.com/kubernetes-incubator/bootkube" target="_blank" rel="external">bootkube</a>。由于kubelet初始化需要控制平面的配合，bootkube会在一开始的时候会启动一个暂时的控制平面（api-server, scheduler, controller manager），部署完成后再替换回来。</p>
 <p>部署前将bootkube作为控制平面：</p>
 <p><img src="/images/bootkube-1.png" alt="bootkube-1"></p>
 <p>部署后替换成真正的控制平面：</p>
