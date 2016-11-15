@@ -86,37 +86,31 @@
 
 
 
-<meta name="description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
+<meta name="description" content="持久化存储我们知道默认情况下容器的数据都是非持久化的，在容器消亡以后数据也跟着丢失，所以Docker提供了Volume机制以便将数据持久化存储。类似的，Kubernetes提供了更强大的Volume机制和丰富的插件，解决了容器数据持久化和容器间共享数据的问题。
+Volume目前，Kubernetes支持以下Volume类型：
 
-cgroupfs-mount
-fetch-pr.sh
-run-e2e-test.sh
-run-unit-tests.sh
-run-">
+emptyDir
+hostPath
+gcePersistentDisk">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Kubernetes Development">
-<meta property="og:url" content="http://feisky.xyz/container/kubernetes-dev.html">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/kubernetes/architecture/Volume.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
+<meta property="og:description" content="持久化存储我们知道默认情况下容器的数据都是非持久化的，在容器消亡以后数据也跟着丢失，所以Docker提供了Volume机制以便将数据持久化存储。类似的，Kubernetes提供了更强大的Volume机制和丰富的插件，解决了容器数据持久化和容器间共享数据的问题。
+Volume目前，Kubernetes支持以下Volume类型：
 
-cgroupfs-mount
-fetch-pr.sh
-run-e2e-test.sh
-run-unit-tests.sh
-run-">
-<meta property="og:updated_time" content="2016-11-15T00:02:44.226Z">
+emptyDir
+hostPath
+gcePersistentDisk">
+<meta property="og:updated_time" content="2016-11-15T08:07:08.597Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kubernetes Development">
-<meta name="twitter:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="持久化存储我们知道默认情况下容器的数据都是非持久化的，在容器消亡以后数据也跟着丢失，所以Docker提供了Volume机制以便将数据持久化存储。类似的，Kubernetes提供了更强大的Volume机制和丰富的插件，解决了容器数据持久化和容器间共享数据的问题。
+Volume目前，Kubernetes支持以下Volume类型：
 
-cgroupfs-mount
-fetch-pr.sh
-run-e2e-test.sh
-run-unit-tests.sh
-run-">
+emptyDir
+hostPath
+gcePersistentDisk">
 
 
 
@@ -137,14 +131,14 @@ run-">
 
 
 
-  <link rel="canonical" href="http://feisky.xyz/container/kubernetes-dev.html"/>
+  <link rel="canonical" href="http://feisky.xyz/kubernetes/architecture/Volume.html"/>
 
 
   <title>
   
 
   
-    Kubernetes Development | Feisky's Blog
+     | Feisky's Blog
   
 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
@@ -320,47 +314,43 @@ run-">
   <div id="posts" class="posts-expand">
     
     
-      <h1 id="Tips-for-kubernetes-development"><a href="#Tips-for-kubernetes-development" class="headerlink" title="Tips for kubernetes development"></a>Tips for kubernetes development</h1><h2 id="Dev-in-container"><a href="#Dev-in-container" class="headerlink" title="Dev in container"></a>Dev in container</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">docker <span class="built_in">run</span> -<span class="keyword">it</span> feisky/kubernetes-dev bash</div></pre></td></tr></table></figure>
-<p>There are some useful scripts in the images:</p>
+      <h1 id="持久化存储"><a href="#持久化存储" class="headerlink" title="持久化存储"></a>持久化存储</h1><p>我们知道默认情况下容器的数据都是非持久化的，在容器消亡以后数据也跟着丢失，所以Docker提供了Volume机制以便将数据持久化存储。类似的，Kubernetes提供了更强大的Volume机制和丰富的插件，解决了容器数据持久化和容器间共享数据的问题。</p>
+<h2 id="Volume"><a href="#Volume" class="headerlink" title="Volume"></a>Volume</h2><p>目前，Kubernetes支持以下Volume类型：</p>
 <ul>
-<li>cgroupfs-mount</li>
-<li>fetch-pr.sh</li>
-<li>run-e2e-test.sh</li>
-<li>run-unit-tests.sh</li>
-<li>run-node-e2e-test.sh</li>
-<li>setup-kubectl.sh</li>
-<li>start-frakti.sh</li>
-<li>start-docker.sh</li>
-<li>start-hyperd.sh</li>
-<li>start-kubernetes.sh</li>
-<li>start-kubernetes-cri.sh</li>
-<li>start-kubernetes-frakti.sh</li>
+<li>emptyDir</li>
+<li>hostPath</li>
+<li>gcePersistentDisk</li>
+<li>awsElasticBlockStore</li>
+<li>nfs</li>
+<li>iscsi</li>
+<li>flocker</li>
+<li>glusterfs</li>
+<li>rbd</li>
+<li>cephfs</li>
+<li>gitRepo</li>
+<li>secret</li>
+<li>persistentVolumeClaim</li>
+<li>downwardAPI</li>
+<li>azureFileVolume</li>
+<li>vsphereVolume</li>
+<li>flexvolume</li>
 </ul>
-<h2 id="Setup-development-virtual-machine"><a href="#Setup-development-virtual-machine" class="headerlink" title="Setup development virtual machine"></a>Setup development virtual machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install -y gcc make socat git</div><div class="line"></div><div class="line"><span class="comment"># install docker</span></div><div class="line">curl -fsSL https://get.docker.com/ | sh</div><div class="line"></div><div class="line"><span class="comment"># install etcd</span></div><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.10/etcd-v3.0.10-linux-amd64.tar.gz -o etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; tar xzvf etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; /bin/cp <span class="_">-f</span> etcd-v3.0.10-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin &amp;&amp; rm -rf etcd-v3.0.10-linux-amd64*</div><div class="line"></div><div class="line"><span class="comment"># install golang</span></div><div class="line">curl <span class="_">-s</span>L https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz | tar -C /usr/<span class="built_in">local</span> -zxf -</div><div class="line"><span class="built_in">export</span> GOPATH=/gopath</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOPATH</span>/bin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/go/bin/</div><div class="line"></div><div class="line"><span class="comment"># Get essential tools for building kubernetes</span></div><div class="line">go get -u github.com/jteeuwen/go-bindata/go-bindata</div><div class="line"></div><div class="line"><span class="comment"># Get kubernetes code</span></div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/k8s.io</div><div class="line">git <span class="built_in">clone</span> https://github.com/kubernetes/kubernetes <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"></div><div class="line"><span class="comment"># Start a local cluster</span></div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line"><span class="built_in">export</span> EXPERIMENTAL_CRI=<span class="literal">true</span></div><div class="line"><span class="comment"># export ALLOW_SECURITY_CONTEXT=yes</span></div><div class="line"><span class="comment"># set dockerd --selinux-enabled</span></div><div class="line"><span class="comment"># export NET_PLUGIN=kubenet</span></div><div class="line">hack/<span class="built_in">local</span>-up-cluster.sh</div></pre></td></tr></table></figure>
-<p>Setup kubectl in another shell:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">cluster/kubectl.sh config <span class="built_in">set</span>-cluster <span class="built_in">local</span> --server=http://127.0.0.1:8080 --insecure-skip-tls-verify=<span class="literal">true</span></div><div class="line">cluster/kubectl.sh config <span class="built_in">set</span>-context <span class="built_in">local</span> --cluster=<span class="built_in">local</span></div><div class="line">cluster/kubectl.sh config use-context <span class="built_in">local</span></div></pre></td></tr></table></figure>
-<h2 id="Unit-tests"><a href="#Unit-tests" class="headerlink" title="Unit tests"></a>Unit tests</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># unit test a special package</span></div><div class="line">go <span class="built_in">test</span> -v k8s.io/kubernetes/pkg/kubelet/kuberuntime</div></pre></td></tr></table></figure>
-<h2 id="Running-e2e-test-locally"><a href="#Running-e2e-test-locally" class="headerlink" title="Running e2e test locally"></a>Running e2e test locally</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">make WHAT=<span class="string">'test/e2e/e2e.test'</span></div><div class="line">make ginkgo</div><div class="line"></div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">go run hack/e2e.go -v -test --test_args=<span class="string">'--ginkgo.focus=Port\sforwarding'</span></div><div class="line">go run hack/e2e.go -v -test --test_args=<span class="string">'--ginkgo.focus=Feature:SecurityContext'</span></div></pre></td></tr></table></figure>
-<h2 id="Running-node-e2e-locally"><a href="#Running-node-e2e-locally" class="headerlink" title="Running node e2e locally"></a>Running node e2e locally</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">make <span class="built_in">test</span><span class="_">-e</span>2e-node FOCUS=<span class="string">"InitContainer"</span> TEST_ARGS=<span class="string">"--runtime-integration-type=cri"</span></div></pre></td></tr></table></figure>
-<h2 id="Bot-commands"><a href="#Bot-commands" class="headerlink" title="Bot commands"></a>Bot commands</h2><ul>
-<li>Jenkins verification: <code>@k8s-bot verify test this</code></li>
-<li>GCE E2E: <code>@k8s-bot cvm gce e2e test this</code></li>
-<li>Test all: <code>@k8s-bot test this please, issue #IGNORE</code></li>
-<li>CRI test: <code>@k8s-bot cri test this.</code></li>
-<li>Verity test: <code>@k8s-bot verify test this</code></li>
-<li>See more commands at <a href="https://github.com/kubernetes/test-infra/blob/master/prow/jobs.yaml" target="_blank" rel="external">https://github.com/kubernetes/test-infra/blob/master/prow/jobs.yaml</a></li>
-</ul>
-<p><strong>Auto LGTM (only applied if you are one of assignees):</strong></p>
-<ul>
-<li><code>/lgtm</code></li>
-<li><code>/lgtm cancel</code></li>
-</ul>
-<h2 id="Tips-for-git"><a href="#Tips-for-git" class="headerlink" title="Tips for git"></a>Tips for git</h2><p>Fetch a pull request to local:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">git fetch upstream pull/324/head:branch</div><div class="line">git fetch upstream pull/365/merge:branch</div></pre></td></tr></table></figure>
-<p>Or add following config to <code>.git/config</code> and run <code>git fetch</code> for all pull requests:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">fetch = +refs/pull/*<span class="symbol">:refs/remotes/origin/pull/*</span></div></pre></td></tr></table></figure>
-<h2 id="Start-a-VM-on-GCE-via-docker-machine"><a href="#Start-a-VM-on-GCE-via-docker-machine" class="headerlink" title="Start a VM on GCE via docker-machine"></a>Start a VM on GCE via docker-machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker-machine create --driver google --google-project xxxx --google-machine-type n1-standard-2 --google-disk-size 30 kubernetes</div></pre></td></tr></table></figure>
-<h2 id="Minikube-for-starting-local-cluster"><a href="#Minikube-for-starting-local-cluster" class="headerlink" title="Minikube for starting local cluster"></a>Minikube for starting local cluster</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ minikube get-k8s-versions</div><div class="line">The following Kubernetes versions are available:</div><div class="line">    - v1.5.0-alpha.0</div><div class="line">    - v1.4.3</div><div class="line">    - v1.4.2</div><div class="line">    - v1.4.1</div><div class="line">    - v1.4.0</div><div class="line">    - v1.3.7</div><div class="line">    - v1.3.6</div><div class="line">    - v1.3.5</div><div class="line">    - v1.3.4</div><div class="line">    - v1.3.3</div><div class="line">    - v1.3.0</div><div class="line"></div><div class="line"><span class="comment"># http proxy is required in China</span></div><div class="line">$ minikube start --docker-env HTTP_PROXY=http://proxy-ip:port --docker-env HTTPS_PROXY=http://proxy-ip:port --vm-driver=xhyve --kubernetes-version=<span class="string">"v1.4.3"</span></div></pre></td></tr></table></figure>
+<p>注意，这些volume并非全部都是持久化的，比如emptyDir、secret、gitRepo等，这些volume会随着Pod的消亡而消失。</p>
+<h2 id="PersistentVolume"><a href="#PersistentVolume" class="headerlink" title="PersistentVolume"></a>PersistentVolume</h2><p>对于持久化的Volume，PersistentVolume (PV)和PersistentVolumeClaim (PVC)提供了更方便的管理卷的方法：PV提供网络存储资源，而PVC请求存储资源。这样，设置持久化的工作流包括配置底层文件系统或者云数据卷、创建持久性数据卷、最后创建claim来将pod跟数据卷关联起来。PV和PVC可以将pod和数据卷解耦，pod不需要知道确切的文件系统或者支持它的持久化引擎。</p>
+<h3 id="PV"><a href="#PV" class="headerlink" title="PV"></a>PV</h3><p>PersistentVolume（PV）是集群之中的一块网络存储。跟 Node 一样，也是集群的资源。PV 跟 Volume (卷) 类似，不过会有独立于 Pod 的生命周期。比如一个NFS的PV可以定义为</p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><div class="line"><span class="symbol">apiVersion:</span> v1</div><div class="line"><span class="symbol">kind:</span> PersistentVolume</div><div class="line"><span class="symbol">metadata:</span></div><div class="line"><span class="symbol">  name:</span> pv0003</div><div class="line"><span class="symbol">spec:</span></div><div class="line"><span class="symbol">  capacity:</span></div><div class="line"><span class="symbol">    storage:</span> <span class="number">5</span>Gi</div><div class="line"><span class="symbol">  accessModes:</span></div><div class="line">    - ReadWriteOnce</div><div class="line"><span class="symbol">  persistentVolumeReclaimPolicy:</span> Recycle</div><div class="line"><span class="symbol">  nfs:</span></div><div class="line"><span class="symbol">    path:</span> /tmp</div><div class="line"><span class="symbol">    server:</span> <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span></div></pre></td></tr></table></figure>
+<h3 id="PVC"><a href="#PVC" class="headerlink" title="PVC"></a>PVC</h3><p>PV是存储资源，而PersistentVolumeClaim (PVC) 是对PV的请求。PVC跟Pod类似：Pod消费Node的源，而PVC消费PV资源；Pod能够请求CPU和内存资源，而PVC请求特定大小和访问模式的数据卷。</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><div class="line"><span class="attribute">kind</span>: PersistentVolumeClaim</div><div class="line"><span class="attribute">apiVersion</span>: v1</div><div class="line"><span class="attribute">metadata</span>:</div><div class="line">  <span class="attribute">name</span>: myclaim</div><div class="line"><span class="attribute">spec</span>:</div><div class="line">  <span class="attribute">accessModes</span>:</div><div class="line">    - ReadWriteOnce</div><div class="line">  <span class="attribute">resources</span>:</div><div class="line">    <span class="attribute">requests</span>:</div><div class="line">      <span class="attribute">storage</span>: <span class="number">8</span>Gi</div><div class="line">  <span class="attribute">selector</span>:</div><div class="line">    <span class="attribute">matchLabels</span>:</div><div class="line">      <span class="attribute">release</span>: <span class="string">"stable"</span></div><div class="line">    <span class="attribute">matchExpressions</span>:</div><div class="line">      - &#123;<span class="attribute">key</span>: environment, <span class="attribute">operator</span>: In, <span class="attribute">values</span>: [dev]&#125;</div></pre></td></tr></table></figure>
+<p>PVC可以直接挂载到Pod中：</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><div class="line"><span class="attribute">kind</span>: Pod</div><div class="line"><span class="attribute">apiVersion</span>: v1</div><div class="line"><span class="attribute">metadata</span>:</div><div class="line">  <span class="attribute">name</span>: mypod</div><div class="line"><span class="attribute">spec</span>:</div><div class="line">  <span class="attribute">containers</span>:</div><div class="line">    - <span class="attribute">name</span>: myfrontend</div><div class="line">      <span class="attribute">image</span>: dockerfile/nginx</div><div class="line">      <span class="attribute">volumeMounts</span>:</div><div class="line">      - <span class="attribute">mountPath</span>: <span class="string">"/var/www/html"</span></div><div class="line">        <span class="attribute">name</span>: mypd</div><div class="line">  <span class="attribute">volumes</span>:</div><div class="line">    - <span class="attribute">name</span>: mypd</div><div class="line">      <span class="attribute">persistentVolumeClaim</span>:</div><div class="line">        <span class="attribute">claimName</span>: myclaim</div></pre></td></tr></table></figure>
+<h2 id="emptyDir"><a href="#emptyDir" class="headerlink" title="emptyDir"></a>emptyDir</h2><p>如果Pod配置了emptyDir类型Volume， Pod 被分配到Node上时候，会创建emptyDir，只要Pod运行在Node上，emptyDir都会存在（容器挂掉不会导致emptyDir丢失数据），但是如果Pod从Node上被删除（Pod被删除，或者Pod发生迁移），emptyDir也会被删除，并且永久丢失。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> v1</div><div class="line"><span class="attr">kind:</span> Pod</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> test-pd</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  containers:</span></div><div class="line"><span class="attr">  - image:</span> gcr.io/google_containers/test-webserver</div><div class="line"><span class="attr">    name:</span> test-container</div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - mountPath:</span> /test-pd</div><div class="line"><span class="attr">      name:</span> test-volume</div><div class="line"><span class="attr">  volumes:</span></div><div class="line"><span class="attr">  - name:</span> test-volume</div><div class="line"><span class="attr">    hostPath:</span></div><div class="line">      <span class="comment"># directory location on host</span></div><div class="line"><span class="attr">      path:</span> /data</div></pre></td></tr></table></figure>
+<h2 id="hostPath"><a href="#hostPath" class="headerlink" title="hostPath"></a>hostPath</h2><p>hostPath允许挂载Node上的文件系统到Pod里面去。如果Pod有需要使用Node上的文件，可以使用hostPath。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">- hostPath:</span></div><div class="line"><span class="attr">  path:</span> /tmp/data</div><div class="line"><span class="attr">  name:</span> data</div></pre></td></tr></table></figure>
+<h2 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h2><p>NFS 是Network File System的缩写，即网络文件系统。Kubernetes中通过简单地配置就可以挂载NFS到Pod中，而NFS中的数据是可以永久保存的，同时NFS支持同时写操作。</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><div class="line"><span class="attribute">volumes</span>:</div><div class="line">- <span class="attribute">name</span>: nfs</div><div class="line">  <span class="attribute">nfs</span>:</div><div class="line">    # <span class="attribute">FIXME</span>: use the right hostname</div><div class="line">    <span class="attribute">server</span>: <span class="number">10.254</span>.<span class="number">234.223</span></div><div class="line">    <span class="attribute">path</span>: <span class="string">"/"</span></div></pre></td></tr></table></figure>
+<h2 id="FlexVolume"><a href="#FlexVolume" class="headerlink" title="FlexVolume"></a>FlexVolume</h2><p>注意要把volume plugin放到<code>/usr/libexec/kubernetes/kubelet-plugins/volume/exec/&lt;vendor~driver&gt;/&lt;driver&gt;</code>，plugin要实现<code>init/attach/detach/mount/umount</code>等命令（可参考lvm的<a href="https://github.com/kubernetes/kubernetes/tree/master/examples/volumes/flexvolume" target="_blank" rel="external">示例</a>）。</p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><div class="line">- name: test</div><div class="line"><span class="symbol">  flexVolume:</span></div><div class="line"><span class="symbol">    driver:</span> <span class="string">"kubernetes.io/lvm"</span></div><div class="line"><span class="symbol">    fsType:</span> <span class="string">"ext4"</span></div><div class="line"><span class="symbol">    options:</span></div><div class="line"><span class="symbol">      volumeID:</span> <span class="string">"vol1"</span></div><div class="line"><span class="symbol">      size:</span> <span class="string">"1000m"</span></div><div class="line"><span class="symbol">      volumegroup:</span> <span class="string">"kube_vg"</span></div></pre></td></tr></table></figure>
 
     
   </div>
@@ -506,7 +496,7 @@ run-">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tips-for-kubernetes-development"><span class="nav-number">1.</span> <span class="nav-text">Tips for kubernetes development</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dev-in-container"><span class="nav-number">1.1.</span> <span class="nav-text">Dev in container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setup-development-virtual-machine"><span class="nav-number">1.2.</span> <span class="nav-text">Setup development virtual machine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unit-tests"><span class="nav-number">1.3.</span> <span class="nav-text">Unit tests</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-e2e-test-locally"><span class="nav-number">1.4.</span> <span class="nav-text">Running e2e test locally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-node-e2e-locally"><span class="nav-number">1.5.</span> <span class="nav-text">Running node e2e locally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bot-commands"><span class="nav-number">1.6.</span> <span class="nav-text">Bot commands</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips-for-git"><span class="nav-number">1.7.</span> <span class="nav-text">Tips for git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-a-VM-on-GCE-via-docker-machine"><span class="nav-number">1.8.</span> <span class="nav-text">Start a VM on GCE via docker-machine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Minikube-for-starting-local-cluster"><span class="nav-number">1.9.</span> <span class="nav-text">Minikube for starting local cluster</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#持久化存储"><span class="nav-number">1.</span> <span class="nav-text">持久化存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Volume"><span class="nav-number">1.1.</span> <span class="nav-text">Volume</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PersistentVolume"><span class="nav-number">1.2.</span> <span class="nav-text">PersistentVolume</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PV"><span class="nav-number">1.2.1.</span> <span class="nav-text">PV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PVC"><span class="nav-number">1.2.2.</span> <span class="nav-text">PVC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#emptyDir"><span class="nav-number">1.3.</span> <span class="nav-text">emptyDir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hostPath"><span class="nav-number">1.4.</span> <span class="nav-text">hostPath</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS"><span class="nav-number">1.5.</span> <span class="nav-text">NFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FlexVolume"><span class="nav-number">1.6.</span> <span class="nav-text">FlexVolume</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

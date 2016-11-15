@@ -1564,7 +1564,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1cffe5;
+  background: #9cf1f2;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2130,7 +2130,7 @@ a.search-result {
 .category-all-page .category-list {
   margin: 0;
   padding: 0;
-  list-style: none;
+  list-style: circle;
 }
 .category-all-page .category-list-item {
   margin: 5px 10px;
@@ -2315,6 +2315,71 @@ a.search-result {
     -o-transform: scale(1);
     transform: scale(1);
   }
+}
+.posts-expand {
+  padding-top: 40px;
+}
+@media (max-width: 767px) {
+  .posts-expand {
+    margin: 0 20px;
+  }
+  .post-body pre,
+  .post-body .highlight {
+    padding: 10px;
+  }
+  .post-body pre .gutter pre,
+  .post-body .highlight .gutter pre {
+    padding-right: 10px;
+  }
+}
+@media (min-width: 992px) {
+  .posts-expand .post-body {
+    text-align: justify;
+  }
+}
+.posts-expand .post-body h2,
+.posts-expand .post-body h3,
+.posts-expand .post-body h4,
+.posts-expand .post-body h5,
+.posts-expand .post-body h6 {
+  padding-top: 10px;
+}
+.posts-expand .post-body h2 .header-anchor,
+.posts-expand .post-body h3 .header-anchor,
+.posts-expand .post-body h4 .header-anchor,
+.posts-expand .post-body h5 .header-anchor,
+.posts-expand .post-body h6 .header-anchor {
+  float: right;
+  margin-left: 10px;
+  color: #ccc;
+  border-bottom-style: none;
+  visibility: hidden;
+}
+.posts-expand .post-body h2 .header-anchor:hover,
+.posts-expand .post-body h3 .header-anchor:hover,
+.posts-expand .post-body h4 .header-anchor:hover,
+.posts-expand .post-body h5 .header-anchor:hover,
+.posts-expand .post-body h6 .header-anchor:hover {
+  color: inherit;
+}
+.posts-expand .post-body h2:hover .header-anchor,
+.posts-expand .post-body h3:hover .header-anchor,
+.posts-expand .post-body h4:hover .header-anchor,
+.posts-expand .post-body h5:hover .header-anchor,
+.posts-expand .post-body h6:hover .header-anchor {
+  visibility: visible;
+}
+.posts-expand .post-body ul li {
+  list-style: circle;
+}
+.posts-expand .post-body img {
+  box-sizing: border-box;
+  margin: auto;
+  padding: 3px;
+  border: 1px solid #ddd;
+}
+.posts-expand .fancybox img {
+  margin: 0 auto;
 }
 .page-post-detail .sidebar-toggle-line {
   background: #fc6423;
