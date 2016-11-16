@@ -86,37 +86,16 @@
 
 
 
-<meta name="description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
-
-cgroupfs-mount
-fetch-pr.sh
-run-e2e-test.sh
-run-unit-tests.sh
-run-">
+<meta name="description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash# /hack/start-hyperd.sh# /hack/start-docker.sh# /hack/start-frakti.sh# /hack/start-kubernetes-frakti.sh# /hack/s">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Kubernetes Development">
 <meta property="og:url" content="http://feisky.xyz/kubernetes-dev/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
-
-cgroupfs-mount
-fetch-pr.sh
-run-e2e-test.sh
-run-unit-tests.sh
-run-">
-<meta property="og:updated_time" content="2016-11-16T00:02:49.366Z">
+<meta property="og:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash# /hack/start-hyperd.sh# /hack/start-docker.sh# /hack/start-frakti.sh# /hack/start-kubernetes-frakti.sh# /hack/s">
+<meta property="og:updated_time" content="2016-11-16T07:10:26.985Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes Development">
-<meta name="twitter:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
-
-cgroupfs-mount
-fetch-pr.sh
-run-e2e-test.sh
-run-unit-tests.sh
-run-">
+<meta name="twitter:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash# /hack/start-hyperd.sh# /hack/start-docker.sh# /hack/start-frakti.sh# /hack/start-kubernetes-frakti.sh# /hack/s">
 
 
 
@@ -320,22 +299,23 @@ run-">
   <div id="posts" class="posts-expand">
     
     
-      <h1 id="Tips-for-kubernetes-development"><a href="#Tips-for-kubernetes-development" class="headerlink" title="Tips for kubernetes development"></a>Tips for kubernetes development</h1><h2 id="Dev-in-container"><a href="#Dev-in-container" class="headerlink" title="Dev in container"></a>Dev in container</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">docker <span class="built_in">run</span> -<span class="keyword">it</span> feisky/kubernetes-dev bash</div></pre></td></tr></table></figure>
+      <h1 id="Tips-for-kubernetes-development"><a href="#Tips-for-kubernetes-development" class="headerlink" title="Tips for kubernetes development"></a>Tips for kubernetes development</h1><h2 id="Dev-in-container"><a href="#Dev-in-container" class="headerlink" title="Dev in container"></a>Dev in container</h2><figure class="highlight vala"><table><tr><td class="code"><pre><div class="line">docker run -it feisky/kubernetes-dev bash</div><div class="line"><span class="meta"># /hack/start-hyperd.sh</span></div><div class="line"><span class="meta"># /hack/start-docker.sh</span></div><div class="line"><span class="meta"># /hack/start-frakti.sh</span></div><div class="line"><span class="meta"># /hack/start-kubernetes-frakti.sh</span></div><div class="line"><span class="meta"># /hack/setup-kubectl.sh</span></div><div class="line"><span class="meta"># cluster/kubectl.sh</span></div></pre></td></tr></table></figure>
 <p>There are some useful scripts in the images:</p>
-<ul>
-<li>cgroupfs-mount</li>
-<li>fetch-pr.sh</li>
-<li>run-e2e-test.sh</li>
-<li>run-unit-tests.sh</li>
-<li>run-node-e2e-test.sh</li>
-<li>setup-kubectl.sh</li>
-<li>start-frakti.sh</li>
-<li>start-docker.sh</li>
-<li>start-hyperd.sh</li>
-<li>start-kubernetes.sh</li>
-<li>start-kubernetes-cri.sh</li>
-<li>start-kubernetes-frakti.sh</li>
-</ul>
+<ol>
+<li>/hack/cgroupfs-mount</li>
+<li>/hack/fetch-pr.sh</li>
+<li>/hack/run-e2e-test.sh</li>
+<li>/hack/run-unit-tests.sh</li>
+<li>/hack/run-node-e2e-test.sh</li>
+<li>/hack/setup-kubectl.sh</li>
+<li>/hack/start-frakti.sh</li>
+<li>/hack/start-docker.sh</li>
+<li>/hack/start-hyperd.sh</li>
+<li>/hack/start-ocid.sh</li>
+<li>/hack/start-kubernetes.sh</li>
+<li>/hack/start-kubernetes-cri.sh</li>
+<li>/hack/start-kubernetes-frakti.sh</li>
+</ol>
 <h2 id="Setup-development-virtual-machine"><a href="#Setup-development-virtual-machine" class="headerlink" title="Setup development virtual machine"></a>Setup development virtual machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install -y gcc make socat git</div><div class="line"></div><div class="line"><span class="comment"># install docker</span></div><div class="line">curl -fsSL https://get.docker.com/ | sh</div><div class="line"></div><div class="line"><span class="comment"># install etcd</span></div><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.10/etcd-v3.0.10-linux-amd64.tar.gz -o etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; tar xzvf etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; /bin/cp <span class="_">-f</span> etcd-v3.0.10-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin &amp;&amp; rm -rf etcd-v3.0.10-linux-amd64*</div><div class="line"></div><div class="line"><span class="comment"># install golang</span></div><div class="line">curl <span class="_">-s</span>L https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz | tar -C /usr/<span class="built_in">local</span> -zxf -</div><div class="line"><span class="built_in">export</span> GOPATH=/gopath</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOPATH</span>/bin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/go/bin/</div><div class="line"></div><div class="line"><span class="comment"># Get essential tools for building kubernetes</span></div><div class="line">go get -u github.com/jteeuwen/go-bindata/go-bindata</div><div class="line"></div><div class="line"><span class="comment"># Get kubernetes code</span></div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/k8s.io</div><div class="line">git <span class="built_in">clone</span> https://github.com/kubernetes/kubernetes <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"></div><div class="line"><span class="comment"># Start a local cluster</span></div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line"><span class="built_in">export</span> EXPERIMENTAL_CRI=<span class="literal">true</span></div><div class="line"><span class="comment"># export ALLOW_SECURITY_CONTEXT=yes</span></div><div class="line"><span class="comment"># set dockerd --selinux-enabled</span></div><div class="line"><span class="comment"># export NET_PLUGIN=kubenet</span></div><div class="line">hack/<span class="built_in">local</span>-up-cluster.sh</div></pre></td></tr></table></figure>
 <p>Setup kubectl in another shell:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">cluster/kubectl.sh config <span class="built_in">set</span>-cluster <span class="built_in">local</span> --server=http://127.0.0.1:8080 --insecure-skip-tls-verify=<span class="literal">true</span></div><div class="line">cluster/kubectl.sh config <span class="built_in">set</span>-context <span class="built_in">local</span> --cluster=<span class="built_in">local</span></div><div class="line">cluster/kubectl.sh config use-context <span class="built_in">local</span></div></pre></td></tr></table></figure>
