@@ -86,22 +86,53 @@
 
 
 
-<meta name="description" content="Machine LearningTensorFlowdocker run -itd -p 8888:8888 tensorflow/tensorflow
+<meta name="description" content="Machine Learning
+基本
+监督学习概览
+线性回归
+逻辑回归
+RNN
+CNN
+可视化
+
+TensorFlowdocker run -itd -p 8888:8888 -p 6006:6006 tensorflow/tensorflow
 With GPU
-$ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -I&amp;#123;&amp;#125; echo &apos;-v &amp;#123;&amp;#125;:&amp;#123;&amp;#125">
+$ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Machine Learning">
 <meta property="og:url" content="http://feisky.xyz/ml/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Machine LearningTensorFlowdocker run -itd -p 8888:8888 tensorflow/tensorflow
+<meta property="og:description" content="Machine Learning
+基本
+监督学习概览
+线性回归
+逻辑回归
+RNN
+CNN
+可视化
+
+TensorFlowdocker run -itd -p 8888:8888 -p 6006:6006 tensorflow/tensorflow
 With GPU
-$ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -I&amp;#123;&amp;#125; echo &apos;-v &amp;#123;&amp;#125;:&amp;#123;&amp;#125">
-<meta property="og:updated_time" content="2016-11-25T00:04:22.697Z">
+$ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -">
+<meta property="og:image" content="http://feisky.xyz/images/14781583352915.png">
+<meta property="og:image" content="http://feisky.xyz/images/ml_guide.png">
+<meta property="og:image" content="http://feisky.xyz/images/14797924028207.jpg">
+<meta property="og:updated_time" content="2016-11-25T11:57:23.018Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning">
-<meta name="twitter:description" content="Machine LearningTensorFlowdocker run -itd -p 8888:8888 tensorflow/tensorflow
+<meta name="twitter:description" content="Machine Learning
+基本
+监督学习概览
+线性回归
+逻辑回归
+RNN
+CNN
+可视化
+
+TensorFlowdocker run -itd -p 8888:8888 -p 6006:6006 tensorflow/tensorflow
 With GPU
-$ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -I&amp;#123;&amp;#125; echo &apos;-v &amp;#123;&amp;#125;:&amp;#123;&amp;#125">
+$ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -">
+<meta name="twitter:image" content="http://feisky.xyz/images/14781583352915.png">
 
 
 
@@ -305,9 +336,21 @@ $ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -I&amp;#123;&a
   <div id="posts" class="posts-expand">
     
     
-      <h1 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h1><h2 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a>TensorFlow</h2><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> -itd -p 8888:8888 tensorflow/tensorflow</span></div></pre></td></tr></table></figure>
+      <h1 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h1><ul>
+<li><a href="basic/">基本</a></li>
+<li><a href="supervised-learning.html">监督学习概览</a></li>
+<li><a href="regression/linear.html">线性回归</a></li>
+<li><a href="regression/logistic.html">逻辑回归</a></li>
+<li><a href="rnn/">RNN</a></li>
+<li><a href="cnn/">CNN</a></li>
+<li><a href="visualization/">可视化</a></li>
+</ul>
+<h2 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a><a href="tensorflow/">TensorFlow</a></h2><figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">docker run -itd -<span class="selector-tag">p</span> <span class="number">8888</span>:<span class="number">8888</span> -<span class="selector-tag">p</span> <span class="number">6006</span>:<span class="number">6006</span> tensorflow/tensorflow</div></pre></td></tr></table></figure>
 <p>With GPU</p>
 <figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ export CUDA_SO=$(\ls /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libcuda</span>* | <span class="title">xargs</span> -<span class="title">I</span>&#123;&#125; <span class="title">echo</span> '-<span class="title">v</span> &#123;&#125;:&#123;&#125;')</span></div><div class="line">$ export DEVICES=$(\ls /dev/nvidia* | xargs -I&#123;&#125; echo <span class="string">'--device &#123;&#125;:&#123;&#125;'</span>)</div><div class="line">$ docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> $CUDA_SO $DEVICES tensorflow/tensorflow-devel-gpu</div></pre></td></tr></table></figure>
+<h2 id="Machine-Learning-Cheet-Sheet"><a href="#Machine-Learning-Cheet-Sheet" class="headerlink" title="Machine Learning Cheet Sheet"></a><a href="cheatsheet.html">Machine Learning Cheet Sheet</a></h2><p><img src="/images/14781583352915.png" alt=""></p>
+<p>There is also a good diagram from Dlib:</p>
+<p><img src="/images/ml_guide.png" alt="ml_guide"></p>
 <h2 id="Readings"><a href="#Readings" class="headerlink" title="Readings"></a>Readings</h2><ol>
 <li><a href="http://www.iro.umontreal.ca/~bengioy/dlbook/" target="_blank" rel="external">Deep Learning</a> by Yoshua Bengio, Ian Goodfellow and Aaron Courville</li>
 <li><a href="http://neuralnetworksanddeeplearning.com/" target="_blank" rel="external">Neural Networks and Deep Learning</a> by  Michael Nielsen</li>
@@ -323,6 +366,13 @@ $ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -I&amp;#123;&a
 <li><a href="http://www.image-net.org/" target="_blank" rel="external">Visual Dictionary tiny images</a></li>
 <li><a href="https://yahooresearch.tumblr.com/" target="_blank" rel="external">Flickr images</a></li>
 <li><a href="https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/bsds/" target="_blank" rel="external">The Berkeley Segmentation Dataset</a></li>
+</ul>
+<h2 id="Landscape-of-machine-intelligence"><a href="#Landscape-of-machine-intelligence" class="headerlink" title="Landscape of machine intelligence"></a>Landscape of machine intelligence</h2><p><img src="/images/14797924028207.jpg" alt=""></p>
+<p><strong>References:</strong></p>
+<ul>
+<li><a href="http://scikit-learn.org/stable/tutorial/machine_learning_map/" target="_blank" rel="external">http://scikit-learn.org/stable/tutorial/machine_learning_map/</a></li>
+<li><a href="http://dlib.net/ml_guide.svg" target="_blank" rel="external">http://dlib.net/ml_guide.svg</a></li>
+<li><a href="http://www.shivonzilis.com/" target="_blank" rel="external">http://www.shivonzilis.com/</a></li>
 </ul>
 
     
@@ -469,7 +519,7 @@ $ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda* | xargs -I&amp;#123;&a
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow"><span class="nav-number">1.1.</span> <span class="nav-text">TensorFlow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Readings"><span class="nav-number">1.2.</span> <span class="nav-text">Readings</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataSets"><span class="nav-number">1.3.</span> <span class="nav-text">DataSets</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow"><span class="nav-number">1.1.</span> <span class="nav-text">TensorFlow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Machine-Learning-Cheet-Sheet"><span class="nav-number">1.2.</span> <span class="nav-text">Machine Learning Cheet Sheet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Readings"><span class="nav-number">1.3.</span> <span class="nav-text">Readings</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataSets"><span class="nav-number">1.4.</span> <span class="nav-text">DataSets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Landscape-of-machine-intelligence"><span class="nav-number">1.5.</span> <span class="nav-text">Landscape of machine intelligence</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

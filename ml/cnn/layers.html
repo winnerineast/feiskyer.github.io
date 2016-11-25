@@ -1,0 +1,861 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="CNN的各个Layer参考这里.
+Common LayersFor a neural network architecture to be considered a CNN, it requires at least one convolution layer (tf.nn.conv2d). There are practical uses for a single layer CNN (edge">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CNN的各个Layer">
+<meta property="og:url" content="http://feisky.xyz/ml/cnn/layers.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="CNN的各个Layer参考这里.
+Common LayersFor a neural network architecture to be considered a CNN, it requires at least one convolution layer (tf.nn.conv2d). There are practical uses for a single layer CNN (edge">
+<meta property="og:image" content="http://feisky.xyz/images/14800387485892.png">
+<meta property="og:image" content="http://feisky.xyz/images/14800387941747.png">
+<meta property="og:updated_time" content="2016-11-25T11:57:23.018Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CNN的各个Layer">
+<meta name="twitter:description" content="CNN的各个Layer参考这里.
+Common LayersFor a neural network architecture to be considered a CNN, it requires at least one convolution layer (tf.nn.conv2d). There are practical uses for a single layer CNN (edge">
+<meta name="twitter:image" content="http://feisky.xyz/images/14800387485892.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/ml/cnn/layers.html"/>
+
+
+  <title>
+  
+
+  
+    CNN的各个Layer | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h1 id="CNN的各个Layer"><a href="#CNN的各个Layer" class="headerlink" title="CNN的各个Layer"></a>CNN的各个Layer</h1><p>参考<a href="https://github.com/backstopmedia/tensorflowbook/blob/master/chapters/05_object_recognition_and_classification/Chapter%205%20-%2003%20Layers.ipynb" target="_blank" rel="external">这里</a>.</p>
+<h2 id="Common-Layers"><a href="#Common-Layers" class="headerlink" title="Common Layers"></a>Common Layers</h2><p>For a neural network architecture to be considered a CNN, it requires at least one convolution layer (<code>tf.nn.conv2d</code>). There are practical uses for a single layer CNN (edge detection), for image recognition and categorization it is common to use different layer types to support a convolution layer. These layers help reduce over-fitting, speed up training and decrease memory usage.</p>
+<p>The layers covered in this chapter are focused on layers commonly used in a CNN architecture. A CNN isn’t limited to use only these layers, they can be mixed with layers designed for other network architectures.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># setup-only-ignore</span></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># setup-only-ignore</span></div><div class="line">sess = tf.InteractiveSession()</div></pre></td></tr></table></figure>
+<h3 id="Convolution-Layers"><a href="#Convolution-Layers" class="headerlink" title="Convolution Layers"></a>Convolution Layers</h3><p>One type of convolution layer has been covered in detail (<code>tf.nn.conv2d</code>) but there are a few notes which are useful to advanced users. The convolution layers in TensorFlow don’t do a full convolution, details can be found in <a href="https://www.tensorflow.org/versions/r0.8/api_docs/python/nn.html#convolution" target="_blank" rel="external">the TensorFlow API documentation</a>. In practice, the difference between a convolution and the operation TensorFlow uses is performance. TensorFlow uses a technique to speed up the convolution operation in all the different types of convolution layers.</p>
+<p>There are use cases for each type of convolution layer but for <code>tf.nn.conv2d</code> is a good place to start. The other types of convolutions are useful but not required in building a network capable of object recognition and classification. A brief summary of each is included.</p>
+<h4 id="tf-nn-depthwise-conv2d"><a href="#tf-nn-depthwise-conv2d" class="headerlink" title="tf.nn.depthwise_conv2d"></a>tf.nn.depthwise_conv2d</h4><p>Used when attaching the output of one convolution to the input of another convolution layer. An advanced use case is using a <code>tf.nn.depthwise_conv2d</code> to create a network following the <a href="http://arxiv.org/abs/1512.00567" target="_blank" rel="external">inception architecture</a>.</p>
+<h4 id="tf-nn-separable-conv2d"><a href="#tf-nn-separable-conv2d" class="headerlink" title="tf.nn.separable_conv2d"></a>tf.nn.separable_conv2d</h4><p>Similar to <code>tf.nn.conv2d</code> but not a replacement. For large models, it speeds up training without sacrificing accuracy. For small models, it will converge quickly with worse accuracy.</p>
+<h4 id="tf-nn-conv2d-transpose"><a href="#tf-nn-conv2d-transpose" class="headerlink" title="tf.nn.conv2d_transpose"></a>tf.nn.conv2d_transpose</h4><p>Applies a kernel to a new feature map where each section is filled with the same values as the kernel. As the kernel strides over the new image, any overlapping sections are summed together. There is a great explanation on how <code>tf.nn.conv2d_transpose</code> is used for learnable upsampling in <a href="https://www.youtube.com/watch?v=ByjaPdWXKJ4&amp;t=20m00s" target="_blank" rel="external">Stanford’s CS231n Winter 2016: Lecture 13</a>.</p>
+<h3 id="Activation-Functions"><a href="#Activation-Functions" class="headerlink" title="Activation Functions"></a>Activation Functions</h3><p>These functions are used in combination with the output of other layers to generate a feature map. They’re used to smooth (or differentiate) the results of certain operations. The goal is to introduce non-linearity into the neural network. Non-linearity means that the input is a curve instead of a straight line. Curves are capable of representing more complex changes in input. For example, non-linear input is capable of describing input which stays small for the majority of the time but periodically has a single point at an extreme. Introduction of non-linearity in a neural network allows it to train on the complex patterns found in data.</p>
+<p>TensorFlow has <a href="https://www.tensorflow.org/versions/r0.8/api_docs/python/nn.html#activation-functions" target="_blank" rel="external">multiple activation functions</a> available. With CNNs, <code>tf.nn.relu</code> is primarily used because of its performance although it sacrifices information. When starting out, using <code>tf.nn.relu</code> is recommended but advanced users may create their own. When considering if an activation function is useful there are a few primary considerations.</p>
+<ol>
+<li>The function is <a href="https://en.wikipedia.org/wiki/Monotonic_function" target="_blank" rel="external"><strong>monotonic</strong></a>, so its output should always be increasing or decreasing along with the input. This allows gradient descent optimization to search for local minima.</li>
+<li>The function is <a href="https://en.wikipedia.org/wiki/Differentiable_function" target="_blank" rel="external"><strong>differentiable</strong></a>, so there must be a derivative at any point in the function’s domain. This allows gradient descent optimization to properly work using the output from this style of activation function.</li>
+</ol>
+<p>Any functions which satisfy those considerations could be used as activation functions. In TensorFlow there are a few worth highlighting which are common to see in CNN architectures. A brief summary of each is included with a small sample code illustrating their usage.</p>
+<h4 id="tf-nn-relu"><a href="#tf-nn-relu" class="headerlink" title="tf.nn.relu"></a>tf.nn.relu</h4><p>A rectifier (rectified linear unit) called a ramp function in some documentation and looks like a skateboard ramp when plotted. ReLU is linear and keeps the same input values for any positive numbers while setting all negative numbers to be 0. It has the benefits that it doesn’t suffer from <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem" target="_blank" rel="external">gradient vanishing</a> and has a range of <span class="math-tex" data-type="tex">\([0,+\infty)\)</span>. A drawback of ReLU is that it can suffer from neurons becoming saturated when too high of a learning rate is used.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">features = tf.range(<span class="number">-2</span>, <span class="number">3</span>)</div><div class="line"><span class="comment"># Keep note of the value for negative features</span></div><div class="line">sess.run([features, tf.nn.relu(features)])</div></pre></td></tr></table></figure>
+<pre><code>[array([-2, -1,  0,  1,  2], dtype=int32), array([0, 0, 0, 1, 2], dtype=int32)]
+</code></pre><p>In this example, the input in a rank one tensor (vector) of integer values between <span class="math-tex" data-type="tex">\([-2, 3]\)</span>. A <code>tf.nn.relu</code> is ran over the values the output highlights that any value less than 0 is set to be 0. The other input values are left untouched.</p>
+<h4 id="tf-sigmoid"><a href="#tf-sigmoid" class="headerlink" title="tf.sigmoid"></a>tf.sigmoid</h4><p>A sigmoid function returns a value in the range of <span class="math-tex" data-type="tex">\([0.0, 1.0]\)</span>. Larger values sent into a <code>tf.sigmoid</code> will trend closer to 1.0 while smaller values will trend towards 0.0. The ability for sigmoids to keep a values between <span class="math-tex" data-type="tex">\([0.0, 1.0]\)</span> is useful in networks which train on probabilities which are in the range of <span class="math-tex" data-type="tex">\([0.0, 1.0]\)</span>. The reduced range of output values can cause trouble with input becoming saturated and changes in input becoming exaggerated.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Note, tf.sigmoid (tf.nn.sigmoid) is currently limited to float values</span></div><div class="line">features = tf.to_float(tf.range(<span class="number">-1</span>, <span class="number">3</span>))</div><div class="line">sess.run([features, tf.sigmoid(features)])</div></pre></td></tr></table></figure>
+<pre><code>[array([-1.,  0.,  1.,  2.], dtype=float32),
+ array([ 0.26894143,  0.5       ,  0.7310586 ,  0.88079703], dtype=float32)]
+</code></pre><p>In this example, a range of integers is converted to be float values (<code>1</code> becomes <code>1.0</code>) and a sigmoid function is ran over the input features. The result highlights that when a value of 0.0 is passed through a sigmoid, the result is 0.5 which is the midpoint of the simoid’s domain. It’s useful to note that with 0.5 being the sigmoid’s midpoint, negative values can be used as input to a sigmoid.</p>
+<h4 id="tf-tanh"><a href="#tf-tanh" class="headerlink" title="tf.tanh"></a>tf.tanh</h4><p>A hyperbolic tangent function (tanh) is a close relative to <code>tf.sigmoid</code> with some of the same benefits and drawbacks. The main difference between <code>tf.sigmoid</code> and <code>tf.tanh</code> is that <code>tf.tanh</code> has a range of <span class="math-tex" data-type="tex">\([-1.0, 1.0]\)</span>. The ability to output negative values may be useful in certain network architectures.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Note, tf.tanh (tf.nn.tanh) is currently limited to float values</span></div><div class="line">features = tf.to_float(tf.range(<span class="number">-1</span>, <span class="number">3</span>))</div><div class="line">sess.run([features, tf.tanh(features)])</div></pre></td></tr></table></figure>
+<pre><code>[array([-1.,  0.,  1.,  2.], dtype=float32),
+ array([-0.76159418,  0.        ,  0.76159418,  0.96402758], dtype=float32)]
+</code></pre><p>In this example, all the setup is the same as the <code>tf.sigmoid</code> example but the output shows an important difference. In the output of <code>tf.tanh</code> the midpoint is 0.0 with negative values. This can cause trouble if the next layer in the network isn’t expecting negative input or input of 0.0.</p>
+<h4 id="tf-nn-dropout"><a href="#tf-nn-dropout" class="headerlink" title="tf.nn.dropout"></a>tf.nn.dropout</h4><p>Set the output to be 0.0 based on a configurable probability. This layer performs well in scenarios where a little randomness helps training. An example scenario is when there are patterns being learned which are too tied to their neighboring features. This layer will add a little noise to the output being learned.</p>
+<p><strong>NOTE</strong>: This layer should only be used during training because the random noise it adds will give misleading results while testing.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">features = tf.constant([<span class="number">-0.1</span>, <span class="number">0.0</span>, <span class="number">0.1</span>, <span class="number">0.2</span>])</div><div class="line"><span class="comment"># Note, the output should be different on almost ever execution. Your numbers won't match</span></div><div class="line"><span class="comment"># this output.</span></div><div class="line">sess.run([features, tf.nn.dropout(features, keep_prob=<span class="number">0.5</span>)])</div></pre></td></tr></table></figure>
+<pre><code>[array([-0.1,  0. ,  0.1,  0.2], dtype=float32),
+ array([-0.        ,  0.        ,  0.        ,  0.40000001], dtype=float32)]
+</code></pre><p>In this example, the output has a 50% probability of being kept. Each execution of this layer will have different output (most likely, it’s somewhat random). When an output is dropped, its value is set to 0.0.</p>
+<h3 id="Pooling-Layers"><a href="#Pooling-Layers" class="headerlink" title="Pooling Layers"></a>Pooling Layers</h3><p>Pooling layers reduce over-fitting and improving performance by reducing the size of the input. They’re used to scale down input while keeping important information for the next layer. It’s possible to reduce the size of the input using a <code>tf.nn.conv2d</code> alone but these layers execute much faster.</p>
+<h4 id="tf-nn-max-pool"><a href="#tf-nn-max-pool" class="headerlink" title="tf.nn.max_pool"></a>tf.nn.max_pool</h4><p>Strides over a tensor and chooses the maximum value found within a certain kernel size. Useful when the intensity of the input data is relevant to importance in the image.</p>
+<p><img src="/images/14800387485892.png" alt=""></p>
+<p>The same example is modeled using example code below. The goal is to find the largest value within the tensor.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Usually the input would be output from a previous layer and not an image directly.</span></div><div class="line">batch_size=<span class="number">1</span></div><div class="line">input_height = <span class="number">3</span></div><div class="line">input_width = <span class="number">3</span></div><div class="line">input_channels = <span class="number">1</span></div><div class="line"></div><div class="line">layer_input = tf.constant([</div><div class="line">        [</div><div class="line">            [[<span class="number">1.0</span>], [<span class="number">0.2</span>], [<span class="number">1.5</span>]],</div><div class="line">            [[<span class="number">0.1</span>], [<span class="number">1.2</span>], [<span class="number">1.4</span>]],</div><div class="line">            [[<span class="number">1.1</span>], [<span class="number">0.4</span>], [<span class="number">0.4</span>]]</div><div class="line">        ]</div><div class="line">    ])</div><div class="line"></div><div class="line"><span class="comment"># The strides will look at the entire input by using the image_height and image_width</span></div><div class="line">kernel = [batch_size, input_height, input_width, input_channels]</div><div class="line">max_pool = tf.nn.max_pool(layer_input, kernel, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], <span class="string">"VALID"</span>)</div><div class="line">sess.run(max_pool)</div></pre></td></tr></table></figure>
+<pre><code>array([[[[ 1.5]]]], dtype=float32)
+</code></pre><p>The <code>layer_input</code> is a tensor with a shape similar to the output of <code>tf.nn.conv2d</code> or an activation function. The goal is to keep only one value, the largest value in the tensor. In this case, the largest value of the tensor is <code>1.5</code> and is returned in the same format as the input. If the <code>kernel</code> were set to be smaller, it would choose the largest value in each kernel size as it strides over the image.</p>
+<p>Max-pooling will commonly be done using <code>2x2</code> receptive field (kernel with a height of 2 and width of 2) which is often written as a “2x2 max-pooling operation”. One reason to use a <code>2x2</code> receptive field is that it’s the smallest amount of downsampling which can be done in a single pass. If a <code>1x1</code> receptive field were used then the output would be the same as the input.</p>
+<h4 id="tf-nn-avg-pool"><a href="#tf-nn-avg-pool" class="headerlink" title="tf.nn.avg_pool"></a>tf.nn.avg_pool</h4><p>Strides over a tensor and averages all the values at each depth found within a kernel size. Useful when reducing values where the entire kernel is important, for example, input tensors with a large width and height but small depth.</p>
+<p><img src="/images/14800387941747.png" alt=""></p>
+<p>The same example is modeled using example code below. The goal is to find the average of all the values within the tensor.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">batch_size=<span class="number">1</span></div><div class="line">input_height = <span class="number">3</span></div><div class="line">input_width = <span class="number">3</span></div><div class="line">input_channels = <span class="number">1</span></div><div class="line"></div><div class="line">layer_input = tf.constant([</div><div class="line">        [</div><div class="line">            [[<span class="number">1.0</span>], [<span class="number">1.0</span>], [<span class="number">1.0</span>]],</div><div class="line">            [[<span class="number">1.0</span>], [<span class="number">0.5</span>], [<span class="number">0.0</span>]],</div><div class="line">            [[<span class="number">0.0</span>], [<span class="number">0.0</span>], [<span class="number">0.0</span>]]</div><div class="line">        ]</div><div class="line">    ])</div><div class="line"></div><div class="line"><span class="comment"># The strides will look at the entire input by using the image_height and image_width</span></div><div class="line">kernel = [batch_size, input_height, input_width, input_channels]</div><div class="line">max_pool = tf.nn.avg_pool(layer_input, kernel, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], <span class="string">"VALID"</span>)</div><div class="line">sess.run(max_pool)</div></pre></td></tr></table></figure>
+<pre><code>array([[[[ 0.5]]]], dtype=float32)
+</code></pre><p>Doing a summation of all the values in the tensor, then divide them by the size of the number of scalars in the tensor:</p>
+<script type="math/tex; mode=display">\dfrac{1.0 + 1.0 + 1.0 + 1.0 + 0.5 + 0.0 + 0.0 + 0.0 + 0.0}{9.0}</script><p>This is exactly what the example code did above but by reducing the size of the kernel, it’s possible to adjust the size of the output.</p>
+<h3 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h3><p>Normalization layers are not unique to CNNs and aren’t used as often. When using <code>tf.nn.relu</code>, it is useful to consider normalization of the output. Since ReLU is unbounded, it’s often useful to utilize some form of normalization to identify high-frequency features.</p>
+<h4 id="tf-nn-local-response-normalization-tf-nn-lrn"><a href="#tf-nn-local-response-normalization-tf-nn-lrn" class="headerlink" title="tf.nn.local_response_normalization (tf.nn.lrn)"></a>tf.nn.local_response_normalization (tf.nn.lrn)</h4><p>Local response normalization is a function which shapes the output based on a summation operation best explained in <a href="https://www.tensorflow.org/versions/master/api_docs/python/nn.html#local_response_normalization" target="_blank" rel="external">TensorFlow’s documentation</a>.</p>
+<blockquote>
+<p>… Within a given vector, each component is divided by the weighted, squared sum of inputs within depth_radius.</p>
+</blockquote>
+<p>One goal of normalization is to keep the input in a range of acceptable numbers. For instance, normalizing input in the range of <span class="math-tex" data-type="tex">\([0.0,1.0]\)</span> where the full range of possible values is normalized to be represented by a number greater than or equal to <code>0.0</code> and less than or equal to <code>1.0</code>. Local response normalization normalizes values while taking into account the significance of each value.</p>
+<p><a href="https://code.google.com/p/cuda-convnet/wiki/LayerParams" target="_blank" rel="external">Cuda-Convnet</a> includes further details on why using local response normalization is useful in some CNN architectures. <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="external">ImageNet</a> uses this layer to normalize the output from <code>tf.nn.relu</code>.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Create a range of 3 floats.</span></div><div class="line"><span class="comment">#  TensorShape([batch, image_height, image_width, image_channels])</span></div><div class="line">layer_input = tf.constant([</div><div class="line">        [[[ <span class="number">1.</span>]], [[ <span class="number">2.</span>]], [[ <span class="number">3.</span>]]]</div><div class="line">    ])</div><div class="line"></div><div class="line">lrn = tf.nn.local_response_normalization(layer_input)</div><div class="line">sess.run([layer_input, lrn])</div></pre></td></tr></table></figure>
+<pre><code>[array([[[[ 1.]],
+
+         [[ 2.]],
+
+         [[ 3.]]]], dtype=float32), array([[[[ 0.70710677]],
+
+         [[ 0.89442718]],
+
+         [[ 0.94868326]]]], dtype=float32)]
+</code></pre><p>In this example code, the layer input is in the format <code>[batch, image_height, image_width, image_channels]</code>. The normalization reduced the output to be in the range of <span class="math-tex" data-type="tex">\([-1.0, 1.0]\)</span>. For <code>tf.nn.relu</code>, this layer will reduce its unbounded output to be in the same range.</p>
+<h3 id="High-Level-Layers"><a href="#High-Level-Layers" class="headerlink" title="High Level Layers"></a>High Level Layers</h3><p>TensorFlow has introduced high level layers designed to make it easier to create fairly standard layer definitions. These aren’t required to use but they help avoid duplicate code while following best practices. While getting started, these layers add a number of non-essential nodes to the graph. It’s worth waiting until the basics are comfortable before using these layers.</p>
+<h4 id="tf-contrib-layers-convolution2d"><a href="#tf-contrib-layers-convolution2d" class="headerlink" title="tf.contrib.layers.convolution2d"></a>tf.contrib.layers.convolution2d</h4><p>The <code>convolution2d</code> layer will do the same logic as <code>tf.nn.conv2d</code> while including weight initialization, bias initialization, trainable variable output, bias addition and adding an activation function. Many of these steps haven’t been covered for CNNs yet but should be familiar. A kernel is a trainable variable (the CNN’s goal is to train this variable), weight initialization is used to fill the kernel with values (<code>tf.truncated_normal</code>) on its first run. The rest of the parameters are similar to what have been used before except they are reduced to short-hand version. Instead of declaring the full kernel, now it’s a simple tuple <code>(1,1)</code> for the kernel’s height and width.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">image_input = tf.constant([</div><div class="line">            [</div><div class="line">                [[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>], [<span class="number">255.</span>, <span class="number">255.</span>, <span class="number">255.</span>], [<span class="number">254.</span>, <span class="number">0.</span>, <span class="number">0.</span>]],</div><div class="line">                [[<span class="number">0.</span>, <span class="number">191.</span>, <span class="number">0.</span>], [<span class="number">3.</span>, <span class="number">108.</span>, <span class="number">233.</span>], [<span class="number">0.</span>, <span class="number">191.</span>, <span class="number">0.</span>]],</div><div class="line">                [[<span class="number">254.</span>, <span class="number">0.</span>, <span class="number">0.</span>], [<span class="number">255.</span>, <span class="number">255.</span>, <span class="number">255.</span>], [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>]]</div><div class="line">            ]</div><div class="line">        ])</div><div class="line"></div><div class="line">conv2d = tf.contrib.layers.convolution2d(</div><div class="line">    image_input,</div><div class="line">    num_output_channels=<span class="number">4</span>,</div><div class="line">    kernel_size=(<span class="number">1</span>,<span class="number">1</span>),          <span class="comment"># It's only the filter height and width.</span></div><div class="line">    activation_fn=tf.nn.relu,</div><div class="line">    stride=(<span class="number">1</span>, <span class="number">1</span>),              <span class="comment"># Skips the stride values for image_batch and input_channels.</span></div><div class="line">    trainable=<span class="keyword">True</span>)</div><div class="line"></div><div class="line"><span class="comment"># It's required to initialize the variables used in convolution2d's setup.</span></div><div class="line">sess.run(tf.initialize_all_variables())</div><div class="line">sess.run(conv2d)</div></pre></td></tr></table></figure>
+<pre><code>array([[[[   0.        ,    0.        ,    0.        ,    0.        ],
+         [ 166.44549561,    0.        ,    0.        ,    0.        ],
+         [ 171.00466919,    0.        ,    0.        ,    0.        ]],
+
+        [[  28.54177475,    0.        ,   59.9046936 ,    0.        ],
+         [   0.        ,  124.69891357,    0.        ,    0.        ],
+         [  28.54177475,    0.        ,   59.9046936 ,    0.        ]],
+
+        [[ 171.00466919,    0.        ,    0.        ,    0.        ],
+         [ 166.44549561,    0.        ,    0.        ,    0.        ],
+         [   0.        ,    0.        ,    0.        ,    0.        ]]]], dtype=float32)
+</code></pre><p>This example setup a full convolution against a batch of a single image. All the parameters are based off of the steps done throughout this chapter. The main difference is that <code>tf.contrib.layers.convolution2d</code> does a large amount of setup without having to write it all again. This can be a great time saving layer for advanced users.</p>
+<p><strong>NOTE</strong>: <code>tf.to_float</code> should not be used if the input is an image, instead use <code>tf.image.convert_image_dtype</code> which will properly change the range of values used to describe colors. In this example code, float values of <code>255.</code> were used which aren’t what TensorFlow expects when is sees an image using float values. TensorFlow expects an image with colors described as floats to stay in the range of <span class="math-tex" data-type="tex">\([0,1]\)</span>.</p>
+<h4 id="tf-contrib-layers-fully-connected"><a href="#tf-contrib-layers-fully-connected" class="headerlink" title="tf.contrib.layers.fully_connected"></a>tf.contrib.layers.fully_connected</h4><p>A fully connected layer is one where every input is connected to every output. This is a fairly common layer in many architectures but for CNNs, the last layer is quite often fully connected. The <code>tf.contrib.layers.fully_connected</code> layer offers a great short-hand to create this last layer while following best practices.</p>
+<p>Typical fully connected layers in TensorFlow are often in the format of <code>tf.matmul(features, weight) + bias</code> where <code>feature</code>, <code>weight</code> and <code>bias</code> are all tensors. This short-hand layer will do the same thing while taking care of the intricacies involved in managing the <code>weight</code> and <code>bias</code> tensors.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">features = tf.constant([</div><div class="line">        [[<span class="number">1.2</span>], [<span class="number">3.4</span>]]</div><div class="line">    ])</div><div class="line"></div><div class="line">fc = tf.contrib.layers.fully_connected(features, num_output_units=<span class="number">2</span>)</div><div class="line"><span class="comment"># It's required to initialize all the variables first or there'll be an error about precondition failures.</span></div><div class="line">sess.run(tf.initialize_all_variables())</div><div class="line">sess.run(fc)</div></pre></td></tr></table></figure>
+<pre><code>array([[[-0.53210509,  0.74457598],
+        [-1.50763106,  2.10963178]]], dtype=float32)
+</code></pre><p>This example created a fully connected layer and associated the input tensor with each neuron of the output. There are plenty of other parameters to tweak for different fully connected layers.</p>
+<h4 id="Layer-Input"><a href="#Layer-Input" class="headerlink" title="Layer Input"></a>Layer Input</h4><p>Each layer serves a purpose in a CNN architecture. It’s important to understand them at a high level (at least) but without practice they’re easy to forget. A crucial layer in any neural network is the input layer, where raw input is sent to be trained and tested. For object recognition and classification, the input layer is a <code>tf.nn.conv2d</code> layer which accepts images. The next step is to use real images in training instead of example input in the form of <code>tf.constant</code> or <code>tf.range</code> variables.</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">90</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN的各个Layer"><span class="nav-number">1.</span> <span class="nav-text">CNN的各个Layer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Common-Layers"><span class="nav-number">1.1.</span> <span class="nav-text">Common Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Convolution-Layers"><span class="nav-number">1.1.1.</span> <span class="nav-text">Convolution Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-depthwise-conv2d"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">tf.nn.depthwise_conv2d</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-separable-conv2d"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">tf.nn.separable_conv2d</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-conv2d-transpose"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">tf.nn.conv2d_transpose</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activation-Functions"><span class="nav-number">1.1.2.</span> <span class="nav-text">Activation Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-relu"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">tf.nn.relu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-sigmoid"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">tf.sigmoid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-tanh"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">tf.tanh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-dropout"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">tf.nn.dropout</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pooling-Layers"><span class="nav-number">1.1.3.</span> <span class="nav-text">Pooling Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-max-pool"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">tf.nn.max_pool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-avg-pool"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">tf.nn.avg_pool</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Normalization"><span class="nav-number">1.1.4.</span> <span class="nav-text">Normalization</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-nn-local-response-normalization-tf-nn-lrn"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">tf.nn.local_response_normalization (tf.nn.lrn)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#High-Level-Layers"><span class="nav-number">1.1.5.</span> <span class="nav-text">High Level Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-contrib-layers-convolution2d"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">tf.contrib.layers.convolution2d</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-contrib-layers-fully-connected"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">tf.contrib.layers.fully_connected</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Layer-Input"><span class="nav-number">1.1.5.3.</span> <span class="nav-text">Layer Input</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
