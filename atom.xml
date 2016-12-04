@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://feisky.xyz/"/>
-  <updated>2016-12-03T00:09:22.037Z</updated>
+  <updated>2016-12-04T00:09:32.546Z</updated>
   <id>http://feisky.xyz/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://feisky.xyz/2016/11/14/KubeCon-2016%E8%A7%81%E9%97%BB/"/>
     <id>http://feisky.xyz/2016/11/14/KubeCon-2016见闻/</id>
     <published>2016-11-14T01:49:52.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>题记：上周去西雅图参加了<a href="http://events.linuxfoundation.org/events/kubecon" target="_blank" rel="external">KubeCon&amp;CloudNativeCon 2016</a>，不仅见到Dawn、Brendan、Tim以及Sig Node的各路大神，还参加了不少有趣的session。</p>
 <h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
@@ -164,7 +164,7 @@
     <link href="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/"/>
     <id>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</id>
     <published>2016-09-24T22:59:31.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
@@ -216,7 +216,7 @@
     <link href="http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     <id>http://feisky.xyz/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
     <published>2016-09-11T01:48:09.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -275,7 +275,7 @@
     <link href="http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/</id>
     <published>2016-08-24T06:48:44.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
@@ -336,7 +336,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/"/>
     <id>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</id>
     <published>2016-07-19T07:58:26.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
@@ -380,7 +380,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/"/>
     <id>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</id>
     <published>2016-06-24T04:39:49.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
@@ -459,7 +459,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
     <id>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
     <published>2016-06-17T09:12:38.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
@@ -507,7 +507,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/"/>
     <id>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</id>
     <published>2016-06-07T05:21:07.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
@@ -532,7 +532,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
     <id>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
     <published>2016-06-06T08:10:25.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
@@ -608,7 +608,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/"/>
     <id>http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/</id>
     <published>2016-05-11T02:25:06.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
 <p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
@@ -641,7 +641,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/06/Go-performance-optimize/"/>
     <id>http://feisky.xyz/2016/05/06/Go-performance-optimize/</id>
     <published>2016-05-06T12:40:06.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
 <ol>
@@ -697,7 +697,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/"/>
     <id>http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</id>
     <published>2016-05-05T09:16:46.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[
 
@@ -726,7 +726,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/"/>
     <id>http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/</id>
     <published>2016-04-29T08:50:14.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
 <blockquote>
@@ -788,7 +788,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/runc/"/>
     <id>http://feisky.xyz/2016/04/28/runc/</id>
     <published>2016-04-28T03:15:03.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
 <h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
@@ -833,7 +833,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/"/>
     <id>http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/</id>
     <published>2016-04-28T02:07:23.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：</p>
 <ul>
@@ -897,7 +897,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/DPDK-Introduction/"/>
     <id>http://feisky.xyz/2016/04/24/DPDK-Introduction/</id>
     <published>2016-04-24T11:43:07.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<h2 id="DPDK-Introduction"><a href="#DPDK-Introduction" class="headerlink" title="DPDK Introduction"></a>DPDK Introduction</h2><p>Intel DPDK全称Intel Data Plane Development Kit，是intel提供的数据平面开发工具集，为Intel architecture（IA）处理器架构下用户空间高效的数据包处理提供库函数和驱动的支持，它不同于Linux系统以通用性设计为目的，而是专注于网络应用中数据包的高性能处理。DPDK应用程序是运行在用户空间上利用自身提供的数据平面库来收发数据包，绕过了Linux内核协议栈对数据包处理过程。Linux内核将DPDK应用程序看作是一个普通的用户态进程，包括它的编译、连接和加载方式和普通程序没有什么两样。DPDK程序启动后只能有一个主线程，然后创建一些子线程并绑定到指定CPU核心上运行。</p>
 <p>DPDK官方网站为<a href="http://dpdk.org/" target="_blank" rel="external">http://dpdk.org/</a>，官方文档为<a href="http://dpdk.org/doc/guides/index.html" target="_blank" rel="external">http://dpdk.org/doc/guides/index.html</a></p>
@@ -961,7 +961,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/Tips-for-cgo/"/>
     <id>http://feisky.xyz/2016/04/24/Tips-for-cgo/</id>
     <published>2016-04-24T00:29:02.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>cgo的一些tips</p>
 <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>The standard C numeric types are available under the names C.char, C.schar (signed char), C.uchar (unsigned char), C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int), C.long, C.ulong (unsigned long), C.longlong (long long), C.ulonglong (unsigned long long), C.float, C.double, C.complexfloat (complex float), and C.complexdouble (complex double). The C type void* is represented by Go’s unsafe.Pointer. The C types <code>__int128_t</code> and <code>__uint128_t</code> are represented by [16]byte.</p>
@@ -1001,7 +1001,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/19/cgo-in-go-1-6/"/>
     <id>http://feisky.xyz/2016/04/19/cgo-in-go-1-6/</id>
     <published>2016-04-19T14:04:48.000Z</published>
-    <updated>2016-12-03T00:09:22.033Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with Go’s garbage collector. Briefly, Go and C may share memory allocated by Go when a pointer to that memory is passed to C as part of a cgo call, provided that the memory itself contains no pointers to Go-allocated memory, and provided that C does not retain the pointer after the call returns. These rules are checked by the runtime during program execution: if the runtime detects a violation, it prints a diagnosis and crashes the program. The checks can be disabled by setting the environment variable GODEBUG=cgocheck=0, but note that the vast majority of code identified by the checks is subtly incompatible with garbage collection in one way or another. Disabling the checks will typically only lead to more mysterious failure modes. Fixing the code in question should be strongly preferred over turning off the checks.</p>
@@ -1037,7 +1037,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/"/>
     <id>http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/</id>
     <published>2016-04-15T08:34:00.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
 <ul>
@@ -1071,7 +1071,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/03/30/Upgrade-CentOS-kernel/"/>
     <id>http://feisky.xyz/2016/03/30/Upgrade-CentOS-kernel/</id>
     <published>2016-03-30T14:25:00.000Z</published>
-    <updated>2016-12-03T00:09:22.037Z</updated>
+    <updated>2016-12-04T00:09:32.546Z</updated>
     
     <content type="html"><![CDATA[<p>终于耐不住要升级下kernel了，目前epel提供两个版本: kernel-lt (4.4)和kernel-ml (4.5):</p>
 <ul>
