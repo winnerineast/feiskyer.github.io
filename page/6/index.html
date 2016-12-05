@@ -313,6 +313,140 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/01/10-things-to-avoid-in-docker-containers/" itemprop="url">
+                  10 things to avoid in docker containers
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T16:33:16+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Redhat发布的<a href="https://developerblog.redhat.com/2016/02/24/10-things-to-avoid-in-docker-containers/" target="_blank" rel="external">10 things to avoid in docker containers</a>对于构建基于Container的服务非常有意义。摘录如下：</p>
+<blockquote>
+<p>1) Don’t store data in containers – A container can be stopped, destroyed, or replaced. An application version 1.0 running in container should be easily replaced by the version 1.1 without any impact or loss of data. For that reason, if you need to store data, store it in a volume, but take care if two containers write data on the same volume because it could cause corruption.  Make sure your applications are designed to write to shared data stores.</p>
+</blockquote>
+<p>需要持久化的数据存在volume中，这个是共识了。</p>
+<blockquote>
+<p>2) Don’t ship your application in two pieces – As some people see containers as a virtual machine. Most of them tend to think that they should deploy their application in existing running containers. That can be true during the development phase where you need to deploy and debug continuously; but for a continuous deployment (cd) pipeline in QA and production, your application should be part of the image. Remember: Containers should be immutable.</p>
+</blockquote>
+<p>无论Container出了啥状况（挂了、要升级了等等），直接干掉并起一个新的。Kubernetes的Replication Controller已经把这个更新过程自动化了。</p>
+<blockquote>
+<p>3) Don’t create large images – A large image will only make it hard to distribute. Make sure that you have only the required files and libraries to run your application/process. Don’t install unnecessary packages or run “updates” (yum update) during builds.</p>
+</blockquote>
+<p>镜像尽量做小，分发更为方便。</p>
+<blockquote>
+<p>4) Don’t use a single layer image – To have a more rational use of the layered filesystem, always create your own base image layer for your OS, another layer for the security and user definition, another layer for the lib installation, another layer for the configuration, and finally another layer for the application. It will be easy to recreate  and manage an image, and easy to distribute.</p>
+</blockquote>
+<p>镜像分层，更容易维护。如果只有一个layer的话，就没法知道镜像的更新历史了。</p>
+<blockquote>
+<p>5) Don’t create images from running containers – In other terms, don’t use “docker commit” to create an image. This way to build an image is not reproducible and it’s not versionable, and should be completely avoided. Always use a Dockerfile or any other S2I (source-to-image) approach that is totally reproducible.</p>
+</blockquote>
+<p>做镜像，Dockerfile是最好的选择。</p>
+<blockquote>
+<p>6) Don’t use only the “latest” tag – The latest tag is just like the “SNAPSHOT” for Maven users. Tags are encouraged to be used specially when you have a layered filesytem. You don’t want to have surprises when you build your image 2 months later and figure out that your application can’t run because a top layer was replaced by a new version that it’s not backward compatible or because a wrong “latest” version is in the build cache. The latest should also be avoided when deploying containers in production.</p>
+</blockquote>
+<p>版本问题，时间长了，用latest会出现各种不一致。用固定版本，需要的时候可以升级版本。</p>
+<blockquote>
+<p>7) Don’t run more than one process in a single container – Containers are perfect to run a single process (http daemon, application server, database), but if you have more than a single process, you will have troubles to manage, get logs, and update them individually.</p>
+</blockquote>
+<p>为了便于管理、更新和查询日至，每个Container只跑一个进程。</p>
+<blockquote>
+<p>8) Don’t store credentials in the image. Use environment variables – You don’t want to hardcode any username/password in you image. Use the environment variables to get that information from outside the container. A great example for it is the postgres image.</p>
+</blockquote>
+<p>敏感数据不要直接放到image中，最好放到环境变量或者volume中。</p>
+<blockquote>
+<p>9) Run processes with a non-root user – “By default docker containers run as root. (…) As docker matures, more secure default options may become available. For now, requiring root is dangerous for others and may not be available in all environments. Your image should use the USER instruction to specify a non-root user for containers to run as”. (From Guidance for Docker Image Authors)</p>
+</blockquote>
+<p>安全期间，还是老实用普通用户来允许container吧。最新发布的docker已经支持user namespace了。</p>
+<blockquote>
+<p>10) Don’t rely on IP addresses – Each container have their own internal IP address and it could change if you start and stop it. If your application or microservices needs to communicate to another container, use any names and/or environment variables to pass the proper information from one container to another.</p>
+</blockquote>
+<p>Container每次重启，其IP地址都会变化。所以，不要直接依赖IP地址来通信，使用环境变量或者DNS。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/02/29/Carina-by-Rackspace/" itemprop="url">
                   Carina by Rackspace
                 </a>
@@ -894,129 +1028,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/17/Kubernetes-drain/" itemprop="url">
-                  Kubernetes drain
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-17T18:57:00+08:00" content="2016-02-17">
-              2016-02-17
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：</p>
-<ul>
-<li>首先patch NODE，将其改为不可调度状态： <code>kubectl patch nodes $NODENAME -p &#39;{&quot;spec&quot;: {&quot;unschedulable&quot;: true}}&#39;</code></li>
-<li>然后逐一删掉该NODE上的Pod，由Replication Ctroller自动到其它NODE上创建新的Pod</li>
-<li>维护结束后再重新patch NODE，将其改成正常状态</li>
-</ul>
-<p>在即将发布的v1.2中，<code>kubectl</code>中增加了<code>drain</code>和<code>uncordon</code>命令，使得这个过程更为简单易用。</p>
-<h3 id="kubectl-drain"><a href="#kubectl-drain" class="headerlink" title="kubectl drain"></a>kubectl drain</h3><p><code>kubectl drain</code>的功能是将NODE改为维护模式，使用方法为</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl drain NODE [Options]</div></pre></td></tr></table></figure>
-<p>其中，可选的Options为：</p>
-<figure class="highlight oxygene"><table><tr><td class="code"><pre><div class="line">--force[=<span class="keyword">false</span>]: <span class="keyword">Continue</span> even <span class="keyword">if</span> there are pods <span class="keyword">not</span> managed <span class="keyword">by</span> a ReplicationController, Job, <span class="keyword">or</span> DaemonSet.</div><div class="line">--grace-period=-<span class="number">1</span>: Period <span class="keyword">of</span> time <span class="keyword">in</span> seconds given <span class="keyword">to</span> <span class="keyword">each</span> pod <span class="keyword">to</span> terminate gracefully. <span class="keyword">If</span> negative, the <span class="keyword">default</span> value specified <span class="keyword">in</span> the pod will be used.</div></pre></td></tr></table></figure>
-<p>注意：</p>
-<ul>
-<li>它会删除该NODE上由ReplicationController, Job或者DaemonSet创建的Pod</li>
-<li>不删除<code>mirror pods</code>（因为不可通过API删除<code>mirror pods</code>）</li>
-<li>如果还有其它类型的Pod（比如不通过RC而直接通过kubectl create的Pod）并且没有<code>--force</code>选项，该命令会直接失败</li>
-<li>如果命令中增加了<code>--force</code>选项，则会强制删除这些不是通过ReplicationController, Job或者DaemonSet创建的Pod</li>
-</ul>
-<p>为什么这些不是通过ReplicationController, Job或者DaemonSet创建的Pod没有迁移到其它NODE上去呢？因为在Kubernetes中，一个Pod一旦创建好就与某个NODE绑定了，并且不会因为资源不足、NODE失效等再对其进行重新调度：</p>
-<blockquote>
-<p>Pods aren’t intended to be treated as durable pets. They won’t survive scheduling failures, node failures, or other evictions, such as due to lack of resources, or in the case of node maintenance.</p>
-</blockquote>
-<p>所以，Kubernetes推荐通过Ctroller（ReplicationController, Job或者DaemonSet等）来管理Pod，而不是直接创建Pod。</p>
-<h3 id="kubectl-uncordon"><a href="#kubectl-uncordon" class="headerlink" title="kubectl uncordon"></a>kubectl uncordon</h3><p><code>kubectl uncordon</code>的功能比较简单，就是将NODE重新改成可调度状态，使用方法为：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl uncordon NODE</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1057,7 +1073,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">90</span>
+              <span class="site-state-item-count">91</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

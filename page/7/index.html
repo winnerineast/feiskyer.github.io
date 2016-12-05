@@ -313,6 +313,124 @@
             
               
                 
+                <a class="post-title-link" href="/2016/02/17/Kubernetes-drain/" itemprop="url">
+                  Kubernetes drain
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-17T18:57:00+08:00" content="2016-02-17">
+              2016-02-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：</p>
+<ul>
+<li>首先patch NODE，将其改为不可调度状态： <code>kubectl patch nodes $NODENAME -p &#39;{&quot;spec&quot;: {&quot;unschedulable&quot;: true}}&#39;</code></li>
+<li>然后逐一删掉该NODE上的Pod，由Replication Ctroller自动到其它NODE上创建新的Pod</li>
+<li>维护结束后再重新patch NODE，将其改成正常状态</li>
+</ul>
+<p>在即将发布的v1.2中，<code>kubectl</code>中增加了<code>drain</code>和<code>uncordon</code>命令，使得这个过程更为简单易用。</p>
+<h3 id="kubectl-drain"><a href="#kubectl-drain" class="headerlink" title="kubectl drain"></a>kubectl drain</h3><p><code>kubectl drain</code>的功能是将NODE改为维护模式，使用方法为</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl drain NODE [Options]</div></pre></td></tr></table></figure>
+<p>其中，可选的Options为：</p>
+<figure class="highlight oxygene"><table><tr><td class="code"><pre><div class="line">--force[=<span class="keyword">false</span>]: <span class="keyword">Continue</span> even <span class="keyword">if</span> there are pods <span class="keyword">not</span> managed <span class="keyword">by</span> a ReplicationController, Job, <span class="keyword">or</span> DaemonSet.</div><div class="line">--grace-period=-<span class="number">1</span>: Period <span class="keyword">of</span> time <span class="keyword">in</span> seconds given <span class="keyword">to</span> <span class="keyword">each</span> pod <span class="keyword">to</span> terminate gracefully. <span class="keyword">If</span> negative, the <span class="keyword">default</span> value specified <span class="keyword">in</span> the pod will be used.</div></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>它会删除该NODE上由ReplicationController, Job或者DaemonSet创建的Pod</li>
+<li>不删除<code>mirror pods</code>（因为不可通过API删除<code>mirror pods</code>）</li>
+<li>如果还有其它类型的Pod（比如不通过RC而直接通过kubectl create的Pod）并且没有<code>--force</code>选项，该命令会直接失败</li>
+<li>如果命令中增加了<code>--force</code>选项，则会强制删除这些不是通过ReplicationController, Job或者DaemonSet创建的Pod</li>
+</ul>
+<p>为什么这些不是通过ReplicationController, Job或者DaemonSet创建的Pod没有迁移到其它NODE上去呢？因为在Kubernetes中，一个Pod一旦创建好就与某个NODE绑定了，并且不会因为资源不足、NODE失效等再对其进行重新调度：</p>
+<blockquote>
+<p>Pods aren’t intended to be treated as durable pets. They won’t survive scheduling failures, node failures, or other evictions, such as due to lack of resources, or in the case of node maintenance.</p>
+</blockquote>
+<p>所以，Kubernetes推荐通过Ctroller（ReplicationController, Job或者DaemonSet等）来管理Pod，而不是直接创建Pod。</p>
+<h3 id="kubectl-uncordon"><a href="#kubectl-uncordon" class="headerlink" title="kubectl uncordon"></a>kubectl uncordon</h3><p><code>kubectl uncordon</code>的功能比较简单，就是将NODE重新改成可调度状态，使用方法为：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl uncordon NODE</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/02/17/Kubernetes-network-policy/" itemprop="url">
                   Kubernetes network policy
                 </a>
@@ -699,143 +817,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="url">
-                  Hypernetes   The multi tenant Kubernetes distribution
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-04T00:00:00+08:00" content="2015-11-04">
-              2015-11-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">Kubernetes</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>“<a href="https://hyper.sh/blog/post/2015/07/06/the-caas-revolution.html" target="_blank" rel="external">The Caas Revolution</a>“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) <a href="http://www.docker.com/" target="_blank" rel="external">Docker</a>, and embraced by Cloud providers like <a href="https://cloud.google.com/container-engine/" target="_blank" rel="external">Google</a> and <a href="https://aws.amazon.com/ecs/" target="_blank" rel="external">AWS</a>.</p>
-<p>However, most multi-tenant CaaS solutions today run on a public IaaS, and use fully isolated virtual machine clusters to schedule containers. This is in contrast to the solely container-based implementation provided in private CaaS deployments. The public “hybrid” VM/container isolation approach is a direct result from the shared kernel architecture in container technology.</p>
-<p>Which got us thinking… do users really need to configure a cluster of full-blown virtual machines to ship containers in a secure cloud? Isn’t there a native container approach to perform true isolation?</p>
-<p>When we introduced <a href="http://hyper.sh/" target="_blank" rel="external">Hyper</a>, we wanted to show that it is actually possible to run truly isolated containers applications without any guest OS configuration required. We claimed that Hyper unlocks the possibility to build app-centric secure and isolated public CaaS platform, and now want to show you its power with a real-world implementation.</p>
-<p>Today, we are happy to announce <strong><a href="http://hypernetes.com" target="_blank" rel="external">Hypernetes</a>*: the Secure, Multi-tenant Kubernetes distribution</strong>.</p>
-<p>Simply put:</p>
-<pre><code>   Hypernetes = Bare-metal + Hyper + Kubernetes + Cinder(Ceph) + Neutron + Keystone
-</code></pre><p><img src="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true" alt="Hypernetes"></p>
-<ul>
-<li>Hyper (Hyperd) runs directly on all your bare-metal machines to provision HyperVM (with Docker images) in milliseconds</li>
-<li>Within the VM, the “Hyperstart” init process is launched on top of the Hyper Kernel (or any compatible Linux kernel) to run Docker images as Pod</li>
-<li>Kubelet agent runs on each bare-metal host and manages HyperVM with Hyperd’s APIs</li>
-<li>The formed cluster of “Kubelets” is managed with the help of a “Kubernetes Master” server</li>
-<li>Hypernetes also makes uses of several OpenStack components<ul>
-<li><a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> for identities management and authentication</li>
-<li><a href="https://wiki.openstack.org/wiki/Neutron" target="_blank" rel="external">Neutron</a> for virtual networks management and isolation</li>
-<li><a href="https://wiki.openstack.org/wiki/Cinder" target="_blank" rel="external">Cinder</a> + <a href="http://ceph.com/" target="_blank" rel="external">Ceph</a> for persistent storage volume management</li>
-</ul>
-</li>
-</ul>
-<p>With Hypernetes, you are ready to offer your users an easy and straightforward way to deploy their Containers in the Cloud, with a maximum level of security, efficiency, and compatibility, but without the complexity introduced by nesting the Linux containers in full-blown VMs. Indeed, Hypernetes leverages the same old secure, reliable, battle tested, robust hypervisor virtualization to natively run all of your new Container applications, maximizing the ROI of your virtual infrastructure.</p>
-<p>You can check it out and try Hypernetes today as a <a href="http://github.com/hyperhq/hypernetes" target="_blank" rel="external">open-source project</a>. Please, don’t hesitate to join our <a href="http://slack.hyper.sh/" target="_blank" rel="external">Slack community</a>, <a href="https://groups.google.com/forum/#!forum/hyper-user" target="_blank" rel="external">users</a> and <a href="https://groups.google.com/forum/#!forum/hyper-dev" target="_blank" rel="external">developers</a> mailing lists if you would like to discuss about Hyper or Hypernetes with us.</p>
-<p>Also, as an open-source project, we warmly welcome PR contributions and issues, directly on our <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Github</a>.</p>
-<p>As a last word, we are presenting Hypernetes this week at the <a href="https://www.openstack.org/summit/tokyo-2015/" target="_blank" rel="external">OpenStack Tokyo Summit</a> and <a href="http://europe-2015.dockercon.com/" target="_blank" rel="external">DockerCon Europe</a> next month. If you’re around, please come by our booth ;-)</p>
-<p>From <a href="https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html" target="_blank" rel="external">https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="url">
                   Use kubectl to connect kubernetes cluster
                 </a>
@@ -934,7 +915,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -975,7 +956,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">90</span>
+              <span class="site-state-item-count">91</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
