@@ -87,25 +87,22 @@
 
 
 <meta name="description" content="“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。
-(未完待续)
-serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lam">
-<meta property="og:type" content="article">
+serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Notes about serverless">
-<meta property="og:url" content="http://feisky.xyz/2016/02/26/Notes-about-serverless/index.html">
+<meta property="og:url" content="http://feisky.xyz/serverless/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。
-(未完待续)
-serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lam">
+serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并">
 <meta property="og:image" content="https://github.com/openwhisk/openwhisk/raw/master/docs/OpenWhisk.png">
 <meta property="og:image" content="http://thenewstack.io/wp-content/uploads/2016/10/Funktion-RedHatproject.png">
 <meta property="og:image" content="http://thenewstack.io/wp-content/uploads/2016/10/1-lBa176N3CqOl2su9iTyCAw.png">
 <meta property="og:image" content="http://thenewstack.io/wp-content/uploads/2016/10/serverlesscalc.png">
-<meta property="og:updated_time" content="2016-12-09T03:50:31.601Z">
+<meta property="og:updated_time" content="2016-12-09T03:50:32.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Notes about serverless">
 <meta name="twitter:description" content="“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。
-(未完待续)
-serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lam">
+serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并">
 <meta name="twitter:image" content="https://github.com/openwhisk/openwhisk/raw/master/docs/OpenWhisk.png">
 
 
@@ -127,7 +124,7 @@ serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverle
 
 
 
-  <link rel="canonical" href="http://feisky.xyz/2016/02/26/Notes-about-serverless/"/>
+  <link rel="canonical" href="http://feisky.xyz/serverless/"/>
 
 
   <title> Notes about serverless | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
@@ -340,25 +337,6 @@ serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverle
           </span>
 
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/cluster/" itemprop="url" rel="index">
-                    <span itemprop="name">cluster</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
 
           
             
@@ -382,7 +360,6 @@ serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverle
 
       
         <p>“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。</p>
-<p>(未完待续)</p>
 <h2 id="serverless的主要玩家"><a href="#serverless的主要玩家" class="headerlink" title="serverless的主要玩家"></a>serverless的主要玩家</h2><h4 id="AWS-Lambda"><a href="#AWS-Lambda" class="headerlink" title="AWS Lambda"></a>AWS Lambda</h4><p>AWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并自动管理后端的服务器、高可用以及自动扩展等：</p>
 <blockquote>
 <p>通过 AWS Lambda，无需配置或管理服务器即可运行代码。您只需按消耗的计算时间付费 – 代码未运行时不产生费用。借助 Lambda，您几乎可以为任何类型的应用程序或后端服务运行代码，而且全部无需管理。只需上传您的代码，Lambda 会处理运行和扩展高可用性代码所需的一切工作。您可以将您的代码设置为自动从其他 AWS 服务触发，或者直接从任何 Web 或移动应用程序调用。</p>
@@ -424,6 +401,11 @@ serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverle
 <p><img src="https://github.com/openwhisk/openwhisk/raw/master/docs/OpenWhisk.png" alt="arch"></p>
 <h4 id="Facebook-Parse"><a href="#Facebook-Parse" class="headerlink" title="Facebook Parse"></a>Facebook Parse</h4><p>Parse是专为移动应用提供后台服务的云计算平台，Parse为开发者承接了繁琐的后台服务，让开发者只需专注于具体的前端开发工作。它提供任意数据存储、通知发送/推送、地理位置数据使用、Facebook/Twitter 登陆帐号添加等服务。</p>
 <p>Facebook在2013年将其收购，并于今年一月份宣布关闭Parse服务并将其开源，开源地址在<a href="https://github.com/ParsePlatform/parse-server。" target="_blank" rel="external">https://github.com/ParsePlatform/parse-server。</a></p>
+<h4 id="基于Kubernetes的Framework"><a href="#基于Kubernetes的Framework" class="headerlink" title="基于Kubernetes的Framework"></a>基于Kubernetes的Framework</h4><ul>
+<li><a href="https://github.com/platform9/fission" target="_blank" rel="external">Fission</a></li>
+<li><a href="https://github.com/fabric8io/funktion" target="_blank" rel="external">Funktion</a>: 通过fabric8-maven-plugin生成镜像和Manifests，同时兼容Kubernetes和Openshift</li>
+<li><a href="https://github.com/skippbox/kubeless" target="_blank" rel="external">Kubeless</a>: 基于ThirdPartyResource和Kafka，目前是POC阶段</li>
+</ul>
 <h2 id="Serverless-Frameworks"><a href="#Serverless-Frameworks" class="headerlink" title="Serverless Frameworks"></a>Serverless Frameworks</h2><ul>
 <li><a href="https://github.com/awslabs/chalice" target="_blank" rel="external">Chalice</a> (AWS Labs): An open source project that provides a Python serverless microframework for AWS that allows you to quickly create and deploy applications that use Amazon API Gateway and AWS Lambda. It makes assumptions about how applications will be deployed, and it has restrictions on how an application can be structured.</li>
 <li><a href="https://claudiajs.com/" target="_blank" rel="external">Claudia.js</a> (Claudia.js): Claudia.js makes it easy to deploy Node.js projects to <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="external">AWS Lambda</a> and <a href="https://aws.amazon.com/api-gateway/" target="_blank" rel="external">API Gateway</a>. It automates all the error-prone deployment and configuration tasks, and sets everything up the way <a href="http://www.thenewstack.io/tag/JavaScript" target="_blank" rel="external">JavaScript</a> developers expect out of the box. Its founder, <a href="https://twitter.com/gojkoadzic" target="_blank" rel="external">Gojko Adzic</a>, has created extension libraries to let users quickly build chatbots and Web API endpoints.</li>
@@ -497,24 +479,6 @@ serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverle
     <footer class="post-footer">
       
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/02/24/Google-s-Transition-From-Single-Datacenter-To-Failover-To-A-Native-Multihomed-Architecture/" rel="next" title="Google's Transition From Single Datacenter, To Failover, To A Native Multihomed Architecture">
-                <i class="fa fa-chevron-left"></i> Google's Transition From Single Datacenter, To Failover, To A Native Multihomed Architecture
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/26/Docker-Datacenter/" rel="prev" title="Docker Datacenter">
-                Docker Datacenter <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
 
       
@@ -670,7 +634,7 @@ serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverle
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#serverless的主要玩家"><span class="nav-number">1.</span> <span class="nav-text">serverless的主要玩家</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AWS-Lambda"><span class="nav-number">1.0.1.</span> <span class="nav-text">AWS Lambda</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Google-Cloud-Functions"><span class="nav-number">1.0.2.</span> <span class="nav-text">Google Cloud Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Azure-Data-Lake"><span class="nav-number">1.0.3.</span> <span class="nav-text">Azure Data Lake</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IBM-OpenWhisk"><span class="nav-number">1.0.4.</span> <span class="nav-text">IBM OpenWhisk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Facebook-Parse"><span class="nav-number">1.0.5.</span> <span class="nav-text">Facebook Parse</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Frameworks"><span class="nav-number">2.</span> <span class="nav-text">Serverless Frameworks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Platforms"><span class="nav-number">3.</span> <span class="nav-text">Serverless Platforms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Tools"><span class="nav-number">4.</span> <span class="nav-text">Serverless Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Miscellaneous-Serverless-Resources"><span class="nav-number">5.</span> <span class="nav-text">Miscellaneous Serverless Resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Consultancies"><span class="nav-number">6.</span> <span class="nav-text">Serverless Consultancies</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#serverless的主要玩家"><span class="nav-number">1.</span> <span class="nav-text">serverless的主要玩家</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AWS-Lambda"><span class="nav-number">1.0.1.</span> <span class="nav-text">AWS Lambda</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Google-Cloud-Functions"><span class="nav-number">1.0.2.</span> <span class="nav-text">Google Cloud Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Azure-Data-Lake"><span class="nav-number">1.0.3.</span> <span class="nav-text">Azure Data Lake</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IBM-OpenWhisk"><span class="nav-number">1.0.4.</span> <span class="nav-text">IBM OpenWhisk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Facebook-Parse"><span class="nav-number">1.0.5.</span> <span class="nav-text">Facebook Parse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于Kubernetes的Framework"><span class="nav-number">1.0.6.</span> <span class="nav-text">基于Kubernetes的Framework</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Frameworks"><span class="nav-number">2.</span> <span class="nav-text">Serverless Frameworks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Platforms"><span class="nav-number">3.</span> <span class="nav-text">Serverless Platforms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Tools"><span class="nav-number">4.</span> <span class="nav-text">Serverless Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Miscellaneous-Serverless-Resources"><span class="nav-number">5.</span> <span class="nav-text">Miscellaneous Serverless Resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Consultancies"><span class="nav-number">6.</span> <span class="nav-text">Serverless Consultancies</span></a></li></ol></div>
             
           </div>
         </section>

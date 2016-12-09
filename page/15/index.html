@@ -800,6 +800,152 @@ root@ca83bf0ea76a:/# tail -f /tmp/output.txt
             
               
                 
+                <a class="post-title-link" href="/2015/01/27/awk-examples/" itemprop="url">
+                  awk examples
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-28T00:00:00+08:00" content="2015-01-28">
+              2015-01-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>precede each line by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>replace first field by line number</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print field 1 and field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
+<ul>
+<li>print last field </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print non empty lines</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>print if more than 4 fields</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li><p>print matching lines (egrep)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>print lines where first field matches</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>calcuting sum of field 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>for loop</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>make arrays</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>reverse a file</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
+<ul>
+<li>Associative Arrays </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/01/27/reverse-shell/" itemprop="url">
                   reverse shell
                 </a>
@@ -906,152 +1052,6 @@ Xnest :1
 xhost +targetip
 </pre>
 
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/01/27/awk-examples/" itemprop="url">
-                  awk examples
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-01-28T00:00:00+08:00" content="2015-01-28">
-              2015-01-28
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>precede each line by line number</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print NR, $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>replace first field by line number</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;$1=NR; print&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>print field 1 and field 2</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $1,$2&#125;'</span> fielname</div></pre></td></tr></table></figure>
-<ul>
-<li>print last field </li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;print $NF&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>print non empty lines</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;0&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>print if more than 4 fields</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'NF&gt;4&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li><p>print matching lines (egrep)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'/test.*/&#123;print $0&#125;'</span>  filename</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li>print lines where first field matches</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'$1 ~ /^print.*/&#123;print $0&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>calcuting sum of field 2</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'BEGIN&#123;sum=0&#125;&#123;sum+=$2&#125;END&#123;print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>for loop</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;sum=0; for(i=1;i&lt;=NF;i++)sum+=$i; print sum&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>make arrays</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;n = split($0, array); print array[1], array[3]&#125; '</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>reverse a file</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;x[NR]=$0&#125; END&#123;for(i=NR;i&gt;0;i--)print x[i]&#125;'</span> filename</div></pre></td></tr></table></figure>
-<ul>
-<li>Associative Arrays </li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">awk <span class="string">'&#123;amount[$1]=$2&#125; END&#123;for(name in amount) print name, amount[name]&#125;'</span> filename</div></pre></td></tr></table></figure>
 
           
         
