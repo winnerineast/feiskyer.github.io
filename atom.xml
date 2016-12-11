@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://feisky.xyz/"/>
-  <updated>2016-12-11T00:13:10.372Z</updated>
+  <updated>2016-12-11T11:43:26.716Z</updated>
   <id>http://feisky.xyz/</id>
   
   <author>
@@ -17,10 +17,137 @@
   
   <entry>
     <title>Weekly reading list</title>
+    <link href="http://feisky.xyz/2016/12/08/Weekly-reading-list/"/>
+    <id>http://feisky.xyz/2016/12/08/Weekly-reading-list/</id>
+    <published>2016-12-08T06:00:22.000Z</published>
+    <updated>2016-12-11T11:43:26.716Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Docker收购Infinit-PDF"><a href="#Docker收购Infinit-PDF" class="headerlink" title="Docker收购Infinit PDF"></a><a href="https://blog.docker.com/2016/12/docker-acquires-infinit/" target="_blank" rel="external">Docker收购Infinit</a> <a href="/assets/infinit.pdf">PDF</a></h1><p><a href="https://infinit.sh/" target="_blank" rel="external">Infinit</a>为容器提供了分布式存储，其特点包括</p>
+<ul>
+<li>基于软件：可以部署在任何硬件之上，从遗留设备到消费级实体机、虚拟机，甚至容器。</li>
+<li>可编程：开发者可以轻松地完成多个存储基础设施的自动化创建和部署，并且每个都能借助基于策略的能力进行自定义，适配上层应用的需求。</li>
+<li>可伸缩：通过依靠一个去中心化的架构（即点对点），Infinit没有使用leader/follower模型，因而不会有瓶颈和单点失效的问题。</li>
+<li>自愈合：Infinit的再平衡策略能让系统适应各种故障，包括拜占庭将军问题。</li>
+<li>多用途：Infinit平台提供了块、对象和文件存储的接口：NFS、SMB、AWS S3、OpenStack Swift、iSCSI和FUSE等等。</li>
+</ul>
+<p><img src="/images/14811775178610.png" alt=""></p>
+<p>基本原理：</p>
+<p>• Federate all nodes in an overlay network for lookup and routing.<br>• Store data as blocks in a distributed hashtable (key-value store) with a per-block consensus.<br>• Use cryptographic access control to dispense from any leader.<br>• Use symmetrical operations to ensure resilience and flexibility.</p>
+<p><img src="/images/14811780770073.jpg" alt=""></p>
+<p><img src="/images/14811782445452.jpg" alt=""></p>
+<p>Infinit以volume的形式挂载到docker容器中：</p>
+<p><img src="/images/14811779192673.jpg" alt=""></p>
+<h2 id="Docker-Alibaba——超大规模Docker化的实战经验"><a href="#Docker-Alibaba——超大规模Docker化的实战经验" class="headerlink" title="Docker@Alibaba——超大规模Docker化的实战经验"></a><a href="https://yq.aliyun.com/articles/64256" target="_blank" rel="external">Docker@Alibaba——超大规模Docker化的实战经验</a></h2><ul>
+<li>AliDocker，并非阿里云，主要是阿里内部业务在用</li>
+<li>Swarm改造支持单swarm实例health nodes 2w+<ul>
+<li>优化连接管理、最小化锁粒度、修改diff算法减少node刷新时的开销、减少连接线程</li>
+</ul>
+</li>
+<li>Docker Engine增强<ul>
+<li>磁盘配额、固定IP、Hooks、解决hyperd重启容器销毁问题等</li>
+</ul>
+</li>
+<li>镜像分发：流式分发、镜像分批预热、P2P等</li>
+<li>swarm-proxy HA</li>
+</ul>
+<p><img src="/images/14811788194621.jpg" alt="">7</p>
+<h2 id="微服务在微信后台的架构实践"><a href="#微服务在微信后台的架构实践" class="headerlink" title="微服务在微信后台的架构实践"></a><a href="http://ppt.geekbang.org/slide/show/607" target="_blank" rel="external">微服务在微信后台的架构实践</a></h2><ul>
+<li>多地自治，园区互备：城市间RTT 30ms-400ms，园区间小于2ms</li>
+<li>RPC：protobuf/libco</li>
+<li>调度：Yard，双层调度器（Mesos+Yard）</li>
+<li>过载保护：轻重分离、队列式、组合命令式</li>
+</ul>
+<p><img src="/images/14811817178100.jpg" alt=""></p>
+<ul>
+<li>数据存储：PaxosStore，同步复制、多主多写</li>
+</ul>
+<p><img src="/images/14811818656014.jpg" alt=""></p>
+<h2 id="Go-微服务架构的基石"><a href="#Go-微服务架构的基石" class="headerlink" title="Go:微服务架构的基石"></a><a href="http://ppt.geekbang.org/slide/show/615" target="_blank" rel="external">Go:微服务架构的基石</a></h2><ul>
+<li>负载均衡：seesaw、caddy</li>
+<li>服务网关：tyk、fabio、vulcand</li>
+<li>进程间通信：RESTful、RPC、自定义<ul>
+<li>REST框架：beego、gin、Iris、micro、go-kit、goa</li>
+<li>RPC框架：grpc、thrift、hprose</li>
+<li>自定义：协议，编解码</li>
+</ul>
+</li>
+<li>服务发现：etcd、consul、serf</li>
+<li>调度系统：kubernetes、swarm、mesos</li>
+<li>消息队列：NSQ、Nats</li>
+<li>APM（应用性能监控）：appdash、Cloudinsight、opentracing</li>
+<li>配置管理：etcd、consul、mgmt</li>
+<li>日志分析：Beats、Heka</li>
+<li>服务监控：open-falcon、prometheus</li>
+<li>CI/CD：Drone</li>
+<li>熔断器：gateway、Hystrix-go</li>
+</ul>
+<h2 id="基于万节点Kubernetes支撑大规模云应用实践"><a href="#基于万节点Kubernetes支撑大规模云应用实践" class="headerlink" title="基于万节点Kubernetes支撑大规模云应用实践"></a><a href="http://ppt.geekbang.org/slide/show/586" target="_blank" rel="external">基于万节点Kubernetes支撑大规模云应用实践</a></h2><ul>
+<li>基于OpenStack的IaaS：裁剪KVM镜像、优化启动流程，Openvswitch SDN、Ceph存储</li>
+<li>容器与虚拟机共用一套虚拟化网络</li>
+<li>Ceph存储直接挂载到容器</li>
+<li>统一的日志收集、分析、搜索</li>
+<li>Kubernetes调度器优化：将原来的串行队列改为多个优先级队列</li>
+<li>etcd集群扩展：将Pod/Node/ReplicationController拆分到不同的etcd集群</li>
+</ul>
+<p><img src="/images/14811811876614.jpg" alt=""></p>
+<p><img src="/images/14811813670269.jpg" alt=""></p>
+<h1 id="20-天持续压测，告诉你云存储性能哪家强-📈"><a href="#20-天持续压测，告诉你云存储性能哪家强-📈" class="headerlink" title="20 天持续压测，告诉你云存储性能哪家强 📈"></a><a href="https://www.v2ex.com/t/326038?from=timeline&amp;isappinstalled=0#reply7" target="_blank" rel="external">20 天持续压测，告诉你云存储性能哪家强</a> <a href="http://www.codingpy.com/specials/cbs_test/" target="_blank" rel="external">📈</a></h1><p>对阿里云和腾讯云两种云存储产品（云盘）的性能和价格对比：</p>
+<ul>
+<li>测试方法：SNIA发布的<a href="http://snia.org/sites/default/files/SSS_PTS_Enterprise_v1.1.pdf" target="_blank" rel="external">企业级SSD评测规范</a>及<a href="https://github.com/cloudharmony/block-storage" target="_blank" rel="external">实现</a></li>
+<li>阿里云 SSD 云盘必须搭配 I/O 优化实例才能给发挥最大性能</li>
+<li>腾讯云高效云盘的读写操作可同时达到预期性能峰值（数据块 16KB 以下），而阿里云方面，读写无法同时达到预期性能峰值</li>
+<li>腾讯云达到了预期的性能；阿里云部分没有达到， 400GB 容量的时延过高</li>
+<li>腾讯云高效云盘的时延在 1ms 以下， IOPS 、吞吐量的优势更加突出</li>
+<li>两家高效云盘的 IOPS 表现均比较稳定，几乎呈一条直线，只有阿里云的 400GB 云盘有些略微波动</li>
+<li>容量越大，似乎闲置时间对性能恢复的影响越明显；阿里云 400GB 高效云盘的性能波动受闲置时间影响较明显</li>
+</ul>
+<p><img src="/images/14811840736214.jpg" alt=""></p>
+<h2 id="外卖的背后-饿了么基础架构从0到1的演进"><a href="#外卖的背后-饿了么基础架构从0到1的演进" class="headerlink" title="外卖的背后-饿了么基础架构从0到1的演进"></a><a href="http://ppt.geekbang.org/slide/show/619" target="_blank" rel="external">外卖的背后-饿了么基础架构从0到1的演进</a></h2><ul>
+<li>负载均衡<ul>
+<li>最初：HAProxy部署在客户端本地，不需要考虑HAProxy的高可用；问题是部署规模大，维护客户列表复杂，并且配置不统一</li>
+<li>解决：<ul>
+<li>RPC+内置LB SDK，服务自注册/自发现，配置少，部署简单</li>
+<li>Redis/DB解决方案GoProxy: DAL/Corvus作为服务自注册，GoProxy订阅注册事件并自带服务发现的Haproxy</li>
+<li>健康检查：心跳检测，进程在、端口活不代表服务可用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>无损升级<ul>
+<li>最初：发布前通知客户端停止请求，服务端将正在处理的请求处理完毕才能升级</li>
+<li>解决：<ul>
+<li>RPC调用：服务发现机制会在注销时通知客户端，直连情况下客户端从可用列表中剔除准备下线的服务</li>
+<li>数据库访问，客户端限制连接存活时间，DAL侧重连</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基础架构：开放式架构<ul>
+<li>基于组件，给业务开发团队最大的自由</li>
+<li>基于运行时，给业务开发团队最大限度的自由</li>
+<li>开放封闭原则：基础框架应该是可以扩展的，但是不可以“选择”的</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docker收购Infinit-PDF&quot;&gt;&lt;a href=&quot;#Docker收购Infinit-PDF&quot; class=&quot;headerlink&quot; title=&quot;Docker收购Infinit PDF&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://blog.docker.
+    
+    </summary>
+    
+      <category term="Readings" scheme="http://feisky.xyz/categories/Readings/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Weekly reading list</title>
     <link href="http://feisky.xyz/2016/12/04/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/04/Weekly-reading-list/</id>
     <published>2016-12-04T23:59:01.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
 <p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
@@ -93,7 +220,7 @@
     <link href="http://feisky.xyz/2016/11/14/KubeCon-2016%E8%A7%81%E9%97%BB/"/>
     <id>http://feisky.xyz/2016/11/14/KubeCon-2016见闻/</id>
     <published>2016-11-14T01:49:52.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>题记：上周去西雅图参加了<a href="http://events.linuxfoundation.org/events/kubecon" target="_blank" rel="external">KubeCon&amp;CloudNativeCon 2016</a>，不仅见到Dawn、Brendan、Tim以及Sig Node的各路大神，还参加了不少有趣的session。</p>
 <h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
@@ -237,7 +364,7 @@
     <link href="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/"/>
     <id>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</id>
     <published>2016-09-24T22:59:31.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
@@ -289,7 +416,7 @@
     <link href="http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     <id>http://feisky.xyz/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
     <published>2016-09-11T01:48:09.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -348,7 +475,7 @@
     <link href="http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/</id>
     <published>2016-08-24T06:48:44.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
@@ -409,7 +536,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/"/>
     <id>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</id>
     <published>2016-07-19T07:58:26.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
@@ -453,7 +580,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/"/>
     <id>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</id>
     <published>2016-06-24T04:39:49.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
@@ -532,7 +659,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
     <id>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
     <published>2016-06-17T09:12:38.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
@@ -580,7 +707,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/"/>
     <id>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</id>
     <published>2016-06-07T05:21:07.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
@@ -605,7 +732,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
     <id>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
     <published>2016-06-06T08:10:25.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
@@ -681,7 +808,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/"/>
     <id>http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/</id>
     <published>2016-05-11T02:25:06.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
 <p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
@@ -714,7 +841,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/06/Go-performance-optimize/"/>
     <id>http://feisky.xyz/2016/05/06/Go-performance-optimize/</id>
     <published>2016-05-06T12:40:06.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
 <ol>
@@ -770,7 +897,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/"/>
     <id>http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</id>
     <published>2016-05-05T09:16:46.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[
 
@@ -799,7 +926,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/"/>
     <id>http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/</id>
     <published>2016-04-29T08:50:14.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
 <blockquote>
@@ -861,7 +988,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/runc/"/>
     <id>http://feisky.xyz/2016/04/28/runc/</id>
     <published>2016-04-28T03:15:03.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
 <h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
@@ -906,7 +1033,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/"/>
     <id>http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/</id>
     <published>2016-04-28T02:07:23.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：</p>
 <ul>
@@ -970,7 +1097,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/DPDK-Introduction/"/>
     <id>http://feisky.xyz/2016/04/24/DPDK-Introduction/</id>
     <published>2016-04-24T11:43:07.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<h2 id="DPDK-Introduction"><a href="#DPDK-Introduction" class="headerlink" title="DPDK Introduction"></a>DPDK Introduction</h2><p>Intel DPDK全称Intel Data Plane Development Kit，是intel提供的数据平面开发工具集，为Intel architecture（IA）处理器架构下用户空间高效的数据包处理提供库函数和驱动的支持，它不同于Linux系统以通用性设计为目的，而是专注于网络应用中数据包的高性能处理。DPDK应用程序是运行在用户空间上利用自身提供的数据平面库来收发数据包，绕过了Linux内核协议栈对数据包处理过程。Linux内核将DPDK应用程序看作是一个普通的用户态进程，包括它的编译、连接和加载方式和普通程序没有什么两样。DPDK程序启动后只能有一个主线程，然后创建一些子线程并绑定到指定CPU核心上运行。</p>
 <p>DPDK官方网站为<a href="http://dpdk.org/" target="_blank" rel="external">http://dpdk.org/</a>，官方文档为<a href="http://dpdk.org/doc/guides/index.html" target="_blank" rel="external">http://dpdk.org/doc/guides/index.html</a></p>
@@ -1034,7 +1161,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/Tips-for-cgo/"/>
     <id>http://feisky.xyz/2016/04/24/Tips-for-cgo/</id>
     <published>2016-04-24T00:29:02.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<p>cgo的一些tips</p>
 <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>The standard C numeric types are available under the names C.char, C.schar (signed char), C.uchar (unsigned char), C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int), C.long, C.ulong (unsigned long), C.longlong (long long), C.ulonglong (unsigned long long), C.float, C.double, C.complexfloat (complex float), and C.complexdouble (complex double). The C type void* is represented by Go’s unsafe.Pointer. The C types <code>__int128_t</code> and <code>__uint128_t</code> are represented by [16]byte.</p>
@@ -1074,7 +1201,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/19/cgo-in-go-1-6/"/>
     <id>http://feisky.xyz/2016/04/19/cgo-in-go-1-6/</id>
     <published>2016-04-19T14:04:48.000Z</published>
-    <updated>2016-12-11T00:13:10.368Z</updated>
+    <updated>2016-12-11T11:43:26.716Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with Go’s garbage collector. Briefly, Go and C may share memory allocated by Go when a pointer to that memory is passed to C as part of a cgo call, provided that the memory itself contains no pointers to Go-allocated memory, and provided that C does not retain the pointer after the call returns. These rules are checked by the runtime during program execution: if the runtime detects a violation, it prints a diagnosis and crashes the program. The checks can be disabled by setting the environment variable GODEBUG=cgocheck=0, but note that the vast majority of code identified by the checks is subtly incompatible with garbage collection in one way or another. Disabling the checks will typically only lead to more mysterious failure modes. Fixing the code in question should be strongly preferred over turning off the checks.</p>
@@ -1102,40 +1229,6 @@ Available Commands:
     
     
       <category term="go" scheme="http://feisky.xyz/tags/go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello world to Docker Mac</title>
-    <link href="http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/"/>
-    <id>http://feisky.xyz/2016/04/15/Hello-world-to-Docker-Mac/</id>
-    <published>2016-04-15T08:34:00.000Z</published>
-    <updated>2016-12-11T00:13:10.372Z</updated>
-    
-    <content type="html"><![CDATA[<p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
-<ul>
-<li>安装简单了，标准的Mac Application<br>  <img src="/images/docker-mac-setting.png" alt=""></li>
-<li>VPN无障碍</li>
-<li>原生的（osxfs）文件系统共享（其实还支持9p方式）</li>
-<li>Docker Application管理 xhyve VM，更改配置后会自动重启</li>
-<li>速度快，在使用体验上跟在Linux上面已经差别不大</li>
-<li>可以与docker toolbox共存：Docker for Mac也会像Linux上面一样监听一个<code>/var/run/docker.sock</code>，这样客户端默认情况下就会走它的API；但也可以通过环境变量告诉docker CLI调用其他Docker Daemon的API（比如docker-machine管理的vm等）</li>
-</ul>
-<p><img src="/images/docker-for-mac-and-toolbox.png" alt=""></p>
-<p>跑一个nginx试试：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">➜  ~ docker version</div><div class="line">Client:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   4dc5990</div><div class="line"> Built:        Wed Apr 13 19:36:04 2016</div><div class="line"> OS/Arch:      darwin/amd64</div><div class="line"></div><div class="line">Server:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   a5315b8</div><div class="line"> Built:        Thu Apr 14 10:19:52 2016</div><div class="line"> OS/Arch:      linux/amd64</div><div class="line">➜  ~</div><div class="line">➜  ~ ls /var/run/docker.sock</div><div class="line">/var/run/docker.sock</div><div class="line">➜  ~ docker run -itd -p 9191:80 nginx</div><div class="line">53a8b3d5f1846273e10ff08086c679695d7f0536a9678e49b44990806ce03d54</div><div class="line"></div><div class="line">➜  ~ curl localhost:9191</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;title&gt;Welcome to nginx!&lt;/title&gt;</div><div class="line">&lt;style&gt;</div><div class="line">    body &#123;</div><div class="line">        width: 35em;</div><div class="line">        margin: 0 auto;</div><div class="line">        font-family: Tahoma, Verdana, Arial, sans-serif;</div><div class="line">    &#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;</div><div class="line">&lt;p&gt;If you see this page, the nginx web server is successfully installed and</div><div class="line">working. Further configuration is required.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;For online documentation and support please refer to</div><div class="line">&lt;a href=<span class="string">"http://nginx.org/"</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;</div><div class="line">Commercial support is available at</div><div class="line">&lt;a href=<span class="string">"http://nginx.com/"</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;&lt;em&gt;Thank you <span class="keyword">for</span> using nginx.&lt;/em&gt;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>当然了，由于还是Beta版，小问题还是有的。不过感觉目前的状态已经可以替代Linux vm作大部分的开发测试了。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;终于等到了Docker for Mac。如之前期待的，体验真的很棒：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;安装简单了，标准的Mac Application&lt;br&gt;  &lt;img src=&quot;/images/docker-mac-setting.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
-&lt;li&gt;
-    
-    </summary>
-    
     
   </entry>
   

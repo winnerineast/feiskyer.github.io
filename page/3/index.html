@@ -313,6 +313,154 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/" itemprop="url">
+                  Hypernetes: Bringing Security and Multi-tenancy to Kubernetes
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-06T16:10:25+08:00" content="2016-06-06">
+              2016-06-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
+</blockquote>
+<p><em>Today’s guest post is written by Harry Zhang and Pengfei Ni, engineers at HyperHQ, describing a new hypervisor based container called HyperContainer</em>  </p>
+<p>While many developers and security professionals are comfortable with Linux containers as an effective boundary, many users need a stronger degree of isolation, particularly for those running in a multi-tenant environment. Sadly, today, those users are forced to run their containers inside virtual machines, even one VM per container.  </p>
+<p>Unfortunately, this results in the loss of many of the benefits of a cloud-native deployment: slow startup time of VMs; a memory tax for every container; low utilization resulting in wasting resources.  </p>
+<p>In this post, we will introduce HyperContainer, a hypervisor based container and see how it naturally fits into the Kubernetes design, and enables users to serve their customers directly with virtualized containers, instead of wrapping them inside of full blown VMs.  </p>
+<p><strong>HyperContainer</strong>  </p>
+<p><a href="http://hypercontainer.io/" target="_blank" rel="external">HyperContainer</a> is a hypervisor-based container, which allows you to launch Docker images with standard hypervisors (KVM, Xen, etc.). As an open-source project, HyperContainer consists of an <a href="https://github.com/opencontainers/runtime-spec" target="_blank" rel="external">OCI</a> compatible runtime implementation, named <a href="https://github.com/hyperhq/runv/" target="_blank" rel="external">runV</a>, and a management daemon named <a href="https://github.com/hyperhq/hyperd" target="_blank" rel="external">hyperd</a>. The idea behind HyperContainer is quite straightforward: to combine the best of both virtualization and container.  </p>
+<p>We can consider containers as two parts (as Kubernetes does). The first part is the container runtime, where HyperContainer uses virtualization to achieve execution isolation and resource limitation instead of namespaces and cgroups. The second part is the application data, where HyperContainer leverages Docker images. So in HyperContainer, virtualization technology makes it possible to build a fully isolated sandbox with an independent guest kernel (so things like <code>top</code> and /proc all work), but from developer’s view, it’s portable and behaves like a standard container.  </p>
+<p><strong>HyperContainer as Pod</strong>  </p>
+<p>The interesting part of HyperContainer is not only that it is secure enough for multi-tenant environments (such as a public cloud), but also how well it fits into the Kubernetes philosophy.  </p>
+<p>One of the most important concepts in Kubernetes is Pods. The design of Pods is a lesson learned (<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf" target="_blank" rel="external">Borg paper section 8.1</a>) from real world workloads, where in many cases people want an atomic scheduling unit composed of multiple containers (please check this <a href="https://github.com/kubernetes/kubernetes/tree/master/examples/javaweb-tomcat-sidecar" target="_blank" rel="external">example</a> for further information). In the context of Linux containers, a Pod wraps and encapsulates several containers into a logical group. But in HyperContainer, the hypervisor serves as a natural boundary, and Pods are introduced as first-class objects:  </p>
+<p><img src="https://lh6.googleusercontent.com/8DjNb9IE0HjinFxkaoGbPaaKbts5_Osbj-8NVWQMgY_8D32643Aum0SaMc2OedV2gECG3EXov8qj_f8XDe0IfpptZt61HxfJEonLo3RA5xkr5zSmd2nxqVc8yESc423nPEZTj1H3" alt=""></p>
+<p>HyperContainer wraps a Pod of light-weight application containers and exposes the container interface at Pod level. Inside the Pod, a minimalist Linux kernel called HyperKernel is booted. This HyperKernel is built with a tiny Init service called HyperStart. It will act as the PID 1 process and creates the Pod, setup Mount namespace, and launch apps from the loaded images. </p>
+<p>This model works nicely with Kubernetes. The integration of HyperContainer with Kubernetes, as we indicated in the title, is what makes up the <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Hypernetes</a> project. </p>
+<p><strong>Hypernetes</strong></p>
+<p>One of the best parts of Kubernetes is that it is designed to support multiple container runtimes, meaning users are not locked-in to a single vendor. We are very pleased to announce that we have already begun working with the Kubernetes team to integrate HyperContainer into Kubernetes upstream. This integration involves:</p>
+<ol>
+<li>container runtime optimizing and refactoring</li>
+<li>new client-server mode runtime interface</li>
+<li>containerd integration to support runV</li>
+</ol>
+<p>The OCI standard and kubelet’s multiple runtime architecture make this integration much easier even though HyperContainer is not based on Linux container technology stack.</p>
+<p>On the other hand, in order to run HyperContainers in multi-tenant environment, we also created a new network plugin and modified an existing volume plugin. Since Hypernetes runs Pod as their own VMs, it can make use of your existing IaaS layer technologies for multi-tenant network and persistent volumes. The current Hypernetes implementation uses standard Openstack components.</p>
+<p>Below we go into further details about how all those above are implemented.</p>
+<p><strong>Identity and Authentication</strong></p>
+<hr>
+<p>In Hypernetes we chose <a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> to manage different tenants and perform identification and authentication for tenants during any administrative operation. Since Keystone comes from the OpenStack ecosystem, it works seamlessly with the network and storage plugins we used in Hypernetes.</p>
+<p><strong>Multi-tenant Network Model</strong></p>
+<p>For a multi-tenant container cluster, each tenant needs to have strong network isolation from each other tenant. In Hypernetes, each tenant has its own Network. Instead of configuring a new network using OpenStack, which is complex, with Hypernetes, you just create a Network object like below.  </p>
+<p>apiVersion: v1  kind: Network  metadata:    name: net1  spec:    tenantID: 065f210a2ca9442aad898ab129426350    subnets:      subnet1:        cidr: 192.168.0.0/24        gateway: 192.168.0.1</p>
+<p>Note that the tenantID is supplied by Keystone. This yaml will automatically create a new Neutron network with a default router and a subnet 192.168.0.0/24. </p>
+<p>A Network controller will be responsible for the life-cycle management of any Network instance created by the user. This Network can be assigned to one or more Namespaces, and any Pods belonging to the same Network can reach each other directly through IP address.  </p>
+<p>apiVersion: v1  kind: Namespace  metadata:    name: ns1  spec:    network: net1  </p>
+<p>If a Namespace does not have a Network spec, it will use the default Kubernetes network model instead, including the default kube-proxy. So if a user creates a Pod in a Namespace with an associated Network, Hypernetes will follow the <a href="http://kubernetes.io/docs/admin/network-plugins/" target="_blank" rel="external">Kubernetes Network Plugin Model</a> to set up a Neutron network for this Pod. Here is a high level example:</p>
+<p><img src="https://lh4.googleusercontent.com/ij88fHWT3wDSxDh4W7S0sARfjdRd5oTJTZGT_r8oQoqoGGjZWmHLJtPG8TT3U_tZ2rFqK7lwK56l3UIq3csSUxSdgGvfzORaAEAkl9fChxiLzVgz-mExTMi8sxUlfsesS59G0Fsa" alt="A Hypernetes Network Workflow.png"></p>
+<p>Hypernetes uses a standalone gRPC handler named kubestack to translate the Kubernetes Pod request into the Neutron network API. Moreover, kubestack is also responsible for handling another important networking feature: a multi-tenant Service proxy.</p>
+<p>In a multi-tenant environment, the default iptables-based kube-proxy can not reach the individual Pods, because they are isolated into different networks. Instead, Hypernetes uses a <a href="https://github.com/hyperhq/hyperd/blob/2072dd8e28a02a25ae6a819f81029b47a579e683/servicediscovery/servicediscovery.go" target="_blank" rel="external">built-in HAproxy in every HyperContainer</a> as the portal. This HAproxy will proxy all the Service instances in the namespace of that Pod. Kube-proxy will be responsible for updating these backend servers by following the standard OnServiceUpdate and OnEndpointsUpdate processes, so that users will not notice any difference. A downside of this method is that HAproxy has to listen to some specific ports which may conflicts with user’s containers.That’s why we are planning to use LVS to replace this proxy in the next release.</p>
+<p>With the help of the Neutron based network plugin, the Hypernetes Service is able to provide an OpenStack load balancer, just like how the “external” load balancer does on GCE. When user creates a Service with external IPs, an OpenStack load balancer will be created and endpoints will be automatically updated through the kubestack workflow above.</p>
+<p><strong>Persistent Storage</strong></p>
+<p>When considering storage, we are actually building a tenant-aware persistent volume in Kubernetes. The reason we decided not to use existing Cinder volume plugin of Kubernetes is that its model does not work in the virtualization case. Specifically:</p>
+<p>The Cinder volume plugin requires OpenStack as the Kubernetes provider.</p>
+<p>The OpenStack provider will find on which VM the target Pod is running on</p>
+<p>Cinder volume plugin will mount a Cinder volume to a path inside the host VM of Kubernetes.</p>
+<p>The kubelet will bind mount this path as a volume into containers of target Pod.</p>
+<p>But in Hypernetes, things become much simpler. Thanks to the physical boundary of Pods, HyperContainer can mount Cinder volumes directly as block devices into Pods, just like a normal VM. This mechanism eliminates extra time to query Nova to find out the VM of target Pod in the existing Cinder volume workflow listed above.</p>
+<p>The current implementation of the Cinder plugin in Hypernetes is based on Ceph RBD backend, and it works the same as all other Kubernetes volume plugins, one just needs to remember to create the Cinder volume (referenced by volumeID below) beforehand.  </p>
+<p>apiVersion: v1  kind: Pod  metadata:    name: nginx    labels:      app: nginx  spec:    containers:    - name: nginx      image: nginx      ports:      - containerPort: 80      volumeMounts:      - name: nginx-persistent-storage        mountPath: /var/lib/nginx    volumes:    - name: nginx-persistent-storage      cinder:        volumeID: 651b2a7b-683e-47e1-bdd6-e3c62e8f91c0        fsType: ext4  </p>
+<p>So when the user provides a Pod yaml with a Cinder volume, Hypernetes will check if kubelet is using the Hyper container runtime. If so, the Cinder volume can be mounted directly to the Pod without any extra path mapping. Then the volume metadata will be passed to the Kubelet RunPod process as part of HyperContainer spec. Done!</p>
+<p>Thanks to the plugin model of Kubernetes network and volume, we can easily build our own solutions above for HyperContainer though it is essentially different from the traditional Linux container. We also plan to propose these solutions to Kubernetes upstream by following the CNI model and volume plugin standard after the runtime integration is completed.</p>
+<p>We believe all of these <a href="https://github.com/hyperhq/" target="_blank" rel="external">open source projects</a> are important components of the container ecosystem, and their growth depends greatly on the open source spirit and technical vision of the Kubernetes team. </p>
+<p><strong>Conclusion</strong></p>
+<p>This post introduces some of the technical details about HyperContainer and the Hypernetes project. We hope that people will be interested in this new category of secure container and its integration with Kubernetes. If you are looking to try out Hypernetes and HyperContainer, we have just announced the public beta of our new secure container cloud service (<a href="https://hyper.sh/" target="_blank" rel="external">Hyper_</a>), which is built on these technologies. But even if you are running on-premise, we believe that Hypernetes and HyperContainer will let you run Kubernetes in a more secure way.</p>
+<p><em>~Harry Zhang and Pengfei Ni, engineers at HyperHQ</em></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/11/How-docker-1-11-share-network-accross-containers/" itemprop="url">
                   How docker 1.11 share network accross containers
                 </a>
@@ -758,122 +906,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/28/runc/" itemprop="url">
-                  runc and runV
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-28T11:15:03+08:00" content="2016-04-28">
-              2016-04-28
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
-<h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y libseccomp-devel</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line">git <span class="built_in">clone</span> https://github.com/opencontainers/runc</div><div class="line"><span class="built_in">cd</span> runc</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
-<p>Run busybox:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runc spec .</div><div class="line">$ runc start <span class="built_in">test</span></div><div class="line">/ <span class="comment"># ps</span></div><div class="line">PID   USER     COMMAND</div><div class="line">1 root     sh</div><div class="line">9 root     ps</div></pre></td></tr></table></figure>
-<h2 id="Playing-with-docker-containerd"><a href="#Playing-with-docker-containerd" class="headerlink" title="Playing with docker-containerd"></a>Playing with docker-containerd</h2><p>docker-containerd is installed togather with docker 1.11.</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers</div><div class="line">ID                                                                 PATH                                                                                             STATUS              PROCESSES</div><div class="line"><span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c   /var/run/docker/libcontainerd/<span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c   running             init</div><div class="line">bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc   /var/run/docker/libcontainerd/bca15f3420e3218987314e1cbbf440120ff880af44844778293c4130526c85cc   running             init</div><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers exec --id=<span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c --pid=<span class="number">20</span> --cwd=/ -<span class="selector-tag">a</span> /bin/ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    <span class="number">1</span> root       <span class="number">0</span>:<span class="number">00</span> sh</div><div class="line">   <span class="number">51</span> root       <span class="number">0</span>:<span class="number">00</span> /bin/ps aux</div><div class="line">$ docker-containerd-ctr --<span class="selector-tag">address</span> <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> state <span class="number">346</span>c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c</div><div class="line">&#123;<span class="string">"containers"</span>:[&#123;<span class="string">"id"</span>:<span class="string">"346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"bundlePath"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"processes"</span>:[&#123;<span class="string">"pid"</span>:<span class="string">"init"</span>,<span class="string">"terminal"</span>:true,<span class="string">"user"</span>:&#123;<span class="string">"additionalGids"</span>:[<span class="number">10</span>]&#125;,<span class="string">"args"</span>:[<span class="string">"sh"</span>],<span class="string">"env"</span>:[<span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,<span class="string">"HOSTNAME=346c1b7bbb04"</span>,<span class="string">"TERM=xterm"</span>],<span class="string">"cwd"</span>:<span class="string">"/"</span>,<span class="string">"systemPid"</span>:<span class="number">3716</span>,<span class="string">"stdin"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdin"</span>,<span class="string">"stdout"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdout"</span>,<span class="string">"stderr"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stderr"</span>,<span class="string">"capabilities"</span>:[<span class="string">"CAP_CHOWN"</span>,<span class="string">"CAP_DAC_OVERRIDE"</span>,<span class="string">"CAP_FSETID"</span>,<span class="string">"CAP_FOWNER"</span>,<span class="string">"CAP_MKNOD"</span>,<span class="string">"CAP_NET_RAW"</span>,<span class="string">"CAP_SETGID"</span>,<span class="string">"CAP_SETUID"</span>,<span class="string">"CAP_SETFCAP"</span>,<span class="string">"CAP_SETPCAP"</span>,<span class="string">"CAP_NET_BIND_SERVICE"</span>,<span class="string">"CAP_SYS_CHROOT"</span>,<span class="string">"CAP_KILL"</span>,<span class="string">"CAP_AUDIT_WRITE"</span>]&#125;],<span class="string">"status"</span>:<span class="string">"running"</span>,<span class="string">"pids"</span>:[<span class="number">3716</span>],<span class="string">"runtime"</span>:<span class="string">"docker-runc"</span>&#125;],<span class="string">"machine"</span>:&#123;<span class="string">"cpus"</span>:<span class="number">2</span>,<span class="string">"memory"</span>:<span class="number">7982</span>&#125;&#125;</div></pre></td></tr></table></figure>
-<h2 id="Playing-with-runV"><a href="#Playing-with-runV" class="headerlink" title="Playing with runV"></a>Playing with runV</h2><p>Install runV:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv/</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
-<p>To run container in runV, kernel and initrd are needed since runV is based on hypervisor. They could be compiled from <a href="https://github.com/hyperhq/hyperstart" target="_blank" rel="external">hyperstart</a>.</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runv spec .</div><div class="line">$ runv --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img start <span class="built_in">test</span></div></pre></td></tr></table></figure>
-<h2 id="Playing-with-runv-containerd"><a href="#Playing-with-runv-containerd" class="headerlink" title="Playing with runv-containerd"></a>Playing with runv-containerd</h2><p>Install ctr CLI from containerd</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/docker</div><div class="line">git <span class="built_in">clone</span> https://github.com/docker/containerd.git</div><div class="line"><span class="built_in">cd</span> containerd</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-<p>Start runv containerd</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">runv-containerd --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img</div></pre></td></tr></table></figure>
-<p>Run ctr command now:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers</div></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Creating OCI bundles</span></div><div class="line">mkdir -p busybox/rootfs</div><div class="line">docker <span class="built_in">export</span> $(docker create busybox) | tar -C busybox/rootfs -xvf -</div><div class="line"><span class="built_in">cd</span> busybox</div><div class="line">runv spec .</div></pre></td></tr></table></figure>
-<p>Change the contents of config.json to </p>
-<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"ociVersion"</span>: <span class="string">"0.5.0-dev"</span>,</div><div class="line">  <span class="attr">"platform"</span>: &#123;</div><div class="line">    <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">    <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"process"</span>: &#123;</div><div class="line">    <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"user"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"args"</span>: [</div><div class="line">      <span class="string">"sh"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"env"</span>: [</div><div class="line">      <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">      <span class="string">"TERM=xterm"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"cwd"</span>: <span class="string">"/"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"root"</span>: &#123;</div><div class="line">    <span class="attr">"path"</span>: <span class="string">"rootfs"</span>,</div><div class="line">    <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"hostname"</span>: <span class="string">"shell"</span>,</div><div class="line">  <span class="attr">"mounts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"proc"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"strictatime"</span>,</div><div class="line">        <span class="string">"mode=755"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"newinstance"</span>,</div><div class="line">        <span class="string">"ptmxmode=0666"</span>,</div><div class="line">        <span class="string">"mode=0620"</span>,</div><div class="line">        <span class="string">"gid=5"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"shm"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"mode=1777"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"relatime"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">  <span class="attr">"linux"</span>: &#123;</div><div class="line">    <span class="attr">"resources"</span>: &#123;</div><div class="line">      <span class="attr">"devices"</span>: [</div><div class="line">				&#123;</div><div class="line">          <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">          <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">        &#125;</div><div class="line">			]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"namespaces"</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">		<span class="attr">"devices"</span>: <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Start container:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers start <span class="built_in">test</span> /root/busybox</div></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers</div><div class="line">ID                  PATH                STATUS              PROCESSES</div><div class="line"><span class="built_in">test</span>                /root/busybox       running             init</div><div class="line"></div><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers <span class="built_in">exec</span> --id=<span class="built_in">test</span> --pid=20 --cwd=/ <span class="_">-a</span>  ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    1 root       0:00 /init</div><div class="line">    2 root       0:00 sh</div><div class="line">    4 root       0:00 ps aux</div><div class="line"></div><div class="line">ps -ef | grep qemu</div><div class="line">qemu-system-x86_64 -machine pc-i440fx-2.0,usb=off -cpu core2duo -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append <span class="string">"console=ttyS0 panic=1 no_timer_check"</span> -realtime mlock=off -no-user-config -nodefaults -no-hpet -rtc base=utc,driftfix=slew -no-reboot -display none -boot strict=on -m 128 -smp 1 -qmp unix:/var/run/hyper/vm-JRPdDUOkqA/qmp.sock,server,nowait -serial unix:/var/run/hyper/vm-JRPdDUOkqA/console.sock,server,nowait -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -chardev socket,id=charch0,path=/var/run/hyper/vm-JRPdDUOkqA/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charch0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charch1,path=/var/run/hyper/vm-JRPdDUOkqA/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charch1,id=channel1,name=sh.hyper.channel.1 -fsdev <span class="built_in">local</span>,id=virtio9p,path=/var/run/hyper/vm-JRPdDUOkqA/share_dir,security_model=none -device virtio-9p-pci,fsdev=virtio9p,mount_tag=share_dir</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -919,7 +951,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">92</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
