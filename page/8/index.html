@@ -844,8 +844,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/06/23/openstack-magnum/" itemprop="url">
-                  OpenStack Magnum社区及项目介绍
+                <a class="post-title-link" href="/2015/06/23/sysdig/" itemprop="url">
+                  sysdig
                 </a>
               
             
@@ -872,8 +872,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OpenStack/" itemprop="url" rel="index">
-                    <span itemprop="name">OpenStack</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -907,10 +907,237 @@
       
         
           
-            <p><img src="/images/magnum.png" alt=""></p>
-<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
-<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
-<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
+            <p>Sysdig captures system calls and other system level events using a linux kernel facility called tracepoints, providing a rich set of real-time, system-level information.</p>
+<p>Sysdig “packetizes” this information, so that you can do things like save it into trace files and easily filter it, a bit like you would do with tcpdump. This makes it very flexible to explore what processes are doing.</p>
+<p>Sysdig instruments your physical and virtual machines at the OS level by installing into the Linux kernel and capturing system calls and other OS events. Then, using sysdig’s command line interface, you can filter and decode these events in order to extract useful information. Sysdig can be used to inspect systems live in real-time, or to generate trace files that can be analyzed at a later stage.</p>
+<h4 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h4><ul>
+<li><p>See the top processes in terms of network bandwidth usage</p>
+<blockquote>
+<p>sysdig -c topprocs_net</p>
+</blockquote>
+</li>
+<li><p>Show the network data exchanged with the host 192.168.0.1  </p>
+<blockquote>
+<p>as binary:<br>sysdig -s2000 -X -c echo_fds fd.cip=192.168.0.1<br>as ASCII:<br>sysdig -s2000 -A -c echo_fds fd.cip=192.168.0.1</p>
+</blockquote>
+</li>
+<li><p>See the top local server ports  </p>
+<blockquote>
+<p>in terms of established connections:<br>sysdig -c fdcount_by fd.sport “evt.type=accept”<br>in terms of total bytes:<br>sysdig -c fdbytes_by fd.sport</p>
+</blockquote>
+</li>
+<li><p>See the top client IPs  </p>
+<blockquote>
+<p>in terms of established connections<br>sysdig -c fdcount_by fd.cip “evt.type=accept”<br>in terms of total bytes<br>sysdig -c fdbytes_by fd.cip</p>
+</blockquote>
+</li>
+<li><p>List all the incoming connections that are not served by apache.</p>
+<blockquote>
+<p>sysdig -p”%proc.name %fd.name” “evt.type=accept and proc.name!=httpd”</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Containers"><a href="#Containers" class="headerlink" title="Containers"></a>Containers</h4><ul>
+<li><p>View the CPU usage of the processes running inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topprocs_cpu container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the network bandwidth usage of the processes running inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the processes using most network bandwidth inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the top files in terms of I/O bytes inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topfiles_bytes container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>View the top network connections inside the wordpress1 container </p>
+<blockquote>
+<p>sudo sysdig -pc -c topconns container.name=wordpress1</p>
+</blockquote>
+</li>
+<li><p>Show all the interactive commands executed inside the wordpress1 container</p>
+<blockquote>
+<p>sudo sysdig -pc -c spy_users container.name=wordpress1</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h4><ul>
+<li><p>See all the GET HTTP requests made by the machine</p>
+<blockquote>
+<p>sudo sysdig -s 2000 -A -c echo_fds fd.port=80 and evt.buffer contains GET</p>
+</blockquote>
+</li>
+<li><p>See all the SQL select queries made by the machine</p>
+<blockquote>
+<p>sudo sysdig -s 2000 -A -c echo_fds evt.buffer contains SELECT </p>
+</blockquote>
+</li>
+<li><p>See queries made via apache to an external MySQL server happening in real time</p>
+<blockquote>
+<p>sysdig -s 2000 -A -c echo_fds fd.sip=192.168.30.5 and proc.name=apache2 and evt.buffer contains SELECT</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Disk-I-O"><a href="#Disk-I-O" class="headerlink" title="Disk I/O"></a>Disk I/O</h4><ul>
+<li><p>See the top processes in terms of disk bandwidth usage</p>
+<blockquote>
+<p>sysdig -c topprocs_file</p>
+</blockquote>
+</li>
+<li><p>List the processes that are using a high number of files</p>
+<blockquote>
+<p>sysdig -c fdcount_by proc.name “fd.type=file”</p>
+</blockquote>
+</li>
+<li><p>See the top files in terms of read+write bytes</p>
+<blockquote>
+<p>sysdig -c topfiles_bytes</p>
+</blockquote>
+</li>
+<li><p>Print the top files that apache has been reading from or writing to</p>
+<blockquote>
+<p>sysdig -c topfiles_bytes proc.name=httpd</p>
+</blockquote>
+</li>
+<li><p>Basic opensnoop: snoop file opens as they occur</p>
+<blockquote>
+<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open</p>
+</blockquote>
+</li>
+<li><p>See the top directories in terms of R+W disk activity</p>
+<blockquote>
+<p>sysdig -c fdbytes_by fd.directory “fd.type=file”</p>
+</blockquote>
+</li>
+<li><p>See the top files in terms of R+W disk activity in the /tmp directory</p>
+<blockquote>
+<p>sysdig -c fdbytes_by fd.filename “fd.directory=/tmp/“</p>
+</blockquote>
+</li>
+<li><p>Observe the I/O activity on all the files named ‘passwd’</p>
+<blockquote>
+<p>sysdig -A -c echo_fds “fd.filename=passwd”</p>
+</blockquote>
+</li>
+<li><p>Display I/O activity by FD type  </p>
+<blockquote>
+<p>sysdig -c fdbytes_by fd.type</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Processes-and-CPU-usage"><a href="#Processes-and-CPU-usage" class="headerlink" title="Processes and CPU usage"></a>Processes and CPU usage</h4><ul>
+<li><p>See the top processes in terms of CPU usage</p>
+<blockquote>
+<p>sysdig -c topprocs_cpu</p>
+</blockquote>
+</li>
+<li><p>See the top processes for CPU 0</p>
+<blockquote>
+<p>sysdig -c topprocs_cpu evt.cpu=0</p>
+</blockquote>
+</li>
+<li><p>Observe the standard output of a process</p>
+<blockquote>
+<p>sysdig -s4096 -A -c stdout proc.name=cat</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Performance-and-Errors"><a href="#Performance-and-Errors" class="headerlink" title="Performance and Errors"></a>Performance and Errors</h4><ul>
+<li><p>See the files where most time has been spent</p>
+<blockquote>
+<p>sysdig -c topfiles_time</p>
+</blockquote>
+</li>
+<li><p>See the files where apache spent most time</p>
+<blockquote>
+<p>sysdig -c topfiles_time proc.name=httpd</p>
+</blockquote>
+</li>
+<li><p>See the top processes in terms of I/O errors</p>
+<blockquote>
+<p>sysdig -c topprocs_errors</p>
+</blockquote>
+</li>
+<li><p>See the top files in terms of I/O errors</p>
+<blockquote>
+<p>sysdig -c topfiles_errors</p>
+</blockquote>
+</li>
+<li><p>See all the failed disk I/O calls</p>
+<blockquote>
+<p>sysdig fd.type=file and evt.failed=true</p>
+</blockquote>
+</li>
+<li><p>See all the failed file opens by httpd</p>
+<blockquote>
+<p>sysdig “proc.name=httpd and evt.type=open and evt.failed=true”</p>
+</blockquote>
+</li>
+<li><p>See the system calls where most time has been spent</p>
+<blockquote>
+<p>sysdig -c topscalls_time</p>
+</blockquote>
+</li>
+<li><p>See the top system calls returning errors</p>
+<blockquote>
+<p>sysdig -c topscalls “evt.failed=true”</p>
+</blockquote>
+</li>
+<li><p>snoop failed file opens as they occur</p>
+<blockquote>
+<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open and evt.failed=true</p>
+</blockquote>
+</li>
+<li><p>Print the file I/O calls that have a latency greater than 1ms:</p>
+<blockquote>
+<p>sysdig -c fileslower 1</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><ul>
+<li><p>Show the directories that the user “root” visits</p>
+<blockquote>
+<p>sysdig -p”%evt.arg.path” “evt.type=chdir and user.name=root”</p>
+</blockquote>
+</li>
+<li><p>Observe ssh activity</p>
+<blockquote>
+<p>sysdig -A -c echo_fds fd.name=/dev/ptmx and proc.name=sshd</p>
+</blockquote>
+</li>
+<li><p>Show every file open that happens in /etc</p>
+<blockquote>
+<p>sysdig evt.type=open and fd.name contains /etc</p>
+</blockquote>
+</li>
+<li><p>Show the ID of all the login shells that have launched the “tar” command</p>
+<blockquote>
+<p>sysdig -r file.scap -c list_login_shells tar</p>
+</blockquote>
+</li>
+<li><p>Show all the commands executed by the login shell with the given ID</p>
+<blockquote>
+<p>sysdig -r trace.scap.gz -c spy_users proc.loginshellid=5459</p>
+</blockquote>
+</li>
+<li><p>Applied use of sysdig for forensics analysis:</p>
+<ul>
+<li><a href="http://draios.com/fishing-for-hackers/" target="_blank" rel="external">Fishing for Hackers: Analysis of a Linux Server Attack</a></li>
+<li><a href="http://draios.com/fishing-for-hackers-part-2/" target="_blank" rel="external">Fishing for Hackers (Part 2): Quickly Identify Suspicious Activity With Sysdig</a></li>
+</ul>
+</li>
+</ul>
+<p>User Guide: <a href="https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide" target="_blank" rel="external">https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide</a></p>
+<p>Source code: <a href="https://github.com/draios/sysdig" target="_blank" rel="external">https://github.com/draios/sysdig</a></p>
+<p>Support website: <a href="http://www.sysdig.org/" target="_blank" rel="external">http://www.sysdig.org/</a></p>
 
           
         
