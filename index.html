@@ -313,6 +313,346 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/13/Kubernetes-v1-5-0-release/" itemprop="url">
+                  Kubernetes v1.5.0 release
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T11:51:29+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Kubernetes-v1-5-0"><a href="#Kubernetes-v1-5-0" class="headerlink" title="Kubernetes v1.5.0"></a>Kubernetes v1.5.0</h2><ul>
+<li>StatefulSets (ex-PetSets)<ul>
+<li>StatefulSets are beta now (fixes and stabilization)</li>
+</ul>
+</li>
+<li>Improved Federation Support<ul>
+<li>New command: <code>kubefed</code></li>
+<li>DaemonSets</li>
+<li>Deployments</li>
+<li>ConfigMaps</li>
+</ul>
+</li>
+<li>Simplified Cluster Deployment<ul>
+<li>Improvements to <code>kubeadm</code></li>
+<li>HA Setup for Master</li>
+</ul>
+</li>
+<li>Node Robustness and Extensibility<ul>
+<li>Windows Server Container support</li>
+<li>CRI for pluggable container runtimes</li>
+<li><code>kubelet</code> API supports authentication and authorization</li>
+</ul>
+</li>
+</ul>
+<h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><p>Features for this release were tracked via the use of the <a href="https://github.com/kubernetes/features" target="_blank" rel="external">kubernetes/features</a> issues repo.  Each Feature issue is owned by a Special Interest Group from <a href="https://github.com/kubernetes/community" target="_blank" rel="external">kubernetes/community</a></p>
+<ul>
+<li><strong>API Machinery</strong><ul>
+<li>[beta] <code>kube-apiserver</code> support for the OpenAPI spec is moving from alpha to beta. The first <a href="https://github.com/kubernetes-incubator/client-python" target="_blank" rel="external">non-go client</a> is based on it (<a href="https://github.com/kubernetes/features/issues/53" target="_blank" rel="external">kubernetes/features#53</a>)</li>
+</ul>
+</li>
+<li><strong>Apps</strong><ul>
+<li>[stable] When replica sets cannot create pods, they will now report detail via the API about the underlying reason (<a href="https://github.com/kubernetes/features/issues/120" target="_blank" rel="external">kubernetes/features#120</a>)</li>
+<li>[stable] <code>kubectl apply</code> is now able to delete resources you no longer need with <code>--prune</code> (<a href="https://github.com/kubernetes/features/issues/128" target="_blank" rel="external">kubernetes/features#128</a>)</li>
+<li>[beta] Deployments that cannot make progress in rolling out the newest version will now indicate via the API they are blocked (<a href="http://kubernetes.io/docs/user-guide/deployments/#failed-deployment" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/122" target="_blank" rel="external">kubernetes/features#122</a>)</li>
+<li>[beta] StatefulSets allow workloads that require persistent identity or per-instance storage to be created and managed on Kubernetes. (<a href="http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/137" target="_blank" rel="external">kubernetes/features#137</a>)</li>
+<li>[beta] In order to preserve safety guarantees the cluster no longer force deletes pods on un-responsive nodes and users are now warned if they try to force delete pods via the CLI. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/scale-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/119" target="_blank" rel="external">kubernetes/features#119</a>)</li>
+</ul>
+</li>
+<li><strong>Auth</strong><ul>
+<li>[alpha] Further polishing of the Role-based access control alpha API including a default set of cluster roles. (<a href="http://kubernetes.io/docs/admin/authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/2" target="_blank" rel="external">kubernetes/features#2</a>)</li>
+<li>[beta] Added ability to authenticate/authorize access to the Kubelet API (<a href="http://kubernetes.io/docs/admin/kubelet-authentication-authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/89" target="_blank" rel="external">kubernetes/features#89</a>)</li>
+</ul>
+</li>
+<li><strong>AWS</strong><ul>
+<li>[stable] Roles should appear in kubectl get nodes (<a href="https://github.com/kubernetes/features/issues/113" target="_blank" rel="external">kubernetes/features#113</a>)</li>
+</ul>
+</li>
+<li><strong>Cluster Lifecycle</strong><ul>
+<li>[alpha] Improved UX and usability for the kubeadm binary that makes it easy to get a new cluster running. (<a href="http://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/11" target="_blank" rel="external">kubernetes/features#11</a>)</li>
+</ul>
+</li>
+<li><strong>Cluster Ops</strong><ul>
+<li>[alpha] Added ability to create/remove clusters w/highly available (replicated) masters on GCE using kube-up/kube-down scripts. (<a href="http://kubernetes.io/docs/admin/ha-master-gce/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/48" target="_blank" rel="external">kubernetes/features#48</a>)</li>
+</ul>
+</li>
+<li><strong>Federation</strong><ul>
+<li>[alpha] Support for ConfigMaps in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/configmap/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/105" target="_blank" rel="external">kubernetes/features#105</a>)</li>
+<li>[alpha] Alpha level support for DaemonSets in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/daemonsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/101" target="_blank" rel="external">kubernetes/features#101</a>)</li>
+<li>[alpha] Alpha level support for Deployments in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/deployment/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/100" target="_blank" rel="external">kubernetes/features#100</a>)</li>
+<li>[alpha] Cluster federation: Added support for DeleteOptions.OrphanDependents for federation resources. (<a href="http://kubernetes.io/docs/user-guide/federation/#cascading-deletion" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/99" target="_blank" rel="external">kubernetes/features#99</a>)</li>
+<li>[alpha] Introducing <code>kubefed</code>, a new command line tool to simplify federation control plane kubernetes.io/docs/admin/federation/kubefed/)) (<a href="https://github.com/kubernetes/features/issues/97" target="_blank" rel="external">kubernetes/features#97</a>)</li>
+</ul>
+</li>
+<li><strong>Network</strong><ul>
+<li>[stable] Services can reference another service by DNS name, rather than being hosted in pods (<a href="https://github.com/kubernetes/features/issues/33" target="_blank" rel="external">kubernetes/features#33</a>)</li>
+<li>[beta] Opt in source ip preservation for Services with Type NodePort or LoadBalancer (<a href="http://kubernetes.io/docs/tutorials/services/source-ip/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/27" target="_blank" rel="external">kubernetes/features#27</a>)</li>
+<li>[stable] Enable DNS Horizontal Autoscaling with beta ConfigMap parameters support (<a href="http://kubernetes.io/docs/tasks/administer-cluster/dns-horizontal-autoscaling/" target="_blank" rel="external">docs</a>)</li>
+</ul>
+</li>
+<li><strong>Node</strong><ul>
+<li>[alpha] Added ability to preserve access to host userns when userns remapping is enabled in container runtime (<a href="https://github.com/kubernetes/features/issues/127" target="_blank" rel="external">kubernetes/features#127</a>)</li>
+<li>[alpha] Introducing the v1alpha1 CRI API to allow pluggable container runtimes; an experimental docker-CRI integration is ready for testing and feedback. (<a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/54" target="_blank" rel="external">kubernetes/features#54</a>)</li>
+<li>[alpha] Kubelet launches container in a per pod cgroup hiearchy based on quality of service tier (<a href="https://github.com/kubernetes/features/issues/126" target="_blank" rel="external">kubernetes/features#126</a>)</li>
+<li>[beta] Kubelet integrates with memcg notification API to detect when a hard eviction threshold is crossed (<a href="https://github.com/kubernetes/features/issues/125" target="_blank" rel="external">kubernetes/features#125</a>)</li>
+<li>[beta] Introducing the beta version containerized node conformance test gcr.io/google_containers/node-test:0.2 for users to verify node setup. (<a href="http://kubernetes.io/docs/admin/node-conformance/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/84" target="_blank" rel="external">kubernetes/features#84</a>)</li>
+</ul>
+</li>
+<li><strong>Scheduling</strong><ul>
+<li>[alpha] Added support for accounting opaque integer resources. (<a href="http://kubernetes.io/docs/user-guide/compute-resources/#opaque-integer-resources-alpha-feature" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/76" target="_blank" rel="external">kubernetes/features#76</a>)</li>
+<li>[beta] PodDisruptionBudget has been promoted to beta, can be used to safely drain nodes while respecting application SLO’s (<a href="http://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/85" target="_blank" rel="external">kubernetes/features#85</a>)</li>
+</ul>
+</li>
+<li><strong>UI</strong><ul>
+<li>[stable] Dashboard UI now shows all user facing objects and their resource usage. (<a href="http://kubernetes.io/docs/user-guide/ui/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/136" target="_blank" rel="external">kubernetes/features#136</a>)</li>
+</ul>
+</li>
+<li><strong>Windows</strong><ul>
+<li>[alpha] Added support for Windows Server 2016 nodes and scheduling Windows Server Containers (<a href="http://kubernetes.io/docs/getting-started-guides/windows/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/116" target="_blank" rel="external">kubernetes/features#116</a>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Known-Issues"><a href="#Known-Issues" class="headerlink" title="Known Issues"></a>Known Issues</h2><p>Populated via <a href="https://github.com/kubernetes/kubernetes/issues/37134" target="_blank" rel="external">v1.5.0 known issues / FAQ accumulator</a></p>
+<ul>
+<li>CRI <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md#kubernetes-v15-release-cri-v1alpha1" target="_blank" rel="external">known issues and<br>limitations</a></li>
+<li>getDeviceNameFromMount() function doesn’t return the volume path correctly when the volume path contains spaces <a href="https://github.com/kubernetes/kubernetes/issues/37712" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37712" target="_blank" rel="external">#37712</a></a></li>
+<li>Federation alpha features do not have feature gates defined and<br>are hence enabled by default. This will be fixed in a future release.<br><a href="https://github.com/kubernetes/kubernetes/issues/38593" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/38593" target="_blank" rel="external">#38593</a></a></li>
+<li>Federation control plane can be upgraded by updating the image<br>fields in the <code>Deployment</code> specs of the control plane components.<br>However, federation control plane upgrades were not tested in this<br>release <a href="https://github.com/kubernetes/kubernetes/issues/38537" target="_blank" rel="external">38537</a></li>
+</ul>
+<h2 id="Notable-Changes-to-Existing-Behavior"><a href="#Notable-Changes-to-Existing-Behavior" class="headerlink" title="Notable Changes to Existing Behavior"></a>Notable Changes to Existing Behavior</h2><ul>
+<li>Node controller no longer force-deletes pods from the api-server. (<a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external">#35235</a></a>, <a href="https://github.com/foxish" target="_blank" rel="external"><a href="https://github.com/foxish" target="_blank" rel="external">@foxish</a></a>)<ul>
+<li>For StatefulSet (previously PetSet), this change means creation of<br>replacement pods is blocked until old pods are definitely not running<br>(indicated either by the kubelet returning from partitioned state,<br>deletion of the Node object, deletion of the instance in the cloud provider,<br>or force deletion of the pod from the api-server).<br>This helps prevent “split brain” scenarios in clustered applications by<br>ensuring that unreachable pods will not be presumed dead unless some<br>“fencing” operation has provided one of the above indications.</li>
+<li>For all other existing controllers except StatefulSet, this has no effect on<br>the ability of the controller to replace pods because the controllers do not<br>reuse pod names (they use generate-name).</li>
+<li>User-written controllers that reuse names of pod objects should evaluate this change.</li>
+<li>When deleting an object with <code>kubectl delete ... --grace-period=0</code>, the client will<br>begin a graceful deletion and wait until the resource is fully deleted.  To force<br>deletion immediately, use the <code>--force</code> flag. This prevents users from accidentally<br>allowing two Stateful Set pods to share the same persistent volume which could lead to data<br>corruption <a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external">#37263</a></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Allow anonymous API server access, decorate authenticated users with system:authenticated group (<a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external">#32386</a></a>, <a href="https://github.com/liggitt" target="_blank" rel="external"><a href="https://github.com/liggitt" target="_blank" rel="external">@liggitt</a></a>)</p>
+<ul>
+<li>kube-apiserver learned the ‘—anonymous-auth’ flag, which defaults to true. When enabled, requests to the secure port that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of ‘system:anonymous’ and a group of ‘system:unauthenticated’.</li>
+<li>Authenticated users are decorated with a ‘system:authenticated’ group.</li>
+<li>NOTE: anonymous access is enabled by default. If you rely on authentication alone to authorize access, change to use an authorization mode other than AlwaysAllow, or or set ‘—anonymous-auth=false’.</li>
+</ul>
+</li>
+<li><p>kubectl get -o jsonpath=… will now throw an error if the path is to a field not present in the json, even if the path is for a field valid for the type.  This is a change from the pre-1.5 behavior, which would return the default value for some fields even if they were not present in the json. (<a href="https://github.com/kubernetes/kubernetes/issues/37991" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37991" target="_blank" rel="external">#37991</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
+</li>
+<li><p>The strategicmerge patchMergeKey for VolumeMounts was changed from “name” to “mountPath”.  This was necessary because the name field refers to the name of the Volume, and is not a unique key for the VolumeMount.  Multiple VolumeMounts will have the same Volume name if mounting the same volume more than once.  The “mountPath” is verified to be unique and can act as the mergekey.  (<a href="https://github.coma/kubernetes/kubernetes/pull/35071" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35071" target="_blank" rel="external">#35071</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
+</li>
+</ul>
+<h2 id="Deprecations"><a href="#Deprecations" class="headerlink" title="Deprecations"></a>Deprecations</h2><ul>
+<li>extensions/v1beta1.Jobs is deprecated, use batch/v1.Job instead (<a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external">#36355</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
+<li>The kubelet —reconcile-cdir flag is deprecated because it has no function anymore. (<a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external">#35523</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
+<li>Notice of deprecation for recycler <a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external">#36760</a></a></li>
+</ul>
+<h2 id="Action-Required-Before-Upgrading"><a href="#Action-Required-Before-Upgrading" class="headerlink" title="Action Required Before Upgrading"></a>Action Required Before Upgrading</h2><ul>
+<li>batch/v2alpha1.ScheduledJob has been renamed, use batch/v2alpha1.CronJob instead (<a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external">#36021</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
+<li>PetSet has been renamed to StatefulSet.<br>If you have existing PetSets, <strong>you must perform extra migration steps</strong> both<br>before and after upgrading to convert them to StatefulSets. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/upgrade-pet-set-to-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external">#35663</a></a>, <a href="https://github.com/janetkuo" target="_blank" rel="external"><a href="https://github.com/janetkuo" target="_blank" rel="external">@janetkuo</a></a>)</li>
+<li>If you are upgrading your Cluster Federation components from v1.4.x, please update your <code>federation-apiserver</code> and <code>federation-controller-manager</code> manifests to the new version (<a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external">#30601</a></a>, <a href="https://github.com/madhusudancs" target="_blank" rel="external"><a href="https://github.com/madhusudancs" target="_blank" rel="external">@madhusudancs</a></a>)</li>
+<li>The deprecated kubelet —configure-cbr0 flag has been removed, and with that the “classic” networking mode as well.  If you depend on this mode, please investigate whether the other network plugins <code>kubenet</code> or <code>cni</code> meet your needs. (<a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external">#34906</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
+<li>New client-go structure, refer to kubernetes/client-go for versioning policy (<a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external">#34989</a></a>, <a href="https://github.com/caesarxuchao" target="_blank" rel="external"><a href="https://github.com/caesarxuchao" target="_blank" rel="external">@caesarxuchao</a></a>)</li>
+<li>The deprecated kube-scheduler —bind-pods-qps and —bind-pods burst flags have been removed, use —kube-api-qps and —kube-api-burst instead (<a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external">#34471</a></a>, <a href="https://github.com/timothysc" target="_blank" rel="external"><a href="https://github.com/timothysc" target="_blank" rel="external">@timothysc</a></a>)</li>
+<li>If you used the <a href="http://kubernetes.io/docs/admin/disruptions/" target="_blank" rel="external">PodDisruptionBudget</a> feature in 1.4 (i.e. created <code>PodDisruptionBudget</code> objects), then <strong>BEFORE</strong>  upgrading from 1.4 to 1.5, you must delete all <code>PodDisruptionBudget</code> objects (<code>policy/v1alpha1/PodDisruptionBudget</code>) that you have created. It is not possible to delete these objects after you upgrade, and their presence will prevent you from using the beta PodDisruptionBudget feature in 1.5 (which uses <code>policy/v1beta1/PodDisruptionBudget</code>). If you have already upgraded, you will need to downgrade the master to 1.4 to delete the <code>policy/v1alpha1/PodDisruptionBudget</code> objects.</li>
+</ul>
+<h2 id="External-Dependency-Version-Information"><a href="#External-Dependency-Version-Information" class="headerlink" title="External Dependency Version Information"></a>External Dependency Version Information</h2><p>Continuous integration builds have used the following versions of external dependencies, however, this is not a strong recommendation and users should consult an appropriate installation or upgrade guide before deciding what versions of etcd, docker or rkt to use.</p>
+<ul>
+<li>Docker versions 1.10.3 - 1.12.3<ul>
+<li>Docker version 1.11.2 known issues<ul>
+<li>Kernel crash with Aufs storage driver on Debian Jessie (<a href="https://github.com/kubernetes/kubernetes/issues/27885" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/27885" target="_blank" rel="external">#27885</a></a>)<br>which can be identified by the <a href="http://kubernetes.io/docs/admin/node-problem/" target="_blank" rel="external">node problem detector</a></li>
+<li>Leaked File descriptors (<a href="https://github.com/docker/containerd/issues/275" target="_blank" rel="external">#275</a>)</li>
+<li>Additional memory overhead per container (<a href="https://github.com/docker/docker/issues/21737" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/21737" target="_blank" rel="external">#21737</a></a>)</li>
+</ul>
+</li>
+<li>Docker version 1.12.1 <a href="https://github.com/kubernetes/kubernetes/issues/28698" target="_blank" rel="external">has been validated</a> through the Kubernetes docker automated validation framework as has Docker version 1.12.3</li>
+<li>Docker 1.10.3 contains <a href="https://github.com/docker/docker/compare/v1.10.3...runcom:docker-1.10.3-stable" target="_blank" rel="external">backports provided by RedHat</a> for known issues</li>
+<li>Docker versions as old as may 1.9.1 work with <a href="CHANGELOG.md#191">known issues</a> but this is not guaranteed</li>
+</ul>
+</li>
+<li>rkt version 1.21.0<ul>
+<li>known issues with the rkt runtime are <a href="http://kubernetes.io/docs/getting-started-guides/rkt/notes/" target="_blank" rel="external">listed here</a></li>
+</ul>
+</li>
+<li><p>etcd version 2.2.1</p>
+<ul>
+<li>etcd version 3.0.14 <a href="https://k8s-gubernator.appspot.com/builds/kubernetes-jenkins/logs/ci-kubernetes-e2e-gce-etcd3/" target="_blank" rel="external">has also been validated</a> but does require <a href="https://coreos.com/blog/migrating-applications-etcd-v3.html" target="_blank" rel="external">specific configuration steps</a></li>
+</ul>
+<p><a href="https://docs.k8s.io" target="_blank" rel="external">Documentation</a> &amp; <a href="https://releases.k8s.io/release-1.5/examples" target="_blank" rel="external">Examples</a></p>
+<h2 id="Downloads-for-v1-5-0"><a href="#Downloads-for-v1-5-0" class="headerlink" title="Downloads for v1.5.0"></a>Downloads for v1.5.0</h2></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sha256 hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes.tar.gz" target="_blank" rel="external">kubernetes.tar.gz</a></td>
+<td><code>52b7df98ea05fb3ebbababf1ccb7f6d4e6f4cad00b8d09350f270aa7e3ad7e85</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-src.tar.gz" target="_blank" rel="external">kubernetes-src.tar.gz</a></td>
+<td><code>fbefb2544667f96045c346cee595b0f315282dfdbd41a8f2d5ccc74054a4078e</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Client-Binaries"><a href="#Client-Binaries" class="headerlink" title="Client Binaries"></a>Client Binaries</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sha256 hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-darwin-386.tar.gz" target="_blank" rel="external">kubernetes-client-darwin-386.tar.gz</a></td>
+<td><code>27d71bb6b16a26387ee30272bd4ee5758deccafafdc91b38f3d0dc19a34e129e</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-darwin-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-darwin-amd64.tar.gz</a></td>
+<td><code>5fa8550235919568d7d839b19de00e9bdd72a97cfde21dbdbe07fefd6d6290dc</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-386.tar.gz" target="_blank" rel="external">kubernetes-client-linux-386.tar.gz</a></td>
+<td><code>032a17701c014b8bbbb83c7da1046d8992a41031628cf7e1959a94378f5f195b</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-linux-amd64.tar.gz</a></td>
+<td><code>afae4fadb7bbb1532967f88fef1de6458abda17219f634cc2c41608fd83ae7f6</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-arm64.tar.gz" target="_blank" rel="external">kubernetes-client-linux-arm64.tar.gz</a></td>
+<td><code>acca7607dae678a0165b7e10685e0eff0d418beebe7c25eaffe18c85717b5cc4</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-arm.tar.gz" target="_blank" rel="external">kubernetes-client-linux-arm.tar.gz</a></td>
+<td><code>fbc182b6d9ae476c7c509486d773074fd1007032886a8177735e08010c43f89d</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-windows-386.tar.gz" target="_blank" rel="external">kubernetes-client-windows-386.tar.gz</a></td>
+<td><code>a8ddea329bc8d57267294464c163d8c2f7837f6353f8c685271864ed8b8bc54d</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-windows-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-windows-amd64.tar.gz</a></td>
+<td><code>bc3a76f1414fa1f4b2fb92732de2100d346edb7b870ed5414ea062bb401a8ebd</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Server-Binaries"><a href="#Server-Binaries" class="headerlink" title="Server Binaries"></a>Server Binaries</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sha256 hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-amd64.tar.gz" target="_blank" rel="external">kubernetes-server-linux-amd64.tar.gz</a></td>
+<td><code>b9c122d709c0556c1e19d31d98bf26ee530f91c0119f4454fb930cef5a0c1aa7</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-arm64.tar.gz" target="_blank" rel="external">kubernetes-server-linux-arm64.tar.gz</a></td>
+<td><code>3bbba5c8dedc47db8f9ebdfac5468398cce2470617de9d550affef9702b724c9</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-arm.tar.gz" target="_blank" rel="external">kubernetes-server-linux-arm.tar.gz</a></td>
+<td><code>3ff9ccdd641690fd1c8878408cd369beca1f9f8b212198e251862d40cf2dadc0</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/08/Weekly-reading-list/" itemprop="url">
                   Weekly reading list
                 </a>
@@ -1015,138 +1355,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/11/Kubernetes中的服务发现与负载均衡/" itemprop="url">
-                  Kubernetes中的服务发现与负载均衡
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-11T09:48:09+08:00" content="2016-09-11">
-              2016-09-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
-<ul>
-<li>Service：直接用Service提供cluster内部的负载均衡，并借助cloud provider提供的LB提供外部访问</li>
-<li>Ingress Controller：还是用Service提供cluster内部的负载均衡，但是通过自定义LB提供外部访问</li>
-<li>Service Load Balancer：把load balancer直接跑在容器中，实现Bare Metal的Service Load Balancer</li>
-<li>Custom Load Balancer：自定义负载均衡，并替代kube-proxy，一般在物理部署Kubernetes时使用，方便接入公司已有的外部服务</li>
-</ul>
-<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p><img src="/images/k8s-service.png" alt=""></p>
-<p>Service是对一组提供相同功能的Pods的抽象，并为它们提供一个统一的入口。借助Service，应用可以方便的实现服务发现与负载均衡，并实现应用的零宕机升级。Service通过标签来选取服务后端，一般配合Replication Controller或者Deployment来保证后端容器的正常运行。</p>
-<p>Service有三种类型：</p>
-<ul>
-<li>ClusterIP：默认类型，自动分配一个仅cluster内部可以访问的虚拟IP</li>
-<li>NodePort：在ClusterIP基础上为Service在每台机器上绑定一个端口，这样就可以通过<code>&lt;NodeIP&gt;:NodePort</code>来访问改服务</li>
-<li>LoadBalancer：在NodePort的基础上，借助cloud provider创建一个外部的负载均衡器，并将请求转发到<code>&lt;NodeIP&gt;:NodePort</code></li>
-</ul>
-<p>另外，也可以讲已有的服务以Service的形式加入到Kubernetes集群中来，只需要在创建Service的时候不指定Label selector，而是在Service创建好后手动为其添加endpoint。</p>
-<h2 id="Ingress-Controller"><a href="#Ingress-Controller" class="headerlink" title="Ingress Controller"></a>Ingress Controller</h2><p>Service虽然解决了服务发现和负载均衡的问题，但它在使用上还是有一些限制，比如</p>
-<p>－ 只支持4层负载均衡，没有7层功能<br>－ 对外访问的时候，NodePort类型需要在外部搭建额外的负载均衡，而LoadBalancer要求kubernetes必须跑在支持的cloud provider上面</p>
-<p>Ingress就是为了解决这些限制而引入的新资源，主要用来将服务暴露到cluster外面，并且可以自定义服务的访问策略。比如想要通过负载均衡器实现不同子域名到不同服务的访问：</p>
-<figure class="highlight gherkin"><table><tr><td class="code"><pre><div class="line">foo.bar.com --|<span class="string">                 </span>|<span class="string">-&gt; foo.bar.com s1:80</span></div><div class="line">              |<span class="string"> 178.91.123.132  </span>|</div><div class="line">bar.foo.com --|<span class="string">                 </span>|<span class="string">-&gt; bar.foo.com s2:80</span></div></pre></td></tr></table></figure>
-<p>可以这样来定义Ingress：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> extensions/v1beta1</div><div class="line"><span class="attr">kind:</span> Ingress</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> test</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  rules:</span></div><div class="line"><span class="attr">  - host:</span> foo.bar.com</div><div class="line"><span class="attr">    http:</span></div><div class="line"><span class="attr">      paths:</span></div><div class="line"><span class="attr">      - backend:</span></div><div class="line"><span class="attr">          serviceName:</span> s1</div><div class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></div><div class="line"><span class="attr">  - host:</span> bar.foo.com</div><div class="line"><span class="attr">    http:</span></div><div class="line"><span class="attr">      paths:</span></div><div class="line"><span class="attr">      - backend:</span></div><div class="line"><span class="attr">          serviceName:</span> s2</div><div class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></div></pre></td></tr></table></figure>
-<p>注意Ingress本身并不会自动创建负载均衡器，cluster中需要运行一个ingress controller来根据Ingress的定义来管理负载均衡器。目前社区提供了nginx和gce的参考实现。</p>
-<h2 id="Service-Load-Balancer"><a href="#Service-Load-Balancer" class="headerlink" title="Service Load Balancer"></a>Service Load Balancer</h2><p>在Ingress出现以前，Service Load Balancer是推荐的解决Service局限性的方式。Service Load Balancer将haproxy跑在容器中，并监控service和endpoint的变化，通过容器IP对外提供4层和7层负载均衡服务。</p>
-<p>社区提供的Service Load Balancer支持四种负载均衡协议：TCP、HTTP、HTTPS和SSL TERMINATION，并支持ACL访问控制。</p>
-<h2 id="Custom-Load-Balancer"><a href="#Custom-Load-Balancer" class="headerlink" title="Custom Load Balancer"></a>Custom Load Balancer</h2><p>虽然Kubernetes提供了丰富的负载均衡机制，但在实际使用的时候，还是会碰到一些复杂的场景是它不能支持的，比如</p>
-<ul>
-<li>接入已有的负载均衡设备</li>
-<li>多租户网络情况下，容器网络和主机网络是隔离的，这样<code>kube-proxy</code>就不能正常工作</li>
-</ul>
-<p>这个时候就可以自定义组件，并代替kube-proxy来做负载均衡。基本的思路是监控kubernetes中service和endpoints的变化，并根据这些变化来配置负载均衡器。比如weave flux、nginx plus、kube2haproxy等</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="http://kubernetes.io/docs/user-guide/services/" target="_blank" rel="external">http://kubernetes.io/docs/user-guide/services/</a></li>
-<li><a href="http://kubernetes.io/docs/user-guide/ingress/" target="_blank" rel="external">http://kubernetes.io/docs/user-guide/ingress/</a></li>
-<li><a href="https://github.com/kubernetes/contrib/tree/master/service-loadbalancer" target="_blank" rel="external">https://github.com/kubernetes/contrib/tree/master/service-loadbalancer</a></li>
-<li><a href="https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/" target="_blank" rel="external">https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/</a></li>
-<li><a href="https://github.com/weaveworks/flux" target="_blank" rel="external">https://github.com/weaveworks/flux</a></li>
-<li><a href="https://github.com/AdoHe/kube2haproxy" target="_blank" rel="external">https://github.com/AdoHe/kube2haproxy</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1192,7 +1400,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

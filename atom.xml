@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://feisky.xyz/"/>
-  <updated>2016-12-13T00:14:16.091Z</updated>
+  <updated>2016-12-13T03:53:38.776Z</updated>
   <id>http://feisky.xyz/</id>
   
   <author>
@@ -16,11 +16,279 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Kubernetes v1.5.0 release</title>
+    <link href="http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/"/>
+    <id>http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/</id>
+    <published>2016-12-13T03:51:29.000Z</published>
+    <updated>2016-12-13T03:53:38.776Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Kubernetes-v1-5-0"><a href="#Kubernetes-v1-5-0" class="headerlink" title="Kubernetes v1.5.0"></a>Kubernetes v1.5.0</h2><ul>
+<li>StatefulSets (ex-PetSets)<ul>
+<li>StatefulSets are beta now (fixes and stabilization)</li>
+</ul>
+</li>
+<li>Improved Federation Support<ul>
+<li>New command: <code>kubefed</code></li>
+<li>DaemonSets</li>
+<li>Deployments</li>
+<li>ConfigMaps</li>
+</ul>
+</li>
+<li>Simplified Cluster Deployment<ul>
+<li>Improvements to <code>kubeadm</code></li>
+<li>HA Setup for Master</li>
+</ul>
+</li>
+<li>Node Robustness and Extensibility<ul>
+<li>Windows Server Container support</li>
+<li>CRI for pluggable container runtimes</li>
+<li><code>kubelet</code> API supports authentication and authorization</li>
+</ul>
+</li>
+</ul>
+<h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><p>Features for this release were tracked via the use of the <a href="https://github.com/kubernetes/features" target="_blank" rel="external">kubernetes/features</a> issues repo.  Each Feature issue is owned by a Special Interest Group from <a href="https://github.com/kubernetes/community" target="_blank" rel="external">kubernetes/community</a></p>
+<ul>
+<li><strong>API Machinery</strong><ul>
+<li>[beta] <code>kube-apiserver</code> support for the OpenAPI spec is moving from alpha to beta. The first <a href="https://github.com/kubernetes-incubator/client-python" target="_blank" rel="external">non-go client</a> is based on it (<a href="https://github.com/kubernetes/features/issues/53" target="_blank" rel="external">kubernetes/features#53</a>)</li>
+</ul>
+</li>
+<li><strong>Apps</strong><ul>
+<li>[stable] When replica sets cannot create pods, they will now report detail via the API about the underlying reason (<a href="https://github.com/kubernetes/features/issues/120" target="_blank" rel="external">kubernetes/features#120</a>)</li>
+<li>[stable] <code>kubectl apply</code> is now able to delete resources you no longer need with <code>--prune</code> (<a href="https://github.com/kubernetes/features/issues/128" target="_blank" rel="external">kubernetes/features#128</a>)</li>
+<li>[beta] Deployments that cannot make progress in rolling out the newest version will now indicate via the API they are blocked (<a href="http://kubernetes.io/docs/user-guide/deployments/#failed-deployment" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/122" target="_blank" rel="external">kubernetes/features#122</a>)</li>
+<li>[beta] StatefulSets allow workloads that require persistent identity or per-instance storage to be created and managed on Kubernetes. (<a href="http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/137" target="_blank" rel="external">kubernetes/features#137</a>)</li>
+<li>[beta] In order to preserve safety guarantees the cluster no longer force deletes pods on un-responsive nodes and users are now warned if they try to force delete pods via the CLI. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/scale-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/119" target="_blank" rel="external">kubernetes/features#119</a>)</li>
+</ul>
+</li>
+<li><strong>Auth</strong><ul>
+<li>[alpha] Further polishing of the Role-based access control alpha API including a default set of cluster roles. (<a href="http://kubernetes.io/docs/admin/authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/2" target="_blank" rel="external">kubernetes/features#2</a>)</li>
+<li>[beta] Added ability to authenticate/authorize access to the Kubelet API (<a href="http://kubernetes.io/docs/admin/kubelet-authentication-authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/89" target="_blank" rel="external">kubernetes/features#89</a>)</li>
+</ul>
+</li>
+<li><strong>AWS</strong><ul>
+<li>[stable] Roles should appear in kubectl get nodes (<a href="https://github.com/kubernetes/features/issues/113" target="_blank" rel="external">kubernetes/features#113</a>)</li>
+</ul>
+</li>
+<li><strong>Cluster Lifecycle</strong><ul>
+<li>[alpha] Improved UX and usability for the kubeadm binary that makes it easy to get a new cluster running. (<a href="http://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/11" target="_blank" rel="external">kubernetes/features#11</a>)</li>
+</ul>
+</li>
+<li><strong>Cluster Ops</strong><ul>
+<li>[alpha] Added ability to create/remove clusters w/highly available (replicated) masters on GCE using kube-up/kube-down scripts. (<a href="http://kubernetes.io/docs/admin/ha-master-gce/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/48" target="_blank" rel="external">kubernetes/features#48</a>)</li>
+</ul>
+</li>
+<li><strong>Federation</strong><ul>
+<li>[alpha] Support for ConfigMaps in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/configmap/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/105" target="_blank" rel="external">kubernetes/features#105</a>)</li>
+<li>[alpha] Alpha level support for DaemonSets in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/daemonsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/101" target="_blank" rel="external">kubernetes/features#101</a>)</li>
+<li>[alpha] Alpha level support for Deployments in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/deployment/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/100" target="_blank" rel="external">kubernetes/features#100</a>)</li>
+<li>[alpha] Cluster federation: Added support for DeleteOptions.OrphanDependents for federation resources. (<a href="http://kubernetes.io/docs/user-guide/federation/#cascading-deletion" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/99" target="_blank" rel="external">kubernetes/features#99</a>)</li>
+<li>[alpha] Introducing <code>kubefed</code>, a new command line tool to simplify federation control plane kubernetes.io/docs/admin/federation/kubefed/)) (<a href="https://github.com/kubernetes/features/issues/97" target="_blank" rel="external">kubernetes/features#97</a>)</li>
+</ul>
+</li>
+<li><strong>Network</strong><ul>
+<li>[stable] Services can reference another service by DNS name, rather than being hosted in pods (<a href="https://github.com/kubernetes/features/issues/33" target="_blank" rel="external">kubernetes/features#33</a>)</li>
+<li>[beta] Opt in source ip preservation for Services with Type NodePort or LoadBalancer (<a href="http://kubernetes.io/docs/tutorials/services/source-ip/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/27" target="_blank" rel="external">kubernetes/features#27</a>)</li>
+<li>[stable] Enable DNS Horizontal Autoscaling with beta ConfigMap parameters support (<a href="http://kubernetes.io/docs/tasks/administer-cluster/dns-horizontal-autoscaling/" target="_blank" rel="external">docs</a>)</li>
+</ul>
+</li>
+<li><strong>Node</strong><ul>
+<li>[alpha] Added ability to preserve access to host userns when userns remapping is enabled in container runtime (<a href="https://github.com/kubernetes/features/issues/127" target="_blank" rel="external">kubernetes/features#127</a>)</li>
+<li>[alpha] Introducing the v1alpha1 CRI API to allow pluggable container runtimes; an experimental docker-CRI integration is ready for testing and feedback. (<a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/54" target="_blank" rel="external">kubernetes/features#54</a>)</li>
+<li>[alpha] Kubelet launches container in a per pod cgroup hiearchy based on quality of service tier (<a href="https://github.com/kubernetes/features/issues/126" target="_blank" rel="external">kubernetes/features#126</a>)</li>
+<li>[beta] Kubelet integrates with memcg notification API to detect when a hard eviction threshold is crossed (<a href="https://github.com/kubernetes/features/issues/125" target="_blank" rel="external">kubernetes/features#125</a>)</li>
+<li>[beta] Introducing the beta version containerized node conformance test gcr.io/google_containers/node-test:0.2 for users to verify node setup. (<a href="http://kubernetes.io/docs/admin/node-conformance/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/84" target="_blank" rel="external">kubernetes/features#84</a>)</li>
+</ul>
+</li>
+<li><strong>Scheduling</strong><ul>
+<li>[alpha] Added support for accounting opaque integer resources. (<a href="http://kubernetes.io/docs/user-guide/compute-resources/#opaque-integer-resources-alpha-feature" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/76" target="_blank" rel="external">kubernetes/features#76</a>)</li>
+<li>[beta] PodDisruptionBudget has been promoted to beta, can be used to safely drain nodes while respecting application SLO’s (<a href="http://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/85" target="_blank" rel="external">kubernetes/features#85</a>)</li>
+</ul>
+</li>
+<li><strong>UI</strong><ul>
+<li>[stable] Dashboard UI now shows all user facing objects and their resource usage. (<a href="http://kubernetes.io/docs/user-guide/ui/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/136" target="_blank" rel="external">kubernetes/features#136</a>)</li>
+</ul>
+</li>
+<li><strong>Windows</strong><ul>
+<li>[alpha] Added support for Windows Server 2016 nodes and scheduling Windows Server Containers (<a href="http://kubernetes.io/docs/getting-started-guides/windows/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/116" target="_blank" rel="external">kubernetes/features#116</a>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Known-Issues"><a href="#Known-Issues" class="headerlink" title="Known Issues"></a>Known Issues</h2><p>Populated via <a href="https://github.com/kubernetes/kubernetes/issues/37134" target="_blank" rel="external">v1.5.0 known issues / FAQ accumulator</a></p>
+<ul>
+<li>CRI <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md#kubernetes-v15-release-cri-v1alpha1" target="_blank" rel="external">known issues and<br>limitations</a></li>
+<li>getDeviceNameFromMount() function doesn’t return the volume path correctly when the volume path contains spaces <a href="https://github.com/kubernetes/kubernetes/issues/37712" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37712" target="_blank" rel="external">#37712</a></a></li>
+<li>Federation alpha features do not have feature gates defined and<br>are hence enabled by default. This will be fixed in a future release.<br><a href="https://github.com/kubernetes/kubernetes/issues/38593" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/38593" target="_blank" rel="external">#38593</a></a></li>
+<li>Federation control plane can be upgraded by updating the image<br>fields in the <code>Deployment</code> specs of the control plane components.<br>However, federation control plane upgrades were not tested in this<br>release <a href="https://github.com/kubernetes/kubernetes/issues/38537" target="_blank" rel="external">38537</a></li>
+</ul>
+<h2 id="Notable-Changes-to-Existing-Behavior"><a href="#Notable-Changes-to-Existing-Behavior" class="headerlink" title="Notable Changes to Existing Behavior"></a>Notable Changes to Existing Behavior</h2><ul>
+<li>Node controller no longer force-deletes pods from the api-server. (<a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external">#35235</a></a>, <a href="https://github.com/foxish" target="_blank" rel="external"><a href="https://github.com/foxish" target="_blank" rel="external">@foxish</a></a>)<ul>
+<li>For StatefulSet (previously PetSet), this change means creation of<br>replacement pods is blocked until old pods are definitely not running<br>(indicated either by the kubelet returning from partitioned state,<br>deletion of the Node object, deletion of the instance in the cloud provider,<br>or force deletion of the pod from the api-server).<br>This helps prevent “split brain” scenarios in clustered applications by<br>ensuring that unreachable pods will not be presumed dead unless some<br>“fencing” operation has provided one of the above indications.</li>
+<li>For all other existing controllers except StatefulSet, this has no effect on<br>the ability of the controller to replace pods because the controllers do not<br>reuse pod names (they use generate-name).</li>
+<li>User-written controllers that reuse names of pod objects should evaluate this change.</li>
+<li>When deleting an object with <code>kubectl delete ... --grace-period=0</code>, the client will<br>begin a graceful deletion and wait until the resource is fully deleted.  To force<br>deletion immediately, use the <code>--force</code> flag. This prevents users from accidentally<br>allowing two Stateful Set pods to share the same persistent volume which could lead to data<br>corruption <a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external">#37263</a></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Allow anonymous API server access, decorate authenticated users with system:authenticated group (<a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external">#32386</a></a>, <a href="https://github.com/liggitt" target="_blank" rel="external"><a href="https://github.com/liggitt" target="_blank" rel="external">@liggitt</a></a>)</p>
+<ul>
+<li>kube-apiserver learned the ‘—anonymous-auth’ flag, which defaults to true. When enabled, requests to the secure port that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of ‘system:anonymous’ and a group of ‘system:unauthenticated’.</li>
+<li>Authenticated users are decorated with a ‘system:authenticated’ group.</li>
+<li>NOTE: anonymous access is enabled by default. If you rely on authentication alone to authorize access, change to use an authorization mode other than AlwaysAllow, or or set ‘—anonymous-auth=false’.</li>
+</ul>
+</li>
+<li><p>kubectl get -o jsonpath=… will now throw an error if the path is to a field not present in the json, even if the path is for a field valid for the type.  This is a change from the pre-1.5 behavior, which would return the default value for some fields even if they were not present in the json. (<a href="https://github.com/kubernetes/kubernetes/issues/37991" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37991" target="_blank" rel="external">#37991</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
+</li>
+<li><p>The strategicmerge patchMergeKey for VolumeMounts was changed from “name” to “mountPath”.  This was necessary because the name field refers to the name of the Volume, and is not a unique key for the VolumeMount.  Multiple VolumeMounts will have the same Volume name if mounting the same volume more than once.  The “mountPath” is verified to be unique and can act as the mergekey.  (<a href="https://github.coma/kubernetes/kubernetes/pull/35071" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35071" target="_blank" rel="external">#35071</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
+</li>
+</ul>
+<h2 id="Deprecations"><a href="#Deprecations" class="headerlink" title="Deprecations"></a>Deprecations</h2><ul>
+<li>extensions/v1beta1.Jobs is deprecated, use batch/v1.Job instead (<a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external">#36355</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
+<li>The kubelet —reconcile-cdir flag is deprecated because it has no function anymore. (<a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external">#35523</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
+<li>Notice of deprecation for recycler <a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external">#36760</a></a></li>
+</ul>
+<h2 id="Action-Required-Before-Upgrading"><a href="#Action-Required-Before-Upgrading" class="headerlink" title="Action Required Before Upgrading"></a>Action Required Before Upgrading</h2><ul>
+<li>batch/v2alpha1.ScheduledJob has been renamed, use batch/v2alpha1.CronJob instead (<a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external">#36021</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
+<li>PetSet has been renamed to StatefulSet.<br>If you have existing PetSets, <strong>you must perform extra migration steps</strong> both<br>before and after upgrading to convert them to StatefulSets. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/upgrade-pet-set-to-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external">#35663</a></a>, <a href="https://github.com/janetkuo" target="_blank" rel="external"><a href="https://github.com/janetkuo" target="_blank" rel="external">@janetkuo</a></a>)</li>
+<li>If you are upgrading your Cluster Federation components from v1.4.x, please update your <code>federation-apiserver</code> and <code>federation-controller-manager</code> manifests to the new version (<a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external">#30601</a></a>, <a href="https://github.com/madhusudancs" target="_blank" rel="external"><a href="https://github.com/madhusudancs" target="_blank" rel="external">@madhusudancs</a></a>)</li>
+<li>The deprecated kubelet —configure-cbr0 flag has been removed, and with that the “classic” networking mode as well.  If you depend on this mode, please investigate whether the other network plugins <code>kubenet</code> or <code>cni</code> meet your needs. (<a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external">#34906</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
+<li>New client-go structure, refer to kubernetes/client-go for versioning policy (<a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external">#34989</a></a>, <a href="https://github.com/caesarxuchao" target="_blank" rel="external"><a href="https://github.com/caesarxuchao" target="_blank" rel="external">@caesarxuchao</a></a>)</li>
+<li>The deprecated kube-scheduler —bind-pods-qps and —bind-pods burst flags have been removed, use —kube-api-qps and —kube-api-burst instead (<a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external">#34471</a></a>, <a href="https://github.com/timothysc" target="_blank" rel="external"><a href="https://github.com/timothysc" target="_blank" rel="external">@timothysc</a></a>)</li>
+<li>If you used the <a href="http://kubernetes.io/docs/admin/disruptions/" target="_blank" rel="external">PodDisruptionBudget</a> feature in 1.4 (i.e. created <code>PodDisruptionBudget</code> objects), then <strong>BEFORE</strong>  upgrading from 1.4 to 1.5, you must delete all <code>PodDisruptionBudget</code> objects (<code>policy/v1alpha1/PodDisruptionBudget</code>) that you have created. It is not possible to delete these objects after you upgrade, and their presence will prevent you from using the beta PodDisruptionBudget feature in 1.5 (which uses <code>policy/v1beta1/PodDisruptionBudget</code>). If you have already upgraded, you will need to downgrade the master to 1.4 to delete the <code>policy/v1alpha1/PodDisruptionBudget</code> objects.</li>
+</ul>
+<h2 id="External-Dependency-Version-Information"><a href="#External-Dependency-Version-Information" class="headerlink" title="External Dependency Version Information"></a>External Dependency Version Information</h2><p>Continuous integration builds have used the following versions of external dependencies, however, this is not a strong recommendation and users should consult an appropriate installation or upgrade guide before deciding what versions of etcd, docker or rkt to use.</p>
+<ul>
+<li>Docker versions 1.10.3 - 1.12.3<ul>
+<li>Docker version 1.11.2 known issues<ul>
+<li>Kernel crash with Aufs storage driver on Debian Jessie (<a href="https://github.com/kubernetes/kubernetes/issues/27885" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/27885" target="_blank" rel="external">#27885</a></a>)<br>which can be identified by the <a href="http://kubernetes.io/docs/admin/node-problem/" target="_blank" rel="external">node problem detector</a></li>
+<li>Leaked File descriptors (<a href="https://github.com/docker/containerd/issues/275" target="_blank" rel="external">#275</a>)</li>
+<li>Additional memory overhead per container (<a href="https://github.com/docker/docker/issues/21737" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/21737" target="_blank" rel="external">#21737</a></a>)</li>
+</ul>
+</li>
+<li>Docker version 1.12.1 <a href="https://github.com/kubernetes/kubernetes/issues/28698" target="_blank" rel="external">has been validated</a> through the Kubernetes docker automated validation framework as has Docker version 1.12.3</li>
+<li>Docker 1.10.3 contains <a href="https://github.com/docker/docker/compare/v1.10.3...runcom:docker-1.10.3-stable" target="_blank" rel="external">backports provided by RedHat</a> for known issues</li>
+<li>Docker versions as old as may 1.9.1 work with <a href="CHANGELOG.md#191">known issues</a> but this is not guaranteed</li>
+</ul>
+</li>
+<li>rkt version 1.21.0<ul>
+<li>known issues with the rkt runtime are <a href="http://kubernetes.io/docs/getting-started-guides/rkt/notes/" target="_blank" rel="external">listed here</a></li>
+</ul>
+</li>
+<li><p>etcd version 2.2.1</p>
+<ul>
+<li>etcd version 3.0.14 <a href="https://k8s-gubernator.appspot.com/builds/kubernetes-jenkins/logs/ci-kubernetes-e2e-gce-etcd3/" target="_blank" rel="external">has also been validated</a> but does require <a href="https://coreos.com/blog/migrating-applications-etcd-v3.html" target="_blank" rel="external">specific configuration steps</a></li>
+</ul>
+<p><a href="https://docs.k8s.io" target="_blank" rel="external">Documentation</a> &amp; <a href="https://releases.k8s.io/release-1.5/examples" target="_blank" rel="external">Examples</a></p>
+<h2 id="Downloads-for-v1-5-0"><a href="#Downloads-for-v1-5-0" class="headerlink" title="Downloads for v1.5.0"></a>Downloads for v1.5.0</h2></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sha256 hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes.tar.gz" target="_blank" rel="external">kubernetes.tar.gz</a></td>
+<td><code>52b7df98ea05fb3ebbababf1ccb7f6d4e6f4cad00b8d09350f270aa7e3ad7e85</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-src.tar.gz" target="_blank" rel="external">kubernetes-src.tar.gz</a></td>
+<td><code>fbefb2544667f96045c346cee595b0f315282dfdbd41a8f2d5ccc74054a4078e</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Client-Binaries"><a href="#Client-Binaries" class="headerlink" title="Client Binaries"></a>Client Binaries</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sha256 hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-darwin-386.tar.gz" target="_blank" rel="external">kubernetes-client-darwin-386.tar.gz</a></td>
+<td><code>27d71bb6b16a26387ee30272bd4ee5758deccafafdc91b38f3d0dc19a34e129e</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-darwin-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-darwin-amd64.tar.gz</a></td>
+<td><code>5fa8550235919568d7d839b19de00e9bdd72a97cfde21dbdbe07fefd6d6290dc</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-386.tar.gz" target="_blank" rel="external">kubernetes-client-linux-386.tar.gz</a></td>
+<td><code>032a17701c014b8bbbb83c7da1046d8992a41031628cf7e1959a94378f5f195b</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-linux-amd64.tar.gz</a></td>
+<td><code>afae4fadb7bbb1532967f88fef1de6458abda17219f634cc2c41608fd83ae7f6</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-arm64.tar.gz" target="_blank" rel="external">kubernetes-client-linux-arm64.tar.gz</a></td>
+<td><code>acca7607dae678a0165b7e10685e0eff0d418beebe7c25eaffe18c85717b5cc4</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-arm.tar.gz" target="_blank" rel="external">kubernetes-client-linux-arm.tar.gz</a></td>
+<td><code>fbc182b6d9ae476c7c509486d773074fd1007032886a8177735e08010c43f89d</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-windows-386.tar.gz" target="_blank" rel="external">kubernetes-client-windows-386.tar.gz</a></td>
+<td><code>a8ddea329bc8d57267294464c163d8c2f7837f6353f8c685271864ed8b8bc54d</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-windows-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-windows-amd64.tar.gz</a></td>
+<td><code>bc3a76f1414fa1f4b2fb92732de2100d346edb7b870ed5414ea062bb401a8ebd</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Server-Binaries"><a href="#Server-Binaries" class="headerlink" title="Server Binaries"></a>Server Binaries</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sha256 hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-amd64.tar.gz" target="_blank" rel="external">kubernetes-server-linux-amd64.tar.gz</a></td>
+<td><code>b9c122d709c0556c1e19d31d98bf26ee530f91c0119f4454fb930cef5a0c1aa7</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-arm64.tar.gz" target="_blank" rel="external">kubernetes-server-linux-arm64.tar.gz</a></td>
+<td><code>3bbba5c8dedc47db8f9ebdfac5468398cce2470617de9d550affef9702b724c9</code></td>
+</tr>
+<tr>
+<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-arm.tar.gz" target="_blank" rel="external">kubernetes-server-linux-arm.tar.gz</a></td>
+<td><code>3ff9ccdd641690fd1c8878408cd369beca1f9f8b212198e251862d40cf2dadc0</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Kubernetes-v1-5-0&quot;&gt;&lt;a href=&quot;#Kubernetes-v1-5-0&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes v1.5.0&quot;&gt;&lt;/a&gt;Kubernetes v1.5.0&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Stat
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://feisky.xyz/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Weekly reading list</title>
     <link href="http://feisky.xyz/2016/12/08/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/08/Weekly-reading-list/</id>
     <published>2016-12-08T06:00:22.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker收购Infinit-PDF"><a href="#Docker收购Infinit-PDF" class="headerlink" title="Docker收购Infinit PDF"></a><a href="https://blog.docker.com/2016/12/docker-acquires-infinit/" target="_blank" rel="external">Docker收购Infinit</a> <a href="/assets/infinit.pdf">PDF</a></h1><p><a href="https://infinit.sh/" target="_blank" rel="external">Infinit</a>为容器提供了分布式存储，其特点包括</p>
 <ul>
@@ -147,7 +415,7 @@
     <link href="http://feisky.xyz/2016/12/04/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/04/Weekly-reading-list/</id>
     <published>2016-12-04T23:59:01.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
 <p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
@@ -220,7 +488,7 @@
     <link href="http://feisky.xyz/2016/11/14/KubeCon-2016%E8%A7%81%E9%97%BB/"/>
     <id>http://feisky.xyz/2016/11/14/KubeCon-2016见闻/</id>
     <published>2016-11-14T01:49:52.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>题记：上周去西雅图参加了<a href="http://events.linuxfoundation.org/events/kubecon" target="_blank" rel="external">KubeCon&amp;CloudNativeCon 2016</a>，不仅见到Dawn、Brendan、Tim以及Sig Node的各路大神，还参加了不少有趣的session。</p>
 <h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
@@ -364,7 +632,7 @@
     <link href="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/"/>
     <id>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</id>
     <published>2016-09-24T22:59:31.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
@@ -416,7 +684,7 @@
     <link href="http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     <id>http://feisky.xyz/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
     <published>2016-09-11T01:48:09.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -475,7 +743,7 @@
     <link href="http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/</id>
     <published>2016-08-24T06:48:44.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
@@ -536,7 +804,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/"/>
     <id>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</id>
     <published>2016-07-19T07:58:26.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
@@ -580,7 +848,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/"/>
     <id>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</id>
     <published>2016-06-24T04:39:49.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
@@ -659,7 +927,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
     <id>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
     <published>2016-06-17T09:12:38.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
@@ -707,7 +975,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/"/>
     <id>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</id>
     <published>2016-06-07T05:21:07.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
@@ -732,7 +1000,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
     <id>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
     <published>2016-06-06T08:10:25.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
@@ -808,7 +1076,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/"/>
     <id>http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/</id>
     <published>2016-05-11T02:25:06.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
 <p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
@@ -841,7 +1109,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/06/Go-performance-optimize/"/>
     <id>http://feisky.xyz/2016/05/06/Go-performance-optimize/</id>
     <published>2016-05-06T12:40:06.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
 <ol>
@@ -897,7 +1165,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/"/>
     <id>http://feisky.xyz/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/</id>
     <published>2016-05-05T09:16:46.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[
 
@@ -926,7 +1194,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/"/>
     <id>http://feisky.xyz/2016/04/29/Reading-notes-of-week-17/</id>
     <published>2016-04-29T08:50:14.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
 <blockquote>
@@ -988,7 +1256,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/runc/"/>
     <id>http://feisky.xyz/2016/04/28/runc/</id>
     <published>2016-04-28T03:15:03.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
 <h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
@@ -1033,7 +1301,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/"/>
     <id>http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/</id>
     <published>2016-04-28T02:07:23.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：</p>
 <ul>
@@ -1097,7 +1365,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/DPDK-Introduction/"/>
     <id>http://feisky.xyz/2016/04/24/DPDK-Introduction/</id>
     <published>2016-04-24T11:43:07.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<h2 id="DPDK-Introduction"><a href="#DPDK-Introduction" class="headerlink" title="DPDK Introduction"></a>DPDK Introduction</h2><p>Intel DPDK全称Intel Data Plane Development Kit，是intel提供的数据平面开发工具集，为Intel architecture（IA）处理器架构下用户空间高效的数据包处理提供库函数和驱动的支持，它不同于Linux系统以通用性设计为目的，而是专注于网络应用中数据包的高性能处理。DPDK应用程序是运行在用户空间上利用自身提供的数据平面库来收发数据包，绕过了Linux内核协议栈对数据包处理过程。Linux内核将DPDK应用程序看作是一个普通的用户态进程，包括它的编译、连接和加载方式和普通程序没有什么两样。DPDK程序启动后只能有一个主线程，然后创建一些子线程并绑定到指定CPU核心上运行。</p>
 <p>DPDK官方网站为<a href="http://dpdk.org/" target="_blank" rel="external">http://dpdk.org/</a>，官方文档为<a href="http://dpdk.org/doc/guides/index.html" target="_blank" rel="external">http://dpdk.org/doc/guides/index.html</a></p>
@@ -1161,7 +1429,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/04/24/Tips-for-cgo/"/>
     <id>http://feisky.xyz/2016/04/24/Tips-for-cgo/</id>
     <published>2016-04-24T00:29:02.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
+    <updated>2016-12-13T03:53:38.776Z</updated>
     
     <content type="html"><![CDATA[<p>cgo的一些tips</p>
 <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>The standard C numeric types are available under the names C.char, C.schar (signed char), C.uchar (unsigned char), C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int), C.long, C.ulong (unsigned long), C.longlong (long long), C.ulonglong (unsigned long long), C.float, C.double, C.complexfloat (complex float), and C.complexdouble (complex double). The C type void* is represented by Go’s unsafe.Pointer. The C types <code>__int128_t</code> and <code>__uint128_t</code> are represented by [16]byte.</p>
@@ -1188,42 +1456,6 @@ Available Commands:
     
       &lt;p&gt;cgo的一些tips&lt;/p&gt;
 &lt;h2 id=&quot;基本类型&quot;&gt;&lt;a href=&quot;#基本类型&quot; class=&quot;headerlink&quot; title=&quot;基本类型&quot;&gt;&lt;/a&gt;基本类型&lt;/h2&gt;&lt;p&gt;The standard C numeric types are available u
-    
-    </summary>
-    
-    
-      <category term="go" scheme="http://feisky.xyz/tags/go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>cgo in go 1.6</title>
-    <link href="http://feisky.xyz/2016/04/19/cgo-in-go-1-6/"/>
-    <id>http://feisky.xyz/2016/04/19/cgo-in-go-1-6/</id>
-    <published>2016-04-19T14:04:48.000Z</published>
-    <updated>2016-12-13T00:14:16.091Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with Go’s garbage collector. Briefly, Go and C may share memory allocated by Go when a pointer to that memory is passed to C as part of a cgo call, provided that the memory itself contains no pointers to Go-allocated memory, and provided that C does not retain the pointer after the call returns. These rules are checked by the runtime during program execution: if the runtime detects a violation, it prints a diagnosis and crashes the program. The checks can be disabled by setting the environment variable GODEBUG=cgocheck=0, but note that the vast majority of code identified by the checks is subtly incompatible with garbage collection in one way or another. Disabling the checks will typically only lead to more mysterious failure modes. Fixing the code in question should be strongly preferred over turning off the checks.</p>
-</blockquote>
-<p>Because of those change, we must notice the rules for sharing pointers with C code.</p>
-<h3 id="Go-code-may-pass-a-Go-pointer-to-C-provided-the-Go-memory-to-which-it-points-does-not-contain-any-Go-pointers"><a href="#Go-code-may-pass-a-Go-pointer-to-C-provided-the-Go-memory-to-which-it-points-does-not-contain-any-Go-pointers" class="headerlink" title="Go code may pass a Go pointer to C provided the Go memory to which it points does not contain any Go pointers."></a>Go code may pass a Go pointer to C provided the Go memory to which it points does not contain any Go pointers.</h3><p>The C code must preserve this property: it must not store any Go pointers in Go memory, even temporarily. When passing a pointer to a field in a struct, the Go memory in question is the memory occupied by the field, not the entire struct. When passing a pointer to an element in an array or slice, the Go memory in question is the entire array or the entire backing array of the slice.</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">struct Foo&#123;</div><div class="line">    int a;</div><div class="line">    int *p;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void plusOne(struct Foo *f) &#123;</div><div class="line">    (f-&gt;a)++;</div><div class="line">    *(f-&gt;p)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    f := &amp;C.struct_Foo&#123;&#125;</div><div class="line">    f.a = <span class="number">5</span></div><div class="line">    f.p = (*C.<span class="keyword">int</span>)((unsafe.Pointer)(<span class="built_in">new</span>(<span class="keyword">int</span>)))</div><div class="line"></div><div class="line">    C.plusOne(f)</div><div class="line">    fmt.Println(<span class="keyword">int</span>(f.a))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go run test.go</div><div class="line">panic: runtime error: cgo argument has Go pointer to Go pointer</div><div class="line"></div><div class="line">goroutine 1 [running]:</div><div class="line">panic(0x4dc3e0, 0xc82000a280)</div><div class="line">    /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:464 +0x3e6</div><div class="line">main.main()</div><div class="line">    /go/test.go:24 +0xc1</div><div class="line"><span class="built_in">exit</span> status 2</div></pre></td></tr></table></figure>
-<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">void plusOne(int **i) &#123;</div><div class="line">    (**i)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    sl := <span class="built_in">make</span>([]*<span class="keyword">int</span>, <span class="number">5</span>)</div><div class="line">    <span class="keyword">var</span> a <span class="keyword">int</span> = <span class="number">5</span></div><div class="line">    sl[<span class="number">1</span>] = &amp;a</div><div class="line">    C.plusOne((**C.<span class="keyword">int</span>)((unsafe.Pointer)(&amp;sl[<span class="number">0</span>])))</div><div class="line">    fmt.Println(sl[<span class="number">0</span>])</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go run <span class="built_in">test</span>2.go</div><div class="line">panic: runtime error: cgo argument has Go pointer to Go pointer</div><div class="line"></div><div class="line">goroutine 1 [running]:</div><div class="line">panic(0x4dc260, 0xc82000a270)</div><div class="line">    /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:464 +0x3e6</div><div class="line">main.main()</div><div class="line">    /go/<span class="built_in">test</span>2.go:19 +0xe4</div><div class="line"><span class="built_in">exit</span> status 2</div></pre></td></tr></table></figure>
-<h3 id="C-code-may-not-keep-a-copy-of-a-Go-pointer-after-the-call-returns"><a href="#C-code-may-not-keep-a-copy-of-a-Go-pointer-after-the-call-returns" class="headerlink" title="C code may not keep a copy of a Go pointer after the call returns."></a>C code may not keep a copy of a Go pointer after the call returns.</h3><h3 id="A-Go-function-called-by-C-code-may-not-return-a-Go-pointer"><a href="#A-Go-function-called-by-C-code-may-not-return-a-Go-pointer" class="headerlink" title="A Go function called by C code may not return a Go pointer."></a>A Go function called by C code may not return a Go pointer.</h3><p>A Go function called by C code may take C pointers as arguments, and it may store non-pointer or C pointer data through those pointers, but it may not store a Go pointer in memory pointed to by a C pointer. </p>
-<p>A Go function called by C code may take a Go pointer as an argument, but it must preserve the property that the Go memory to which it points does not contain any Go pointers.</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// extern int* goAdd(int, int);</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// static int cAdd(int a, int b) &#123;</span></div><div class="line"><span class="comment">//     int *i = goAdd(a, b);</span></div><div class="line"><span class="comment">//     return *i;</span></div><div class="line"><span class="comment">// &#125;</span></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="comment">//export goAdd</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">goAdd</span><span class="params">(a, b C.<span class="keyword">int</span>)</span> *<span class="title">C</span>.<span class="title">int</span></span> &#123;</div><div class="line">    c := a + b</div><div class="line">    <span class="keyword">return</span> &amp;c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> a, b <span class="keyword">int</span> = <span class="number">5</span>, <span class="number">6</span></div><div class="line">    i := C.cAdd(C.<span class="keyword">int</span>(a), C.<span class="keyword">int</span>(b))</div><div class="line">    fmt.Println(<span class="keyword">int</span>(i))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ go run <span class="built_in">test</span>3.go</div><div class="line">panic: runtime error: cgo result has Go pointer</div><div class="line"></div><div class="line">goroutine 1 [running]:</div><div class="line">panic(0x4dc100, 0xc82000a260)</div><div class="line">    /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:464 +0x3e6</div><div class="line">main._cgoexpwrap_6c682d6da1ed_goAdd.func1(0xc820041d98)</div><div class="line">    <span class="built_in">command</span>-line-arguments/_obj/_cgo_gotypes.go:64 +0x3a</div><div class="line">main._cgoexpwrap_6c682d6da1ed_goAdd(0x600000005, 0xc82000a23c)</div><div class="line">    <span class="built_in">command</span>-line-arguments/_obj/_cgo_gotypes.go:66 +0x89</div><div class="line">main._Cfunc_cAdd(0x600000005, 0x0)</div><div class="line">    <span class="built_in">command</span>-line-arguments/_obj/_cgo_gotypes.go:45 +0x41</div><div class="line">main.main()</div><div class="line">    /go/<span class="built_in">test</span>3.go:20 +0x35</div><div class="line"><span class="built_in">exit</span> status 2</div></pre></td></tr></table></figure>
-<h3 id="Go-code-may-not-store-a-Go-pointer-in-C-memory-C-code-may-store-Go-pointers-in-C-memory-subject-to-the-rule-above-it-must-stop-storing-the-Go-pointer-when-the-C-function-returns"><a href="#Go-code-may-not-store-a-Go-pointer-in-C-memory-C-code-may-store-Go-pointers-in-C-memory-subject-to-the-rule-above-it-must-stop-storing-the-Go-pointer-when-the-C-function-returns" class="headerlink" title="Go code may not store a Go pointer in C memory. C code may store Go pointers in C memory, subject to the rule above: it must stop storing the Go pointer when the C function returns."></a>Go code may not store a Go pointer in C memory. C code may store Go pointers in C memory, subject to the rule above: it must stop storing the Go pointer when the C function returns.</h3><h3 id="These-rules-are-checked-dynamically-at-runtime"><a href="#These-rules-are-checked-dynamically-at-runtime" class="headerlink" title="These rules are checked dynamically at runtime."></a>These rules are checked dynamically at runtime.</h3><p>The checking is controlled by the cgocheck setting of the GODEBUG environment variable. The default setting is GODEBUG=cgocheck=1, which implements reasonably cheap dynamic checks. These checks may be disabled entirely using GODEBUG=cgocheck=0. Complete checking of pointer handling, at some cost in run time, is available via GODEBUG=cgocheck=2.</p>
-<h3 id="It-is-possible-to-defeat-this-enforcement-by-using-the-unsafe-package-and-ofcourse-there-is-nothing-stopping-the-C-code-from-doing-anything-it-likes-However-programs-that-break-these-rules-are-likely-to-fail-in-unexpected-and-unpredictable-ways"><a href="#It-is-possible-to-defeat-this-enforcement-by-using-the-unsafe-package-and-ofcourse-there-is-nothing-stopping-the-C-code-from-doing-anything-it-likes-However-programs-that-break-these-rules-are-likely-to-fail-in-unexpected-and-unpredictable-ways" class="headerlink" title="It is possible to defeat this enforcement by using the unsafe package, and ofcourse there is nothing stopping the C code from doing anything it likes. However, programs that break these rules are likely to fail in unexpected and unpredictable ways."></a>It is possible to defeat this enforcement by using the unsafe package, and ofcourse there is nothing stopping the C code from doing anything it likes. However, programs that break these rules are likely to fail in unexpected and unpredictable ways.</h3><p>Reference: <a href="https://golang.org/cmd/cgo/" target="_blank" rel="external">https://golang.org/cmd/cgo/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;The major change is the definition of rules for sharing Go pointers with C code, to ensure that such C code can coexist with
     
     </summary>
     

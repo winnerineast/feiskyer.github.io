@@ -313,6 +313,123 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/03/mininet-links/" itemprop="url">
+                  Mininet links
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-04T00:00:00+08:00" content="2015-06-04">
+              2015-06-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/SDN/" itemprop="url" rel="index">
+                    <span itemprop="name">SDN</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Introduction to Mininet: <a href="http://mininet.org/walkthrough/" target="_blank" rel="external">http://mininet.org/walkthrough/</a></p>
+<p>OpenFlow Tutorial: <a href="https://github.com/mininet/openflow-tutorial/wiki" target="_blank" rel="external">https://github.com/mininet/openflow-tutorial/wiki</a></p>
+<p>Mininet walkthrough: <a href="http://mininet.org/walkthrough/" target="_blank" rel="external">http://mininet.org/walkthrough/</a></p>
+<p>RYU SDN Framework: <a href="http://osrg.github.io/ryu-book/en/html/" target="_blank" rel="external">http://osrg.github.io/ryu-book/en/html/</a></p>
+<p>A good ryu blog: <a href="http://linton.tw/" target="_blank" rel="external">http://linton.tw/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/19/docker-in-tencent/" itemprop="url">
                   docker in tencent
                 </a>
@@ -852,125 +969,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/12/usging-cadvisor-to-monitor-docker/" itemprop="url">
-                  Using cAdvisor to monitor docker
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-13T00:00:00+08:00" content="2015-03-13">
-              2015-03-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage, histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.</p>
-<p>cAdvisor has native support for Docker containers and should support just about any other container type out of the box. We strive for support accross the board so feel free to open an issue if that is not the case. cAdvisor’s container abstraction is based on lmctfy’s so containers are inherently nested hierarchically.</p>
-<p>To quickly tryout cAdvisor on your machine with Docker, we have a Docker image that includes everything you need to get started. Simply run:</p>
-<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">sudo docker run \</div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/:/rootfs</span><span class="symbol">:ro</span> \</span></div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/var/run</span><span class="symbol">:/var/run</span><span class="symbol">:rw</span> \</span></div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/sys:/sys</span><span class="symbol">:ro</span> \</span></div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/var/lib</span><span class="regexp">/docker/</span><span class="symbol">:/var/lib/docker</span><span class="symbol">:ro</span> \</span></div><div class="line">  -<span class="ruby">-publish=<span class="number">8080</span><span class="symbol">:</span><span class="number">8080</span> \</span></div><div class="line">  -<span class="ruby">-detach=<span class="literal">true</span> \</span></div><div class="line">  -<span class="ruby">-name=cadvisor \</span></div><div class="line">  google/cadvisor:latest</div></pre></td></tr></table></figure>
-<p>cAdvisor is now running (in the background) on <code>http://localhost:8080</code>. The setup includes directories with Docker state cAdvisor needs to observe</p>
-<p><img src="/images/cadvisor.png" alt=""></p>
-<p>See more at <a href="https://github.com/google/cadvisor" target="_blank" rel="external">https://github.com/google/cadvisor</a>.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1016,7 +1014,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

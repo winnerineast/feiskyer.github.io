@@ -313,6 +313,125 @@
             
               
                 
+                <a class="post-title-link" href="/2015/03/12/usging-cadvisor-to-monitor-docker/" itemprop="url">
+                  Using cAdvisor to monitor docker
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-13T00:00:00+08:00" content="2015-03-13">
+              2015-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage, histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.</p>
+<p>cAdvisor has native support for Docker containers and should support just about any other container type out of the box. We strive for support accross the board so feel free to open an issue if that is not the case. cAdvisor’s container abstraction is based on lmctfy’s so containers are inherently nested hierarchically.</p>
+<p>To quickly tryout cAdvisor on your machine with Docker, we have a Docker image that includes everything you need to get started. Simply run:</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">sudo docker run \</div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/:/rootfs</span><span class="symbol">:ro</span> \</span></div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/var/run</span><span class="symbol">:/var/run</span><span class="symbol">:rw</span> \</span></div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/sys:/sys</span><span class="symbol">:ro</span> \</span></div><div class="line">  -<span class="ruby">-volume=<span class="regexp">/var/lib</span><span class="regexp">/docker/</span><span class="symbol">:/var/lib/docker</span><span class="symbol">:ro</span> \</span></div><div class="line">  -<span class="ruby">-publish=<span class="number">8080</span><span class="symbol">:</span><span class="number">8080</span> \</span></div><div class="line">  -<span class="ruby">-detach=<span class="literal">true</span> \</span></div><div class="line">  -<span class="ruby">-name=cadvisor \</span></div><div class="line">  google/cadvisor:latest</div></pre></td></tr></table></figure>
+<p>cAdvisor is now running (in the background) on <code>http://localhost:8080</code>. The setup includes directories with Docker state cAdvisor needs to observe</p>
+<p><img src="/images/cadvisor.png" alt=""></p>
+<p>See more at <a href="https://github.com/google/cadvisor" target="_blank" rel="external">https://github.com/google/cadvisor</a>.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/05/redhat-atomic-host/" itemprop="url">
                   Redhat Atomic Host
                 </a>
@@ -587,101 +706,6 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
             
               
                 
-                <a class="post-title-link" href="/2015/03/04/python-not-defined-problem/" itemprop="url">
-                  Python __file__ not defined problem
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-05T00:00:00+08:00" content="2015-03-05">
-              2015-03-05
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
-<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/03/04/docker-acquires-sdn-startup-socketplane/" itemprop="url">
                   Docker acquires SDN startup SocketPlane
                 </a>
@@ -780,8 +804,8 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
             
               
                 
-                <a class="post-title-link" href="/2015/03/03/linux-kernel-network-call-flow/" itemprop="url">
-                  Linux kernel network call flow
+                <a class="post-title-link" href="/2015/03/04/python-not-defined-problem/" itemprop="url">
+                  Python __file__ not defined problem
                 </a>
               
             
@@ -794,8 +818,8 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-04T00:00:00+08:00" content="2015-03-04">
-              2015-03-04
+            <time itemprop="dateCreated" datetime="2015-03-05T00:00:00+08:00" content="2015-03-05">
+              2015-03-05
             </time>
           </span>
 
@@ -824,8 +848,8 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
       
         
           
-            <p><img src="/images/network_flow.jpg" alt=""></p>
-<p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/19935813" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/19935813</a></p>
+            <p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
+<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
 
           
         
@@ -994,7 +1018,7 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
