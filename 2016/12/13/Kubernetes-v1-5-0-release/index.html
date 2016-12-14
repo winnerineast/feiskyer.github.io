@@ -86,52 +86,25 @@
 
 
 
-<meta name="description" content="Kubernetes v1.5.0
-StatefulSets (ex-PetSets)
-StatefulSets are beta now (fixes and stabilization)
+<meta name="description" content="Update on 2016.12.14:
+Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.
 
-
-Improved Federation Support
-New command: kubefed
-DaemonSets
-Deployments
-ConfigMaps
-
-
-Simplified Cluste">
+The --anonymous-auth= flag">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes v1.5.0 release">
 <meta property="og:url" content="http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Kubernetes v1.5.0
-StatefulSets (ex-PetSets)
-StatefulSets are beta now (fixes and stabilization)
+<meta property="og:description" content="Update on 2016.12.14:
+Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.
 
-
-Improved Federation Support
-New command: kubefed
-DaemonSets
-Deployments
-ConfigMaps
-
-
-Simplified Cluste">
-<meta property="og:updated_time" content="2016-12-14T00:14:48.264Z">
+The --anonymous-auth= flag">
+<meta property="og:updated_time" content="2016-12-14T04:07:24.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes v1.5.0 release">
-<meta name="twitter:description" content="Kubernetes v1.5.0
-StatefulSets (ex-PetSets)
-StatefulSets are beta now (fixes and stabilization)
+<meta name="twitter:description" content="Update on 2016.12.14:
+Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.
 
-
-Improved Federation Support
-New command: kubefed
-DaemonSets
-Deployments
-ConfigMaps
-
-
-Simplified Cluste">
+The --anonymous-auth= flag">
 
 
 
@@ -387,7 +360,12 @@ Simplified Cluste">
       
 
       
-        <h2 id="Kubernetes-v1-5-0"><a href="#Kubernetes-v1-5-0" class="headerlink" title="Kubernetes v1.5.0"></a>Kubernetes v1.5.0</h2><ul>
+        <p><strong>Update on 2016.12.14:</strong></p>
+<p>Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.</p>
+<blockquote>
+<p>The <code>--anonymous-auth=</code> flag in v1.5.0 is true by default (which may result in any users being able to access kubernetes API), but v1.5.1 turns it to false.</p>
+</blockquote>
+<h2 id="Kubernetes-v1-5-0"><a href="#Kubernetes-v1-5-0" class="headerlink" title="Kubernetes v1.5.0"></a>Kubernetes v1.5.0</h2><ul>
 <li>StatefulSets (ex-PetSets)<ul>
 <li>StatefulSets are beta now (fixes and stabilization)</li>
 </ul>
