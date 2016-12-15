@@ -1,0 +1,917 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="BPF Compiler Collection (BCC) - Tools for BPF-based Linux IO analysis, networking, monitoring
+Website: https://github.com/iovisor/bcc
+
+
+Basic usage of bcc （tutorial）Install bcc:
+echo -e &apos;[iovisor]\nba">
+<meta property="og:type" content="website">
+<meta property="og:title" content="bcc">
+<meta property="og:url" content="http://feisky.xyz/tracing/bcc/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="BPF Compiler Collection (BCC) - Tools for BPF-based Linux IO analysis, networking, monitoring
+Website: https://github.com/iovisor/bcc
+
+
+Basic usage of bcc （tutorial）Install bcc:
+echo -e &apos;[iovisor]\nba">
+<meta property="og:image" content="https://github.com/iovisor/bcc/raw/master/images/bcc_tracing_tools_2016.png">
+<meta property="og:image" content="https://www.iovisor.org/wp-content/uploads/2016/09/xdp-packet-processing-1024x560.png">
+<meta property="og:updated_time" content="2016-12-15T00:44:19.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="bcc">
+<meta name="twitter:description" content="BPF Compiler Collection (BCC) - Tools for BPF-based Linux IO analysis, networking, monitoring
+Website: https://github.com/iovisor/bcc
+
+
+Basic usage of bcc （tutorial）Install bcc:
+echo -e &apos;[iovisor]\nba">
+<meta name="twitter:image" content="https://github.com/iovisor/bcc/raw/master/images/bcc_tracing_tools_2016.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/tracing/bcc/"/>
+
+
+  <title> bcc | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                bcc
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-14T09:27:47+00:00" content="2016-12-14">
+              2016-12-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="BPF-Compiler-Collection-BCC-Tools-for-BPF-based-Linux-IO-analysis-networking-monitoring"><a href="#BPF-Compiler-Collection-BCC-Tools-for-BPF-based-Linux-IO-analysis-networking-monitoring" class="headerlink" title="BPF Compiler Collection (BCC) - Tools for BPF-based Linux IO analysis, networking, monitoring"></a>BPF Compiler Collection (BCC) - Tools for BPF-based Linux IO analysis, networking, monitoring</h1><ul>
+<li>Website: <a href="https://github.com/iovisor/bcc" target="_blank" rel="external">https://github.com/iovisor/bcc</a></li>
+</ul>
+<p><img src="https://github.com/iovisor/bcc/raw/master/images/bcc_tracing_tools_2016.png" alt=""></p>
+<h2 id="Basic-usage-of-bcc-（tutorial）"><a href="#Basic-usage-of-bcc-（tutorial）" class="headerlink" title="Basic usage of bcc （tutorial）"></a>Basic usage of bcc （<a href="https://github.com/iovisor/bcc/blob/master/docs/tutorial.md" target="_blank" rel="external">tutorial</a>）</h2><p>Install bcc:</p>
+<figure class="highlight tex"><table><tr><td class="code"><pre><div class="line">echo -e '[iovisor]<span class="tag">\<span class="name">nbaseurl</span>=</span>https://repo.iovisor.org/yum/nightly/f23/<span class="formula">$basearch<span class="tag">\<span class="name">nenabled</span>=<span class="number">1</span></span><span class="tag">\<span class="name">ngpgcheck</span>=<span class="number">0</span></span>' | sudo tee /etc/yum.repos.d/iovisor.repo</span></div><div class="line">yum install bcc-tools</div></pre></td></tr></table></figure>
+<p>Now bcc is installed at <code>/usr/share/bcc/tools</code>.</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><div class="line"><span class="comment"># ls /usr/share/bcc/tools</span></div><div class="line">argdist       <span class="keyword">cachestat </span> <span class="keyword">ext4dist </span>       hardirqs        offwaketime  softirqs    tcpconnect  vfscount</div><div class="line"><span class="keyword">bashreadline </span> <span class="keyword">cachetop </span>  <span class="keyword">ext4slower </span>     killsnoop       old          solisten    tcpconnlat  vfsstat</div><div class="line"><span class="keyword">biolatency </span>   capable    filelife        <span class="keyword">llcstat </span>        oomkill      sslsniff    tcplife     wakeuptime</div><div class="line"><span class="keyword">biosnoop </span>     cpudist    fileslower      mdflush         opensnoop    stackcount  tcpretrans  xfsdist</div><div class="line"><span class="keyword">biotop </span>       dcsnoop    filetop         memleak         pidpersec    stacksnoop  tcptop      xfsslower</div><div class="line"><span class="keyword">bitesize </span>     dcstat     funccount       mountsnoop      profile      statsnoop   tplist      zfsdist</div><div class="line"><span class="keyword">btrfsdist </span>    doc        funclatency     mysqld_qslower  runqlat      <span class="keyword">syncsnoop </span>  trace       zfsslower</div><div class="line"><span class="keyword">btrfsslower </span>  execsnoop  gethostlatency  offcputime      slabratetop  tcpaccept   ttysnoop</div></pre></td></tr></table></figure>
+<p><strong>capable</strong></p>
+<p>capable checks Linux security capabilities of processes:</p>
+<figure class="highlight tap"><table><tr><td class="code"><pre><div class="line"><span class="comment"># capable</span></div><div class="line">TIME      UID    PID    COMM             CAP  NAME                 AUDIT</div><div class="line">22:11:23 <span class="number"> 114 </span>  <span class="number"> 2676 </span>  snmpd           <span class="number"> 12 </span>  CAP_NET_ADMIN        1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 6990 </span>  run             <span class="number"> 24 </span>  CAP_SYS_RESOURCE     1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 7003 </span>  chmod           <span class="number"> 3 </span>   CAP_FOWNER           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 7003 </span>  chmod           <span class="number"> 4 </span>   CAP_FSETID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 7005 </span>  chmod           <span class="number"> 4 </span>   CAP_FSETID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 7005 </span>  chmod           <span class="number"> 4 </span>   CAP_FSETID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 7006 </span>  chown           <span class="number"> 4 </span>   CAP_FSETID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 7006 </span>  chown           <span class="number"> 4 </span>   CAP_FSETID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 6990 </span>  setuidgid       <span class="number"> 6 </span>   CAP_SETGID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 6990 </span>  setuidgid       <span class="number"> 6 </span>   CAP_SETGID           1</div><div class="line">22:11:23 <span class="number"> 0 </span>    <span class="number"> 6990 </span>  setuidgid       <span class="number"> 7 </span>   CAP_SETUID           1</div><div class="line">22:11:24 <span class="number"> 0 </span>    <span class="number"> 7013 </span>  run             <span class="number"> 24 </span>  CAP_SYS_RESOURCE     1</div><div class="line">22:11:24 <span class="number"> 0 </span>    <span class="number"> 7026 </span>  chmod           <span class="number"> 3 </span>   CAP_FOWNER           1</div><div class="line">[...]</div></pre></td></tr></table></figure>
+<p><strong>tcpconnect</strong></p>
+<p>tcpconnect prints one line of output for every active TCP connection (eg, via connect()), with details including source and destination addresses.</p>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">./tcpconnect</div><div class="line">PID    COMM         IP SADDR            DADDR            DPORT</div><div class="line"><span class="number">2462</span>   curl         <span class="number">4</span>  <span class="number">192.168</span><span class="number">.1</span><span class="number">.99</span>       <span class="number">74.125</span><span class="number">.23</span><span class="number">.138</span>    <span class="number">80</span></div></pre></td></tr></table></figure>
+<p><strong>tcptop</strong></p>
+<p>tcptop summarize TCP send/recv throughput by host.</p>
+<figure class="highlight dns"><table><tr><td class="code"><pre><div class="line"># ./tcptop -C <span class="number">1</span> <span class="number">3</span></div><div class="line">Tracing... Output every <span class="number">1</span> secs. Hit Ctrl-C to end</div><div class="line"></div><div class="line"><span class="number">08</span>:<span class="number">06</span>:<span class="number">45</span> loadavg: <span class="number">0.04 0.01</span> <span class="number">0.00 2/174</span> <span class="number">3099</span></div><div class="line"></div><div class="line">PID    COMM         LADDR                 RADDR                  RX_KB  TX_KB</div><div class="line"><span class="number">1740</span>   sshd         <span class="number">192.168.1.99</span>:<span class="number">22</span>         <span class="number">192.168.0.29</span>:<span class="number">60315</span>         <span class="number">0</span>      <span class="number">0</span></div><div class="line"></div><div class="line"><span class="number">08</span>:<span class="number">06</span>:<span class="number">46</span> loadavg: <span class="number">0.04 0.01</span> <span class="number">0.00 2/174</span> <span class="number">3099</span></div><div class="line"></div><div class="line">PID    COMM         LADDR                 RADDR                  RX_KB  TX_KB</div><div class="line"><span class="number">1740</span>   sshd         <span class="number">192.168.1.99</span>:<span class="number">22</span>         <span class="number">192.168.0.29</span>:<span class="number">60315</span>         <span class="number">0</span>      <span class="number">0</span></div><div class="line"></div><div class="line"><span class="number">08</span>:<span class="number">06</span>:<span class="number">47</span> loadavg: <span class="number">0.04 0.01</span> <span class="number">0.00 2/174</span> <span class="number">3099</span></div><div class="line"></div><div class="line">PID    COMM         LADDR                 RADDR                  RX_KB  TX_KB</div><div class="line"><span class="number">1740</span>   sshd         <span class="number">192.168.1.99</span>:<span class="number">22</span>         <span class="number">192.168.0.29</span>:<span class="number">60315</span>         <span class="number">0</span>      <span class="number">0</span></div></pre></td></tr></table></figure>
+<h2 id="Write-your-own"><a href="#Write-your-own" class="headerlink" title="Write your own"></a>Write your own</h2><p><strong>helloworld</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</div><div class="line"><span class="keyword">from</span> bcc <span class="keyword">import</span> BPF</div><div class="line"></div><div class="line">text=<span class="string">'int kprobe__sys_sync(void *ctx) &#123; bpf_trace_printk("Hello, World!\\n"); return 0; &#125;'</span></div><div class="line">prog=<span class="string">"""</span></div><div class="line">int hello(void *ctx) &#123;</div><div class="line">        bpf_trace_printk("Hello, World!\\n");</div><div class="line">        return 0;</div><div class="line">&#125;</div><div class="line">"""</div><div class="line"></div><div class="line">b = BPF(text=prog)</div><div class="line">b.attach_kprobe(event=<span class="string">"sys_clone"</span>, fn_name=<span class="string">"hello"</span>)</div><div class="line"></div><div class="line">print(<span class="string">"%-18s %-16s %-6s %s"</span> % (<span class="string">"TIME(s)"</span>, <span class="string">"COMM"</span>, <span class="string">"PID"</span>, <span class="string">"MESSAGE"</span>))</div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">                (task, pid, cpu, flags, ts, msg) = b.trace_fields()</div><div class="line">        <span class="keyword">except</span> ValueError:</div><div class="line">                <span class="keyword">continue</span></div><div class="line">        print(<span class="string">"%-18.9f %-16s %-6d %s"</span> % (ts, task, pid, msg))</div></pre></td></tr></table></figure>
+<p><strong>using BPF_PERF_OUTPUT</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</div><div class="line"><span class="keyword">from</span> bcc <span class="keyword">import</span> BPF</div><div class="line"><span class="keyword">import</span> ctypes <span class="keyword">as</span> ct</div><div class="line"></div><div class="line"><span class="comment"># load BPF program</span></div><div class="line">b = BPF(text=<span class="string">"""</span></div><div class="line">struct data_t &#123;</div><div class="line">    u64 ts;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">BPF_PERF_OUTPUT(events);</div><div class="line"></div><div class="line">void kprobe__sys_sync(void *ctx) &#123;</div><div class="line">    struct data_t data = &#123;&#125;;</div><div class="line">    data.ts = bpf_ktime_get_ns() / 1000;</div><div class="line">    events.perf_submit(ctx, &amp;data, sizeof(data));</div><div class="line">&#125;;</div><div class="line">""")</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span><span class="params">(ct.Structure)</span>:</span></div><div class="line">    _fields_ = [</div><div class="line">        (<span class="string">"ts"</span>, ct.c_ulonglong)</div><div class="line">    ]</div><div class="line"></div><div class="line"><span class="comment"># header</span></div><div class="line">print(<span class="string">"%-18s %s"</span> % (<span class="string">"TIME(s)"</span>, <span class="string">"CALL"</span>))</div><div class="line"></div><div class="line"><span class="comment"># process event</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_event</span><span class="params">(cpu, data, size)</span>:</span></div><div class="line">    event = ct.cast(data, ct.POINTER(Data)).contents</div><div class="line">    print(<span class="string">"%-18.9f sync()"</span> % (float(event.ts) / <span class="number">1000000</span>))</div><div class="line"></div><div class="line"><span class="comment"># loop with callback to print_event</span></div><div class="line">b[<span class="string">"events"</span>].open_perf_buffer(print_event)</div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    b.kprobe_poll()</div></pre></td></tr></table></figure>
+<p>More python turorials <a href="https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md" target="_blank" rel="external">https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md</a>.</p>
+<h2 id="bcc-user-level-probes"><a href="#bcc-user-level-probes" class="headerlink" title="bcc user-level probes"></a>bcc user-level probes</h2><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</div><div class="line"><span class="keyword">from</span> bcc <span class="keyword">import</span> BPF</div><div class="line"><span class="keyword">from</span> time <span class="keyword">import</span> strftime</div><div class="line"><span class="keyword">import</span> ctypes <span class="keyword">as</span> ct</div><div class="line"></div><div class="line"><span class="comment"># load BPF program</span></div><div class="line">bpf_text = <span class="string">"""</span></div><div class="line">#include &lt;uapi/linux/ptrace.h&gt;</div><div class="line"></div><div class="line">struct str_t &#123;</div><div class="line">    u64 pid;</div><div class="line">    char str[80];</div><div class="line">&#125;;</div><div class="line"></div><div class="line">BPF_PERF_OUTPUT(events);</div><div class="line"></div><div class="line">int printret(struct pt_regs *ctx) &#123;</div><div class="line">    struct str_t data  = &#123;&#125;;</div><div class="line">    u32 pid;</div><div class="line">    if (!PT_REGS_RC(ctx))</div><div class="line">        return 0;</div><div class="line">    pid = bpf_get_current_pid_tgid();</div><div class="line">    data.pid = pid;</div><div class="line">    bpf_probe_read(&amp;data.str, sizeof(data.str), (void *)PT_REGS_RC(ctx));</div><div class="line">    events.perf_submit(ctx,&amp;data,sizeof(data));</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;;</div><div class="line">"""</div><div class="line">STR_DATA = <span class="number">80</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span><span class="params">(ct.Structure)</span>:</span></div><div class="line">    _fields_ = [</div><div class="line">        (<span class="string">"pid"</span>, ct.c_ulonglong),</div><div class="line">        (<span class="string">"str"</span>, ct.c_char * STR_DATA)</div><div class="line">    ]</div><div class="line"></div><div class="line">b = BPF(text=bpf_text)</div><div class="line">b.attach_uretprobe(name=<span class="string">"/bin/bash"</span>, sym=<span class="string">"readline"</span>, fn_name=<span class="string">"printret"</span>)</div><div class="line"></div><div class="line"><span class="comment"># header</span></div><div class="line">print(<span class="string">"%-9s %-6s %s"</span> % (<span class="string">"TIME"</span>, <span class="string">"PID"</span>, <span class="string">"COMMAND"</span>))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_event</span><span class="params">(cpu, data, size)</span>:</span></div><div class="line">    event = ct.cast(data, ct.POINTER(Data)).contents</div><div class="line">    print(<span class="string">"%-9s %-6d %s"</span> % (strftime(<span class="string">"%H:%M:%S"</span>), event.pid, event.str))</div><div class="line"></div><div class="line">b[<span class="string">"events"</span>].open_perf_buffer(print_event)</div><div class="line"><span class="keyword">while</span> <span class="number">1</span>:</div><div class="line">    b.kprobe_poll()</div></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="code"><pre><div class="line"># ./<span class="selector-tag">bashreadline</span></div><div class="line"><span class="selector-tag">TIME</span>      <span class="selector-tag">PID</span>    <span class="selector-tag">COMMAND</span></div><div class="line"><span class="selector-tag">08</span><span class="selector-pseudo">:22</span><span class="selector-pseudo">:44</span>  <span class="selector-tag">2070</span>   <span class="selector-tag">ls</span> /</div><div class="line"><span class="selector-tag">08</span><span class="selector-pseudo">:22</span><span class="selector-pseudo">:56</span>  <span class="selector-tag">2070</span>   <span class="selector-tag">ping</span> <span class="selector-tag">-c3</span> <span class="selector-tag">google</span><span class="selector-class">.com</span></div><div class="line"></div><div class="line"># ./<span class="selector-tag">gethostlatency</span></div><div class="line"><span class="selector-tag">TIME</span>      <span class="selector-tag">PID</span>    <span class="selector-tag">COMM</span>                  <span class="selector-tag">LATms</span> <span class="selector-tag">HOST</span></div><div class="line"><span class="selector-tag">08</span><span class="selector-pseudo">:23</span><span class="selector-pseudo">:26</span>  <span class="selector-tag">3370</span>   <span class="selector-tag">ping</span>                   <span class="selector-tag">2</span><span class="selector-class">.00</span> <span class="selector-tag">google</span><span class="selector-class">.com</span></div><div class="line"><span class="selector-tag">08</span><span class="selector-pseudo">:23</span><span class="selector-pseudo">:37</span>  <span class="selector-tag">3372</span>   <span class="selector-tag">ping</span>                  <span class="selector-tag">56</span><span class="selector-class">.00</span> <span class="selector-tag">baidu</span><span class="selector-class">.com</span></div></pre></td></tr></table></figure>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><ul>
+<li><a href="https://github.com/iovisor/bcc/tree/master/examples/networking" target="_blank" rel="external">https://github.com/iovisor/bcc/tree/master/examples/networking</a></li>
+<li><a href="http://borkmann.ch/talks/2016_fosdem.pdf" target="_blank" rel="external">tc eBPF</a></li>
+</ul>
+<h2 id="BPF"><a href="#BPF" class="headerlink" title="BPF"></a>BPF</h2><p>BPF, as in Berkeley Packet Filter, was initially conceived in 1992 so as to provide a way to filter packets and to avoid useless packet copies from kernel to userspace. It initially consisted in a simple bytecode that is injected from userspace into the kernel, where it is checked by a verifier—to prevent kernel crashes or security issues—and attached to a socket, then run on each received packet.The simplicity of the language as well as the existence of an in-kernel Just-In-Time (JIT) compiling machine for BPF were factors for the excellent performances of this tool.</p>
+<p>Then in 2013, Alexei Starovoitov completely reshaped it, started to add new functionalities and to improve the performances of BPF. This new version is designated as eBPF (for “extended BPF”), while the former becomes cBPF (“classic” BPF). New features such as maps and tail calls appeared. The JIT machines were rewritten. </p>
+<h2 id="IO-Visor"><a href="#IO-Visor" class="headerlink" title="IO Visor"></a>IO Visor</h2><p>The IO Visor Project is an open source project and a community of developers to accelerate the innovation, development, and sharing of virtualized in-kernel IO services for tracing, analytics, monitoring, security and networking functions.</p>
+<p>XDP or eXpress Data Path provides a high performance, programmable network data path in the Linux kernel as part of the IO Visor Project. XDP provides bare metal packet processing at the lowest point in the software stack which makes it ideal for speed without compromising programmability. Furthermore, new functions can be implemented dynamically with the integrated fast path without kernel modification.</p>
+<p><img src="https://www.iovisor.org/wp-content/uploads/2016/09/xdp-packet-processing-1024x560.png" alt=""></p>
+<p><strong>Links</strong></p>
+<ul>
+<li><a href="https://www.iovisor.org/" target="_blank" rel="external">https://www.iovisor.org/</a></li>
+<li><a href="https://www.iovisor.org/technology/ebpf" target="_blank" rel="external">https://www.iovisor.org/technology/ebpf</a></li>
+<li><a href="https://www.iovisor.org/technology/xdp" target="_blank" rel="external">https://www.iovisor.org/technology/xdp</a></li>
+<li><a href="https://github.com/iovisor/bpf-docs" target="_blank" rel="external">https://github.com/iovisor/bpf-docs</a></li>
+<li><a href="https://www.kernel.org/doc/Documentation/networking/filter.txt" target="_blank" rel="external">https://www.kernel.org/doc/Documentation/networking/filter.txt</a></li>
+<li><a href="https://events.linuxfoundation.org/sites/events/files/slides/iovisor-lc-bof-2016.pdf" target="_blank" rel="external">https://events.linuxfoundation.org/sites/events/files/slides/iovisor-lc-bof-2016.pdf</a></li>
+<li><a href="https://suchakra.wordpress.com/2015/08/12/bpf-internals-ii/" target="_blank" rel="external">https://suchakra.wordpress.com/2015/08/12/bpf-internals-ii/</a></li>
+<li><a href="https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/" target="_blank" rel="external">https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/</a></li>
+<li><a href="https://github.com/cilium/cilium" target="_blank" rel="external">https://github.com/cilium/cilium</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode.jpg" alt="Feisky wechat" style="width: 200px; max-width: 100%;"/>
+    <div>微信公众号订阅</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">93</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BPF-Compiler-Collection-BCC-Tools-for-BPF-based-Linux-IO-analysis-networking-monitoring"><span class="nav-number">1.</span> <span class="nav-text">BPF Compiler Collection (BCC) - Tools for BPF-based Linux IO analysis, networking, monitoring</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-usage-of-bcc-（tutorial）"><span class="nav-number">1.1.</span> <span class="nav-text">Basic usage of bcc （tutorial）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Write-your-own"><span class="nav-number">1.2.</span> <span class="nav-text">Write your own</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bcc-user-level-probes"><span class="nav-number">1.3.</span> <span class="nav-text">bcc user-level probes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Networking"><span class="nav-number">1.4.</span> <span class="nav-text">Networking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPF"><span class="nav-number">1.5.</span> <span class="nav-text">BPF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO-Visor"><span class="nav-number">1.6.</span> <span class="nav-text">IO Visor</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
