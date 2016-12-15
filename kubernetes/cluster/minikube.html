@@ -89,15 +89,15 @@
 <meta name="description" content="Minikube相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
 安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
+<meta property="og:title" content="Minikube">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/cluster/minikube.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Minikube相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
 安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1">
 <meta property="og:image" content="http://feisky.xyz/media/14735740742630.jpg">
-<meta property="og:updated_time" content="2016-12-15T00:44:19.487Z">
+<meta property="og:updated_time" content="2016-12-15T01:01:11.437Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:title" content="Minikube">
 <meta name="twitter:description" content="Minikube相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
 安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1">
 <meta name="twitter:image" content="http://feisky.xyz/media/14735740742630.jpg">
@@ -124,13 +124,7 @@
   <link rel="canonical" href="http://feisky.xyz/kubernetes/cluster/minikube.html"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Minikube | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -160,7 +154,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -303,8 +297,66 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <h1 id="Minikube"><a href="#Minikube" class="headerlink" title="Minikube"></a>Minikube</h1><p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Minikube
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T08:11:07+00:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Minikube"><a href="#Minikube" class="headerlink" title="Minikube"></a>Minikube</h1><p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
 <p>OSX</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.8.0/mi</span>nikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
@@ -344,7 +396,43 @@ Available Commands:
   version          Print the version of minikube.
 </code></pre><p>更多请参考<a href="https://github.com/kubernetes/minikube。" target="_blank" rel="external">https://github.com/kubernetes/minikube。</a></p>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode.jpg" alt="Feisky wechat" style="width: 200px; max-width: 100%;"/>
+    <div>微信公众号订阅</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -595,6 +683,10 @@ Available Commands:
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 

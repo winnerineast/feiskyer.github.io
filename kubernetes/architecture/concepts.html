@@ -89,14 +89,14 @@
 <meta name="description" content="设计理念Kubernetes的核心技术概念和API对象API对象是K8s集群中的管理操作单元。K8s集群系统每支持一项新功能，引入一项新技术，一定会新引入对应的API对象，支持对该功能的管理操作。例如副本集Replica Set对应的API对象是RS。 
 每个API对象都有3大类属性：元数据metadata、规范spec和状态status。元数据是用来标识API对象的，每个对象都至少有3个元数据：">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
+<meta property="og:title" content="Kubernetes设计理念">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/architecture/concepts.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="设计理念Kubernetes的核心技术概念和API对象API对象是K8s集群中的管理操作单元。K8s集群系统每支持一项新功能，引入一项新技术，一定会新引入对应的API对象，支持对该功能的管理操作。例如副本集Replica Set对应的API对象是RS。 
 每个API对象都有3大类属性：元数据metadata、规范spec和状态status。元数据是用来标识API对象的，每个对象都至少有3个元数据：">
-<meta property="og:updated_time" content="2016-12-15T00:44:19.483Z">
+<meta property="og:updated_time" content="2016-12-15T01:01:11.433Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:title" content="Kubernetes设计理念">
 <meta name="twitter:description" content="设计理念Kubernetes的核心技术概念和API对象API对象是K8s集群中的管理操作单元。K8s集群系统每支持一项新功能，引入一项新技术，一定会新引入对应的API对象，支持对该功能的管理操作。例如副本集Replica Set对应的API对象是RS。 
 每个API对象都有3大类属性：元数据metadata、规范spec和状态status。元数据是用来标识API对象的，每个对象都至少有3个元数据：">
 
@@ -122,13 +122,7 @@
   <link rel="canonical" href="http://feisky.xyz/kubernetes/architecture/concepts.html"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Kubernetes设计理念 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -158,7 +152,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -301,8 +295,66 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <h1 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h1><h2 id="Kubernetes的核心技术概念和API对象"><a href="#Kubernetes的核心技术概念和API对象" class="headerlink" title="Kubernetes的核心技术概念和API对象"></a>Kubernetes的核心技术概念和API对象</h2><p>API对象是K8s集群中的管理操作单元。K8s集群系统每支持一项新功能，引入一项新技术，一定会新引入对应的API对象，支持对该功能的管理操作。例如副本集Replica Set对应的API对象是RS。 </p>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Kubernetes设计理念
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-15T01:01:11+00:00" content="2016-12-15">
+              2016-12-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h1><h2 id="Kubernetes的核心技术概念和API对象"><a href="#Kubernetes的核心技术概念和API对象" class="headerlink" title="Kubernetes的核心技术概念和API对象"></a>Kubernetes的核心技术概念和API对象</h2><p>API对象是K8s集群中的管理操作单元。K8s集群系统每支持一项新功能，引入一项新技术，一定会新引入对应的API对象，支持对该功能的管理操作。例如副本集Replica Set对应的API对象是RS。 </p>
 <p>每个API对象都有3大类属性：元数据metadata、规范spec和状态status。元数据是用来标识API对象的，每个对象都至少有3个元数据：namespace，name和uid；除此以外还有各种各样的标签labels用来标识和匹配不同的对象，例如用户可以用标签env来标识区分不同的服务部署环境，分别用env=dev、env=testing、env=production来标识开发、测试、生产的不同服务。规范描述了用户期望K8s集群中的分布式系统达到的理想状态（Desired State），例如用户可以通过复制控制器Replication Controller设置期望的Pod副本数为3；status描述了系统实际当前达到的状态（Status），例如系统当前实际的Pod副本数为2；那么复制控制器当前的程序逻辑就是自动启动新的Pod，争取达到副本数为3。 </p>
 <p>K8s中所有的配置都是通过API对象的spec去设置的，也就是用户通过配置系统的理想状态来改变系统，这是k8s重要设计理念之一，即所有的操作都是声明式（Declarative）的而不是命令式（Imperative）的。声明式操作在分布式系统中的好处是稳定，不怕丢操作或运行多次，例如设置副本数为3的操作运行多次也还是一个结果，而给副本数加1的操作就不是声明式的，运行多次结果就错了。 </p>
 <h3 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h3><p>K8s有很多技术概念，同时对应很多API对象，最重要的也是最基础的是微服务豆荚Pod。Pod是在K8s集群中运行部署应用或服务的最小单元，它是可以支持多容器的。Pod的设计理念是支持多个容器在一个Pod中共享网络地址和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。Pod对多容器的支持是K8最基础的设计理念。比如你运行一个操作系统发行版的软件仓库，一个Nginx容器用来发布软件，另一个容器专门用来从源仓库做同步，这两个容器的镜像不太可能是一个团队开发的，但是他们一块儿工作才能提供一个微服务；这种情况下，不同的团队各自开发构建自己的容器镜像，在部署的时候组合成一个微服务对外提供服务。 </p>
@@ -350,7 +402,43 @@
 <p>按照分布式系统一致性算法Paxos发明人计算机科学家<a href="http://research.microsoft.com/users/lamport/pubs/pubs.html" target="_blank" rel="external">Leslie Lamport</a>的理念，一个分布式系统有两类特性：安全性Safety和活性Liveness。安全性保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的；活性使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事，是尽力而为的。K8s系统的设计理念正好与Lamport安全性与活性的理念不谋而合，也正是因为K8s在引入功能和技术的时候，非常好地划分了安全性和活性，才可以让K8s能有这么快版本迭代，快速引入像RBAC、Federation和PetSet这种新功能。</p>
 <p>[1] <a href="http://www.infoq.com/cn/articles/kubernetes-and-cloud-native-applications-part01" target="_blank" rel="external">http://www.infoq.com/cn/articles/kubernetes-and-cloud-native-applications-part01</a></p>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode.jpg" alt="Feisky wechat" style="width: 200px; max-width: 100%;"/>
+    <div>微信公众号订阅</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -601,6 +689,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
