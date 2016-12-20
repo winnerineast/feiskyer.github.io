@@ -86,37 +86,28 @@
 
 
 
-<meta name="description" content="深入理解 Neutron — OpenStack 网络实现Neutron 是 OpenStack 项目中负责提供网络服务的组件，它基于软件定义网络的思想，实现了网络虚拟化下的资源管理。
-本书将剖析 Neutron 组件的原理和实现。
-在线阅读：GitBook 或 Github。
+<meta name="description" content="NodeNode维护模式kubectl drain NODE [Options]
 
-pdf 版本 下载
-epub 版本 下载
-
-本书源码在 Github 上维护，欢迎参与： https://github">
+它会删除该NODE上由ReplicationController, ReplicaSet, DaemonSet, StatefulSet or Job创建的Pod
+不删除mirror pods（因为不可通过API删除mirror pods）
+如果还有其它类型的Pod（比如不通过RC而直接通过kubectl crea">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
-<meta property="og:url" content="http://feisky.xyz/networking/neutron/README.html">
+<meta property="og:title" content="Node">
+<meta property="og:url" content="http://feisky.xyz/kubernetes/cluster/node.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="深入理解 Neutron — OpenStack 网络实现Neutron 是 OpenStack 项目中负责提供网络服务的组件，它基于软件定义网络的思想，实现了网络虚拟化下的资源管理。
-本书将剖析 Neutron 组件的原理和实现。
-在线阅读：GitBook 或 Github。
+<meta property="og:description" content="NodeNode维护模式kubectl drain NODE [Options]
 
-pdf 版本 下载
-epub 版本 下载
-
-本书源码在 Github 上维护，欢迎参与： https://github">
-<meta property="og:updated_time" content="2016-12-20T00:17:58.579Z">
+它会删除该NODE上由ReplicationController, ReplicaSet, DaemonSet, StatefulSet or Job创建的Pod
+不删除mirror pods（因为不可通过API删除mirror pods）
+如果还有其它类型的Pod（比如不通过RC而直接通过kubectl crea">
+<meta property="og:updated_time" content="2016-12-20T11:38:12.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
-<meta name="twitter:description" content="深入理解 Neutron — OpenStack 网络实现Neutron 是 OpenStack 项目中负责提供网络服务的组件，它基于软件定义网络的思想，实现了网络虚拟化下的资源管理。
-本书将剖析 Neutron 组件的原理和实现。
-在线阅读：GitBook 或 Github。
+<meta name="twitter:title" content="Node">
+<meta name="twitter:description" content="NodeNode维护模式kubectl drain NODE [Options]
 
-pdf 版本 下载
-epub 版本 下载
-
-本书源码在 Github 上维护，欢迎参与： https://github">
+它会删除该NODE上由ReplicationController, ReplicaSet, DaemonSet, StatefulSet or Job创建的Pod
+不删除mirror pods（因为不可通过API删除mirror pods）
+如果还有其它类型的Pod（比如不通过RC而直接通过kubectl crea">
 
 
 
@@ -137,16 +128,10 @@ epub 版本 下载
 
 
 
-  <link rel="canonical" href="http://feisky.xyz/networking/neutron/README.html"/>
+  <link rel="canonical" href="http://feisky.xyz/kubernetes/cluster/node.html"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Node | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -176,7 +161,7 @@ epub 版本 下载
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -319,71 +304,114 @@ epub 版本 下载
 
   <div id="posts" class="posts-expand">
     
-    
-      <h1 id="深入理解-Neutron-—-OpenStack-网络实现"><a href="#深入理解-Neutron-—-OpenStack-网络实现" class="headerlink" title="深入理解 Neutron — OpenStack 网络实现"></a>深入理解 Neutron — OpenStack 网络实现</h1><p><a href="https://wiki.openstack.org/wiki/Neutron" target="_blank" rel="external">Neutron</a> 是 OpenStack 项目中负责提供网络服务的组件，它基于软件定义网络的思想，实现了网络虚拟化下的资源管理。</p>
-<p>本书将剖析 Neutron 组件的原理和实现。</p>
-<p>在线阅读：<a href="https://www.gitbook.io/book/yeasy/openstack_understand_Neutron" target="_blank" rel="external">GitBook</a> 或 <a href="https://github.com/yeasy/openstack_understand_Neutron/blob/master/SUMMARY.md" target="_blank" rel="external">Github</a>。</p>
-<ul>
-<li>pdf 版本 <a href="https://www.gitbook.com/download/pdf/book/yeasy/openstack_understand_neutron" target="_blank" rel="external">下载</a></li>
-<li>epub 版本 <a href="https://www.gitbook.com/download/epub/book/yeasy/openstack_understand_neutron" target="_blank" rel="external">下载</a></li>
-</ul>
-<p>本书源码在 Github 上维护，欢迎参与： <a href="https://github.com/yeasy/openstack_understand_Neutron" target="_blank" rel="external">https://github.com/yeasy/openstack_understand_Neutron</a>。</p>
-<p>感谢所有的 <a href="https://github.com/yeasy/openstack_understand_Neutron/graphs/contributors" target="_blank" rel="external">贡献者</a>。</p>
-<h2 id="更新历史"><a href="#更新历史" class="headerlink" title="更新历史:"></a>更新历史:</h2><ul>
-<li>V0.9: 2015-06-29<ul>
-<li>添加对 DVR 更多细节分析。</li>
-</ul>
-</li>
-<li>V0.8: 2015-03-24<ul>
-<li>添加 LBaaS 服务分析；</li>
-</ul>
-</li>
-<li>V0.7: 2015-03-23<ul>
-<li>添加 VXLAN 模式分析；</li>
-<li>添加 DVR 服务分析。</li>
-</ul>
-</li>
-<li>V0.6: 2014-04-04<ul>
-<li>修正系统结构的图表；</li>
-<li>修正部分描述。</li>
-</ul>
-</li>
-<li>V0.5: 2014-03-24<ul>
-<li>添加对 vlan 模式下具体规则的分析；</li>
-<li>更新 GRE 模式下 answerfile 的 IP 信息。</li>
-</ul>
-</li>
-<li>V0.4: 2014-03-20<ul>
-<li>添加对安全组实现的完整分析，添加整体逻辑图表；</li>
-<li>添加 vlan 模式下的 RDO answer 文件（更新 IP 信息）。</li>
-</ul>
-</li>
-<li>V0.3: 2014-03-10<ul>
-<li>添加 GRE 模式下对流表规则分析；</li>
-<li>添加 GRE 模式下的 answer 文件。<br>*V0.2: 2014-03-06</li>
-<li>修正图表引用错误；</li>
-<li>添加对 GRE 模式下流表细节分析。</li>
-</ul>
-</li>
-<li>V0.1: 2014-02-20<ul>
-<li>开始整体结构。</li>
-</ul>
-</li>
-</ul>
-<h2 id="参加步骤"><a href="#参加步骤" class="headerlink" title="参加步骤"></a>参加步骤</h2><ul>
-<li><p>在 GitHub 上 <code>fork</code> 到自己的仓库，如 <code>user/openstack_understand_Neutron</code>，然后 <code>clone</code> 到本地，并设置用户信息。</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">$ git clone git@github<span class="selector-class">.com</span>:user/openstack_understand_Neutron<span class="selector-class">.git</span></div><div class="line">$ cd openstack_understand_Neutron</div><div class="line">$ git config user<span class="selector-class">.name</span> <span class="string">"User"</span></div><div class="line">$ git config user<span class="selector-class">.email</span> user@email.com</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改代码后提交，并推送到自己的仓库。</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span><span class="comment">#do some change on the content</span></div><div class="line"><span class="variable">$ </span>git commit -am <span class="string">"Fix issue #1: change helo to hello"</span></div><div class="line"><span class="variable">$ </span>git push</div></pre></td></tr></table></figure>
-</li>
-<li><p>在 GitHub 网站上提交 pull request。</p>
-</li>
-<li>定期使用项目仓库内容更新自己仓库内容。<figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">$ git remote add upstream https://github.com/yeasy/openstack_understand_Neutron</div><div class="line">$ git fetch upstream</div><div class="line">$ git checkout <span class="keyword">master</span></div><div class="line"><span class="title">$</span> git rebase upstream/<span class="keyword">master</span></div><div class="line"><span class="title">$</span> git push -f origin <span class="literal">master</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Node
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T08:11:07+00:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h1><h2 id="Node维护模式"><a href="#Node维护模式" class="headerlink" title="Node维护模式"></a>Node维护模式</h2><figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">kubectl drain <span class="keyword">NODE</span> <span class="title">[Options</span>]</div></pre></td></tr></table></figure>
+<ul>
+<li>它会删除该NODE上由ReplicationController, ReplicaSet, DaemonSet, StatefulSet or Job创建的Pod</li>
+<li>不删除mirror pods（因为不可通过API删除mirror pods）</li>
+<li>如果还有其它类型的Pod（比如不通过RC而直接通过kubectl create的Pod）并且没有—force选项，该命令会直接失败</li>
+<li>如果命令中增加了—force选项，则会强制删除这些不是通过ReplicationController, Job或者DaemonSet创建的Pod</li>
+</ul>
+<p>有的时候不需要evict pod，只需要标记Node不可调用，可以用<code>kubectl cordon</code>命令。</p>
+<p>恢复的话只需要运行<code>kubectl uncordon NODE</code>将NODE重新改成可调度状态。</p>
+<h2 id="Taint-tolerant"><a href="#Taint-tolerant" class="headerlink" title="Taint tolerant"></a>Taint tolerant</h2><p>// taint节点，阻止新的pod上来<br>kubectl taint nodes node08 dedicated=maintaining:NoSchedule<br>// label节点，只允许指定的pod上来<br>kubectl label nodes node08 hyper/nodetype=maintaining</p>
+<p>// 然后在Pod定义中加入如下annotation：<br><figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">annotations:</div><div class="line">      scheduler<span class="selector-class">.alpha</span><span class="selector-class">.kubernetes</span><span class="selector-class">.io</span>/tolerations: <span class="string">'[&#123;"key":"dedicated", "value":"maintaining"&#125;]'</span></div><div class="line">      scheduler<span class="selector-class">.alpha</span><span class="selector-class">.kubernetes</span><span class="selector-class">.io</span>/affinity: &gt;</div><div class="line">        &#123;</div><div class="line">          <span class="string">"nodeAffinity"</span>: &#123;</div><div class="line">            <span class="string">"requiredDuringSchedulingIgnoredDuringExecution"</span>: &#123;</div><div class="line">              <span class="string">"nodeSelectorTerms"</span>: [</div><div class="line">                &#123;</div><div class="line">                  <span class="string">"matchExpressions"</span>: [</div><div class="line">                    &#123;</div><div class="line">                      <span class="string">"key"</span>: <span class="string">"hyper/nodetype"</span>,</div><div class="line">                      <span class="string">"operator"</span>: <span class="string">"In"</span>,</div><div class="line">                      <span class="string">"values"</span>: [<span class="string">"maintaining"</span>]</div><div class="line">                    &#125;</div><div class="line">                  ]</div><div class="line">                &#125;</div><div class="line">              ]</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode.jpg" alt="Feisky wechat" style="width: 200px; max-width: 100%;"/>
+    <div>微信公众号订阅</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -527,7 +555,7 @@ epub 版本 下载
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#深入理解-Neutron-—-OpenStack-网络实现"><span class="nav-number">1.</span> <span class="nav-text">深入理解 Neutron — OpenStack 网络实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新历史"><span class="nav-number">1.1.</span> <span class="nav-text">更新历史:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参加步骤"><span class="nav-number">1.2.</span> <span class="nav-text">参加步骤</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Node"><span class="nav-number">1.</span> <span class="nav-text">Node</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node维护模式"><span class="nav-number">1.1.</span> <span class="nav-text">Node维护模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Taint-tolerant"><span class="nav-number">1.2.</span> <span class="nav-text">Taint tolerant</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -634,6 +662,10 @@ epub 版本 下载
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
