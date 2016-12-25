@@ -8,833 +8,224 @@
     
     <url>
         <loc>http://feisky.xyz/virtualization/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.331Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.779Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/virtualization/SR-IOV/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.331Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.779Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/virtualization/pvcall/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.331Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.779Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/virtualization/vsocks/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.331Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/programing/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.327Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/tags/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.327Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/programing/go.html</loc>
-        <lastmod>2016-12-24T12:24:21.327Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.779Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/virtualization/GPU/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.327Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.779Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/programing/index.html</loc>
+        <lastmod>2016-12-25T01:16:33.775Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/tags/index.html</loc>
+        <lastmod>2016-12-25T01:16:33.775Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/programing/go.html</loc>
+        <lastmod>2016-12-25T01:16:33.775Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/tracing/sysdig/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.327Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.775Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/tracing/systemtap/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.327Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/pages/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.307Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.775Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/pages/index2.html</loc>
-        <lastmod>2016-12-24T12:24:21.307Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/ovs/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/intro/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/lbaas/arch.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/lbaas/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/lbaas/other.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/lbaas/scenario.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/namespace/dhcp.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/namespace/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/namespace/router.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/forward.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/global_logic.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/other.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/output.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vlan_mode/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/quick_find.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vlan_mode/compute_node.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vlan_mode/network_node.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/ref/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/tool/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/tool/easyovs.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/security_group/input.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/compute_node/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/compute_node/br-ex.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/compute_node/br-tun.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/compute_node/br-int.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/network_node/br-ex.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/network_node/br-tun.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/network_node/br-int.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/vxlan_mode/network_node/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/guide.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/appendix_install/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/compute_node/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/concept/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/config.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/scenario.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/workflow.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/implementation.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/network_node.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/fwaas/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/fwaas/arch.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/fwaas/scenario.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/fwaas/other.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/gre_mode/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/gre_mode/compute_node.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/gre_mode/network_node.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/neutron/dvr/compute_node.html</loc>
-        <lastmod>2016-12-24T12:24:21.083Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/basic/nvgre.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/basic/vxlan.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/PCIe.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/hardware.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/forwarding.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/introduction.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/io-virtualization.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/numa.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/offload.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/ovs-dpdk.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/dpdk/queue.html</loc>
-        <lastmod>2016-12-24T12:24:21.079Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/basic/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.075Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/plugins/auth.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/plugins/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/plugins/CRI.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/plugins/network.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/plugins/other.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/plugins/volume.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/basic/dhcp.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/basic/fragment.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/networking/basic/gre.html</loc>
-        <lastmod>2016-12-24T12:24:21.071Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/cluster-federation/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.067Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/introduction/cluster.html</loc>
-        <lastmod>2016-12-24T12:24:21.067Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/introduction/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.067Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/introduction/201.html</loc>
-        <lastmod>2016-12-24T12:24:21.067Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/introduction/concepts.html</loc>
-        <lastmod>2016-12-24T12:24:21.067Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/introduction/101.html</loc>
-        <lastmod>2016-12-24T12:24:21.067Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.755Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/kubernetes-dev/index.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/appendix/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/architecture/README.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/architecture/Secret.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/architecture/Service.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/architecture/cloud-native.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/kubernetes/architecture/Volume.html</loc>
-        <lastmod>2016-12-24T12:24:21.063Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/container/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.847Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/distributed/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.847Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.559Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/distributed/raft.html</loc>
-        <lastmod>2016-12-24T12:24:20.847Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.347Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/distributed/zab.html</loc>
-        <lastmod>2016-12-24T12:24:20.847Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.347Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/container/index.html</loc>
+        <lastmod>2016-12-25T01:16:33.343Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/distributed/index.html</loc>
+        <lastmod>2016-12-25T01:16:33.343Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/distributed/paxos.html</loc>
-        <lastmod>2016-12-24T12:24:20.847Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.343Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/container/selinux/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.847Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/container/drawbridge.html</loc>
-        <lastmod>2016-12-24T12:24:20.839Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/container/docker/networking.html</loc>
-        <lastmod>2016-12-24T12:24:20.839Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/container/docker/storage.html</loc>
-        <lastmod>2016-12-24T12:24:20.839Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/container/docker/internal.html</loc>
-        <lastmod>2016-12-24T12:24:20.839Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/container/docker/swarmkit.html</loc>
-        <lastmod>2016-12-24T12:24:20.839Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/categories/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.835Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/cloud/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.835Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://feisky.xyz/cloud/ceph.html</loc>
-        <lastmod>2016-12-24T12:24:20.835Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.343Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/container/cri-o.html</loc>
-        <lastmod>2016-12-24T12:24:20.835Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/container/drawbridge.html</loc>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/container/docker/1.12.html</loc>
-        <lastmod>2016-12-24T12:24:20.835Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/container/docker/networking.html</loc>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/container/docker/internal.html</loc>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/container/docker/storage.html</loc>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/container/docker/swarmkit.html</loc>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/container/docker/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.835Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.335Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/categories/index.html</loc>
+        <lastmod>2016-12-25T01:16:33.331Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/cloud/index.html</loc>
+        <lastmod>2016-12-25T01:16:33.331Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://feisky.xyz/cloud/ceph.html</loc>
+        <lastmod>2016-12-25T01:16:33.331Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/about/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.807Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.307Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/404.html</loc>
-        <lastmod>2016-12-24T12:24:20.799Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.299Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://feisky.xyz/Cloud-Native/index.html</loc>
-        <lastmod>2016-12-24T12:24:20.799Z</lastmod>
+        <lastmod>2016-12-25T01:16:33.299Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>

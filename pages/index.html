@@ -87,39 +87,93 @@
 
 
 <meta name="description" content="一些读书笔记和非常有趣的文章
+容器的世界
+Kubernetes指南
+Kubernetes开发环境指南
+CRI-O
+Serverless
+docker实现原理
+docker指南
+容器编排系统对比
+容器网络方案对比
+Docker 1.12
+SELinux
 
-ol{
-        counter-reset: li; 
-        list-style: none; 
-        *list-style: decimal; 
-        font: 20px &apos;trebuchet MS&apos;, &apos;lucida sans&apos;;
-        padding: 1;
-        margin-bottom: 1">
+虚拟化
+GPU虚拟化
+SR-IOV
+VFIO
+
+分布式系统
+分布式系统简介
+Paxos
+Raft
+Zab
+
+SDN网络
+SDN网络
+DPDK">
 <meta property="og:type" content="website">
 <meta property="og:title" content="读书笔记">
 <meta property="og:url" content="http://feisky.xyz/pages/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="一些读书笔记和非常有趣的文章
+容器的世界
+Kubernetes指南
+Kubernetes开发环境指南
+CRI-O
+Serverless
+docker实现原理
+docker指南
+容器编排系统对比
+容器网络方案对比
+Docker 1.12
+SELinux
 
-ol{
-        counter-reset: li; 
-        list-style: none; 
-        *list-style: decimal; 
-        font: 20px &apos;trebuchet MS&apos;, &apos;lucida sans&apos;;
-        padding: 1;
-        margin-bottom: 1">
-<meta property="og:updated_time" content="2016-12-24T12:24:21.307Z">
+虚拟化
+GPU虚拟化
+SR-IOV
+VFIO
+
+分布式系统
+分布式系统简介
+Paxos
+Raft
+Zab
+
+SDN网络
+SDN网络
+DPDK">
+<meta property="og:updated_time" content="2016-12-25T01:16:33.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读书笔记">
 <meta name="twitter:description" content="一些读书笔记和非常有趣的文章
+容器的世界
+Kubernetes指南
+Kubernetes开发环境指南
+CRI-O
+Serverless
+docker实现原理
+docker指南
+容器编排系统对比
+容器网络方案对比
+Docker 1.12
+SELinux
 
-ol{
-        counter-reset: li; 
-        list-style: none; 
-        *list-style: decimal; 
-        font: 20px &apos;trebuchet MS&apos;, &apos;lucida sans&apos;;
-        padding: 1;
-        margin-bottom: 1">
+虚拟化
+GPU虚拟化
+SR-IOV
+VFIO
+
+分布式系统
+分布式系统简介
+Paxos
+Raft
+Zab
+
+SDN网络
+SDN网络
+DPDK">
 
 
 
@@ -143,13 +197,7 @@ ol{
   <link rel="canonical" href="http://feisky.xyz/pages/"/>
 
 
-  <title>
-  
-
-  
-    读书笔记 | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 读书笔记 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -179,7 +227,7 @@ ol{
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -322,201 +370,131 @@ ol{
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <p><em>一些读书笔记和非常有趣的文章</em></p>
-<style>
-ol{
-        counter-reset: li; 
-        list-style: none; 
-        *list-style: decimal; 
-        font: 20px 'trebuchet MS', 'lucida sans';
-        padding: 1;
-        margin-bottom: 1em;
-        text-shadow: 0 1px 0 rgba(255,255,255,.5);
-        margin: 0 0 0 1em;
-}
+      <header class="post-header">
 
-.rounded-list a{
-    position: relative;
-    display: block;
-    padding: .4em .4em .4em 2em;
-    *padding: .2em;
-    margin: .2em 0;
-    background: #ddd;
-    color: #444;
-    text-decoration: none;
-    border-radius: .3em;
-    transition: all .3s ease-out; 
-}
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                读书笔记
+              
+            
+          </h1>
+        
 
-.rounded-list a:hover{
-    background: #eee;
-}
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-18T06:20:54+00:00" content="2016-09-18">
+              2016-09-18
+            </time>
+          </span>
 
-.rounded-list a:hover:before{
-    transform: rotate(360deg); 
-}
+          
 
-.rounded-list a:before{
-    content: counter(li);
-    counter-increment: li;
-    position: absolute; 
-    left: -1.3em;
-    top: 50%;
-    margin-top: -1.3em;
-    background: #87ceeb;
-    height: 2em;
-    width: 2em;
-    line-height: 2em;
-    border: .3em solid #fff;
-    text-align: center;
-    font-weight: bold;
-    border-radius: 2em;
-    transition: all .3s ease-out;
-}
+          
+            
+          
 
-.circle-list li{
-    padding: 2.5em;
-    border-bottom: 1px dashed #ccc;
-}
+          
 
-.circle-list h2{
-    position: relative;
-    margin: 0;
-}
+          
+          
 
-.circle-list p{
-    margin: 0;
-}
+          
+        </div>
+      </header>
+    
 
-.circle-list h2:before{
-    content: counter(li);
-    counter-increment: li;
-    position: absolute;    
-    z-index: -1;
-    left: -1.3em;
-    top: -.8em;
-    background: #f5f5f5;
-    height: 1.5em;
-    width: 1.5em;
-    border: .1em solid rgba(0,0,0,.05);
-    text-align: center;
-    font: italic bold 1em/1.5em Georgia, Serif;
-    color: #ccc;
-    border-radius: 1.5em;
-    transition: all .2s ease-out;    
-}
 
-.circle-list li:hover h2:before{
-    background-color: #ffd797;
-    border-color: rgba(0,0,0,.08);
-    border-width: .2em;
-    color: #444;
-    transform: scale(1.5);
-}
+    <div class="post-body" itemprop="articleBody">
 
-            /*rectangle list*/
-        .rectangle-list a {
-            position: relative;
-            display: block;
-            padding: 0.4em 0.4em 0.4em 0.8em;
-            *padding: 0.4em;
-            margin: 0.5em 0 0.5em 2em;
-            background: #ddd;
-            color: #444;
-            text-decoration: none;
-            /*transition动画效果*/
-            -webkit-transition: all 0.3s ease-out;
-            -moz-transition: all 0.3s ease-out;
-            -ms-transition: all 0.3s ease-out;
-            -o-transition: all 0.3s ease-out;
-            transition: all 0.3s ease-out;
-        }
-        .rectangle-list a:hover {
-            background: #eee;
-        }
+      
+      
 
-        .rectangle-list a::before {
-
-            content: counter(li);
-            counter-increment: li;
-
-            position: absolute;
-            left: -2.5em;
-            top: 50%;
-            margin-top: -1em;
-            background: #fa8072;
-            width: 2em;
-            height: 2em;
-            line-height: 2em;
-            text-align: center;
-            -webkit-transition: all 0.3s ease-out;
-            -moz-transition: all 0.3s ease-out;
-            -o-transition: all 0.3s ease-out;
-            -ms-transition: all 0.3s ease-out;
-            transition: all 0.3s ease-out;
-        }
-        .rectangle-list a::after {
-            position: absolute;
-            content:"";
-            border: 0.5em solid transparent;
-            left: -1em;
-            top: 50%;
-            margin-top: -0.5em;
-            -webkit-transition: all 0.3s ease-out;
-            -moz-transition: all 0.3s ease-out;
-            -o-transition: all 0.3s ease-out;
-            -ms-transition: all 0.3s ease-out;
-            transition: all 0.3s ease-out;
-        }
-        .rectangle-list a:hover::after {
-            left: -0.5em;
-            border-left-color: #fa8072;
-        }
-</style>
-
-<h2 id="容器的世界"><a href="#容器的世界" class="headerlink" title="容器的世界"></a>容器的世界</h2><ol class="rounded-list">
-<li><a href="/kubernetes/">Kubernetes指南</a></li>
-<li><a href="/kubernetes-dev.html">Kubernetes开发环境指南</a></li>
-<li><a href="/container/docker/">docker指南</a></li>
+      
+        <p><em>一些读书笔记和非常有趣的文章</em></p>
+<h2 id="容器的世界"><a href="#容器的世界" class="headerlink" title="容器的世界"></a>容器的世界</h2><ul>
+<li><a href="http://feisky.xyz/k8s/">Kubernetes指南</a></li>
+<li><a href="http://feisky.xyz/kubernetes-dev/">Kubernetes开发环境指南</a></li>
 <li><a href="/container/cri-o.html">CRI-O</a></li>
 <li><a href="/2016/02/26/Notes-about-serverless/">Serverless</a></li>
 <li><a href="docker-internal.html">docker实现原理</a></li>
+<li><a href="/container/docker/">docker指南</a></li>
 <li><a href="http://calcotestudios.com/ccco" target="_blank" rel="external">容器编排系统对比</a></li>
 <li><a href="https://leecalcote.github.io/ccco/overlay-underlay-betting-on-container-networking.html" target="_blank" rel="external">容器网络方案对比</a></li>
 <li><a href="http://dockerconrecap-leecalcote.rhcloud.com/#/" target="_blank" rel="external">Docker 1.12</a></li>
 <li><a href="/container/selinux/">SELinux</a></li>
-</ol>
-
-<h2 id="虚拟化"><a href="#虚拟化" class="headerlink" title="虚拟化"></a>虚拟化</h2><ol class="rounded-list">
+</ul>
+<h2 id="虚拟化"><a href="#虚拟化" class="headerlink" title="虚拟化"></a>虚拟化</h2><ul>
 <li><a href="/virtualization/GPU/">GPU虚拟化</a></li>
 <li><a href="/virtualization/SR-IOV/">SR-IOV</a></li>
 <li><a href="http://awilliam.github.io/presentations/KVM-Forum-2016/" target="_blank" rel="external">VFIO</a></li>
-</ol>
+</ul>
+<h2 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h2><ul>
+<li><a href="http://feisky.xyz/distributed/">分布式系统简介</a></li>
+<li><a href="http://feisky.xyz/distributed/paxos.html">Paxos</a></li>
+<li><a href="http://feisky.xyz/distributed/raft.html">Raft</a></li>
+<li><a href="http://feisky.xyz/distributed/zab.html">Zab</a></li>
+</ul>
+<h2 id="SDN网络"><a href="#SDN网络" class="headerlink" title="SDN网络"></a>SDN网络</h2><ul>
+<li><a href="http://feisky.xyz/sdn/">SDN网络</a></li>
+<li><a href="http://feisky.xyz/sdn/dpdk/">DPDK</a></li>
+</ul>
 
-<h2 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h2><ol class="rounded-list">
-<li><a href="gfs.html">gfs</a></li>
-<li><a href="impala.html">impala</a></li>
-<li><a href="kafka.html">kafka</a></li>
-<li><a href="distributed-algorithms-in-nosql-databases.html">Distributed Algorithms in NoSQL Databases</a></li>
-<li><a href="distributed-system-reading.html">分布式系统资源链接</a></li>
-</ol>
+      
+    </div>
 
-<h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><ol class="rounded-list">
-<li><a href="gdb.html">gdb</a></li>
-<li><a href="/programing/go.html">Go语言技巧</a></li>
-<li><a href="python.html">python</a></li>
-<li><a href="java.html">java</a></li>
-</ol>
-
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol class="rounded-list">
-<li><a href="/2015/01/27/vagrant/">vagrant使用指南</a></li>
-<li><a href="mapreduce-a-major-step-backwards.html">MapReduce: A major step backwards（MapReduce：一个巨大的倒退）</a></li>
-<li><a href="design-pattern.html">design-pattern</a></li>
-</ol>
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode.jpg" alt="Feisky wechat" style="width: 200px; max-width: 100%;"/>
+    <div>微信公众号订阅</div>
+</div>
 
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -660,7 +638,7 @@ ol{
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器的世界"><span class="nav-number">1.</span> <span class="nav-text">容器的世界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟化"><span class="nav-number">2.</span> <span class="nav-text">虚拟化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式系统"><span class="nav-number">3.</span> <span class="nav-text">分布式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程语言"><span class="nav-number">4.</span> <span class="nav-text">编程语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器的世界"><span class="nav-number">1.</span> <span class="nav-text">容器的世界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟化"><span class="nav-number">2.</span> <span class="nav-text">虚拟化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式系统"><span class="nav-number">3.</span> <span class="nav-text">分布式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDN网络"><span class="nav-number">4.</span> <span class="nav-text">SDN网络</span></a></li></ol></div>
             
           </div>
         </section>
@@ -767,6 +745,10 @@ ol{
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
