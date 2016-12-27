@@ -104,7 +104,7 @@
 1) discovery: 选举产生PL(p">
 <meta property="og:image" content="http://feisky.xyz/images/14803431609804.png">
 <meta property="og:image" content="http://feisky.xyz/images/14803408244633.jpg">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.869Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zab">
 <meta name="twitter:description" content="ZabZab (Zookeeper atomic broadcast protocol)是Zookeeper内部用到的一致性协议。相比Paxos，Zab最大的特点是保证强一致性(strong consistency)。
@@ -347,6 +347,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -600,6 +607,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'distributed/zab.html';
+      var disqus_title = "Zab";
+      var disqus_url = 'http://feisky.xyz/distributed/zab.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

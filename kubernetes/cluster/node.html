@@ -100,7 +100,7 @@
 它会删除该NODE上由ReplicationController, ReplicaSet, DaemonSet, StatefulSet or Job创建的Pod
 不删除mirror pods（因为不可通过API删除mirror pods）
 如果还有其它类型的Pod（比如不通过RC而直接通过kubectl crea">
-<meta property="og:updated_time" content="2016-12-26T11:07:38.089Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node">
 <meta name="twitter:description" content="NodeNode维护模式kubectl drain NODE [Options]
@@ -344,6 +344,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/kubernetes/cluster/node.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="kubernetes/cluster/node.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -421,6 +428,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -678,6 +692,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'kubernetes/cluster/node.html';
+      var disqus_title = "Node";
+      var disqus_url = 'http://feisky.xyz/kubernetes/cluster/node.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

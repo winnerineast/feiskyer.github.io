@@ -96,7 +96,7 @@
 什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
 <meta property="og:image" content="http://feisky.xyz/images/createpod.png">
 <meta property="og:image" content="http://feisky.xyz/images/killpod.png">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.825Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes container runtime interface">
 <meta name="twitter:description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。
@@ -338,6 +338,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/Kubernetes-container-runtime-interface/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/24/Kubernetes-container-runtime-interface/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -459,6 +466,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -716,6 +730,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2016/09/24/Kubernetes-container-runtime-interface/';
+      var disqus_title = "Kubernetes container runtime interface";
+      var disqus_url = 'http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

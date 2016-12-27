@@ -96,7 +96,7 @@
 <meta property="og:description" content="Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：
 
 首先patch NODE，将其改为不可调度状态： kubectl patch nodes $NODENAME -p &amp;#39;{&amp;quot;spec&amp;quot;: {&amp;quot;unschedul">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.825Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes drain">
 <meta name="twitter:description" content="Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：
@@ -338,6 +338,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/17/Kubernetes-drain/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/17/Kubernetes-drain/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -447,6 +454,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -704,6 +718,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2016/02/17/Kubernetes-drain/';
+      var disqus_title = "Kubernetes drain";
+      var disqus_url = 'http://feisky.xyz/2016/02/17/Kubernetes-drain/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

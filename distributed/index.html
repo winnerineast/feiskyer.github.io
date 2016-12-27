@@ -98,7 +98,7 @@
 1）要想让数据有高可用性，就得写多份数据。2）写多份的问题会导致数据一致性的问题。3）数据一致性的问题又会引发性能问题。4）同时还要考虑两将军问题和拜占庭将军问题。
 一致性模型
 1）Weak 弱一致性：当你写入一个新值后，读操作在数据副本上可能读出来，也可能读不出来。比如：某些cache系统，网络游戏其它玩家的数">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.869Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Distributed">
 <meta name="twitter:description" content="Distributed分布式系统的一致性考虑在数据冗余情况下一致性和性能的问题，即：
@@ -331,6 +331,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -584,6 +591,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'distributed/index.html';
+      var disqus_title = "Distributed";
+      var disqus_url = 'http://feisky.xyz/distributed/index.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

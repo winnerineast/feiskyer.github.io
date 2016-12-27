@@ -101,7 +101,7 @@ NVI">
 <meta property="og:image" content="http://feisky.xyz/images/14765252266526.jpg">
 <meta property="og:image" content="http://feisky.xyz/images/14765252637092.jpg">
 <meta property="og:image" content="http://feisky.xyz/images/14765253042303.jpg">
-<meta property="og:updated_time" content="2016-12-26T11:07:38.281Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GPU虚拟化">
 <meta name="twitter:description" content="GPU虚拟化GPU（图形处理器单元）一开始的时候GPU 主要用于 3D 游戏的渲染，但是现在GPU已经广泛用于加速计算性负载，比如深度学习、VR等。GPU是由几百个核组成，因此可以并发处理数千个线程。尽管 GPU 的内核数目远远超过 CPU，但是它的每个核的处理能力远小于CPU的核，而且不具有现代操作系统的所需要的一些特性，GPU 并不合适用于处理普通的计算，它们更多地用于计算消耗性操作。
@@ -387,6 +387,13 @@ NVI">
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -639,6 +646,32 @@ NVI">
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'virtualization/GPU/index.html';
+      var disqus_title = "GPU虚拟化";
+      var disqus_url = 'http://feisky.xyz/virtualization/GPU/index.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

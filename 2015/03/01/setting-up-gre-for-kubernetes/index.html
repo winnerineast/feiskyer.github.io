@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="首先修改Docker的默认网桥：
 #停止Docker Daemon进程systemctl stop docker#设置默认网桥docker0为down，并删除ip link set dev docker0 downbrctl delbr docker0#新建Linux网桥localbr0brctl addbr localbr0#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复ip">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.821Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Setting up GRE for Kubernetes">
 <meta name="twitter:description" content="首先修改Docker的默认网桥：
@@ -335,6 +335,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/01/setting-up-gre-for-kubernetes/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/setting-up-gre-for-kubernetes/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -394,16 +401,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" rel="next" title="How enable OpenStack allinone vm to access external network">
-                <i class="fa fa-chevron-left"></i> How enable OpenStack allinone vm to access external network
+              <a href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" rel="next" title="Open vSwitch over DPDK on Ubuntu">
+                <i class="fa fa-chevron-left"></i> Open vSwitch over DPDK on Ubuntu
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" rel="prev" title="Open vSwitch over DPDK on Ubuntu">
-                Open vSwitch over DPDK on Ubuntu <i class="fa fa-chevron-right"></i>
+              <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" rel="prev" title="How enable OpenStack allinone vm to access external network">
+                How enable OpenStack allinone vm to access external network <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -429,6 +436,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -686,6 +700,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2015/03/01/setting-up-gre-for-kubernetes/';
+      var disqus_title = "Setting up GRE for Kubernetes";
+      var disqus_url = 'http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

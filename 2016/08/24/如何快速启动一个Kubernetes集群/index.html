@@ -95,7 +95,7 @@
 <meta property="og:description" content="相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
 安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.">
 <meta property="og:image" content="http://feisky.xyz/images/k8s-dashboard.png">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.825Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何快速启动一个Kubernetes集群">
 <meta name="twitter:description" content="相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
@@ -337,6 +337,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/如何快速启动一个Kubernetes集群/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/24/如何快速启动一个Kubernetes集群/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -468,6 +475,13 @@ Available Commands:
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -725,6 +739,32 @@ Available Commands:
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2016/08/24/如何快速启动一个Kubernetes集群/';
+      var disqus_title = "如何快速启动一个Kubernetes集群";
+      var disqus_url = 'http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

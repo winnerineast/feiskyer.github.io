@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="【摘要】docker解决了云计算环境难于分发并且管理复杂，而用KVM、Xen等虚拟化又浪费系统资源的问题。Docker最初是基于lxc构建了容器引擎，为了提供跨平台支持，后又专门开发了libcontainer来抽象容器引擎。但无论是libcontainer还是lxc，其底层所依赖的内核特性都是相同的。我们来… 阅读全文">
 <meta property="og:image" content="http://counter.cnblogs.com/blog/rss/4105739">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.813Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker底层技术概览 - feisky">
 <meta name="twitter:description" content="【摘要】docker解决了云计算环境难于分发并且管理复杂，而用KVM、Xen等虚拟化又浪费系统资源的问题。Docker最初是基于lxc构建了容器引擎，为了提供跨平台支持，后又专门开发了libcontainer来抽象容器引擎。但无论是libcontainer还是lxc，其底层所依赖的内核特性都是相同的。我们来… 阅读全文">
@@ -334,6 +334,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/11/19/docker底层技术概览-feisky/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/11/19/docker底层技术概览-feisky/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -419,6 +426,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -676,6 +690,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2014/11/19/docker底层技术概览-feisky/';
+      var disqus_title = "docker底层技术概览 - feisky";
+      var disqus_url = 'http://feisky.xyz/2014/11/19/docker底层技术概览-feisky/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

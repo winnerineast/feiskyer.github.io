@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="cri-ocri-o基于Kubelet容器运行时接口（CRI）为Kubernetes带来了原生的OCI运行时(目前仅支持runc)。cri-o还在紧张有序的开发中，预计与Kubernetes v1.5一起发布第一个alpha版本。
 编译安装# CentOS/Fedora# yum install -y glib2-devel glibc-static# Ubuntu 16.04 LTS Xenia">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.861Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cri-o (ocid)">
 <meta name="twitter:description" content="cri-ocri-o基于Kubelet容器运行时接口（CRI）为Kubernetes带来了原生的OCI运行时(目前仅支持runc)。cri-o还在紧张有序的开发中，预计与Kubernetes v1.5一起发布第一个alpha版本。
@@ -320,6 +320,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -573,6 +580,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'container/cri-o.html';
+      var disqus_title = "cri-o (ocid)";
+      var disqus_url = 'http://feisky.xyz/container/cri-o.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

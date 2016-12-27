@@ -101,7 +101,7 @@ In Search of an Understandable Consensus">
 <meta property="og:image" content="http://feisky.xyz/images/14804284620225.jpg">
 <meta property="og:image" content="http://feisky.xyz/images/14804284340920.jpg">
 <meta property="og:image" content="http://feisky.xyz/images/14804283965953.jpg">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.869Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Raft">
 <meta name="twitter:description" content="RaftRaft可以在高效的解决分布式系统中各个节点日志内容一致性问题的同时，也使得集群具备一定的容错能力。即使集群中出现部分节点故障、网络故障等问题，仍可保证其余大多数节点正确的步进。甚至当更多的节点（一般来说超过集群节点总数的一半）出现故障而导致集群不可用时，依然可以保证节点中的数据不会出现错误的结果。
@@ -379,6 +379,13 @@ In Search of an Understandable Consensus">
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -631,6 +638,32 @@ In Search of an Understandable Consensus">
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'distributed/raft.html';
+      var disqus_title = "Raft";
+      var disqus_url = 'http://feisky.xyz/distributed/raft.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

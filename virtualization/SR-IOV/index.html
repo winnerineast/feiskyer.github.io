@@ -105,7 +105,7 @@ FV (V">
 <meta property="og:image" content="http://feisky.xyz/images/1-2.png">
 <meta property="og:image" content="http://feisky.xyz/images/2-2.png">
 <meta property="og:image" content="http://feisky.xyz/images/3-2.png">
-<meta property="og:updated_time" content="2016-12-26T11:07:38.281Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SR-IOV">
 <meta name="twitter:description" content="SR-IOVSR-IOV（Single Root I/O Virtualization）是一个将PCIe共享给虚拟机的标准，通过为虚拟机提供独立的内存空间、中断、DMA流，来绕过VMM实现数据访问。SR-IOV基于两种PICe functions：
@@ -366,6 +366,13 @@ FV (V">
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -618,6 +625,32 @@ FV (V">
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'virtualization/SR-IOV/index.html';
+      var disqus_title = "SR-IOV";
+      var disqus_url = 'http://feisky.xyz/virtualization/SR-IOV/index.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

@@ -111,7 +111,7 @@ CONSENSUS: BRIDGING THEORY AND PRACTICE
 Paxos算法基本问题
 解决分布式系统中多个节点之间就某个值（提案）达成一致（决议">
 <meta property="og:image" content="http://feisky.xyz/images/14803289545403.jpg">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.869Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Paxos">
 <meta name="twitter:description" content="PaxosPaxos算法是莱斯利·兰伯特于1990年提出的一种基于消息传递且具有高度容错特性的一致性算法。
@@ -418,6 +418,13 @@ Paxos算法基本问题
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -670,6 +677,32 @@ Paxos算法基本问题
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'distributed/paxos.html';
+      var disqus_title = "Paxos";
+      var disqus_url = 'http://feisky.xyz/distributed/paxos.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

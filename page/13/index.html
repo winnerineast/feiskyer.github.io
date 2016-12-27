@@ -313,6 +313,147 @@
             
               
                 
+                <a class="post-title-link" href="/2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="url">
+                  Going Native with OpenStack Centric Applications: Overview
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-26T00:00:00+08:00" content="2015-02-26">
+              2015-02-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/25/going-native-with-openstack-centric-applications-overview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/02/25/integrating-openstack-and-kubernetes-with-murano/" itemprop="url">
                   Integrating Openstack and Kubernetes with Murano
                 </a>
@@ -354,6 +495,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/25/integrating-openstack-and-kubernetes-with-murano/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/25/integrating-openstack-and-kubernetes-with-murano/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -495,6 +643,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/25/going-native-with-openstack-centric-applications-murano/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/25/going-native-with-openstack-centric-applications-murano/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -681,140 +836,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="url">
-                  Going Native with OpenStack Centric Applications: Overview
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-26T00:00:00+08:00" content="2015-02-26">
-              2015-02-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/" itemprop="url">
                   Installing Realtek rltwifi driver for Ubuntu 14.10
                 </a>
@@ -856,6 +877,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -940,8 +968,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/02/12/docker-intro/" itemprop="url">
-                  Docker 笔记
+                <a class="post-title-link" href="/2015/02/12/installing-nova-docker-on-openstack-juno/" itemprop="url">
+                  Installing nova docker on OpenStack Juno
                 </a>
               
             
@@ -982,6 +1010,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/12/installing-nova-docker-on-openstack-juno/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/12/installing-nova-docker-on-openstack-juno/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1002,12 +1037,75 @@
 
       
         
-          docker 学习笔记
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/02/12/docker-intro/">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
+            <p>This post comes about indirectly by a request on IRC in #rdo for help getting nova-docker installed on Fedora 21. I ran through the process from start to finish and decided to write everything down for posterity.</p>
+<p>Getting started<br>I started with the Fedora 21 Cloud Image, because I’m installing onto OpenStack and the cloud images include some features that are useful in this environment.</p>
+<p>We’ll be using OpenStack packages from the RDO Juno repository. Because there is often some skew between the RDO packages and the current Fedora selinux policy, we’re going to start by putting SELinux into permissive mode (sorry, Dan):</p>
+<pre><code># setenforce 0
+# sed -i &#39;/^SELINUX=/ s/=.*/=permissive/&#39; /etc/selinux/config
+</code></pre><p>Next, install the RDO Juno repository:</p>
+<pre><code># yum -y install \
+</code></pre><p>  <a href="https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm" target="_blank" rel="external">https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm</a><br>And upgrade all our existing packages:</p>
+<pre><code># yum -y upgrade
+</code></pre><p>Install OpenStack<br>We’ll be using packstack to install OpenStack onto this host. Start by installing the package:</p>
+<pre><code># yum -y install openstack-packstack
+</code></pre><p>And then run a —allinone install, which sets up all OpenStack services on a single host:</p>
+<pre><code># packstack --allinone
+</code></pre><p>Install nova-docker prequisites<br>Once packstack has completed successfully, we need to install some prerequisites for nova-docker.</p>
+<pre><code># yum -y install git python-pip python-pbr \
+</code></pre><p>  docker-io fedora-repos-rawhide<br>The fedora-repos-rawhide package provides a yum configuration for the rawhide repository (disabled by default). We’re going to need that to pick up more recent versions of systemd (because of this bug) and python-six (because nova-docker needs the six.add_metaclass method):</p>
+<pre><code># yum --enablerepo=rawhide install python-six systemd
+</code></pre><p>At this point, having upgraded systemd, you should probably reboot:</p>
+<pre><code># reboot
+</code></pre><p>Configure Docker<br>Once things are up and running, we will expect the nova-compute service to launch Docker containers. In order for this to work, the nova user will need access to the Docker socket, /var/run/docker.sock. By default, this is owned by root:root and has mode 660:</p>
+<pre><code># ls -l /var/run/docker.sock
+</code></pre><p>srw-rw——. 1 root root 0 Feb  1 12:43 /var/run/docker.sock<br>The nova-compute service runs as the nova user and will not have access to that socket. There are a few ways of resolving this; an expedient method is simply to make this socket owned by the nova group, which we can do with docker’s -G option.</p>
+<p>Edit /etc/sysconfig/docker, and modify the OPTIONS= line to look like:</p>
+<p>OPTIONS=’—selinux-enabled -G nova’<br>Then enable and start the docker service:</p>
+<pre><code># systemctl enable docker
+# systemctl start docker
+</code></pre><p>Install nova-docker<br>Clone the nova-docker repository:</p>
+<pre><code># git clone http://github.com/stackforge/nova-docker.git
+# cd nova-docker
+</code></pre><p>And check out the stable/juno branch, since we’re operating with an OpenStack Juno environment:</p>
+<pre><code># git checkout stable/juno
+</code></pre><p>Now install the driver:</p>
+<pre><code># python setup.py install
+</code></pre><p>Configure Nova<br>Following the README from nova-docker, we need to modify the Nova configuration to use the nova-docker driver. Edit /etc/nova/nova.conf and add the following line to the DEFAULT section:</p>
+<p>compute_driver=novadocker.virt.docker.DockerDriver<br>If there is already a line setting compute_driver, then comment it out or delete before adding the new one.</p>
+<p>Modify the Glance configuration to permit storage of Docker images. Edit /etc/glance/glance-api.conf, and add the following line to the DEFAULT section:</p>
+<p>container_formats=ami,ari,aki,bare,ovf,ova,docker<br>Next, we need to augment the rootwrap configuration such that nova-docker is able run the ln command with root privileges. We’ll install the docker.filters file from the nova-docker source:</p>
+<pre><code># mkdir -p /etc/nova/rootwrap.d
+# cp etc/nova/rootwrap.d/docker.filters \
+</code></pre><p>  /etc/nova/rootwrap.d/docker.filters<br>We’ve changed a number of configuration files, so we should restart the affected services:</p>
+<pre><code># openstack-service restart nova glance
+</code></pre><p>Testing things out<br>Let’s try starting a container! We need to select one that will run in the nova-docker environment. Generally, that means one that does not expect to have an interactive terminal and that will automatically start some sort of web-accessible service. I have a minimal thttpd container that fits the bill nicely:</p>
+<pre><code># docker pull larsks/thttpd
+</code></pre><p>We need to store this image into Glance using the same name:</p>
+<pre><code># docker save larsks/thttpd |
+</code></pre><p>  glance image-create —name larsks/thttpd \<br>  —container-format docker —disk-format raw —is-public true<br>And now we should be able to start a container:</p>
+<pre><code># nova boot --image larsks/thttpd --flavor m1.tiny test0
+</code></pre><p>After a bit, nova list should show:</p>
+<p>+———…+———-+————+…+—————————+<br>| ID   …| Name  | Status |…| Networks         |<br>+———…+———-+————+…+—————————+<br>| 430a1…| test0 | ACTIVE |…| private=10.0.0.6 |<br>+———…+———-+————+…+—————————+<br>And we should also see the container if we run docker ps:</p>
+<pre><code># docker ps
+</code></pre><p>CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS               NAMES<br>ee864da30cf1        larsks/thttpd:latest   “/thttpd -D -l /dev/   7 hours ago         Up 7 hours                              nova-430a197e-a0ca-4e72-a7db-1969d0773cf7<br>Getting connected<br>At this point, the container will not be network accessible; it’s attached to a private tenant network. Let’s assign it a floating ip address:</p>
+<pre><code># nova floating-ip-create public
+</code></pre><p>+———————+—————-+—————+————+<br>| Ip           | Server Id | Fixed Ip | Pool   |<br>+———————+—————-+—————+————+<br>| 172.24.4.229 | -         | -        | public |<br>+———————+—————-+—————+————+</p>
+<pre><code># nova floating-ip-associate test0 172.24.4.229
+</code></pre><p>This isn’t going to be immediately accessible because Packstack left us without a route to the floating ip network. We can fix that temporarily like this:</p>
+<pre><code># ip addr add 172.24.4.225/28 dev br-ex
+</code></pre><p>And now we can ping our Docker container:</p>
+<pre><code># ping -c2 172.24.4.229
+</code></pre><p>PING 172.24.4.229 (172.24.4.229) 56(84) bytes of data.<br>64 bytes from 172.24.4.229: icmp_seq=1 ttl=63 time=0.291 ms<br>64 bytes from 172.24.4.229: icmp_seq=2 ttl=63 time=0.074 ms</p>
+<p>—- 172.24.4.229 ping statistics —-<br>2 packets transmitted, 2 received, 0% packet loss, time 1000ms<br>rtt min/avg/max/mdev = 0.074/0.182/0.291/0.109 ms<br>And access the webserver:</p>
+<pre><code>    # curl http://172.24.4.229
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Your web server is working&lt;/title&gt;
+</code></pre>
+          
         
       
     </div>
@@ -1278,6 +1376,25 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'page/13/index.html';
+      var disqus_title = "";
+      var disqus_url = '';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
   
 
 

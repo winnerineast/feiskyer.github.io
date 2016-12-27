@@ -116,7 +116,7 @@ docker-containerd-ctr
 最重要的可以在docker或者containerd重启的时候">
 <meta property="og:image" content="http://feisky.xyz/images/docker-v11.png">
 <meta property="og:image" content="http://feisky.xyz/images/containerd.png">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.821Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Container runtime in Docker v1.11">
 <meta name="twitter:description" content="Docker v1.11正式集成了runc（终于支持OCI了），并将原来的一个二进制文件拆分为多个，同时还保持docker CLI和API不变：
@@ -368,6 +368,13 @@ docker-containerd-ctr
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/28/Docker-1-11-Runtime/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/28/Docker-1-11-Runtime/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -498,6 +505,13 @@ docker-containerd-ctr
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -755,6 +769,32 @@ docker-containerd-ctr
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2016/04/28/Docker-1-11-Runtime/';
+      var disqus_title = "Container runtime in Docker v1.11";
+      var disqus_url = 'http://feisky.xyz/2016/04/28/Docker-1-11-Runtime/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

@@ -94,7 +94,7 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="file仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：
 import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__file__&apos;):    __file__ = inspect.getfile(inspect.currentframe())print os.path.dirname(os">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.821Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python __file__ not defined problem">
 <meta name="twitter:description" content="file仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：
@@ -335,6 +335,13 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/04/python-not-defined-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/04/python-not-defined-problem/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -427,6 +434,13 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -684,6 +698,32 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2015/03/04/python-not-defined-problem/';
+      var disqus_title = "Python __file__ not defined problem";
+      var disqus_url = 'http://feisky.xyz/2015/03/04/python-not-defined-problem/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

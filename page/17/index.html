@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -118,7 +118,7 @@
   <link rel="canonical" href="http://feisky.xyz/page/17/"/>
 
 
-  <title> Feisky's Blog </title>
+  <title> Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -126,7 +126,7 @@
   
 
 
-<script>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -313,6 +313,261 @@
             
               
                 
+                <a class="post-title-link" href="/2015/01/26/vagrant/" itemprop="url">
+                  vagrant
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-27T00:00:00+08:00" content="2015-01-27">
+              2015-01-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/vagrant/" itemprop="url" rel="index">
+                    <span itemprop="name">vagrant</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/01/26/vagrant/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/01/26/vagrant/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>简易虚拟机管理工具vagrant</p>
+<h3 id="Vagrant简介"><a href="#Vagrant简介" class="headerlink" title="Vagrant简介"></a>Vagrant简介</h3><p>Vagrant是一款跨平台的虚拟机管理工具，可以用来封装跨平台的开发环境，分发给团队成员共享。</p>
+<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><p>1.安装 VirtualBox</p>
+<p>Vagrant支持VMWare和VirtualBox，不过VMWare版本是收费的，简易使用VirtualBox版本。</p>
+<p>VirtualBox下载地址见<a href="http://www.virtualbox.org" target="_blank" rel="external">http://www.virtualbox.org</a></p>
+<p>2.安装 Vagrant</p>
+<p>下载Vagrant <a href="http://downloads.vagrantup.com/" target="_blank" rel="external">http://downloads.vagrantup.com/</a>，根据提示安装。</p>
+<p>首次使用可以下载官方封装好的基础镜像：<br>Ubuntu precise 32 VirtualBox <a href="http://files.vagrantup.com/precise32.box" target="_blank" rel="external">http://files.vagrantup.com/precise32.box</a><br>Ubuntu precise 64 VirtualBox <a href="http://files.vagrantup.com/precise64.box" target="_blank" rel="external">http://files.vagrantup.com/precise64.box</a></p>
+<p><a href="http://www.vagrantbox.es/" target="_blank" rel="external">http://www.vagrantbox.es/</a>提供了丰富的镜像资源，需要时可以去下载。</p>
+<p>3.添加镜像到 Vagrant</p>
+<p>假设我们下载的镜像存放路径是 ~/box/precise64.box，在终端里输入：</p>
+<figure class="highlight processing"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="built_in">box</span> <span class="built_in">add</span> ubuntu ~/<span class="built_in">box</span>/precise64.<span class="built_in">box</span></div></pre></td></tr></table></figure>
+<p>如果上一步没有下载镜像，可以在添加镜像的时候自动下载:</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="keyword">box </span><span class="keyword">add </span><span class="keyword">base </span>http://files.vagrantup.com/lucid32.<span class="keyword">box</span></div></pre></td></tr></table></figure>
+<p>4.创建虚拟机</p>
+<p>创建一个开发目录，用作虚拟机的工作目录，然后使用ubuntu这个镜像初始化虚拟机：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/dev  <span class="comment"># 切换目录</span></div><div class="line">$ vagrant init ubuntu  <span class="comment"># 初始化</span></div><div class="line">$ vagrant up  <span class="comment"># 启动虚拟机</span></div></pre></td></tr></table></figure>
+<p>启动完毕后就可以通过SSH登录了：</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 登录</span></div></pre></td></tr></table></figure>
+<p>注意如果机器上未安装ssh，则可以下载xshell、putty等工具连接，默认端口会自动映射到本机2222端口。</p>
+<p>5.配置文件</p>
+<p>Vagrant 初始化成功后，会在初始化的目录里生成一个 Vagrantfile 的配置文件，可以修改配置文件进行个性化的定制。如配置内网ip地址</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">config</span><span class="selector-class">.vm</span><span class="selector-class">.network</span> <span class="selector-pseudo">:private_network</span>, <span class="selector-tag">ip</span>: "192<span class="selector-class">.168</span><span class="selector-class">.33</span><span class="selector-class">.10</span>"</div></pre></td></tr></table></figure>
+<p>配置hostname，并将虚拟机的80端口映射到本机8080端口</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.hostname</span> = <span class="string">"ubuntu"</span></div><div class="line">config<span class="selector-class">.vm</span><span class="selector-class">.network</span> :forwarded_port, guest: <span class="number">80</span>, host: <span class="number">8080</span></div></pre></td></tr></table></figure>
+<p>6.打包分发</p>
+<p>执行下面的语句，会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box就可以创建一个相同的虚拟机了：<br><figure class="highlight actionscript"><table><tr><td class="code"><pre><div class="line">$ vagrant <span class="class"><span class="keyword">package</span></span></div></pre></td></tr></table></figure></p>
+<p>7.常用命令</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>vagrant init  <span class="comment"># 初始化</span></div><div class="line"><span class="variable">$ </span>vagrant up  <span class="comment"># 启动虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant halt  <span class="comment"># 关闭虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant reload  <span class="comment"># 重启虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant ssh  <span class="comment"># SSH 至虚拟机</span></div><div class="line"><span class="variable">$ </span>vagrant status  <span class="comment"># 查看虚拟机运行状态</span></div><div class="line"><span class="variable">$ </span>vagrant destroy  <span class="comment"># 销毁当前虚拟机</span></div></pre></td></tr></table></figure>
+<p>8.注意事项</p>
+<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
+<p>Apache 配置添加:</p>
+<p>EnableSendfile off</p>
+<p>Nginx 配置添加:</p>
+<p>sendfile off;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/01/26/pluribus-networks/" itemprop="url">
+                  Pluribus Networks
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-27T00:00:00+08:00" content="2015-01-27">
+              2015-01-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/01/26/pluribus-networks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/01/26/pluribus-networks/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/01/26/docker/" itemprop="url">
                   Docker
                 </a>
@@ -354,6 +609,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/01/26/docker/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/01/26/docker/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -400,7 +662,7 @@
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x66;&#101;&#x69;&#115;&#x6b;&#121;&#64;&#x72;&#111;&#111;&#116;">&#x66;&#101;&#x69;&#115;&#x6b;&#121;&#64;&#x72;&#111;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x66;&#101;&#105;&#x73;&#107;&#121;&#x40;&#x72;&#x6f;&#x6f;&#x74;">&#x66;&#101;&#105;&#x73;&#107;&#121;&#x40;&#x72;&#x6f;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
@@ -486,1045 +748,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/01/26/bigdata/" itemprop="url">
-                  bigdata
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-01-27T00:00:00+08:00" content="2015-01-27">
-              2015-01-27
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Awesome-Big-Data"><a href="#Awesome-Big-Data" class="headerlink" title="Awesome Big Data"></a>Awesome Big Data</h1><p>A curated list of awesome big data frameworks, resources and other awesomeness. Inspired by <a href="https://github.com/ziadoz/awesome-php" target="_blank" rel="external">awesome-php</a>, <a href="https://github.com/vinta/awesome-python" target="_blank" rel="external">awesome-python</a>, <a href="https://github.com/Sdogruyol/awesome-ruby" target="_blank" rel="external">awesome-ruby</a>, <a href="http://hadoopecosystemtable.github.io/" target="_blank" rel="external">hadoopecosystemtable</a> &amp; <a href="http://blog.andreamostosi.name/big-data/" target="_blank" rel="external">big-data</a>.</p>
-<p>Your contributions are always welcome!</p>
-<ul>
-<li><a href="#awesome-bigdata">Awesome Big Data</a><ul>
-<li><a href="#frameworks">Frameworks</a></li>
-<li><a href="#distributed-programming">Distributed Programming</a></li>
-<li><a href="#distributed-filesystem">Distributed Filesystem</a></li>
-<li><a href="#key-map-data-model">Key-Map Data Model</a></li>
-<li><a href="#document-data-model">Document Data Model</a></li>
-<li><a href="#key-value-data-model">Key-value Data Model</a></li>
-<li><a href="#graph-data-model">Graph Data Model</a></li>
-<li><a href="#newsql-databases">NewSQL Databases</a></li>
-<li><a href="#columnar-databases">Columnar Databases</a></li>
-<li><a href="#time-series-databases">Time-Series Databases</a></li>
-<li><a href="#sql-like-processing">SQL-like processing</a></li>
-<li><a href="#integrated-development-environments">Integrated Development Environments</a></li>
-<li><a href="#data-ingestion">Data Ingestion</a></li>
-<li><a href="#service-programming">Service Programming</a></li>
-<li><a href="#scheduling">Scheduling</a></li>
-<li><a href="#machine-learning">Machine Learning</a></li>
-<li><a href="#benchmarking">Benchmarking</a></li>
-<li><a href="#security">Security</a></li>
-<li><a href="#system-deployment">System Deployment</a></li>
-<li><a href="#applications">Applications</a></li>
-<li><a href="#search-engine-and-framework">Search engine and framework</a></li>
-<li><a href="#mysql-forks-and-evolutions">MySQL forks and evolutions</a></li>
-<li><a href="#postgresql-forks-and-evolutions">PostgreSQL forks and evolutions</a></li>
-<li><a href="#memcached-forks-and-evolutions">Memcached forks and evolutions</a></li>
-<li><a href="#embedded-databases">Embedded Databases</a></li>
-<li><a href="#business-intelligence">Business Intelligence</a></li>
-<li><a href="#data-visualization">Data Visualization</a></li>
-<li><a href="#internet-of-things-and-sensor-data">Internet of things and sensor data</a></li>
-<li><a href="#interesting-readings">Interesting Readings</a></li>
-<li><a href="#interesting-papers">Interesting Papers</a></li>
-</ul>
-</li>
-<li><a href="#other-awesome-lists">Other Awesome Lists</a></li>
-</ul>
-<h2 id="Frameworks"><a href="#Frameworks" class="headerlink" title="Frameworks"></a>Frameworks</h2><ul>
-<li><a href="http://hadoop.apache.org/" target="_blank" rel="external">Apache Hadoop</a> - framework for distributed processing. Integrates MapReduce (parallel processing), YARN (job scheduling) and HDFS (distributed file system).</li>
-</ul>
-<h2 id="Distributed-Programming"><a href="#Distributed-Programming" class="headerlink" title="Distributed Programming"></a>Distributed Programming</h2><ul>
-<li><a href="https://github.com/addthis/hydra" target="_blank" rel="external">AddThis Hydra</a> - distributed data processing and storage system originally developed at AddThis.</li>
-<li><a href="http://databricks.github.io/simr/" target="_blank" rel="external">AMPLab SIMR</a> - run Spark on Hadoop MapReduce v1.</li>
-<li><a href="http://crunch.apache.org/" target="_blank" rel="external">Apache Crunch</a> - a simple Java API for tasks like joining and data aggregation that are tedious to implement on plain MapReduce.</li>
-<li><a href="http://incubator.apache.org/projects/datafu.html" target="_blank" rel="external">Apache DataFu</a> - collection of user-defined functions for Hadoop and Pig developed by LinkedIn.</li>
-<li><a href="http://flink.incubator.apache.org/" target="_blank" rel="external">Apache Flink</a> - high-performance runtime, and automatic program optimization.</li>
-<li><a href="http://gora.apache.org/" target="_blank" rel="external">Apache Gora</a> - framework for in-memory data model and persistence.</li>
-<li><a href="http://hama.apache.org/" target="_blank" rel="external">Apache Hama</a> - BSP (Bulk Synchronous Parallel) computing framework.</li>
-<li><a href="http://wiki.apache.org/hadoop/MapReduce/" target="_blank" rel="external">Apache MapReduce</a> - programming model for processing large data sets with a parallel, distributed algorithm on a cluster.</li>
-<li><a href="https://pig.apache.org/" target="_blank" rel="external">Apache Pig</a> - high level language to express data analysis programs for Hadoop.</li>
-<li><a href="http://incubator.apache.org/s4/" target="_blank" rel="external">Apache S4</a> - framework for stream processing, implementation of S4.</li>
-<li><a href="http://spark.incubator.apache.org/" target="_blank" rel="external">Apache Spark</a> - framework for in-memory cluster computing.</li>
-<li><a href="http://spark.incubator.apache.org/docs/0.7.3/streaming-programming-guide.html" target="_blank" rel="external">Apache Spark Streaming</a> - framework for stream processing, part of Spark.</li>
-<li><a href="http://storm-project.net/" target="_blank" rel="external">Apache Storm</a> - framework for stream processing by Twitter also on YARN.</li>
-<li><a href="http://tez.incubator.apache.org/" target="_blank" rel="external">Apache Tez</a> - application framework for executing a complex DAG (directed acyclic graph) of tasks, built on YARN.</li>
-<li><a href="https://incubator.apache.org/projects/twill.html" target="_blank" rel="external">Apache Twill</a> - abstraction over YARN that reduces the complexity of developing distributed applications.</li>
-<li><a href="http://cascalog.org/" target="_blank" rel="external">Cascalog</a> - data processing and querying library.</li>
-<li><a href="http://vldbarc.org/pvldb/vldb2010/pvldb_vol3/I08.pdf" target="_blank" rel="external">Cheetah</a> - High Performance, Custom Data Warehouse on Top of MapReduce.</li>
-<li><a href="http://www.cascading.org/" target="_blank" rel="external">Concurrent Cascading</a> - framework for data management/analytics on Hadoop.</li>
-<li><a href="https://github.com/damballa/parkour" target="_blank" rel="external">Damballa Parkour</a> - MapReduce library for Clojure.</li>
-<li><a href="https://github.com/datasalt/pangool" target="_blank" rel="external">Datasalt Pangool</a> - alternative MapReduce paradigm.</li>
-<li><a href="https://www.datatorrent.com/" target="_blank" rel="external">DataTorrent StrAM</a> - real-time engine is designed to enable distributed, asynchronous, real time in-memory big-data computations in as unblocked a way as possible, with minimal overhead and impact on performance.</li>
-<li><a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-scheduling-mapreduce-jobs-more-efficiently-with-corona/10151142560538920" target="_blank" rel="external">Facebook Corona</a> - Hadoop enhancement which removes single point of failure.</li>
-<li><a href="http://peregrine_mapreduce.bitbucket.org/" target="_blank" rel="external">Facebook Peregrine</a> - Map Reduce framework.</li>
-<li><a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-data-diving-with-scuba/10150599692628920" target="_blank" rel="external">Facebook Scuba</a> - distributed in-memory datastore.</li>
-<li><a href="http://googledevelopers.blogspot.it/2014/06/cloud-platform-at-google-io-new-big.html" target="_blank" rel="external">Google Dataflow</a> - create data pipelines to help themæingest, transform and analyze data.</li>
-<li><a href="http://research.google.com/archive/mapreduce.html" target="_blank" rel="external">Google MapReduce</a> - map reduce framework.</li>
-<li><a href="http://research.google.com/pubs/pub41378.html" target="_blank" rel="external">Google MillWheel</a> - fault tolerant stream processing framework.</li>
-<li><a href="https://code.google.com/p/jaql/" target="_blank" rel="external">JAQL</a> - declarative programming language for working with structured, semi-structured and unstructured data.</li>
-<li><a href="http://kitesdk.org/docs/current/" target="_blank" rel="external">Kite</a> - is a set of libraries, tools, examples, and documentation focused on making it easier to build systems on top of the Hadoop ecosystem.</li>
-<li><a href="http://druid.io/" target="_blank" rel="external">Metamarkers Druid</a> - framework for real-time analysis of large datasets.</li>
-<li><a href="https://github.com/Netflix/PigPen" target="_blank" rel="external">Netflix PigPen</a> - map-reduce for Clojure whiche compiles to Apache Pig.</li>
-<li><a href="http://discoproject.org/" target="_blank" rel="external">Nokia Disco</a> - MapReduce framework developed by Nokia.</li>
-<li><a href="http://engineering.pinterest.com/post/91288882494/pinlater-an-asynchronous-job-execution-system" target="_blank" rel="external">Pinterest Pinlater</a> - asynchronous job execution system.</li>
-<li><a href="http://pydoop.sourceforge.net/docs/" target="_blank" rel="external">Pydoop</a> - Python MapReduce and HDFS API for Hadoop.</li>
-<li><a href="http://stratosphere.eu/" target="_blank" rel="external">Stratosphere</a> - general purpose cluster computing framework.</li>
-<li><a href="https://streamdrill.com/" target="_blank" rel="external">Streamdrill</a> - usefull for counting activities of event streams over different time windows and finding the most active one.</li>
-<li><a href="https://github.com/twitter/scalding" target="_blank" rel="external">Twitter Scalding</a> - Scala library for Map Reduce jobs, built on Cascading.</li>
-<li><a href="https://github.com/twitter/summingbird" target="_blank" rel="external">Twitter Summingbird</a> - Streaming MapReduce with Scalding and Storm, by Twitter.</li>
-<li><a href="https://blog.twitter.com/2014/tsar-a-timeseries-aggregator" target="_blank" rel="external">Twitter TSAR</a> - TimeSeries AggregatoR by Twitter.</li>
-</ul>
-<h2 id="Distributed-Filesystem"><a href="#Distributed-Filesystem" class="headerlink" title="Distributed Filesystem"></a>Distributed Filesystem</h2><ul>
-<li><a href="http://hadoop.apache.org/" target="_blank" rel="external">Apache HDFS</a> - a way to store large files across multiple machines.</li>
-<li><a href="http://www.fhgfs.com/cms/" target="_blank" rel="external">BeeGFS</a> - formerly FhGFS, parallel distributed file system.</li>
-<li><a href="http://ceph.com/ceph-storage/file-system/" target="_blank" rel="external">Ceph Filesystem</a> - software storage platform designed.</li>
-<li><a href="http://disco.readthedocs.org/en/latest/howto/ddfs.html" target="_blank" rel="external">Disco DDFS</a> - distributed filesystem.</li>
-<li><a href="https://www.facebook.com/note.php?note_id=76191543919" target="_blank" rel="external">Facebook Haystack</a> - object storage system.</li>
-<li><a href="https://google.com/" target="_blank" rel="external">Google Colossus</a> - distributed filesystem (GFS2).</li>
-<li><a href="https://google.com/" target="_blank" rel="external">Google GFS</a> - distributed filesystem.</li>
-<li><a href="http://research.google.com/pubs/pub36971.html" target="_blank" rel="external">Google Megastore</a> - scalable, highly available storage.</li>
-<li><a href="http://www.gridgain.org/" target="_blank" rel="external">GridGain</a> - GGFS, Hadoop compliant in-memory file system.</li>
-<li><a href="http://wiki.lustre.org/" target="_blank" rel="external">Lustre file system</a> - high-performance distributed filesystem.</li>
-<li><a href="https://www.quantcast.com/engineering/qfs/" target="_blank" rel="external">Quantcast File System QFS</a> - open-source distributed file system.</li>
-<li><a href="http://www.gluster.org/" target="_blank" rel="external">Red Hat GlusterFS</a> - scale-out network-attached storage file system.</li>
-<li><a href="http://tachyon-project.org/" target="_blank" rel="external">Tachyon</a> - reliable file sharing at memory speed across cluster frameworks.</li>
-</ul>
-<h2 id="Document-Data-Model"><a href="#Document-Data-Model" class="headerlink" title="Document Data Model"></a>Document Data Model</h2><ul>
-<li><a href="http://www.actian.com/products/operational-databases/" target="_blank" rel="external">Actian Versant</a> - commercial object-oriented database management systems .</li>
-<li><a href="https://crate.io/" target="_blank" rel="external">Crate Data</a> - is an open source massively scalable data store. It requires zero administration.</li>
-<li><a href="http://www.infoq.com/news/2014/06/facebook-apollo" target="_blank" rel="external">Facebook Apollo</a> - Facebook’s Paxos-like NoSQL database.</li>
-<li><a href="http://comsysto.github.io/jumbodb/" target="_blank" rel="external">jumboDB</a> - document oriented datastore over Hadoop.</li>
-<li><a href="http://data.linkedin.com/projects/espresso" target="_blank" rel="external">LinkedIn Espresso</a> - horizontally scalable document-oriented NoSQL data store.</li>
-<li><a href="http://www.marklogic.com/" target="_blank" rel="external">MarkLogic</a> - Schema-agnostic Enterprise NoSQL database technology.</li>
-<li><a href="http://www.mongodb.org/" target="_blank" rel="external">MongoDB</a> - Document-oriented database system.</li>
-<li><a href="http://www.ravendb.net/" target="_blank" rel="external">RavenDB</a> - A transactional, open-source Document Database.</li>
-<li><a href="http://www.rethinkdb.com/" target="_blank" rel="external">RethinkDB</a> - document database that supports queries like table joins and group by.</li>
-</ul>
-<h2 id="Key-Map-Data-Model"><a href="#Key-Map-Data-Model" class="headerlink" title="Key Map Data Model"></a>Key Map Data Model</h2><p><strong>Note</strong>: There is some term confusion in the industry, and two different things are called “Columnar Databases”. Some, listed here, are distributed, persistent databases built around the “key-map” data model: all data has a (possibly composite) key, with which a map of key-value pairs is associated. In some systems, multiple such value maps can be associated with a key, and these maps are referred to as “column families” (with value map keys being referred to as “columns”).</p>
-<p>Another group of technologies that can also be called “columnar databases” is distinguished by how it stores data, on disk or in memory — rather than storing data the traditional way, where all column values for a given key are stored next to each other, “row by row”, these systems store all <em>column</em> values next to each other. So more work is needed to get all columns for a given key, but less work is needed to get all values for a given column.</p>
-<p>The former group is referred to as “key map data model” here. The line between these and the <a href="#key-value-data-model">Key-value Data Model</a> stores is fairly blurry.</p>
-<p>The latter, being more about the storage format than about the data model, is listed under <a href="#columnar-databases">Columnar Databases</a>.</p>
-<p>You can read more about this distinction on Prof. Daniel Abadi’s blog: <a href="http://dbmsmusings.blogspot.com/2010/03/distinguishing-two-major-types-of_29.html" target="_blank" rel="external">Distinguishing two major types of Column Stores</a>. </p>
-<ul>
-<li><a href="http://accumulo.apache.org/" target="_blank" rel="external">Apache Accumulo</a> - distribuited key/value store, built on Hadoop.</li>
-<li><a href="http://cassandra.apache.org/" target="_blank" rel="external">Apache Cassandra</a> - column-oriented distribuited datastore, inspired by BigTable.</li>
-<li><a href="http://hbase.apache.org/" target="_blank" rel="external">Apache HBase</a> - column-oriented distribuited datastore, inspired by BigTable.</li>
-<li><a href="https://code.facebook.com/posts/321111638043166/hydrabase-the-evolution-of-hbase-facebook/" target="_blank" rel="external">Facebook HydraBase</a> - evolution of HBase made by Facebook.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//archive/bigtable-osdi06.pdf" target="_blank" rel="external">Google BigTable</a> - column-oriented distributed datastore.</li>
-<li><a href="https://developers.google.com/datastore/" target="_blank" rel="external">Google Cloud Datastore</a> - is a fully managed, schemaless database for storing non-relational data over BigTable.</li>
-<li><a href="http://hypertable.org/" target="_blank" rel="external">Hypertable</a> - column-oriented distribuited datastore, inspired by BigTable.</li>
-<li><a href="http://infinidb.co/" target="_blank" rel="external">InfiniDB</a> - is accessed through a MySQL interface and use massive parallel processing to parallelize queries.</li>
-<li><a href="http://ohmdata.com/" target="_blank" rel="external">OhmData C5</a> - improved version of HBase.</li>
-<li><a href="https://github.com/continuuity/tephra" target="_blank" rel="external">Tephra</a> - Transactions for HBase.</li>
-<li><a href="https://blog.twitter.com/2014/manhattan-our-real-time-multi-tenant-distributed-database-for-twitter-scale" target="_blank" rel="external">Twitter Manhattan</a> - real-time, multi-tenant distributed database for Twitter scale.</li>
-</ul>
-<h2 id="Key-value-Data-Model"><a href="#Key-value-Data-Model" class="headerlink" title="Key-value Data Model"></a>Key-value Data Model</h2><ul>
-<li><a href="http://www.aerospike.com/" target="_blank" rel="external">Aerospike</a> - NoSQL flash-optimized, in-memory. Open source and “Server code in ‘C’ (not Java or Erlang) precisely tuned to avoid context switching and memory copies.”</li>
-<li><a href="http://aws.amazon.com/dynamodb/" target="_blank" rel="external">Amazon DynamoDB</a> - distributed key/value store, implementation of Dynamo paper.</li>
-<li><a href="http://inaka.github.io/edis/" target="_blank" rel="external">Edis</a> - is a protocol-compatible Server replacement for Redis.</li>
-<li><a href="https://github.com/nathanmarz/elephantdb" target="_blank" rel="external">ElephantDB</a> - Distributed database specialized in exporting data from Hadoop.</li>
-<li><a href="http://geteventstore.com" target="_blank" rel="external">EventStore</a> - distributed time series database.</li>
-<li><a href="https://github.com/linkedin-sna/sna-page/tree/master/krati" target="_blank" rel="external">LinkedIn Krati</a> - is a simple persistent data store with very low latency and high throughput.</li>
-<li><a href="http://www.project-voldemort.com/voldemort/" target="_blank" rel="external">Linkedin Voldemort</a> - distributed key/value storage system.</li>
-<li><a href="http://www.oracle.com/technetwork/database/database-technologies/nosqldb/overview/index.html" target="_blank" rel="external">Oracle NoSQL Database</a> - distributed key-value database by Oracle Corporation.</li>
-<li><a href="http://redis.io" target="_blank" rel="external">Redis</a> - in memory key value datastore.</li>
-<li><a href="https://github.com/basho/riak" target="_blank" rel="external">Riak</a> - a decentralized datastore.</li>
-<li><a href="https://github.com/twitter/storehaus" target="_blank" rel="external">Storehaus</a> - library to work with asynchronous key value stores, by Twitter.</li>
-<li><a href="https://github.com/tarantool/tarantool" target="_blank" rel="external">Tarantool</a> - an efficient NoSQL database and a Lua application server.</li>
-<li><a href="https://github.com/Treode/store" target="_blank" rel="external">TreodeDB</a> - key-value store that’s replicated and sharded and provides atomic multirow writes.</li>
-</ul>
-<h2 id="Graph-Data-Model"><a href="#Graph-Data-Model" class="headerlink" title="Graph Data Model"></a>Graph Data Model</h2><ul>
-<li><a href="http://giraph.apache.org/" target="_blank" rel="external">Apache Giraph</a> - implementation of Pregel, based on Hadoop.</li>
-<li><a href="http://spark.incubator.apache.org/docs/0.7.3/bagel-programming-guide.html" target="_blank" rel="external">Apache Spark Bagel</a> - implementation of Pregel, part of Spark.</li>
-<li><a href="https://www.arangodb.org/" target="_blank" rel="external">ArangoDB</a> - multi model distribuited database.</li>
-<li><a href="https://www.facebook.com/notes/facebook-engineering/tao-the-power-of-the-graph/10151525983993920" target="_blank" rel="external">Facebook TAO</a> - TAO is the distributed data store that is widely used at facebook to store and serve the social graph.</li>
-<li><a href="https://github.com/google/cayley" target="_blank" rel="external">Google Cayley</a> - open-source graph database.</li>
-<li><a href="http://kowshik.github.io/JPregel/pregel_paper.pdf" target="_blank" rel="external">Google Pregel</a> - graph processing framework.</li>
-<li><a href="http://graphlab.org/projects/source.html" target="_blank" rel="external">GraphLab PowerGraph</a> - a core C++ GraphLab API and a collection of high-performance machine learning and data mining toolkits built on top of the GraphLab API.</li>
-<li><a href="https://amplab.cs.berkeley.edu/publication/graphx-grades/" target="_blank" rel="external">GraphX</a> - resilient Distributed Graph System on Spark.</li>
-<li><a href="https://github.com/tinkerpop/gremlin" target="_blank" rel="external">Gremlin</a> - graph traversal Language.</li>
-<li><a href="https://github.com/paulhoule/infovore" target="_blank" rel="external">Infovore</a> - RDF-centric Map/Reduce framework.</li>
-<li><a href="https://01.org/graphbuilder/" target="_blank" rel="external">Intel GraphBuilder</a> - tools to construct large-scale graphs on top of Hadoop.</li>
-<li><a href="http://mapgraph.io/" target="_blank" rel="external">MapGraph</a> - Massively Parallel Graph processing on GPUs.</li>
-<li><a href="http://www.neo4j.org/" target="_blank" rel="external">Neo4j</a> - graph database writting entirely in Java.</li>
-<li><a href="http://www.orientechnologies.com/" target="_blank" rel="external">OrientDB</a> - document and graph database.</li>
-<li><a href="https://github.com/xslogic/phoebus" target="_blank" rel="external">Phoebus</a> - framework for large scale graph processing.</li>
-<li><a href="http://thinkaurelius.github.io/titan/" target="_blank" rel="external">Titan</a> - distributed graph database, built over Cassandra.</li>
-<li><a href="https://github.com/twitter/flockdb" target="_blank" rel="external">Twitter FlockDB</a> - distribuited graph database.</li>
-</ul>
-<h2 id="Columnar-Databases"><a href="#Columnar-Databases" class="headerlink" title="Columnar Databases"></a>Columnar Databases</h2><p><strong>Note</strong> please read the note on <a href="#key-map-data-model">Key-Map Data Model</a> section.</p>
-<ul>
-<li><a href="http://the-paper-trail.org/blog/columnar-storage/" target="_blank" rel="external">Columnar Storage</a> - an explanation of what columnar storage is and when you might want it.</li>
-<li><a href="http://www.actian.com/" target="_blank" rel="external">Actian Vector</a> - column-oriented analytic database.</li>
-<li><a href="http://db.lcs.mit.edu/projects/cstore/" target="_blank" rel="external">C-Store</a> - column oriented DBMS.</li>
-<li><a href="https://www.monetdb.org/" target="_blank" rel="external">MonetDB</a> - column store database.</li>
-<li><a href="http://parquet.incubator.apache.org/" target="_blank" rel="external">Parquet</a> - columnar storage format for Hadoop.</li>
-<li><a href="https://www.pivotal.io/big-data/pivotal-greenplum-database" target="_blank" rel="external">Pivotal Greenplum</a> - purpose-built, dedicated analytic data warehouse that offers a columnar engine as well as a traditional row-based one.</li>
-<li><a href="http://www.vertica.com/" target="_blank" rel="external">Vertica</a> - is designed to manage large, fast-growing volumes of data and provide very fast query performance when used for data warehouses.</li>
-<li><a href="https://developers.google.com/bigquery/" target="_blank" rel="external">Google BigQuery</a> Google’s cloud offering backed by their pioneering work on Dremel.</li>
-<li><a href="http://aws.amazon.com/redshift/" target="_blank" rel="external">Amazon Redshift</a> Amazon’s cloud offering, also based on a columnar datastore backend.</li>
-</ul>
-<h2 id="NewSQL-Databases"><a href="#NewSQL-Databases" class="headerlink" title="NewSQL Databases"></a>NewSQL Databases</h2><ul>
-<li><a href="http://www.actian.com/products/operational-databases/" target="_blank" rel="external">Actian Ingres</a> - commercially supported, open-source SQL relational database management system.</li>
-<li><a href="http://aws.amazon.com/redshift/" target="_blank" rel="external">Amazon RedShift</a> - data warehouse service, based on PostgreSQL.</li>
-<li><a href="http://probcomp.csail.mit.edu/bayesdb/index.html" target="_blank" rel="external">BayesDB</a> - statistic oriented SQL database.</li>
-<li><a href="https://github.com/cockroachdb/cockroach" target="_blank" rel="external">Cockroach</a> - Scalable, Geo-Replicated, Transactional Datastore.</li>
-<li><a href="http://www.datomic.com/" target="_blank" rel="external">Datomic</a> - distributed database designed to enable scalable, flexible and intelligent applications.</li>
-<li><a href="https://foundationdb.com/" target="_blank" rel="external">FoundationDB</a> - distributed database, inspired by F1.</li>
-<li><a href="http://research.google.com/pubs/pub41344.html" target="_blank" rel="external">Google F1</a> - distributed SQL database built on Spanner.</li>
-<li><a href="http://research.google.com/archive/spanner.html" target="_blank" rel="external">Google Spanner</a> - globally distributed semi-relational database.</li>
-<li><a href="http://hstore.cs.brown.edu/" target="_blank" rel="external">H-Store</a> - is an experimental main-memory, parallel database management system that is optimized for on-line transaction processing (OLTP) applications.</li>
-<li><a href="https://github.com/VCNC/haeinsa" target="_blank" rel="external">Haeinsa</a> - linearly scalable multi-row, multi-table transaction library for HBase based on Percolator.</li>
-<li><a href="http://www.percona.com/doc/percona-server/5.5/performance/handlersocket.html" target="_blank" rel="external">HandlerSocket</a> - NoSQL plugin for MySQL/MariaDB.</li>
-<li><a href="http://www.infinisql.org/" target="_blank" rel="external">InfiniSQL</a> - infinity scalable RDBMS.</li>
-<li><a href="http://www.memsql.com/" target="_blank" rel="external">MemSQL</a> - in memory SQL database witho optimized columnar storage on flash.</li>
-<li><a href="http://www.nuodb.com/" target="_blank" rel="external">NuoDB</a> - SQL/ACID compliant distributed database.</li>
-<li><a href="http://www.oracle.com/us/corporate/features/database-12c/index.html" target="_blank" rel="external">Oracle Database</a> - object-relational database management system.</li>
-<li><a href="http://www.oracle.com/technetwork/database/database-technologies/timesten/overview/index.html" target="_blank" rel="external">Oracle TimesTen in-Memory Database</a> - in-memory, relational database management system with persistence and recoverability.</li>
-<li><a href="http://gemfirexd.docs.gopivotal.com/latest/userguide/index.html?q=about_users_guide.html/" target="_blank" rel="external">Pivotal GemFire XD</a> - Low-latency, in-memory, distributed SQL data store. Provides SQL interface to in-memory table data, persistable in HDFS.</li>
-<li><a href="http://www.saphana.com/welcome" target="_blank" rel="external">SAP HANA</a> - is an in-memory, column-oriented, relational database management system.</li>
-<li><a href="http://senseidb.com/" target="_blank" rel="external">SenseiDB</a> - distributed, realtime, semi-structured database.</li>
-<li><a href="http://skydb.io/" target="_blank" rel="external">Sky</a> - database used for flexible, high performance analysis of behavioral data.</li>
-<li><a href="http://www.symmetricds.org/" target="_blank" rel="external">SymmetricDS</a> - open source software for both file and database synchronization.</li>
-</ul>
-<h2 id="Time-Series-Databases"><a href="#Time-Series-Databases" class="headerlink" title="Time-Series Databases"></a>Time-Series Databases</h2><ul>
-<li><a href="http://square.github.io/cube/" target="_blank" rel="external">Cube</a> - uses MongoDB to store time series data.</li>
-<li><a href="http://influxdb.com/" target="_blank" rel="external">InfluxDB</a> - distributed time series database.</li>
-<li><a href="https://code.google.com/p/kairosdb/" target="_blank" rel="external">Kairosdb</a> - similar to OpenTSDB but allows for Cassandra.</li>
-<li><a href="http://opentsdb.net" target="_blank" rel="external">OpenTSDB</a> - distributed time series database on top of HBase.</li>
-</ul>
-<h2 id="SQL-like-processing"><a href="#SQL-like-processing" class="headerlink" title="SQL-like processing"></a>SQL-like processing</h2><ul>
-<li><a href="http://www.actian.com/products/analytics-platform/" target="_blank" rel="external">Actian SQL for Hadoop</a> - high performance interactive SQL access to all Hadoop data.</li>
-<li><a href="https://github.com/amplab/shark/" target="_blank" rel="external">AMPLAB Shark</a> - data warehouse system for Spark.</li>
-<li><a href="http://incubator.apache.org/drill/" target="_blank" rel="external">Apache Drill</a> - framework for interactive analysis, inspired by Dremel.</li>
-<li><a href="http://hive.apache.org/docs/hcat_r0.5.0/" target="_blank" rel="external">Apache HCatalog</a> - table and storage management layer for Hadoop.</li>
-<li><a href="http://hive.apache.org/" target="_blank" rel="external">Apache Hive</a> - SQL-like data warehouse system for Hadoop.</li>
-<li><a href="https://wiki.apache.org/incubator/OptiqProposal" target="_blank" rel="external">Apache Optiq</a> - framework that allows efficient translation of queries involving heterogeneous and federated data.</li>
-<li><a href="http://phoenix.incubator.apache.org/index.html" target="_blank" rel="external">Apache Phoenix</a> - SQL skin over HBase.</li>
-<li><a href="http://blinkdb.org/" target="_blank" rel="external">BlinkDB</a> - massively parallel, approximate query engine.</li>
-<li><a href="http://www.cloudera.com/content/cloudera/en/products-and-services/cdh/impala.html" target="_blank" rel="external">Cloudera Impala</a> - framework for interactive analysis, Inspired by Dremel.</li>
-<li><a href="http://www.cascading.org/lingual/" target="_blank" rel="external">Concurrent Lingual</a> - SQL-like query language for Cascading.</li>
-<li><a href="http://www.datasalt.com/products/splout-sql/" target="_blank" rel="external">Datasalt Splout SQL</a> - full SQL query engine for big datasets.</li>
-<li><a href="http://prestodb.io/" target="_blank" rel="external">Facebook PrestoDB</a> - distributed SQL query engine.</li>
-<li><a href="http://research.google.com/pubs/pub36632.html" target="_blank" rel="external">Google BigQuery</a> - framework for interactive analysis, implementation of Dremel.</li>
-<li><a href="http://www.gopivotal.com/pivotal-products/data/pivotal-hd" target="_blank" rel="external">Pivotal HAWQ</a> - SQL-like data warehouse system for Hadoop.</li>
-<li><a href="http://rainstor.com/products/rainstor-database/" target="_blank" rel="external">RainstorDB</a> - database for storing petabyte-scale volumes of structured and semi-structured data.</li>
-<li><a href="https://github.com/apache/spark/tree/master/sql" target="_blank" rel="external">Spark Catalyst</a> - is a Query Optimization Framework for Spark and Shark.</li>
-<li><a href="http://databricks.com/blog/2014/03/26/Spark-SQL-manipulating-structured-data-using-Spark.html" target="_blank" rel="external">SparkSQL</a> - Manipulating Structured Data Using Spark.</li>
-<li><a href="http://www.splicemachine.com/" target="_blank" rel="external">Splice Machine</a> - a full-featured SQL-on-Hadoop RDBMS with ACID transactions.</li>
-<li><a href="http://hortonworks.com/labs/stinger/" target="_blank" rel="external">Stinger</a> - interactive query for Hive.</li>
-<li><a href="http://tajo.incubator.apache.org/" target="_blank" rel="external">Tajo</a> - distributed data warehouse system on Hadoop.</li>
-<li><a href="https://wiki.trafodion.org/wiki/index.php/Main_Page" target="_blank" rel="external">Trafodion</a> - enterprise-class SQL-on-HBase solution targeting big data transactional or operational workloads.</li>
-</ul>
-<h2 id="Integrated-Development-Environments"><a href="#Integrated-Development-Environments" class="headerlink" title="Integrated Development Environments"></a>Integrated Development Environments</h2><ul>
-<li><a href="https://github.com/rstudio/rstudio" target="_blank" rel="external">R-Studio</a> - IDE for R.</li>
-</ul>
-<h2 id="Data-Ingestion"><a href="#Data-Ingestion" class="headerlink" title="Data Ingestion"></a>Data Ingestion</h2><ul>
-<li><a href="http://aws.amazon.com/kinesis/" target="_blank" rel="external">Amazon Kinesis</a> - real-time processing of streaming data at massive scale.</li>
-<li><a href="http://incubator.apache.org/chukwa/" target="_blank" rel="external">Apache Chukwa</a> - data collection system.</li>
-<li><a href="http://flume.apache.org/" target="_blank" rel="external">Apache Flume</a> - service to manage large amount of log data.</li>
-<li><a href="http://kafka.apache.org/" target="_blank" rel="external">Apache Kafka</a> - distributed publish-subscribe messaging system.</li>
-<li><a href="http://samza.incubator.apache.org/" target="_blank" rel="external">Apache Samza</a> - stream processing framework, based on Kafla and YARN.</li>
-<li><a href="http://sqoop.apache.org/" target="_blank" rel="external">Apache Sqoop</a> - tool to transfer data between Hadoop and a structured datastore.</li>
-<li><a href="https://github.com/cloudera/cdk/tree/master/cdk-morphlines" target="_blank" rel="external">Cloudera Morphlines</a> - framework that help ETL to Solr, HBase and HDFS.</li>
-<li><a href="https://github.com/facebook/scribe" target="_blank" rel="external">Facebook Scribe</a> - streamed log data aggregator.</li>
-<li><a href="http://fluentd.org/" target="_blank" rel="external">Fluentd</a> - tool to collect events and logs.</li>
-<li><a href="http://research.google.com/pubs/pub41318.html" target="_blank" rel="external">Google Photon</a> - geographically distributed system for joining multiple continuously flowing streams of data in real-time with high scalability and low latency.</li>
-<li><a href="https://github.com/mozilla-services/heka" target="_blank" rel="external">Heka</a> - open source stream processing software system.</li>
-<li><a href="https://github.com/sonalgoyal/hiho" target="_blank" rel="external">HIHO</a> - framework for connecting disparate data sources with Hadoop.</li>
-<li><a href="http://robey.github.io/kestrel/" target="_blank" rel="external">Kestrel</a> - distributed message queue system.</li>
-<li><a href="http://data.linkedin.com/projects/databus" target="_blank" rel="external">LinkedIn Databus</a> - stream of change capture events for a database.</li>
-<li><a href="https://github.com/linkedin/kamikaze" target="_blank" rel="external">LinkedIn Kamikaze</a> - utility package for compressing sorted integer arrays.</li>
-<li><a href="https://github.com/linkedin/white-elephant" target="_blank" rel="external">LinkedIn White Elephant</a> - log aggregator and dashboard.</li>
-<li><a href="http://logstash.net" target="_blank" rel="external">Logstash</a> - a tool for managing events and logs.</li>
-<li><a href="https://github.com/Netflix/suro" target="_blank" rel="external">Netflix Suro</a> - log agregattor like Storm and Samza based on Chukwa.</li>
-<li><a href="https://github.com/pinterest/secor" target="_blank" rel="external">Pinterest Secor</a> - is a service implementing Kafka log persistance.</li>
-</ul>
-<h2 id="Service-Programming"><a href="#Service-Programming" class="headerlink" title="Service Programming"></a>Service Programming</h2><ul>
-<li><a href="http://akka.io/" target="_blank" rel="external">Akka Toolkit</a> - runtime for distributed, and fault tolerant event-driven applications on the JVM.</li>
-<li><a href="http://avro.apache.org/" target="_blank" rel="external">Apache Avro</a> - data serialization system.</li>
-<li><a href="http://curator.apache.org/" target="_blank" rel="external">Apache Curator</a> - Java libaries for Apache ZooKeeper.</li>
-<li><a href="http://karaf.apache.org/" target="_blank" rel="external">Apache Karaf</a> - OSGi runtime that runs on top of any OSGi framework.</li>
-<li><a href="http://thrift.apache.org//" target="_blank" rel="external">Apache Thrift</a> - framework to build binary protocols.</li>
-<li><a href="http://zookeeper.apache.org/" target="_blank" rel="external">Apache Zookeeper</a> - centralized service for process management.</li>
-<li><a href="http://research.google.com/archive/chubby.html" target="_blank" rel="external">Google Chubby</a> - a lock service for loosely-coupled distributed systems.</li>
-<li><a href="http://data.linkedin.com/opensource/norbert" target="_blank" rel="external">Linkedin Norbert</a> - cluster manager.</li>
-<li><a href="http://www.open-mpi.org/" target="_blank" rel="external">OpenMPI</a> - message passing framework.</li>
-<li><a href="http://www.serfdom.io/" target="_blank" rel="external">Serf</a> - decentralized solution for service discovery and orchestration.</li>
-<li><a href="https://github.com/spotify/luigi" target="_blank" rel="external">Spotify Luigi</a> - a Python package for building complex pipelines of batch jobs. It handles dependency resolution, workflow management, visualization, handling failures, command line integration, and much more.</li>
-<li><a href="https://github.com/spring-projects/spring-xd" target="_blank" rel="external">Spring XD</a> - distributed and extensible system for data ingestion, real time analytics, batch processing, and data export.</li>
-<li><a href="https://github.com/kevinweil/elephant-bird" target="_blank" rel="external">Twitter Elephant Bird</a> - libraries for working with LZOP-compressed data.</li>
-<li><a href="https://twitter.github.io/finagle/" target="_blank" rel="external">Twitter Finagle</a> - asynchronous network stack for the JVM.</li>
-</ul>
-<h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><ul>
-<li><a href="http://aurora.incubator.apache.org/" target="_blank" rel="external">Apache Aurora</a> - is a service scheduler that runs on top of Apache Mesos.</li>
-<li><a href="http://falcon.incubator.apache.org/" target="_blank" rel="external">Apache Falcon</a> - data management framework.</li>
-<li><a href="http://oozie.apache.org/" target="_blank" rel="external">Apache Oozie</a> - workflow job scheduler.</li>
-<li><a href="http://airbnb.github.io/chronos/" target="_blank" rel="external">Chronos</a> - distributed and fault-tolerant scheduler.</li>
-<li><a href="http://azkaban.github.io/azkaban2/" target="_blank" rel="external">Linkedin Azkaban</a> - batch workflow job scheduler.</li>
-<li><a href="https://github.com/radlab/sparrow" target="_blank" rel="external">Sparrow</a> - scheduling platform.</li>
-</ul>
-<h2 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h2><ul>
-<li><a href="http://mahout.apache.org/" target="_blank" rel="external">Apache Mahout</a> - machine learning library for Hadoop.</li>
-<li><a href="https://github.com/harthur/brain" target="_blank" rel="external">brain</a> - Neural networks in JavaScript.</li>
-<li><a href="https://github.com/cloudera/oryx" target="_blank" rel="external">Cloudera Oryx</a> - real-time large-scale machine learning.</li>
-<li><a href="http://www.cascading.org/pattern/" target="_blank" rel="external">Concurrent Pattern</a> - machine learning library for Cascading.</li>
-<li><a href="https://github.com/karpathy/convnetjs" target="_blank" rel="external">convnetjs</a> - Deep Learning in Javascript. Train Convolutional Neural Networks (or ordinary ones) in your browser.</li>
-<li><a href="https://github.com/danielsdeleo/Decider" target="_blank" rel="external">Decider</a> - Flexible and Extensible Machine Learning in Ruby.</li>
-<li><a href="http://www.etcml.com/" target="_blank" rel="external">etcML</a> - text classification with machine learning.</li>
-<li><a href="https://github.com/etsy/Conjecture" target="_blank" rel="external">Etsy Conjecture</a> - scalable Machine Learning in Scalding.</li>
-<li><a href="http://users.soe.ucsc.edu/~niejiazhong/slides/chandra.pdf" target="_blank" rel="external">Google Sibyl</a> - System for Large Scale Machine Learning at Google.</li>
-<li><a href="http://0xdata.github.io/h2o/" target="_blank" rel="external">H2O</a> - statistical, machine learning and math runtime for Hadoop.</li>
-<li><a href="http://www.mlbase.org/" target="_blank" rel="external">MLbase</a> - distributed machine learning libraries for the BDAS stack.</li>
-<li><a href="https://github.com/nikolaypavlov/MLPNeuralNet" target="_blank" rel="external">MLPNeuralNet</a> - Fast multilayer perceptron neural network library for iOS and Mac OS X.</li>
-<li><a href="https://github.com/numenta/nupic" target="_blank" rel="external">nupic</a> - Numenta Platform for Intelligent Computing: a brain-inspired machine intelligence platform, and biologically accurate neural network based on cortical learning algorithms.</li>
-<li><a href="http://prediction.io/" target="_blank" rel="external">PredictionIO</a> - machine learning server buit on Hadoop, Mahout and Cascading.</li>
-<li><a href="https://github.com/scikit-learn/scikit-learn" target="_blank" rel="external">scikit-learn</a> - scikit-learn: machine learning in Python.</li>
-<li><a href="http://spark.apache.org/docs/0.9.0/mllib-guide.html" target="_blank" rel="external">Spark MLlib</a> - a Spark implementation of some common machine learning (ML) functionality.</li>
-<li><a href="https://github.com/JohnLangford/vowpal_wabbit/wiki" target="_blank" rel="external">Vowpal Wabbit</a> - learning system sponsored by Microsoft and Yahoo!.</li>
-<li><a href="http://www.cs.waikato.ac.nz/ml/weka/" target="_blank" rel="external">WEKA</a> - suite of machine learning software.</li>
-</ul>
-<h2 id="Benchmarking"><a href="#Benchmarking" class="headerlink" title="Benchmarking"></a>Benchmarking</h2><ul>
-<li><a href="https://issues.apache.org/jira/browse/MAPREDUCE-3561" target="_blank" rel="external">Apache Hadoop Benchmarking</a> - micro-benchmarks for testing Hadoop performances.</li>
-<li><a href="https://github.com/SWIMProjectUCB/SWIM/wiki" target="_blank" rel="external">Berkeley SWIM Benchmark</a> - real-world big data workload benchmark.</li>
-<li><a href="https://github.com/intel-hadoop/HiBench" target="_blank" rel="external">Intel HiBench</a> - a Hadoop benchmark suite.</li>
-<li><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5116" target="_blank" rel="external">PUMA Benchmarking</a> - benchmark suite for MapReduce applications.</li>
-<li><a href="https://developer.yahoo.com/blogs/hadoop/gridmix3-emulating-production-workload-apache-hadoop-450.html" target="_blank" rel="external">Yahoo Gridmix3</a> - Hadoop cluster benchmarking from Yahoo engineer team.</li>
-</ul>
-<h2 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h2><ul>
-<li><a href="http://knox.apache.org/" target="_blank" rel="external">Apache Knox Gateway</a> - single point of secure access for Hadoop clusters.</li>
-<li><a href="http://incubator.apache.org/projects/sentry.html" target="_blank" rel="external">Apache Sentry</a> - security module for data stored in Hadoop.</li>
-</ul>
-<h2 id="System-Deployment"><a href="#System-Deployment" class="headerlink" title="System Deployment"></a>System Deployment</h2><ul>
-<li><a href="http://ambari.apache.org/" target="_blank" rel="external">Apache Ambari</a> - operational framework for Hadoop mangement.</li>
-<li><a href="http://bigtop.apache.org//" target="_blank" rel="external">Apache Bigtop</a> - system deployment framework for the Hadoop ecosystem.</li>
-<li><a href="http://helix.apache.org/" target="_blank" rel="external">Apache Helix</a> - cluster management framework.</li>
-<li><a href="http://mesos.apache.org/" target="_blank" rel="external">Apache Mesos</a> - cluster manager.</li>
-<li><a href="https://github.com/hortonworks/slider" target="_blank" rel="external">Apache Slider</a> - is a YARN application to deploy existing distributed applications on YARN.</li>
-<li><a href="http://whirr.apache.org/" target="_blank" rel="external">Apache Whirr</a> - set of libraries for running cloud services.</li>
-<li><a href="http://hortonworks.com/hadoop/yarn/" target="_blank" rel="external">Apache YARN</a> - Cluster manager.</li>
-<li><a href="http://brooklyncentral.github.io/" target="_blank" rel="external">Brooklyn</a> - library that simplifies application deployment and management.</li>
-<li><a href="http://buildoop.github.io/" target="_blank" rel="external">Buildoop</a> - Similar to Apache BigTop based on Groovy language.</li>
-<li><a href="http://gethue.com/" target="_blank" rel="external">Cloudera HUE</a> - web application for interacting with Hadoop.</li>
-<li><a href="http://www.wired.com/2012/08/facebook-prism/" target="_blank" rel="external">Facebook Prism</a> - multi datacenters replication system.</li>
-<li><a href="http://www.wired.com/wiredenterprise/2013/03/google-borg-twitter-mesos/all/" target="_blank" rel="external">Google Borg</a> - job scheduling and monitoring system.</li>
-<li><a href="https://www.youtube.com/watch?v=0ZFMlO98Jkc" target="_blank" rel="external">Google Omega</a> - job scheduling and monitoring system.</li>
-<li><a href="http://hortonworks.com/blog/introducing-hoya-hbase-on-yarn/" target="_blank" rel="external">Hortonworks HOYA</a> - application that can deploy HBase cluster on YARN.</li>
-<li><a href="https://github.com/mesosphere/marathon" target="_blank" rel="external">Marathon</a> - Mesos framework for long-running services.</li>
-</ul>
-<h2 id="Applications"><a href="#Applications" class="headerlink" title="Applications"></a>Applications</h2><ul>
-<li><a href="https://github.com/adobe-research/spindle" target="_blank" rel="external">Adobe spindle</a> - Next-generation web analytics processing with Scala, Spark, and Parquet.</li>
-<li><a href="http://www.kiji.org/" target="_blank" rel="external">Apache Kiji</a> - framework to collect and analyze data in real-time, based on HBase.</li>
-<li><a href="http://nutch.apache.org/" target="_blank" rel="external">Apache Nutch</a> - open source web crawler.</li>
-<li><a href="http://oodt.apache.org/" target="_blank" rel="external">Apache OODT</a> - capturing, processing and sharing of data for NASA’s scientific archives.</li>
-<li><a href="https://tika.apache.org/" target="_blank" rel="external">Apache Tika</a> - content analysis toolkit.</li>
-<li><a href="http://www.dominoup.com/" target="_blank" rel="external">Domino</a> - Run, scale, share, and deploy models — without any infrastructure.</li>
-<li><a href="http://www.eclipse.org/birt/" target="_blank" rel="external">Eclipse BIRT</a> - Eclipse-based reporting system.</li>
-<li><a href="https://github.com/Codecademy/EventHub" target="_blank" rel="external">Eventhub</a> - open source event analytics platform.</li>
-<li><a href="http://hipi.cs.virginia.edu/" target="_blank" rel="external">HIPI Library</a> - API for performing image processing tasks on Hadoop’s MapReduce.</li>
-<li><a href="http://www.splunk.com/download/hunk" target="_blank" rel="external">Hunk</a> - Splunk analytics for Hadoop.</li>
-<li><a href="http://madlib.net/community/" target="_blank" rel="external">MADlib</a> - data-processing library of an RDBMS to analyze data.</li>
-<li><a href="https://github.com/gopivotal/PivotalR" target="_blank" rel="external">PivotalR</a> - R on Pivotal HD / HAWQ and PostgreSQL.</li>
-<li><a href="http://www.qubole.com/" target="_blank" rel="external">Qubole</a> - auto-scaling Hadoop cluster, built-in data connectors.</li>
-<li><a href="https://senseplatform.com//" target="_blank" rel="external">Sense</a> - Cloud Platform for Data Science and Big Data Analytics.</li>
-<li><a href="https://github.com/snowplow/snowplow" target="_blank" rel="external">Snowplow</a> - enterprise-strength web and event analytics, powered by Hadoop, Kinesis, Redshift and Postgres.</li>
-<li><a href="http://amplab-extras.github.io/SparkR-pkg/" target="_blank" rel="external">SparkR</a> - R frontend for Spark.</li>
-<li><a href="http://www.splunk.com/" target="_blank" rel="external">Splunk</a> - analyzer for machine-generated date.</li>
-<li><a href="http://www.talend.com/products/big-data" target="_blank" rel="external">Talend</a> - unified open source environment for YARN, Hadoop, HBASE, Hive, HCatalog &amp; Pig.</li>
-</ul>
-<h2 id="Search-engine-and-framework"><a href="#Search-engine-and-framework" class="headerlink" title="Search engine and framework"></a>Search engine and framework</h2><ul>
-<li><a href="http://lucene.apache.org/" target="_blank" rel="external">Apache Lucene</a> - Search engine library.</li>
-<li><a href="http://lucene.apache.org/solr/" target="_blank" rel="external">Apache Solr</a> - Search platform for Apache Lucene.</li>
-<li><a href="http://www.elasticsearch.org/" target="_blank" rel="external">ElasticSearch</a> - Search and analytics engine based on Apache Lucene.</li>
-<li><a href="http://enigma.io" target="_blank" rel="external">Enigma.io</a> – Freemium robust web application for exploring, filtering, analyzing, searching and exporting massive datasets scraped from across the Web.</li>
-<li><a href="https://www.facebook.com/publications/219621248185635/" target="_blank" rel="external">Facebook Unicorn</a> - social graph search platform.</li>
-<li><a href="http://googleblog.blogspot.it/2010/06/our-new-search-index-caffeine.html" target="_blank" rel="external">Google Caffeine</a> - continuous indexing system.</li>
-<li><a href="http://research.google.com/pubs/pub36726.html" target="_blank" rel="external">Google Percolator</a> - continuous indexing system.</li>
-<li><a href="">TeraGoogle</a> - large search index.</li>
-<li><a href="https://blogs.apache.org/hbase/entry/coprocessor_introduction" target="_blank" rel="external">HBase Coprocessor</a> - implementation of Percolator, part of HBase.</li>
-<li><a href="http://ngdata.github.io/hbase-indexer/" target="_blank" rel="external">Lily HBase Indexer</a> - quickly and easily search for any content stored in HBase.</li>
-<li><a href="http://senseidb.github.io/bobo/" target="_blank" rel="external">LinkedIn Bobo</a> - is a Faceted Search implementation written purely in Java, an extension to Apache Lucene.</li>
-<li><a href="https://github.com/linkedin/cleo" target="_blank" rel="external">LinkedIn Cleo</a> - is a flexible software library for enabling rapid development of partial, out-of-order and real-time typeahead search.</li>
-<li><a href="http://engineering.linkedin.com/search/did-you-mean-galene" target="_blank" rel="external">LinkedIn Galene</a> - search architecture at LinkedIn.</li>
-<li><a href="https://github.com/senseidb/zoie" target="_blank" rel="external">LinkedIn Zoie</a> - is a realtime search/indexing system written in Java.</li>
-<li><a href="http://sphinxsearch.com/" target="_blank" rel="external">Sphnix Search Server</a> - fulltext search engine.</li>
-</ul>
-<h2 id="MySQL-forks-and-evolutions"><a href="#MySQL-forks-and-evolutions" class="headerlink" title="MySQL forks and evolutions"></a>MySQL forks and evolutions</h2><ul>
-<li><a href="http://aws.amazon.com/rds/" target="_blank" rel="external">Amazon RDS</a> - MySQL databases in Amazon’s cloud.</li>
-<li><a href="http://www.drizzle.org/" target="_blank" rel="external">Drizzle</a> - evolution of MySQL 6.0.</li>
-<li><a href="https://developers.google.com/cloud-sql/" target="_blank" rel="external">Google Cloud SQL</a> - MySQL databases in Google’s cloud.</li>
-<li><a href="https://mariadb.org/" target="_blank" rel="external">MariaDB</a> - enhanced, drop-in replacement for MySQL.</li>
-<li><a href="http://www.mysql.com/products/cluster/" target="_blank" rel="external">MySQL Cluster</a> - MySQL implementation using NDB Cluster storage engine.</li>
-<li><a href="http://www.percona.com/software/percona-server" target="_blank" rel="external">Percona Server</a> - enhanced, drop-in replacement for MySQL.</li>
-<li><a href="https://github.com/renecannao/proxysql" target="_blank" rel="external">ProxySQL</a> - High Performance Proxy for MySQL.</li>
-<li><a href="http://www.tokutek.com/products/tokudb-for-mysql/" target="_blank" rel="external">TokuDB</a> - TokuDB is a storage engine for MySQL and MariaDB.</li>
-<li><a href="http://webscalesql.org/" target="_blank" rel="external">WebScaleSQL</a> - is a collaboration among engineers from several companies that face similar challenges in running MySQL at scale.</li>
-</ul>
-<h2 id="PostgreSQL-forks-and-evolutions"><a href="#PostgreSQL-forks-and-evolutions" class="headerlink" title="PostgreSQL forks and evolutions"></a>PostgreSQL forks and evolutions</h2><ul>
-<li><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html" target="_blank" rel="external">HadoopDB</a> - hybrid of MapReduce and DBMS.</li>
-<li><a href="http://www-01.ibm.com/software/data/netezza/" target="_blank" rel="external">IBM Netezza</a> - high-performance data warehouse appliances.</li>
-<li><a href="http://www.postgres-xl.org/" target="_blank" rel="external">Postgres-XL</a> - Scalable Open Source PostgreSQL-based Database Cluster.</li>
-<li><a href="http://www-users.cs.umn.edu/~sarwat/RecDB/" target="_blank" rel="external">RecDB</a> - Open Source Recommendation Engine Built Entirely Inside PostgreSQL.</li>
-<li><a href="http://www.stormdb.com/community/stado" target="_blank" rel="external">Stado</a> - open source MPP database system solely targeted at data warehousing and data mart applications.</li>
-<li><a href="http://www.scribd.com/doc/3159239/70-Everest-PGCon-RT" target="_blank" rel="external">Yahoo Everest</a> - multi-peta-byte database / MPP derived by PostgreSQL.</li>
-</ul>
-<h2 id="Memcached-forks-and-evolutions"><a href="#Memcached-forks-and-evolutions" class="headerlink" title="Memcached forks and evolutions"></a>Memcached forks and evolutions</h2><ul>
-<li><a href="https://www.facebook.com/notes/facebook-engineering/mcdipper-a-key-value-cache-for-flash-storage/10151347090423920" target="_blank" rel="external">Facebook McDipper</a> - key/value cache for flash storage.</li>
-<li><a href="https://www.facebook.com/notes/facebook-engineering/scaling-memcache-at-facebook/10151411410803920" target="_blank" rel="external">Facebook Memcached</a> - fork of Memcache.</li>
-<li><a href="https://github.com/twitter/twemproxy" target="_blank" rel="external">Twemproxy</a> - A fast, light-weight proxy for memcached and redis.</li>
-<li><a href="https://github.com/twitter/fatcache" target="_blank" rel="external">Twitter Fatcache</a> - key/value cache for flash storage.</li>
-<li><a href="https://github.com/twitter/twemcache" target="_blank" rel="external">Twitter Twemcache</a> - fork of Memcache.</li>
-</ul>
-<h2 id="Embedded-Databases"><a href="#Embedded-Databases" class="headerlink" title="Embedded Databases"></a>Embedded Databases</h2><ul>
-<li><a href="http://www.actian.com/products/operational-databases/" target="_blank" rel="external">Actian PSQL</a> - ACID-compliant DBMS developed by Pervasive Software, optimized for embedding in applications.</li>
-<li><a href="http://www.oracle.com/us/products/database/berkeley-db/overview/index.html" target="_blank" rel="external">BerkeleyDB</a> - a software library that provides a high-performance embedded database for key/value data.</li>
-<li><a href="https://github.com/krestenkrab/hanoidb" target="_blank" rel="external">HanoiDB</a> - Erlang LSM BTree Storage.</li>
-<li><a href="https://code.google.com/p/leveldb/" target="_blank" rel="external">LevelDB</a> - a fast key-value storage library written at Google that provides an ordered mapping from string keys to string values.</li>
-<li><a href="http://symas.com/mdb/" target="_blank" rel="external">LMDB</a> - ultra-fast, ultra-compact key-value embedded data store developed by Symas.</li>
-<li><a href="http://rocksdb.org/" target="_blank" rel="external">RocksDB</a> - embeddable persistent key-value store for fast storage based on LevelDB.</li>
-</ul>
-<h2 id="Business-Intelligence"><a href="#Business-Intelligence" class="headerlink" title="Business Intelligence"></a>Business Intelligence</h2><ul>
-<li><a href="http://www.bimeanalytics.com/?lang=en" target="_blank" rel="external">BIME Analytics</a> - business intelligence platform in the cloud.</li>
-<li><a href="https://chartio.com" target="_blank" rel="external">Chartio</a> - lean business intelligence platform to visualize and explore your data.</li>
-<li><a href="https://www.jaspersoft.com/" target="_blank" rel="external">Jaspersoft</a> - powerful business intelligence suite.</li>
-<li><a href="http://www.jedox.com/" target="_blank" rel="external">Jedox Palo</a> - customisable Business Intelligence platform.</li>
-<li><a href="http://www.microsoft.com/en-us/server-cloud/solutions/business-intelligence/default.aspx" target="_blank" rel="external">Microsoft</a> - business intelligence software and platform.</li>
-<li><a href="http://www.microstrategy.com/" target="_blank" rel="external">Microstrategy</a> - software platforms for business intelligence, mobile intelligence, and network applications.</li>
-<li><a href="http://www.pentaho.com/" target="_blank" rel="external">Pentaho</a> - business intelligence platform.</li>
-<li><a href="http://www.qlik.com/" target="_blank" rel="external">Qlik</a> - business intelligence and analytics platform.</li>
-<li><a href="http://www.spagoworld.org/xwiki/bin/view/SpagoBI/" target="_blank" rel="external">SpagoBI</a> - open source business intelligence platform.</li>
-<li><a href="https://www.tableausoftware.com/" target="_blank" rel="external">Tableau</a> - business intelligence platform.</li>
-<li><a href="http://www.zoomdata.com/" target="_blank" rel="external">Zoomdata</a> - Big Data Analytics.</li>
-</ul>
-<h2 id="Data-Visualization"><a href="#Data-Visualization" class="headerlink" title="Data Visualization"></a>Data Visualization</h2><ul>
-<li><a href="https://github.com/samizdatco/arbor" target="_blank" rel="external">Arbor</a> - graph visualization library using web workers and jQuery.</li>
-<li><a href="https://github.com/CartoDB/cartodb" target="_blank" rel="external">CartoDB</a> - open-source or freemium hosting for geospatial databases with powerful front-end editing capabilities and a robust API. </li>
-<li><a href="http://www.chartjs.org/" target="_blank" rel="external">Chart.js</a> - open source HTML5 Charts visualizations.</li>
-<li><a href="http://square.github.io/crossfilter/" target="_blank" rel="external">Crossfilter</a> -  JavaScript library for exploring large multivariate datasets in the browser. Works well with dc.js and d3.js. </li>
-<li><a href="https://github.com/square/cubism" target="_blank" rel="external">Cubism</a> - JavaScript library for time series visualization.</li>
-<li><a href="http://cytoscape.github.io/" target="_blank" rel="external">Cytoscape</a> - JavaScript library for visualizing complex networks.</li>
-<li><a href="http://dc-js.github.io/dc.js/" target="_blank" rel="external">DC.js</a> - Dimensional charting built to work natively with crossfilter rendered using d3.js. Excellent for connecting charts/additional metadata to hover events in D3.</li>
-<li><a href="http://d3js.org/" target="_blank" rel="external">D3</a> - javaScript library for manipulating documents.</li>
-<li><a href="https://github.com/HumbleSoftware/envisionjs" target="_blank" rel="external">Envisionjs</a> - dynamic HTML5 visualization.</li>
-<li><a href="https://github.com/Freeboard/freeboard" target="_blank" rel="external">Freeboard</a> - pen source real-time dashboard builder for IOT and other web mashups.</li>
-<li><a href="https://github.com/gephi/gephi" target="_blank" rel="external">Gephi</a> - An award-winning open-source platform for visualizing and manipulating large graphs and network connections. It’s like Photoshop, but for graphs. Available for Windows and Mac OS X. </li>
-<li><a href="https://developers.google.com/chart/" target="_blank" rel="external">Google Charts</a> - simple charting API.</li>
-<li><a href="http://grafana.org/" target="_blank" rel="external">Grafana</a> - graphite dashboard frontend, editor and graph composer.</li>
-<li><a href="http://graphite.wikidot.com/" target="_blank" rel="external">Graphite</a> - scalable Realtime Graphing.</li>
-<li><a href="http://www.highcharts.com/" target="_blank" rel="external">Highcharts</a> - simple and flexible charting API.</li>
-<li><a href="http://ipython.org/" target="_blank" rel="external">IPython</a> - provides a rich architecture for interactive computing.</li>
-<li><a href="https://github.com/matplotlib/matplotlib" target="_blank" rel="external">Matplotlib</a> - plotting with Python.</li>
-<li><a href="http://nvd3.org/" target="_blank" rel="external">NVD3</a> - chart components for d3.js.</li>
-<li><a href="https://github.com/benpickles/peity" target="_blank" rel="external">Peity</a> - Progressive SVG bar, line and pie charts.</li>
-<li><a href="http://plot.ly" target="_blank" rel="external">Plot.ly</a> - Easy-to-use web service that allows for rapid creation of complex charts, from heatmaps to histograms. Upload data to create and style charts with Plotly’s online spreadsheet. Fork others’ plots.</li>
-<li><a href="https://github.com/okfn/recline" target="_blank" rel="external">Recline</a> - simple but powerful library for building data applications in pure Javascript and HTML.</li>
-<li><a href="https://github.com/everythingme/redash" target="_blank" rel="external">Redash</a> - open-source platform to query and visualize data.</li>
-<li><a href="https://github.com/jacomyal/sigma.js" target="_blank" rel="external">Sigma.js</a> - JavaScript library dedicated to graph drawing.</li>
-<li><a href="https://github.com/trifacta/vega" target="_blank" rel="external">Vega</a> - a visualization grammar.</li>
-</ul>
-<h2 id="Internet-of-things-and-sensor-data"><a href="#Internet-of-things-and-sensor-data" class="headerlink" title="Internet of things and sensor data"></a>Internet of things and sensor data</h2><ul>
-<li><a href="https://tempoiq.com/" target="_blank" rel="external">TempoIQ</a> - Cloud-based sensor analytics.</li>
-</ul>
-<h2 id="Interesting-Readings"><a href="#Interesting-Readings" class="headerlink" title="Interesting Readings"></a>Interesting Readings</h2><ul>
-<li><a href="https://amplab.cs.berkeley.edu/benchmark/" target="_blank" rel="external">Big Data Benchmark</a> - Benchmark of Redshift, Hive, Shark, Impala and Stiger/Tez.</li>
-<li><a href="http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis" target="_blank" rel="external">NoSQL Comparison</a> - Cassandra vs MongoDB vs CouchDB vs Redis vs Riak vs HBase vs Couchbase vs Neo4j vs Hypertable vs ElasticSearch vs Accumulo vs VoltDB vs Scalaris comparison.</li>
-</ul>
-<h2 id="Interesting-Papers"><a href="#Interesting-Papers" class="headerlink" title="Interesting Papers"></a>Interesting Papers</h2><h3 id="2013-2014"><a href="#2013-2014" class="headerlink" title="2013 - 2014"></a>2013 - 2014</h3><ul>
-<li><a href="http://infolab.stanford.edu/~ullman/mmds/book.pdf" target="_blank" rel="external">2014</a> - <strong>Stanford</strong> - Mining of Massive Datasets.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2013/03/eurosys13-paper83.pdf" target="_blank" rel="external">2013</a> - <strong>AMPLab</strong> - Presto: Distributed Machine Learning and Graph Processing with Sparse Matrices.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2013/01/dmx1.pdf" target="_blank" rel="external">2013</a> - <strong>AMPLab</strong> - MLbase: A Distributed Machine-learning System.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2013/02/shark_sigmod2013.pdf" target="_blank" rel="external">2013</a> - <strong>AMPLab</strong> - Shark: SQL and Rich Analytics at Scale.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2013/05/grades-graphx_with_fonts.pdf" target="_blank" rel="external">2013</a> - <strong>AMPLab</strong> - GraphX: A Resilient Distributed Graph System on Spark.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//pubs/archive/40671.pdf" target="_blank" rel="external">2013</a> - <strong>Google</strong> - HyperLogLog in Practice: Algorithmic Engineering of a State of The Art Cardinality Estimation Algorithm.</li>
-<li><a href="http://research.microsoft.com/pubs/200169/now-vldb.pdf" target="_blank" rel="external">2013</a> - <strong>Microsoft</strong> - Scalable Progressive Analytics on Big Data in the Cloud.</li>
-<li><a href="http://static.druid.io/docs/druid.pdf" target="_blank" rel="external">2013</a> - <strong>Metamarkets</strong> - Druid: A Real-time Analytical Data Store.</li>
-<li><a href="http://db.disi.unitn.eu/pages/VLDBProgram/pdf/industry/p764-rae.pdf" target="_blank" rel="external">2013</a> - <strong>Google</strong> - Online, Asynchronous Schema Change in F1.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/pubs/archive/41344.pdf" target="_blank" rel="external">2013</a> - <strong>Google</strong> - F1: A Distributed SQL Database That Scales.</li>
-<li><a href="http://db.disi.unitn.eu/pages/VLDBProgram/pdf/industry/p734-akidau.pdf" target="_blank" rel="external">2013</a> - <strong>Google</strong> - MillWheel: Fault-Tolerant Stream Processing at Internet Scale.</li>
-<li><a href="http://db.disi.unitn.eu/pages/VLDBProgram/pdf/industry/p767-wiener.pdf" target="_blank" rel="external">2013</a> - <strong>Facebook</strong> - Scuba: Diving into Data at Facebook.</li>
-<li><a href="http://db.disi.unitn.eu/pages/VLDBProgram/pdf/industry/p871-curtiss.pdf" target="_blank" rel="external">2013</a> - <strong>Facebook</strong> - Unicorn: A System for Searching the Social Graph.</li>
-<li><a href="https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf" target="_blank" rel="external">2013</a> - <strong>Facebook</strong> - Scaling Memcache at Facebook.</li>
-</ul>
-<h3 id="2011-2012"><a href="#2011-2012" class="headerlink" title="2011 - 2012"></a>2011 - 2012</h3><ul>
-<li><a href="http://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf" target="_blank" rel="external">2012</a> - <strong>Twitter</strong> - The Unified Logging Infrastructure<br>for Data Analytics at Twitter.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2013/04/blinkdb_vldb12_demo.pdf" target="_blank" rel="external">2012</a> - <strong>AMPLab</strong> - Blink and It’s Done: Interactive Queries on Very Large Data.</li>
-<li><a href="https://www.usenix.org/system/files/login/articles/zaharia.pdf" target="_blank" rel="external">2012</a> - <strong>AMPLab</strong> - Fast and Interactive Analytics over Hadoop Data with Spark.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2012/03/mod482-xin1.pdf" target="_blank" rel="external">2012</a> - <strong>AMPLab</strong> - Shark: Fast Data Analysis Using Coarse-grained Distributed Memory.</li>
-<li><a href="https://www.usenix.org/legacy/event/nsdi11/tech/full_papers/Bolosky.pdf" target="_blank" rel="external">2012</a> - <strong>Microsoft</strong> - Paxos Replicated State Machines as the Basis of a High-Performance Data Store.</li>
-<li><a href="http://research.microsoft.com/pubs/178045/ppaoxs-paper29.pdf" target="_blank" rel="external">2012</a> - <strong>Microsoft</strong> - Paxos Made Parallel.</li>
-<li><a href="http://arxiv.org/pdf/1203.5485.pdf" target="_blank" rel="external">2012</a> - <strong>AMPLab</strong> - BlinkDB: Queries with Bounded Errors and Bounded Response Times on Very Large Data.</li>
-<li><a href="http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf" target="_blank" rel="external">2012</a> - <strong>Google</strong> - Processing a trillion cells per mouse click.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//archive/spanner-osdi2012.pdf" target="_blank" rel="external">2012</a> - <strong>Google</strong> - Spanner: Google’s Globally-Distributed Database.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2011/06/euro118-ananthanarayanan.pdf" target="_blank" rel="external">2011</a> - <strong>AMPLab</strong> - Scarlett: Coping with Skewed Popularity Content in MapReduce Clusters.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2011/06/Mesos-A-Platform-for-Fine-Grained-Resource-Sharing-in-the-Data-Center.pdf" target="_blank" rel="external">2011</a> - <strong>AMPLab</strong> - Mesos: A Platform for Fine-Grained Resource Sharing in the Data Center.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//pubs/archive/36971.pdf" target="_blank" rel="external">2011</a> - <strong>Google</strong> - Megastore: Providing Scalable, Highly Available Storage for Interactive Services.</li>
-</ul>
-<h3 id="2001-2010"><a href="#2001-2010" class="headerlink" title="2001 - 2010"></a>2001 - 2010</h3><ul>
-<li><a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf" target="_blank" rel="external">2010</a> - <strong>Facebook</strong> - Finding a needle in Haystack: Facebook’s photo storage.</li>
-<li><a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2011/06/Spark-Cluster-Computing-with-Working-Sets.pdf" target="_blank" rel="external">2010</a> - <strong>AMPLab</strong> - Spark: Cluster Computing with Working Sets.</li>
-<li><a href="http://static.googleusercontent.com/media/research.google.com/en/us/university/relations/facultysummit2010/storage_architecture_and_challenges.pdf" target="_blank" rel="external">2010</a> - <strong>Google</strong> - Storage Architecture and Challenges.</li>
-<li><a href="http://kowshik.github.io/JPregel/pregel_paper.pdf" target="_blank" rel="external">2010</a> - <strong>Google</strong> - Pregel: A System for Large-Scale Graph Processing.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//pubs/archive/36726.pdf" target="_blank" rel="external">2010</a> - <strong>Google</strong> - Large-scale Incremental Processing Using Distributed Transactions and Notiﬁcations base of Percolator and Caffeine.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//pubs/archive/36632.pdf" target="_blank" rel="external">2010</a> - <strong>Google</strong> - Dremel: Interactive Analysis of Web-Scale Datasets.</li>
-<li><a href="http://www.4lunas.org/pub/2010-s4.pdf" target="_blank" rel="external">2010</a> - <strong>Yahoo</strong> - S4: Distributed Stream Computing Platform.</li>
-<li><a href="http://www.vldb.org/pvldb/2/vldb09-861.pdf" target="_blank" rel="external">2009</a> - HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads.</li>
-<li><a href="http://www.cca08.org/papers/Paper-13-Ariel-Rabkin.pdf" target="_blank" rel="external">2008</a> - <strong>AMPLab</strong> - Chukwa: A large-scale monitoring system.</li>
-<li><a href="http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/decandia07dynamo.pdf" target="_blank" rel="external">2007</a> - <strong>Amazon</strong> - Dynamo: Amazon’s Highly Available Key-value Store.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//archive/chubby-osdi06.pdf" target="_blank" rel="external">2006</a> - <strong>Google</strong> - The Chubby lock service for loosely-coupled distributed systems.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//archive/bigtable-osdi06.pdf" target="_blank" rel="external">2006</a> - <strong>Google</strong> - Bigtable: A Distributed Storage System for Structured Data.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//archive/mapreduce-osdi04.pdf" target="_blank" rel="external">2004</a> - <strong>Google</strong> - MapReduce: Simplied Data Processing on Large Clusters.</li>
-<li><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en//archive/gfs-sosp2003.pdf" target="_blank" rel="external">2003</a> - <strong>Google</strong> - The Google File System.</li>
-</ul>
-<h1 id="Other-Awesome-Lists"><a href="#Other-Awesome-Lists" class="headerlink" title="Other Awesome Lists"></a>Other Awesome Lists</h1><p>Other amazingly awesome lists can be found in the <a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">awesome-awesomeness</a> list.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/01/26/docker-internal/" itemprop="url">
-                  docker internal
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-01-27T00:00:00+08:00" content="2015-01-27">
-              2015-01-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>&lt;/style&gt;<title>docker-base</title>&lt;/head&gt;<body><h2 id="abstract">Abstract</h2></body></p>
-<p>本文在现有文档的基础上总结了以下几点内容</p>
-<ol>
-<li>
-<p>docker的介绍，包括由来、适用场景等</p>
-</li>
-<li>
-<p>docker背后的一系列技术 - namespace, cgroup, lxc, aufs等</p>
-</li>
-<li>
-<p>docker在利用LXC的同时提供了哪些创新</p>
-</li>
-<li>
-<p>笔者对docker这种container, PaaS的一些理解</p>
-</li>
-<li>
-<p>docker存在的问题和现有的解决思路</p>
-</li>
-</ol>
-<h2 id="docker">Docker 简介</h2>
-<blockquote>
-<p>Docker is an open-source engine that automates the deployment of any application as a lightweight, portable, self-sufficient container that will run virtually anywhere.</p>
-</blockquote>
-<p><a href="http://www.docker.io/" target="_blank" rel="external">Docker</a> 是 PaaS 提供商 <a href="https://www.dotcloud.com/" target="_blank" rel="external">dotCloud</a> 开源的一个基于 LXC 的高级容器引擎，
-<a href="https://github.com/dotcloud/docker" target="_blank" rel="external">源代码</a>托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
-Docker近期非常火热，无论是从 github 上的代码活跃度，还是Redhat在<a href="http://developerblog.redhat.com/2013/11/26/rhel6-5-ga/" target="_blank" rel="external">RHEL6.5中集成对Docker的支持</a>, 就连 Google 家的 Compute Engine 也<a href="http://googlecloudplatform.blogspot.com/2013/12/google-compute-engine-is-now-generally-available.html" target="_blank" rel="external">支持 docker 在其之上运行</a>, 最近百度也用 Docker 作为<a href="file://E:\doc\doc/blog.docker.io/2013/12/baidu-using-docker-for-its-paas/‎" target="_blank" rel="external">其PaaS的基础</a>(不知道规模多大)。</p>
-<p>一款开源软件能否在商业上成功，很大程度上依赖三件事 - 成功的 user case, 活跃的社区和一个好故事。 dotCloud 自家的 PaaS 产品建立在docker之上，长期维护且有大量的用户，社区也十分活跃，接下来我们看看docker的故事。</p>
-<ul>
-<li>
-<p>环境管理复杂 - 从各种OS到各种中间件到各种app, 一款产品能够成功作为开发者需要关心的东西太多，且难于管理，这个问题几乎在所有现代IT相关行业都需要面对</p>
-</li>
-<li>
-<p>云计算时代的到来 - AWS的成功, 引导开发者将应用转移到 cloud 上, 解决了硬件管理的问题，然而中间件相关的问题依然存在 (所以openstack HEAT和 AWS cloudformation 都着力解决这个问题)。开发者思路变化提供了可能性。</p>
-</li>
-<li>
-<p>虚拟化手段的变化 - cloud 时代采用标配硬件来降低成本，采用虚拟化手段来满足用户按需使用的需求以及保证可用性和隔离性。然而无论是KVM还是Xen在 docker 看来,
-都在浪费资源，因为用户需要的是高效运行环境而非OS, GuestOS既浪费资源又难于管理, 更加轻量级的LXC更加灵活和快速</p>
-</li>
-<li>
-<p>LXC的移动性 - LXC在 linux 2.6 的 kernel 里就已经存在了，但是其设计之初并非为云计算考虑的，缺少标准化的描述手段和容器的可迁移性，决定其构建出的环境难于
-迁移和标准化管理(相对于KVM之类image和snapshot的概念)。docker 就在这个问题上做出实质性的革新。这正式笔者第一次听说docker时觉得最独特的地方。</p>
-</li>
-</ul>
-<p>面对上述几个问题，docker设想是交付运行环境如同海运，OS如同一个货轮，每一个在OS基础上的软件都如同一个集装箱，用户可以通过标准化手段自由组装运行环境，
-同时集装箱的内容可以由用户自定义，也可以由专业人员制造。这样，交付一个软件，就是一系列标准化组件的集合的交付，如同乐高积木，用户只需要选择合适的积木组合，
-并且在最顶端署上自己的名字(最后个标准化组件是用户的app)。这也就是基于docker的PaaS产品的原型。</p>
-<h3 id="what-docker-can-do">What Docker Can Do</h3>
-<p>在docker的网站上提到了docker的典型场景:</p>
-<blockquote>
-<ul>
-<li>
-<p>Automating the packaging and deployment of applications</p>
-</li>
-<li>
-<p>Creation of lightweight, private PAAS environments</p>
-</li>
-<li>
-<p>Automated testing and continuous integration/deployment</p>
-</li>
-<li>
-<p>Deploying and scaling web apps, databases and backend services</p>
-</li>
-</ul>
-</blockquote>
-<p>由于其基于LXC的轻量级虚拟化的特点，docker相比KVM之类最明显的特点就是启动快，资源占用小。因此对于构建隔离的标准化的运行环境，轻量级的PaaS(如<a href="https://github.com/progrium/dokku" target="_blank" rel="external">dokku</a>), 构建自动化测试和持续集成环境，以及一切可以横向扩展的应用(尤其是需要快速启停来应对峰谷的web应用)。</p>
-<ol>
-<li>
-<p>构建标准化的运行环境，现有的方案大多是在一个base OS上运行一套puppet/chef，或者一个image文件，其缺点是前者需要base OS许多前提条件，后者几乎不可以修改(因为copy on write 的文件格式在运行时rootfs是read only的)。并且后者文件体积大，环境管理和版本控制本身也是一个问题。</p>
-</li>
-<li>
-<p>PaaS环境是不言而喻的，其设计之初和dotcloud的案例都是将其作为PaaS产品的环境基础</p>
-</li>
-<li>
-<p>因为其标准化构建方法(buildfile)和良好的REST API，自动测试和持续集成/部署能够很好的集成进来</p>
-</li>
-<li>
-<p>因为LXC轻量级的特点，其启动快，而且docker能够只加载每个container变化的部分，这样资源占用小，能够在单机环境下与KVM之类的虚拟化方案相比能够更加快速和占用更少资源</p>
-</li>
-</ol>
-<h3 id="what-docker-can-not-do">What Docker Can <strong>NOT</strong> Do</h3>
-<p>Docker并不是全能的，设计之初也不是KVM之类虚拟化手段的替代品，个人简单总结了几点</p>
-<ol>
-<li>Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用(虽然64-bit现在很普及了)</li>
-<li>LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的（最新版本已经支持MAC OS了）</li>
-<li>隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库</li>
-<li>网络管理相对简单，主要是基于namespace隔离</li>
-<li>cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量(所以dotcloud主要是安内存收费)</li>
-<li>docker对disk的管理比较有限</li>
-<li>container随着用户进程的停止而销毁，container中的log等用户数据不便收集</li>
-</ol>
-<p>针对1-2，有windows base应用的需求的基本可以pass了; 3-5主要是看用户的需求，到底是需要一个container还是一个VM, 同时也决定了docker作为 IaaS 不太可行。
-针对6,7虽然是docker本身不支持的功能，但是可以通过其他手段解决(disk quota, <code>mount --bind</code>)。总之，选用container还是vm, 就是在隔离性和资源复用性上做tradeoff</p>
-<p>另外即便docker 0.7能够支持非AUFS的文件系统，但是由于其功能还不稳定，商业应用或许会存在问题，而AUFS的稳定版需要kernel 3.8, 所以如果想复制dotcloud的
-成功案例，可能需要考虑升级kernel或者换用ubuntu的server版本(后者提供deb更新)。我想这也是为什么开源界更倾向于支持ubuntu的原因(kernel版本)</p>
-<h3 id="docker-usage">Docker Usage</h3>
-<p>由于篇幅所限，这里就不再展开翻译，可参见链接 - <a href="http://docs.docker.io/en/latest/use/" target="_blank" rel="external">http://docs.docker.io/en/latest/use/</a></p>
-<h3 id="docker-build-file">Docker Build File</h3>
-<p>由于篇幅所限，这里就不再展开翻译，可参见链接 - <a href="http://docs.docker.io/en/latest/use/builder/" target="_blank" rel="external">http://docs.docker.io/en/latest/use/builder/</a></p>
-<hr>
-<h2 id="dockers-trick">Docker's Trick</h2>
-<h3 id="what-docker-needs">What Docker Needs</h3>
-<p>Docker核心解决的问题是利用LXC来实现类似VM的功能，从而利用更加节省的硬件资源提供给用户更多的计算资源。同VM的方式不同, <a href="http://en.wikipedia.org/wiki/LXC" target="_blank" rel="external">LXC</a> 其并不是一套<a href="http://en.wikipedia.org/wiki/Platform_virtualization" target="_blank" rel="external">硬件虚拟化方法</a> - 无法归属到全虚拟化、部分虚拟化和半虚拟化中的任意一个，而是一个<a href="http://en.wikipedia.org/wiki/Operating_system-level_virtualization" target="_blank" rel="external">操作系统级虚拟化</a>方法, 理解起来可能并不像VM那样直观。所以我们从虚拟化要docker要解决的问题出发，看看他是怎么满足用户虚拟化需求的。</p>
-<p>用户需要考虑虚拟化方法，尤其是硬件虚拟化方法，需要借助其解决的主要是以下4个问题:</p>
-<ul>
-<li>隔离性 - 每个用户实例之间相互隔离, 互不影响。 硬件虚拟化方法给出的方法是VM, LXC给出的方法是container，更细一点是kernel namespace</li>
-<li>可配额/可度量 - 每个用户实例可以按需提供其计算资源，所使用的资源可以被计量。硬件虚拟化方法因为虚拟了CPU, memory可以方便实现, LXC则主要是利用cgroups来控制资源</li>
-<li>移动性 - 用户的实例可以很方便地复制、移动和重建。硬件虚拟化方法提供snapshot和image来实现，docker(主要)利用AUFS实现</li>
-<li>安全性 - 这个话题比较大，这里强调是host主机的角度尽量保护container。硬件虚拟化的方法因为虚拟化的水平比较高，用户进程都是在KVM等虚拟机容器中翻译运行的, 然而对于LXC, 用户的进程是<code>lxc-start</code>进程的子进程, 只是在Kernel的namespace中隔离的, 因此需要一些kernel的patch来保证用户的运行环境不会受到来自host主机的恶意入侵, dotcloud(主要是)利用kernel <code>grsec</code> patch解决的.</li>
-</ul>
-<h3 id="linux-namespace-ns">Linux Namespace (ns)</h3>
-<p>LXC所实现的隔离性主要是来自kernel的namespace, 其中<code>pid</code>, <code>net</code>, <code>ipc</code>, <code>mnt</code>, <code>uts</code> 等namespace将container的进程, 网络, 消息, 文件系统和hostname 隔离开。</p>
-<p><strong>pid namespace</strong></p>
-<p>之前提到用户的进程是<code>lxc-start</code>进程的子进程, 不同用户的进程就是通过<code>pid</code>namespace隔离开的，且不同 namespace 中可以有相同PID。具有以下特征:</p>
-<ol>
-<li>每个namespace中的pid是有自己的pid=1的进程(类似<code>/sbin/init</code>进程)</li>
-<li>每个namespace中的进程只能影响自己的同一个namespace或子namespace中的进程</li>
-<li>因为<code>/proc</code>包含正在运行的进程，因此在container中的<code>pseudo-filesystem</code>的/proc目录只能看到自己namespace中的进程</li>
-<li>因为namespace允许嵌套，父namespace可以影响子namespace的进程，所以子namespace的进程可以在父namespace中看到，但是具有不同的pid</li>
-</ol>
-<p>正是因为以上的特征，所有的LXC进程在docker中的父进程为docker进程，每个lxc进程具有不同的namespace。同时由于允许嵌套，因此可以很方便的实现 <code>LXC in LXC</code></p>
-<p><strong>net namespace</strong></p>
-<p>有了 <code>pid</code> namespace, 每个namespace中的pid能够相互隔离，但是网络端口还是共享host的端口。网络隔离是通过<code>net</code>namespace实现的，
-每个<code>net</code> namespace有独立的 network devices, IP addresses, IP routing tables, <code>/proc/net</code> 目录。这样每个container的网络就能隔离开来。
-LXC在此基础上有5种网络类型，docker默认采用veth的方式将container中的虚拟网卡同host上的一个docker bridge连接在一起。</p>
-<p><strong>ipc namespace</strong></p>
-<p>container中进程交互还是采用linux常见的进程间交互方法(interprocess communication - IPC), 包括常见的信号量、消息队列和共享内存。然而同VM不同，container
-的进程间交互实际上还是host上具有相同pid namespace中的进程间交互，因此需要在IPC资源申请时加入namespace信息 - 每个IPC资源有一个唯一的 32bit ID。</p>
-<p><strong>mnt namespace</strong></p>
-<p>类似<code>chroot</code>，将一个进程放到一个特定的目录执行。<code>mnt</code> namespace允许不同namespace的进程看到的文件结构不同，这样每个 namespace 中的进程所看到的文件目录就被隔离开了。同<code>chroot</code>不同，每个namespace中的container在<code>/proc/mounts</code>的信息只包含所在namespace的mount point。</p>
-<p><strong>uts namespace</strong></p>
-<p>UTS("UNIX Time-sharing System") namespace允许每个container拥有独立的hostname和domain name,
-使其在网络上可以被视作一个独立的节点而非Host上的一个进程。</p>
-<p><strong>user namespace</strong></p>
-<p>每个container可以有不同的 user 和 group id, 也就是说可以以container内部的用户在container内部执行程序而非Host上的用户。</p>
-<p>有了以上6种namespace从进程、网络、IPC、文件系统、UTS和用户角度的隔离，一个container就可以对外展现出一个独立计算机的能力，并且不同container从OS层面实现了隔离。
-然而不同namespace之间资源还是相互竞争的，仍然需要类似<code>ulimit</code>来管理每个container所能使用的资源 - LXC 采用的是<code>cgroup</code>。</p>
-<p>参考文献</p>
-<p>[1]<a href="http://blog.dotcloud.com/under-the-hood-linux-kernels-on-dotcloud-part" target="_blank" rel="external">http://blog.dotcloud.com/under-the-hood-linux-kernels-on-dotcloud-part</a></p>
-<p>[2]<a href="http://lwn.net/Articles/531114/" target="_blank" rel="external">http://lwn.net/Articles/531114/</a></p>
-<h3 id="control-groups-cgroups">Control Groups (cgroups)</h3>
-<p><code>cgroups</code> 实现了对资源的配额和度量。 <code>cgroups</code> 的使用非常简单，提供类似文件的接口，在 <code>/cgroup</code>目录下新建一个文件夹即可新建一个group，在此文件夹中新建<code>task</code>
-文件，并将pid写入该文件，即可实现对该进程的资源控制。具体的资源配置选项可以在该文件夹中新建子 subsystem ，<code>{子系统前缀}.{资源项}</code> 是典型的配置方法，
-如<code>memory.usage_in_bytes</code> 就定义了该group 在subsystem <code>memory</code>中的一个内存限制选项。
-另外，<code>cgroups</code>中的 subsystem可以随意组合，一个subsystem可以在不同的group中，也可以一个group包含多个subsystem - 也就是说一个 subsystem</p>
-<p>关于术语定义</p>
-<pre><code>A *cgroup* associates a set of tasks with a set of parameters for one
-or more subsystems.
-
-A *subsystem* is a module that makes use of the task grouping
-facilities provided by cgroups to treat groups of tasks in
-particular ways. A subsystem is typically a "resource controller" that
-schedules a resource or applies per-cgroup limits, but it may be
-anything that wants to act on a group of processes, e.g. a
-virtualization subsystem.
-</code></pre>
-<p>我们主要关心cgroups可以限制哪些资源，即有哪些subsystem是我们关心。</p>
-<p><strong>cpu</strong> : 在cgroup中，并不能像硬件虚拟化方案一样能够定义CPU能力，但是能够定义CPU轮转的优先级，因此具有较高CPU优先级的进程会更可能得到CPU运算。
-通过将参数写入<code>cpu.shares</code>,即可定义改cgroup的CPU优先级 - 这里是一个相对权重，而非绝对值。当然在<code>cpu</code>这个subsystem中还有其他可配置项，手册中有详细说明。</p>
-<p><strong>cpusets</strong> : cpusets 定义了有几个CPU可以被这个group使用，或者哪几个CPU可以供这个group使用。在某些场景下，单CPU绑定可以防止多核间缓存切换，从而提高效率</p>
-<p><strong>memory</strong> : 内存相关的限制</p>
-<p><strong>blkio</strong> : block IO相关的统计和限制，byte/operation统计和限制(IOPS等)，读写速度限制等，但是这里主要统计的都是同步IO</p>
-<p><strong>net_cls</strong>， <strong>cpuacct</strong> , <strong>devices</strong> , <strong>freezer</strong> 等其他可管理项。</p>
-<p>参考文献</p>
-<p><a href="http://blog.dotcloud.com/kernel-secrets-from-the-paas-garage-part-24-c" target="_blank" rel="external">http://blog.dotcloud.com/kernel-secrets-from-the-paas-garage-part-24-c</a></p>
-<p><a href="http://en.wikipedia.org/wiki/Cgroups" target="_blank" rel="external">http://en.wikipedia.org/wiki/Cgroups</a></p>
-<p><a href="https://www.kernel.org/doc/Documentation/cgroups/cgroups.txt" target="_blank" rel="external">https://www.kernel.org/doc/Documentation/cgroups/cgroups.txt</a></p>
-<h3 id="linux-containerslxc">LinuX Containers(LXC)</h3>
-<p>借助于namespace的隔离机制和cgroup限额功能，LXC提供了一套统一的API和工具来建立和管理container, LXC利用了如下 kernel 的features:</p>
-<ul>
-<li>Kernel namespaces (ipc, uts, mount, pid, network and user)</li>
-<li>Apparmor and SELinux profiles</li>
-<li>Seccomp policies</li>
-<li>Chroots (using pivot_root)</li>
-<li>Kernel capabilities</li>
-<li>Control groups (cgroups)</li>
-</ul>
-<p>LXC 向用户屏蔽了以上 kernel 接口的细节, 提供了如下的组件大大简化了用户的开发和使用工作:</p>
-<ul>
-<li>The liblxc library</li>
-<li>Several language bindings (python3, lua and Go)</li>
-<li>A set of standard tools to control the containers</li>
-<li>Container templates</li>
-</ul>
-<p>LXC 旨在提供一个共享kernel的 OS 级虚拟化方法，在执行时不用重复加载Kernel, 且container的kernel与host共享，因此可以大大加快container的
-启动过程，并显著减少内存消耗。在实际测试中，基于LXC的虚拟化方法的IO和CPU性能几乎接近 baremetal 的性能(论据参见文献[3]), 大多数数据有相比
-Xen具有优势。当然对于KVM这种也是通过Kernel进行隔离的方式, 性能优势或许不是那么明显, 主要还是内存消耗和启动时间上的差异。在参考文献[4]中提到了利用iozone进行
-Disk IO吞吐量测试KVM反而比LXC要快，而且笔者在device mapping driver下重现同样case的实验中也确实能得到如此结论。参考文献[5]从网络虚拟化中虚拟路由的场景(个人理解是网络IO和CPU角度)比较了KVM和LXC, 得到结论是KVM在性能和隔离性的平衡上比LXC更优秀 - KVM在吞吐量上略差于LXC, 但CPU的隔离可管理项比LXC更明确。</p>
-<p>关于CPU, DiskIO, network IO 和 memory 在KVM和LXC中的比较还是需要更多的实验才能得出可信服的结论。</p>
-<p>参考文献</p>
-<p>[1]<a href="http://linuxcontainers.org/" target="_blank" rel="external">http://linuxcontainers.org/</a></p>
-<p>[2]<a href="http://en.wikipedia.org/wiki/LXC" target="_blank" rel="external">http://en.wikipedia.org/wiki/LXC</a></p>
-<p>[3]<a href="http://marceloneves.org/papers/pdp2013-containers.pdf" target="_blank" rel="external">http://marceloneves.org/papers/pdp2013-containers.pdf</a> (性能测试)</p>
-<p>[4]<a href="http://www.spinics.net/lists/linux-containers/msg25750.html" target="_blank" rel="external">http://www.spinics.net/lists/linux-containers/msg25750.html</a> (与KVM IO比较)</p>
-<p>[5]<a href="http://article.sciencepublishinggroup.com/pdf/10.11648.j.ajnc.20130204.11.pdf" target="_blank" rel="external">http://article.sciencepublishinggroup.com/pdf/10.11648.j.ajnc.20130204.11.pdf</a></p>
-<h3 id="aufs">AUFS</h3>
-<p>Docker对container的使用基本是建立唉LXC基础之上的，然而LXC存在的问题是难以移动 - 难以通过标准化的模板制作、重建、复制和移动 container。
-在以VM为基础的虚拟化手段中，有image和snapshot可以用于VM的复制、重建以及移动的功能。想要通过container来实现快速的大规模部署和更新, 这些功能不可或缺。
-Docker正是利用AUFS来实现对container的快速更新 - 在docker0.7中引入了storage driver, 支持AUFS, VFS, device mapper, 也为BTRFS以及ZFS引入提供了可能。 但除了AUFS都未经过dotcloud的线上使用，因此我们还是从AUFS的角度介绍。</p>
-<p>AUFS (AnotherUnionFS) 是一种 Union FS, 简单来说就是支持将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)的文件系统, 更进一步地, AUFS支持为每一个成员目录(AKA branch)设定'readonly', 'readwrite' 和 'whiteout-able' 权限, 同时AUFS里有一个类似
-分层的概念, 对 readonly 权限的branch可以逻辑上进行修改(增量地, 不影响readonly部分的)。通常 Union FS有两个用途, 一方面可以实现不借助 LVM， RAID 将多个disk和挂在到一个目录下, 另一个更常用的就是将一个readonly的branch和一个writeable的branch联合在一起，Live CD正是基于此可以允许在 OS image 不变的基础上允许用户在其上进行一些写操作。Docker在AUFS上构建的container image也正是如此，接下来我们从启动container中的linux为例介绍docker在AUFS特性的运用。</p>
-<p>典型的Linux启动到运行需要两个FS - bootfs + rootfs (从功能角度而非文件系统角度)</p>
-<p>bootfs (boot file system) 主要包含 bootloader 和 kernel, bootloader主要是引导加载kernel, 当boot成功后 kernel 被加载到内存中后 bootfs就被umount了.
-rootfs (root file system) 包含的就是典型 Linux 系统中的 <code>/dev</code>, <code>/proc</code>, <code>/bin</code>, <code>/etc</code> 等标准目录和文件。</p>
-<p>由此可见对于不同的linux发行版, bootfs基本是一致的, rootfs会有差别, 因此不同的发行版可以公用bootfs 如下图:</p>
-<p>典型的Linux在启动后，首先将 rootfs 置为 readonly, 进行一系列检查, 然后将其切换为 "readwrite" 供用户使用。在docker中，起初也是将 rootfs 以readonly方式加载并检查，然而接下来利用 union mount 的将一个 readwrite 文件系统挂载在 readonly 的rootfs之上，并且允许再次将下层的 file system设定为readonly 并且向上叠加, 这样一组readonly和一个writeable的结构构成一个container的运行目录, 每一个被称作一个Layer。如下图:</p>
-<p>得益于AUFS的特性, 每一个对readonly层文件/目录的修改都只会存在于上层的writeable层中。这样由于不存在竞争, 多个container可以共享readonly的layer。
-所以docker将readonly的层称作 "<strong>image</strong>" - 对于container而言整个rootfs都是read-write的，但事实上所有的修改都写入最上层的writeable层中,
-image不保存用户状态，可以用于模板、重建和复制。</p>
-<p>上层的image依赖下层的image，因此docker中把下层的image称作父image，没有父image的image称作base image</p>
-<p>因此想要从一个image启动一个container，docker会先加载其父image直到base image，用户的进程运行在writeable的layer中。所有parent image中的数据信息以及
-ID、网络和lxc管理的资源限制等具体container的配置，构成一个docker概念上的container。如下图:</p>
-<p>由此可见，采用AUFS作为docker的container的文件系统，能够提供如下好处:</p>
-<ol>
-<li>
-<p>节省存储空间 - 多个container可以共享base image存储</p>
-</li>
-<li>
-<p>快速部署 - 如果要部署多个container，base image可以避免多次拷贝</p>
-</li>
-<li>
-<p>内存更省 - 因为多个container共享base image, 以及OS的disk缓存机制，多个container中的进程命中缓存内容的几率大大增加</p>
-</li>
-<li>
-<p>升级更方便 - 相比于 copy-on-write 类型的FS，base-image也是可以挂载为可writeable的，可以通过更新base image而一次性更新其之上的container</p>
-</li>
-<li>
-<p>允许在不更改base-image的同时修改其目录中的文件 - 所有写操作都发生在最上层的writeable层中，这样可以大大增加base image能共享的文件内容。</p>
-</li>
-</ol>
-<p>以上5条 1-3 条可以通过 copy-on-write 的FS实现, 4可以利用其他的union mount方式实现, 5只有AUFS实现的很好。这也是为什么Docker一开始就建立在AUFS之上。</p>
-<p>由于AUFS并不会进入linux主干 (According to Christoph Hellwig, linux rejects all union-type filesystems but UnionMount.),
-同时要求kernel版本3.0以上(docker推荐3.8及以上)，因此在RedHat工程师的帮助下在docker0.7版本中实现了driver机制, AUFS只是其中的一个driver,
-在RHEL中采用的则是Device Mapper的方式实现的container文件系统，相关内容在下文会介绍。</p>
-<p>参考文献</p>
-<p>[1]<a href="https://groups.google.com/forum/#!topic/docker-dev/KcCT0bACksY" target="_blank" rel="external">https://groups.google.com/forum/#!topic/docker-dev/KcCT0bACksY</a></p>
-<p>[2]<a href="http://blog.docker.io/2013/11/docker-0-7-docker-now-runs-on-any-linux-distribution/" target="_blank" rel="external">http://blog.docker.io/2013/11/docker-0-7-docker-now-runs-on-any-linux-distribution/</a></p>
-<p>[3]<a href="http://blog.dotcloud.com/kernel-secrets-from-the-paas-garage-part-34-a" target="_blank" rel="external">http://blog.dotcloud.com/kernel-secrets-from-the-paas-garage-part-34-a</a></p>
-<p>[4]<a href="http://aufs.sourceforge.net/aufs.html" target="_blank" rel="external">http://aufs.sourceforge.net/aufs.html</a></p>
-<p>[5]<a href="http://aufs.sourceforge.net/" target="_blank" rel="external">http://aufs.sourceforge.net/</a></p>
-<p>[6]<a href="http://en.wikipedia.org/wiki/Aufs" target="_blank" rel="external">http://en.wikipedia.org/wiki/Aufs</a></p>
-<p>[7]<a href="http://docs.docker.io/en/latest/terms/filesystem/" target="_blank" rel="external">http://docs.docker.io/en/latest/terms/filesystem/</a></p>
-<p>[8]<a href="http://docs.docker.io/en/latest/terms/layer/" target="_blank" rel="external">http://docs.docker.io/en/latest/terms/layer/</a></p>
-<p>[9]<a href="http://docs.docker.io/en/latest/terms/image/" target="_blank" rel="external">http://docs.docker.io/en/latest/terms/image/</a></p>
-<p>[10]<a href="http://docs.docker.io/en/latest/terms/container/" target="_blank" rel="external">http://docs.docker.io/en/latest/terms/container/</a></p>
-<h3 id="grsec">GRSEC</h3>
-<p><code>grsec</code>是linux kernel安全相关的patch, 用于保护host防止非法入侵。由于其并不是docker的一部分，我们只进行简单的介绍。
-<code>grsec</code>可以主要从4个方面保护进程不被非法入侵:</p>
-<ul>
-<li>随机地址空间 - 进程的堆区地址是随机的</li>
-<li>用只读的memory management unit来管理进程流程, 堆区和栈区内存只包含数据结构/函数/返回地址和数据, 是non-executeable</li>
-<li>审计和Log可疑活动</li>
-<li>编译期的防护</li>
-</ul>
-<p>安全永远是相对的，这些方法只是告诉我们可以从这些角度考虑container类型的安全问题可以关注的方面。</p>
-<p>参考文献</p>
-<p>[1] <a href="http://blog.dotcloud.com/kernel-secrets-from-the-paas-garage-part-44-g" target="_blank" rel="external">http://blog.dotcloud.com/kernel-secrets-from-the-paas-garage-part-44-g</a></p>
-<p>[2] <a href="http://grsecurity.net/" target="_blank" rel="external">http://grsecurity.net/</a></p>
-<hr>
-<h2 id="what-docker-do-more-than-lxc">What docker do more than LXC</h2>
-<p>看似docker主要的OS级虚拟化操作是借助LXC, AUFS只是锦上添花。那么肯定会有人好奇docker到底比LXC多了些什么。无意中发现 stackoverflow 上正好有人问这个问题，
-回答者是Dotcloud的创始人，出于备忘目的原文摘录如下。</p>
-<p><a href="http://stackoverflow.com/questions/17989306/what-does-docker-add-to-just-plain-lxc" target="_blank" rel="external">http://stackoverflow.com/questions/17989306/what-does-docker-add-to-just-plain-lxc</a></p>
-<p>On top of this low-level foundation of kernel features, Docker offers a high-level tool with several powerful functionalities:</p>
-<ul>
-<li>
-<p>Portable deployment across machines. Docker defines a format for bundling an application and all its dependencies into a single object which can be transferred to any docker-enabled machine, and executed there with the guarantee that the execution environment exposed to the application will be the same. Lxc implements process sandboxing, which is an important pre-requisite for portable deployment, but that alone is not enough for portable deployment. If you sent me a copy of your application installed in a custom lxc configuration, it would almost certainly not run on my machine the way it does on yours, because it is tied to your machine's specific configuration: networking, storage, logging, distro, etc. Docker defines an abstraction for these machine-specific settings, so that the exact same docker container can run - unchanged - on many different machines, with many different configurations.</p>
-</li>
-<li>
-<p>Application-centric. Docker is optimized for the deployment of applications, as opposed to machines. This is reflected in its API, user interface, design philosophy and documentation. By contrast, the lxc helper scripts focus on containers as lightweight machines - basically servers that boot faster and need less ram. We think there's more to containers than just that.</p>
-</li>
-<li>
-<p>Automatic build. Docker includes a tool for developers to automatically assemble a container from their source code, with full control over application dependencies, build tools, packaging etc. They are free to use make, maven, chef, puppet, salt, debian packages, rpms, source tarballs, or any combination of the above, regardless of the configuration of the machines.</p>
-</li>
-<li>
-<p>Versioning. Docker includes git-like capabilities for tracking successive versions of a container, inspecting the diff between versions, committing new versions, rolling back etc. The history also includes how a container was assembled and by whom, so you get full traceability from the production server all the way back to the upstream developer. Docker also implements incremental uploads and downloads, similar to "git pull", so new versions of a container can be transferred by only sending diffs.</p>
-</li>
-<li>
-<p>Component re-use. Any container can be used as an "base image" to create more specialized components. This can be done manually or as part of an automated build. For example you can prepare the ideal python environment, and use it as a base for 10 different applications. Your ideal postgresql setup can be re-used for all your future projects. And so on.</p>
-</li>
-<li>
-<p>Sharing. Docker has access to a public registry (http://index.docker.io) where thousands of people have uploaded useful containers: anything from redis, couchdb, postgres to irc bouncers to rails app servers to hadoop to base images for various distros. The registry also includes an official "standard library" of useful containers maintained by the docker team. The registry itself is open-source, so anyone can deploy their own registry to store and transfer private containers, for internal server deployments for example.</p>
-</li>
-<li>
-<p>Tool ecosystem. Docker defines an API for automating and customizing the creation and deployment of containers. There are a huge number of tools integrating with docker to extend its capabilities. PaaS-like deployment (Dokku, Deis, Flynn), multi-node orchestration (maestro, salt, mesos, openstack nova), management dashboards (docker-ui, openstack horizon, shipyard), configuration management (chef, puppet), continuous integration (jenkins, strider, travis), etc. Docker is rapidly establishing itself as the standard for container-based tooling.</p>
-</li>
-</ul>
-<h2 id="what-we-can-do-with-docker">What we can do with Docker</h2>
-<p>有了docker这么个强有力的工具，更多的玩家希望了解围绕docker能做什么</p>
-<h3 id="sandbox">Sandbox</h3>
-<p>作为sandbox大概是container的最基本想法了 - 轻量级的隔离机制, 快速重建和销毁, 占用资源少。用docker在开发者的单机环境下模拟分布式软件部署和调试，可谓又快又好。
-同时docker提供的版本控制和image机制以及远程image管理，可以构建类似git的分布式开发环境。可以看到用于构建多平台image的<a href="http://www.packer.io/" target="_blank" rel="external">packer</a>以及同一作者的<a href="http://www.vagrantup.com/" target="_blank" rel="external">vagrant</a>已经在这方面有所尝试了，笔者会后续的blog中介绍这两款来自同一geek的精致小巧的工具。</p>
-<h3 id="paas">PaaS</h3>
-<p>dotcloud、heroku以及cloudfoundry都试图通过container来隔离提供给用户的runtime和service，只不过dotcloud采用docker, heroku采用LXC, cloudfoundry采用
-自己开发的基于cgroup的warden。基于轻量级的隔离机制提供给用户PaaS服务是比较常见的做法 - PaaS 提供给用户的并不是OS而是runtime+service, 因此OS级别的隔离机制
-向用户屏蔽的细节已经足够。而docker的很多分析文章提到『能够运行任何应用的“PaaS”云』只是从image的角度说明docker可以从通过构建image实现用户app的打包以及标准服务service image的复用, 而非常见的buildpack的方式。</p>
-<p>由于对Cloud Foundry和docker的了解, 接下来谈谈笔者对PaaS的认识。PaaS号称的platform一直以来都被当做一组多语言的runtime和一组常用的middleware，提供这两样东西
-即可被认为是一个满足需求的PaaS。然而PaaS对能部署在其上的应用要求很高:</p>
-<ul>
-<li>运行环境要简单 - buildpack虽然用于解决类似问题，但仍然不是很理想</li>
-<li>要尽可能的使用service - 常用的mysql, apache倒能理解，但是类似log之类的如果也要用service就让用户接入PaaS平台, 让用户难以维护</li>
-<li>要尽可能的使用"平台" - 单机环境构建出目标PaaS上运行的实际环境比较困难，开发测试工作都离不开"平台"</li>
-<li>缺少可定制性 - 可选的中间件有限，难于调优和debug。</li>
-</ul>
-<p>综上所述部署在PaaS上的应用几乎不具有从老平台迁移到之上的可能，新应用也难以进入参数调优这种深入的工作。个人理解还是适合快速原型的展现，和短期应用的尝试。</p>
-<p>然而docker确实从另一个角度(类似IaaS+orchestration tools)实现了用户运行环境的控制和管理，然而又基于轻量级的LXC机制，确实是一个了不起的尝试。
-笔者也认为IaaS + 灵活的orchestration tools(深入到app层面的管理 如bosh)是交付用户环境最好的方式。</p>
-<hr>
-<h2 id="open-solution">Open Solution</h2>
-<p>前文也提到docker存在disk/network不便限额和在较低版本kernel中(如RHEL的2.6.32)AUFS不支持的问题。本节尝试给出解答。</p>
-<h3 id="disknetwork-quota">disk/network quota</h3>
-<p>虽然cgroup提供IOPS之类的限制机制，但是从限制用户能使用的磁盘大小和网络带宽上还是非常有限的。</p>
-<p>Disk/network的quota现在有两种思路:</p>
-<ul>
-<li>
-<p>通过docker run -v命令将外部存储mount到container的目录下，quota从Host方向限制，在device mapper driver中更采用实际的device因此更好控制。
-参考[1]</p>
-</li>
-<li>
-<p>通过使用disk quota来限制AUFS的可操作文件大小。类似cloud foundry warden的方法， 维护一个UID池，每次创建container都从中取一个user name，
-在container里和Host上用这个username创建用户，在Host上用setquota限制该username的UID的disk. 网络上由于docker采用veth的方式，可以采用<code>tc</code>来控制host上的veth的设备。参考[2]</p>
-</li>
-</ul>
-<p>参考文献:</p>
-<p>[1]<a href="https://github.com/dotcloud/docker/issues/111" target="_blank" rel="external">https://github.com/dotcloud/docker/issues/111</a></p>
-<p>[2]<a href="https://github.com/dotcloud/docker/issues/471" target="_blank" rel="external">https://github.com/dotcloud/docker/issues/471</a></p>
-<h3 id="rhel-65">RHEL 6.5</h3>
-<p>这里简单介绍下device mapper driver的思路，参考文献[2]中的讨论非常有价值。
-docker的dirver要利用snapshot机制，起初的fs是一个空的ext4的目录，然后写入每个layer。每次创建image其实就是对其父image/base image进行snapshot，
-然后在此snapshot上的操作都会被记录在fs的metadata中和AUFS layer(没读代码不是很理解?)，<code>docker commit</code>将 diff信息在parent image上执行一遍.
-这样创建出来的image就可以同当前container的运行环境分离开独立保存了。</p>
-<p>这里仅仅查看材料理解不是很透彻，还是需要深入代码去了解详情。贴出 mail list 的片段，如果有理解的请不吝赐教。</p>
-<pre><code>The way it works is that we set up a device-mapper thin provisioning pool with a single base device containing an empty ext4 filesystem. Then each time we create an image we take a snapshot of the parent image (or the base image) and manually apply the AUFS layer to this. Similarly we create snapshots of images when we create containers and mount these as the container filesystem.
-
-"docker diff" is implemented by just scanning the container filesystem and the parent image filesystem, looking at the metadata for changes. Theoretically this can be fooled if you do in-place editing of a file (not changing the size) and reset the mtime/ctime, but in practice I think this will be good enough.
-
-"docker commit" uses the above diff command to get a list of changed files which are used to construct a tarball with files and AUFS whiteouts (for deletes). This means you can commit containers to images, run new containers based on the image, etc. You should be able to push them to the index too (although I've not tested this yet).
-
-Docker looks for a "docker-pool" device-mapper device (i.e. /dev/mapper/docker-pool) when it starts up, but if none exists it automatically creates two sparse files (100GB for the data and 2GB for the metadata) and loopback mount these and sets these up as the block devices for docker-pool, with a 10GB ext4 fs as the base image.
-
-This means that there is no need for manual setup of block devices, and that generally there should be no need to pre-allocate large amounts of space (the sparse files are small, and we things up so that discards are passed through all the way back to the sparse loopbacks, so deletes in a container should fully reclaim space.
-</code></pre>
-<p>目前已知存在的问题是删除的image的 block 文件没有被删除，见<a href="https://github.com/dotcloud/docker/issues/3182" target="_blank" rel="external">https://github.com/dotcloud/docker/issues/3182</a>,
-笔者发现此问题前4个小时作者给出了原因，看起来是kernel的issue,在讨论中包含work around的方法。</p>
-
-<h1 id="TTY"><a href="#TTY" class="headerlink" title="TTY"></a>TTY</h1><p>When you allocate a TTY, the creator only gets a single input stream, and a single output stream. Meaning that when you redirect a program’s STDOUT &amp; STDERR into the TTY, they are getting muxed together.</p>
-<p>For example, lets use the script utility to create a TTY and look at the streams it sets up:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># script -q -c 'ls -l /dev/fd/' /dev/null</span></div><div class="line">total 0</div><div class="line">lrwx------ 1 phemmer adm 64 Jan 25 23:58 0 -&gt; /dev/pts/16</div><div class="line">lrwx------ 1 phemmer adm 64 Jan 25 23:58 1 -&gt; /dev/pts/16</div><div class="line">lrwx------ 1 phemmer adm 64 Jan 25 23:58 2 -&gt; /dev/pts/16</div><div class="line">lr-x------ 1 phemmer adm 64 Jan 25 23:58 3 -&gt; /var/lib/sss/mc/passwd</div><div class="line">lr-x------ 1 phemmer adm 64 Jan 25 23:58 4 -&gt; /var/lib/sss/mc/group</div><div class="line">lrwx------ 1 phemmer adm 64 Jan 25 23:58 5 -&gt; socket:[6636438]</div><div class="line">lr-x------ 1 phemmer adm 64 Jan 25 23:58 6 -&gt; /proc/859/fd</div></pre></td></tr></table></figure>
-<p>Notice that FD 0, 1, &amp; 2 all go to the TTY.</p>
-<p>If you look at a normal terminal session, you’ll see the same thing (STDIN, STDOUT, STDERR all going to the same TTY). The reason redirection works in your terminal is because you’re performing the redirection BEFORE it gets sent into the TTY device. If you perform the redirection inside the docker container, you can accomplish the same thing.</p>
-<p>Refer to <a href="https://github.com/docker/docker/issues/19696" target="_blank" rel="external">https://github.com/docker/docker/issues/19696</a> for more.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/01/19/hello-world/" itemprop="url">
                   Hello World
                 </a>
@@ -1547,6 +770,13 @@ This means that there is no need for manual setup of block devices, and that gen
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/01/19/hello-world/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/01/19/hello-world/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1649,6 +879,13 @@ This means that there is no need for manual setup of block devices, and that gen
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/11/19/kubernetes多节点部署解析-feisky/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/11/19/kubernetes多节点部署解析-feisky/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1946,6 +1183,25 @@ This means that there is no need for manual setup of block devices, and that gen
 
   
 
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'page/17/index.html';
+      var disqus_title = "";
+      var disqus_url = '';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
 
 
 
@@ -2116,7 +1372,24 @@ This means that there is no need for manual setup of block devices, and that gen
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(bp, s);
 })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   

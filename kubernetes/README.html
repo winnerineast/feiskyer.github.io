@@ -108,7 +108,7 @@
 无状态服务和有状态服务
 广泛的Volume支持
 插件机制保证扩展性">
-<meta property="og:updated_time" content="2016-12-26T11:07:38.085Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="Kubernetes指南Kubernetes是谷歌开源的容器集群管理系统，是Google多年大规模容器管理技术Borg的开源版本，主要功能包括：
@@ -344,6 +344,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -597,6 +604,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'kubernetes/README.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/kubernetes/README.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

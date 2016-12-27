@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？
 #添加FAKE公网网关ovs-vsctl add-port br-ex gwp -- set interface gwp type=internali">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.821Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How enable OpenStack allinone vm to access external network">
 <meta name="twitter:description" content="首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？
@@ -335,6 +335,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -394,16 +401,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/02/25/integrating-openstack-and-kubernetes-with-murano/" rel="next" title="Integrating Openstack and Kubernetes with Murano">
-                <i class="fa fa-chevron-left"></i> Integrating Openstack and Kubernetes with Murano
+              <a href="/2015/03/01/setting-up-gre-for-kubernetes/" rel="next" title="Setting up GRE for Kubernetes">
+                <i class="fa fa-chevron-left"></i> Setting up GRE for Kubernetes
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/01/setting-up-gre-for-kubernetes/" rel="prev" title="Setting up GRE for Kubernetes">
-                Setting up GRE for Kubernetes <i class="fa fa-chevron-right"></i>
+              <a href="/2015/03/02/dive-in-linux-capabilites/" rel="prev" title="Dive in Linux capabilites">
+                Dive in Linux capabilites <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -429,6 +436,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -686,6 +700,32 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/';
+      var disqus_title = "How enable OpenStack allinone vm to access external network";
+      var disqus_url = 'http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

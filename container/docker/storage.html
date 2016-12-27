@@ -129,7 +129,7 @@ overlay2
 ext4 xfs
 btrfs aufs overlay ove">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/driver-pros-cons.png">
-<meta property="og:updated_time" content="2016-12-26T11:07:37.861Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="Storage
@@ -416,6 +416,13 @@ btrfs aufs overlay ove">
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -668,6 +675,32 @@ btrfs aufs overlay ove">
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'container/docker/storage.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/container/docker/storage.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

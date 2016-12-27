@@ -94,7 +94,7 @@ CRI最早从从1.4版就开始">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Container Runtime InterfaceContainer Runtime Interface (CRI)是Kubelet 1.5/1.6中主要负责的一块项目，它重新定义了Kubelet Container Runtime API，将原来完全面向Pod级别的API拆分成面向Sandbox和Container的API，并分离镜像管理和容器引擎到不同的服务。
 CRI最早从从1.4版就开始">
-<meta property="og:updated_time" content="2016-12-26T11:07:38.093Z">
+<meta property="og:updated_time" content="2016-12-27T04:40:40.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Container Runtime Interface">
 <meta name="twitter:description" content="Container Runtime InterfaceContainer Runtime Interface (CRI)是Kubelet 1.5/1.6中主要负责的一块项目，它重新定义了Kubelet Container Runtime API，将原来完全面向Pod级别的API拆分成面向Sandbox和Container的API，并分离镜像管理和容器引擎到不同的服务。
@@ -317,6 +317,13 @@ CRI最早从从1.4版就开始">
 
           
   <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -570,6 +577,32 @@ CRI最早从从1.4版就开始">
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'kubernetes/plugins/CRI.html';
+      var disqus_title = "Container Runtime Interface";
+      var disqus_url = 'http://feisky.xyz/kubernetes/plugins/CRI.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 
