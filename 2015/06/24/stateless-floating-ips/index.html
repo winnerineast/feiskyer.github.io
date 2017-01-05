@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/2015/06/24/stateless-floating-ips/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Neutron里面的Floating IPs目前是基于iptables NAT来实现的，它使用ip_conntrack来跟踪所有连接（五元组），而ip_conntrack会大大降低NAT的性能，并且也有一些安全问题（比如conntrack未释放问题）。从Floating IPs的作用来看，它只需要完成源目的IP地址的转换即可，完全可以不需要conntrack，因而就有了一个Stateless Fl">
-<meta property="og:updated_time" content="2017-01-05T15:26:22.342Z">
+<meta property="og:updated_time" content="2017-01-05T15:49:36.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stateless Floating IPs">
 <meta name="twitter:description" content="Neutron里面的Floating IPs目前是基于iptables NAT来实现的，它使用ip_conntrack来跟踪所有连接（五元组），而ip_conntrack会大大降低NAT的性能，并且也有一些安全问题（比如conntrack未释放问题）。从Floating IPs的作用来看，它只需要完成源目的IP地址的转换即可，完全可以不需要conntrack，因而就有了一个Stateless Fl">
