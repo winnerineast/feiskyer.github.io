@@ -343,6 +343,111 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="url">
+                  Grumpy: 使用Go来运行Python程序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-05T17:11:09+08:00" content="2017-01-05">
+              2017-01-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/05/Grumpy-使用Go来运行Python程序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python" target="_blank" rel="external">https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python</a> GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
+<p>Grumpy还在开发中，也还没有在Google的生产环境中使用，很多系统库还没有完成翻译，并且也不支持各种外部库和C扩展。虽然如此，Grumpy仍然是一个值得关注的有趣项目（Github已经有2700+的star）。</p>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/google/grumpy.git</div><div class="line">$ <span class="built_in">cd</span> grumpy</div><div class="line">$ <span class="built_in">echo</span> <span class="string">"print 'hello, world'"</span> | make run</div><div class="line">hello, world</div></pre></td></tr></table></figure>
+<p>当然，也可以把程序翻译成Go再运行:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'print "hello, world"'</span> &gt; hello.py</div><div class="line">make</div><div class="line"><span class="built_in">export</span> GOPATH=<span class="variable">$PWD</span>/build</div><div class="line"><span class="built_in">export</span> PYTHONPATH=<span class="variable">$PWD</span>/build/lib/python2.7/site-packages</div><div class="line"></div><div class="line">tools/grumpc hello.py &gt; hello.go</div><div class="line">go build -o hello hello.go</div><div class="line">./hello</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/13/Kubernetes-v1-5-0-release/" itemprop="url">
                   Kubernetes v1.5.0 release
                 </a>
@@ -556,96 +661,8 @@
 <li>etcd version 3.0.14 <a href="https://k8s-gubernator.appspot.com/builds/kubernetes-jenkins/logs/ci-kubernetes-e2e-gce-etcd3/" target="_blank" rel="external">has also been validated</a> but does require <a href="https://coreos.com/blog/migrating-applications-etcd-v3.html" target="_blank" rel="external">specific configuration steps</a></li>
 </ul>
 <p><a href="https://docs.k8s.io" target="_blank" rel="external">Documentation</a> &amp; <a href="https://releases.k8s.io/release-1.5/examples" target="_blank" rel="external">Examples</a></p>
-<h2 id="Downloads-for-v1-5-0"><a href="#Downloads-for-v1-5-0" class="headerlink" title="Downloads for v1.5.0"></a>Downloads for v1.5.0</h2></li>
+</li>
 </ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>filename</th>
-<th>sha256 hash</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes.tar.gz" target="_blank" rel="external">kubernetes.tar.gz</a></td>
-<td><code>52b7df98ea05fb3ebbababf1ccb7f6d4e6f4cad00b8d09350f270aa7e3ad7e85</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-src.tar.gz" target="_blank" rel="external">kubernetes-src.tar.gz</a></td>
-<td><code>fbefb2544667f96045c346cee595b0f315282dfdbd41a8f2d5ccc74054a4078e</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="Client-Binaries"><a href="#Client-Binaries" class="headerlink" title="Client Binaries"></a>Client Binaries</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>filename</th>
-<th>sha256 hash</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-darwin-386.tar.gz" target="_blank" rel="external">kubernetes-client-darwin-386.tar.gz</a></td>
-<td><code>27d71bb6b16a26387ee30272bd4ee5758deccafafdc91b38f3d0dc19a34e129e</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-darwin-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-darwin-amd64.tar.gz</a></td>
-<td><code>5fa8550235919568d7d839b19de00e9bdd72a97cfde21dbdbe07fefd6d6290dc</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-386.tar.gz" target="_blank" rel="external">kubernetes-client-linux-386.tar.gz</a></td>
-<td><code>032a17701c014b8bbbb83c7da1046d8992a41031628cf7e1959a94378f5f195b</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-linux-amd64.tar.gz</a></td>
-<td><code>afae4fadb7bbb1532967f88fef1de6458abda17219f634cc2c41608fd83ae7f6</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-arm64.tar.gz" target="_blank" rel="external">kubernetes-client-linux-arm64.tar.gz</a></td>
-<td><code>acca7607dae678a0165b7e10685e0eff0d418beebe7c25eaffe18c85717b5cc4</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-linux-arm.tar.gz" target="_blank" rel="external">kubernetes-client-linux-arm.tar.gz</a></td>
-<td><code>fbc182b6d9ae476c7c509486d773074fd1007032886a8177735e08010c43f89d</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-windows-386.tar.gz" target="_blank" rel="external">kubernetes-client-windows-386.tar.gz</a></td>
-<td><code>a8ddea329bc8d57267294464c163d8c2f7837f6353f8c685271864ed8b8bc54d</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-client-windows-amd64.tar.gz" target="_blank" rel="external">kubernetes-client-windows-amd64.tar.gz</a></td>
-<td><code>bc3a76f1414fa1f4b2fb92732de2100d346edb7b870ed5414ea062bb401a8ebd</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="Server-Binaries"><a href="#Server-Binaries" class="headerlink" title="Server Binaries"></a>Server Binaries</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>filename</th>
-<th>sha256 hash</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-amd64.tar.gz" target="_blank" rel="external">kubernetes-server-linux-amd64.tar.gz</a></td>
-<td><code>b9c122d709c0556c1e19d31d98bf26ee530f91c0119f4454fb930cef5a0c1aa7</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-arm64.tar.gz" target="_blank" rel="external">kubernetes-server-linux-arm64.tar.gz</a></td>
-<td><code>3bbba5c8dedc47db8f9ebdfac5468398cce2470617de9d550affef9702b724c9</code></td>
-</tr>
-<tr>
-<td>  <a href="https://dl.k8s.io/v1.5.0/kubernetes-server-linux-arm.tar.gz" target="_blank" rel="external">kubernetes-server-linux-arm.tar.gz</a></td>
-<td><code>3ff9ccdd641690fd1c8878408cd369beca1f9f8b212198e251862d40cf2dadc0</code></td>
-</tr>
-</tbody>
-</table>
-</div>
 
           
         
@@ -1294,137 +1311,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/24/Kubernetes-container-runtime-interface/" itemprop="url">
-                  Kubernetes container runtime interface
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T06:59:31+08:00" content="2016-09-25">
-              2016-09-25
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/24/Kubernetes-container-runtime-interface/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/24/Kubernetes-container-runtime-interface/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
-<h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
-<ul>
-<li>Runtime接口的抽象度太高，导致一些原本该在Kubelet控制的逻辑被放到了Runtime实现里面。比如在当前的实现中，rkt和docker的<code>SyncPod</code>（负责Pod创建的接口）存在大量重复的逻辑，每次修改docker部分的时，都有可能需要同时修改rkt部分。这样，如果再加入新的容器引擎的话，同时修改多个Runtime部分的代码是没法维护的。</li>
-<li>Runtime接口是集成在Kubelet内部的，集成容器引擎相关的代码需要放到Kubernetes代码库里面，这同样带来了维护的问题：代码维护麻烦，任何一个容器引擎修改了代码都需要发布新的kubelet；集成测试麻烦，要为每个不同的容器引擎部署不同的集成测试环境。</li>
-<li>没有提供容器创建的接口，无法直接在Kubelet里面做到对容器的精细控制。</li>
-<li>耦合了镜像和容器管理，而它们的生命周期本来就是独立的。</li>
-</ul>
-<p>既然Runtime接口有很多问题，并且有很多容器引擎想要集成到Kubernetes中，所以有必要重新定义CRI，并且提供一种插件机制，允许容器引擎以外部独立进程的方式接入。所以，Brendan Burns在<a href="http://hypercontainer.io" target="_blank" rel="external">Hyper</a>集成的时候就提供了一种以客户端/服务器方式接入外部容器引擎的思路。在大量的社区讨论后，Node team重新抽象了容器引擎接口（也就是CRI），并决定以gRPC的方式接入外部容器引擎。</p>
-<h2 id="CRI是如何工作的"><a href="#CRI是如何工作的" class="headerlink" title="CRI是如何工作的"></a>CRI是如何工作的</h2><p>CRI比Runtime接口提供了更细粒度的抽象，解耦了镜像管理和容器管理，并为Pod和Container提供了独立的操作接口。CRI以gRPC的方式接入，Kubelet是gPRC API的客户端，而容器引擎则是gRPC API的服务端。gRPC已经自动实现了它们之间交互的细节，容器引擎只需要实现每个具体的API。</p>
-<p>一个典型的启动Pod的流程为</p>
-<p><img src="/images/createpod.png" alt="createpod"></p>
-<p>而停止Pod的流程为</p>
-<p><img src="/images/killpod.png" alt="killpod"></p>
-<h2 id="CRI带了什么"><a href="#CRI带了什么" class="headerlink" title="CRI带了什么"></a>CRI带了什么</h2><p>CRI解决了上述提到的Runtime接口的问题，使得新的容器引擎可以更方便的集成到Kubernetes中来，这必将给Kubernetes社区带来新一轮的变革，并促进Kubernetes走入更多的应用场景中。比如，Redhat借助OCI容器引擎runc摆脱对docker依赖，Hyper以虚拟化的方式解决多租户场景下的容器隔离问题，甚至Mirantis直接用Kubernetes来管理原生的虚拟机。</p>
-<p>CRI也解耦了容器和镜像的管理，可以方便的扩展其他镜像格式，比如ACI等。</p>
-<p>CRI还在着力解决一些很有挑战的问题，比如</p>
-<ul>
-<li>容器日志的管理，包括日志格式化规范、日志文件rotate、日志文件磁盘IO控制以及日志的统一收集处理等。</li>
-<li>解除streaming API（exec、attach、logs等）对kubelet的网络压力。当前所有的streaming API都是从<code>apiserver-&gt;kubelet-&gt;runtime</code>，apiserver是无状态的，可以水平扩展，但kubelet和runtime则是每台机器只能有一个，streaming API有可能会给他们带来处理的瓶颈。所以在CRI中，将会考虑使用一个独立进程（需要对apiserver开放端口）来单独处理这些请求<code>apiserver-&gt;newStreamProcess</code>，释放kubelet来做更核心的事情。</li>
-<li>更灵活的网络配置，将Pod网络的配置完全交给容器引擎，而Kubernetes只需要最终的网络状态。</li>
-</ul>
-<h2 id="CRI的未来"><a href="#CRI的未来" class="headerlink" title="CRI的未来"></a>CRI的未来</h2><p>虽然CRI还在持续开发中（目前还没有任何release），但已经有很多厂商已经开始了引入新容器引擎的进程：</p>
-<ul>
-<li>Frakti：为解决多租户场景下的容器隔离问题，Hyper以虚拟化的方式运行容器。关于frakti的更多细节见<a href="https://github.com/kubernetes/frakti。" target="_blank" rel="external">https://github.com/kubernetes/frakti。</a></li>
-<li>OCI-O：为解耦对docker的依赖，Redhat提供对OCI容器引擎的支持（目前主要是runc）。关于oci-o的更多细节见<a href="https://github.com/kubernetes-incubator/oci-o。" target="_blank" rel="external">https://github.com/kubernetes-incubator/oci-o。</a></li>
-<li>Rktlet：为了加速rkt容器引擎的开发维护，CoreOS提议将rkt集成的代码独立出Kubelet（vendor到kubelet，同集成到kubelet内部便于发布），并重构rkt以适应CRI的变化。关于rktlet的更多细节见<a href="https://github.com/kubernetes-incubator/rktlet。" target="_blank" rel="external">https://github.com/kubernetes-incubator/rktlet。</a></li>
-<li>Virtlet：为了支持原生的虚拟机管理，Mirantis提议直接用Kubernetes来管理原生的虚拟机（需要将docker镜像替换成qcow2镜像）。关于virtlet的更多细节见<a href="https://github.com/Mirantis/virtlet。" target="_blank" rel="external">https://github.com/Mirantis/virtlet。</a></li>
-<li>当然，docker相关的代码还会继续保留在kubelet内部，只不过要重构到CRI上面来。</li>
-</ul>
-<p>CRI预计在Kubernetes v1.5发布第一个alpha版。届时，上面各个容器引擎的实现也将会发布第一个release。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1470,7 +1356,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">93</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1569,7 +1455,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -343,6 +343,138 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/04/git-commit/" itemprop="url">
+                  git commit修改前一次提交的方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-05T00:00:00+08:00" content="2015-06-05">
+              2015-06-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/04/git-commit/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/04/git-commit/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>方法一：用–amend选项</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"><span class="comment">#修改需要修改的地方。</span></div><div class="line">git <span class="keyword">add</span><span class="bash"> .</span></div><div class="line">git commit –amend</div></pre></td></tr></table></figure>
+<p>注：这种方式可以比较方便的保持原有的Change-Id，推荐使用。</p>
+<p>方法二：先reset，再修改</p>
+<p>这是可以完全控制上一次提交内容的方法。但在与Gerrit配合使用时，需特别注意保持同一个commit的多次提交的Change-Id是不变的。为了保持提交到Gerrit的Change不变，需要复制对应的Change-Id到commit msg的最后，可以到Gerrit上对应的Change去复制.</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">git reset HEAD^</div><div class="line"><span class="comment">#重新修改</span></div><div class="line">git <span class="keyword">add</span><span class="bash"> .</span></div><div class="line">git commit -m “MSG”</div></pre></td></tr></table></figure>
+<p>方法三：只是修改作者</p>
+<p>如果email不对，会无法提交到Gerrit，所以这个命令也可能用到。</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><div class="line"><span class="comment">git</span> <span class="comment">commit</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">amend</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">author="AUTHOR</span> &lt;<span class="comment">EMAIL</span>&gt;<span class="comment">"</span></div></pre></td></tr></table></figure>
+<p>注：如果该email地址从未有过成功的提交，这个修改会不成功。在别的分支做一次成功提交之后，就可以修改了。</p>
+<p>方法四：使用rebase</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line"><span class="number">1.</span><span class="comment"> // 查看修改</span></div><div class="line"></div><div class="line">git rebase -i master~<span class="number">1</span><span class="comment"> //最后一次</span></div><div class="line">git rebase -i master~<span class="number">5</span><span class="comment"> //最后五次</span></div><div class="line"></div><div class="line"><span class="number">2.</span><span class="comment"> // 显示结果如下，修改 pick 为 edit ，并 :wq 保存退出</span></div><div class="line"></div><div class="line">pick <span class="number">92</span>b495b <span class="number">2009</span><span class="number">-08</span><span class="number">-08</span>: ×××××××</div><div class="line"></div><div class="line"><span class="comment"># Rebase 9ef2b1f..92b495b onto 9ef2b1f</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Commands:</span></div><div class="line"><span class="comment">#  pick = use commit</span></div><div class="line"><span class="comment">#  edit = use commit, but stop for amending //改上面的 pick 为 edit</span></div><div class="line"><span class="comment">#  squash = use commit, but meld into previous commit</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># If you remove a line here THAT COMMIT WILL BE LOST.</span></div><div class="line"><span class="comment"># However, if you remove everything, the rebase will be aborted.</span></div><div class="line"><span class="comment">#</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="number">3.</span> 命令行显示：</div><div class="line"></div><div class="line">Rebasing (<span class="number">1</span>/<span class="number">1</span>)</div><div class="line">You can amend <span class="keyword">the</span> commit now, <span class="keyword">with</span></div><div class="line"></div><div class="line">git commit <span class="comment">--amend</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="number">4.</span> 使用 git commit <span class="comment">--amend 进行修改，完成后 :wq 退出</span></div><div class="line"></div><div class="line"><span class="number">5.</span> 使用 git rebase <span class="comment">--continue 完成操作</span></div></pre></td></tr></table></figure>
+<p>转自<a href="http://blog.csdn.net/tangkegagalikaiwu/article/details/8542827" target="_blank" rel="external">http://blog.csdn.net/tangkegagalikaiwu/article/details/8542827</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/03/mininet-links/" itemprop="url">
                   Mininet links
                 </a>
@@ -907,133 +1039,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/16/microservice-infrastructure/" itemprop="url">
-                  Microservice Infrastructure
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-17T00:00:00+08:00" content="2015-03-17">
-              2015-03-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/03/16/microservice-infrastructure/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/16/microservice-infrastructure/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Microservices-Infrastructure"><a href="#Microservices-Infrastructure" class="headerlink" title="Microservices Infrastructure"></a>Microservices Infrastructure</h2><p>Modern platform for rapidly deploying globally distributed services provided by cisco.</p>
-<p><a href="https://github.com/CiscoCloud/microservices-infrastructure" target="_blank" rel="external">https://github.com/CiscoCloud/microservices-infrastructure</a></p>
-<h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><ul>
-<li>the ability to deploy applications utilizing resources across multiple datacenters (and even clouds),</li>
-<li>deploying in a decentralized control model,</li>
-<li>supporting intelligent endpoints,</li>
-<li>heavy automation, and</li>
-<li>the on-demand nature of deploying these services to support business requirements and scale.</li>
-</ul>
-<h2 id="Architectural-Overview"><a href="#Architectural-Overview" class="headerlink" title="Architectural Overview"></a>Architectural Overview</h2><ul>
-<li>Mesos cluster manager for efficient resource isolation and sharing across distributed services</li>
-<li>Marathon for cluster management of long running containerized services</li>
-<li>Consul for service discovery (By using Consul’s inbuilt DNS server)</li>
-<li>Docker container runtime supported by Marathon</li>
-<li>Multi-datacenter support</li>
-<li>High availablity</li>
-</ul>
-<h2 id="Single-Data-Center-Architecture"><a href="#Single-Data-Center-Architecture" class="headerlink" title="Single Data Center Architecture"></a>Single Data Center Architecture</h2><p>The base platform contains control nodes that manage the cluster and any number of compute nodes. Containers automatically register themselves into DNS so that other services can locate them.</p>
-<p><img src="https://github.com/CiscoCloud/microservices-infrastructure/blob/master/docs/_static/single_dc.png" alt=""></p>
-<h2 id="Multi-Data-Center"><a href="#Multi-Data-Center" class="headerlink" title="Multi Data Center"></a>Multi Data Center</h2><p>Each datacenter contains a set of control nodes and computes nodes.  The architecture is “share nothing” with the exception of Consul. Consul nodes for all datacenters are automatically joined together to form a single WAN gossip pool. This enables application to local instance in the same datacenter and instances other datacenters with DNS or the Consul exposed API.</p>
-<p><img src="https://github.com/CiscoCloud/microservices-infrastructure/raw/master/docs/_static/multi_dc.png" alt=""></p>
-<h2 id="Control-Nodes"><a href="#Control-Nodes" class="headerlink" title="Control Nodes"></a>Control Nodes</h2><p>The control nodes manage a single datacenter. Each control node runs Consul for service discovery, Mesos leaders for resource scheduling and Mesos frameworks like Marathon.</p>
-<p><img src="https://github.com/CiscoCloud/microservices-infrastructure/raw/master/docs/_static/control_node.png" alt=""></p>
-<h2 id="Compute-Nodes"><a href="#Compute-Nodes" class="headerlink" title="Compute Nodes"></a>Compute Nodes</h2><p>The compute nodes launch containers and other Mesos-based workloads. Registrator is used to update Consul as containers are launched and exit.</p>
-<p><img src="https://github.com/CiscoCloud/microservices-infrastructure/raw/master/docs/_static/compute_node.png" alt=""></p>
-<h2 id="Have-a-try"><a href="#Have-a-try" class="headerlink" title="Have a try"></a>Have a try</h2><figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta"># checkout codes</span></div><div class="line">git clone https:<span class="comment">//github.com/CiscoCloud/microservices-infrastructure.git</span></div><div class="line">cd microservices-infrastructure</div><div class="line"></div><div class="line"><span class="meta"># start services</span></div><div class="line">vagrant up</div><div class="line"></div><div class="line"><span class="meta"># start microservices via Marathon</span></div><div class="line">curl -X POST -H <span class="string">"Accept: application/json"</span> -H <span class="string">"Content-Type: application/json"</span> http:<span class="comment">//localhost:8080/v2/apps -d '&#123;</span></div><div class="line">  <span class="string">"id"</span>: <span class="string">"webserver"</span>,</div><div class="line">  <span class="string">"cmd"</span>: <span class="string">"python -m SimpleHTTPServer 8080"</span>,</div><div class="line">  <span class="string">"cpus"</span>: <span class="number">0.5</span>,</div><div class="line">  <span class="string">"mem"</span>: <span class="number">64.0</span>,</div><div class="line">  <span class="string">"instances"</span>: <span class="number">1</span>,</div><div class="line">  <span class="string">"container"</span>: &#123;</div><div class="line">    <span class="string">"type"</span>: <span class="string">"DOCKER"</span>,</div><div class="line">    <span class="string">"docker"</span>: &#123;</div><div class="line">      <span class="string">"image"</span>: <span class="string">"centos"</span>,</div><div class="line">      <span class="string">"network"</span>: <span class="string">"BRIDGE"</span>,</div><div class="line">      <span class="string">"portMappings"</span>: [</div><div class="line">        &#123; <span class="string">"containerPort"</span>: <span class="number">8080</span>, <span class="string">"hostPort"</span>: <span class="number">0</span>, <span class="string">"servicePort"</span>: <span class="number">9000</span>, <span class="string">"protocol"</span>: <span class="string">"tcp"</span> &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;<span class="string">'</span></div></pre></td></tr></table></figure>
-<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>See more at <a href="https://github.com/CiscoCloud/microservices-infrastructure" target="_blank" rel="external">https://github.com/CiscoCloud/microservices-infrastructure</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1079,7 +1084,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">93</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1178,7 +1183,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

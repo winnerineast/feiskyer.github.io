@@ -343,6 +343,114 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/04/Borg-Omega-and-Kubernetes-ACM-Queue/" itemprop="url">
+                  Borg, Omega, and Kubernetes (ACM Queue)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-04T15:46:28+08:00" content="2016-03-04">
+              2016-03-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/04/Borg-Omega-and-Kubernetes-ACM-Queue/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/04/Borg-Omega-and-Kubernetes-ACM-Queue/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Brendan Burns, Brian Grant等在<a href="http://queue.acm.org/detail.cfm?id=2898444" target="_blank" rel="external">Borg, Omega, and Kubernetes - Lessons learned from three container-management systems over a decade</a>分享了Google在容器管理的经验教训。</p>
+<p>在谷歌的历史上，开发了三种容器管理调度系统：</p>
+<ul>
+<li>Borg：管理both long-running services and batch jobs，它们以前是由两个不同系统来管理的，分别是Babysitter和the Global Work Queue；而Borg基于Linux container开发，提高了资源的利用率，并衍生了大量的上层的配置管理工具。</li>
+<li>Omega：Borg的后代，集群状态维护在 a centralized Paxos-based transaction-oriented store中，并且using optimistic concurrency control to handle the occasional conflicts，去除了单master的问题</li>
+<li>Kubernetes：开源的容器调度系统，design goal is to make it easy to deploy and manage complex distributed systems, while still benefiting from the improved utilization that containers enable.</li>
+</ul>
+<p>论文全文见<a href="/assets/Borg-Omega-and-Kubernetes.pdf">Borg, Omega, and Kubernetes</a>.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/04/Docker-overlay-network-dive/" itemprop="url">
                   Docker overlay network dive
                 </a>
@@ -792,171 +900,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/26/Docker-Datacenter/" itemprop="url">
-                  Docker Datacenter
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-26T17:38:00+08:00" content="2016-02-26">
-              2016-02-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/26/Docker-Datacenter/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/26/Docker-Datacenter/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Docker annonced <code>Docker Datacenter (DDC)</code> at Februrary 23. It is an integrated, end-to-end platform for agile application development and management from the datacenter to the cloud.</p>
-<p>With Docker Datacenter, organizations are empowered to deploy a Containers as a Services (CaaS) on-premises or in your virtual private cloud. A CaaS provides an IT managed and secured application environment of content and infrastructure where developers can build and deploy applications in a self service manner.</p>
-<p>DDC includes severial Docker projects:</p>
-<ul>
-<li>Commercially supported Docker engine</li>
-<li>Universal Control Plane (UCP) with embedded Swarm for management and orchestration</li>
-<li>Trusted Registry (DTR) for image management</li>
-</ul>
-<blockquote>
-<p>Docker Trusted Registry allows you to store and manage your Docker images on-premise or in your virtual private cloud to support security or regulatory compliance requirements. Simply install and configure Docker Trusted Registry through the web admin console, integrate to your preferred storage, authenticate to your Active Directory / LDAP services and integrate into key software development workflows like Continuous Integration (CI) and Continuous Delivery (CD).</p>
-<p>Universal Control Plane enables enterprises to manage and deploy their Dockerized distributed applications, all from within the firewall.</p>
-</blockquote>
-<p><img src="/images/docker_platform.png" alt=""></p>
-<p>DDC conforms to same API with docker and swarm, so it works completely same with <code>docker-compose up</code> on swarm cluster.</p>
-<p>The feature of DDC including:</p>
-<ul>
-<li>Docker native with engine, networking and swarm</li>
-<li>Built in HA and security (TLS)</li>
-<li>Integrated content security (DTR)</li>
-<li>User management</li>
-<li>Plugins (networking, volumes, logging)</li>
-</ul>
-<h3 id="Free-Trial"><a href="#Free-Trial" class="headerlink" title="Free Trial"></a>Free Trial</h3><p>You can get a free trial at <a href="http://www.docker.com/products/docker-datacenter#/demo" target="_blank" rel="external">http://www.docker.com/products/docker-datacenter#/demo</a>. The installation of Docker Datacenter including severial steps:</p>
-<ul>
-<li>Install commercially supported Docker engine</li>
-<li>Install Docker Universal Control Plane (UCP)<ul>
-<li>docker run —rm -it -v /var/run/docker.sock:/var/run/docker.sock —name ucp docker/ucp install -i —swarm-port 3376 —host-address $(ifconfig eth0 | awk ‘/inet /{print $2}’ | awk -F: ‘{print $2}’)</li>
-<li>Follow the tips and enter the password</li>
-<li>Join more nodes: <code>docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock --name ucp docker/ucp join -i --host-address $(docker-machine ip node2)</code></li>
-</ul>
-</li>
-<li>Install Docker Trusted Registry: <code>docker run docker/trusted-registry install | bash</code></li>
-<li>Open ucp dashboard at <a href="https://server-ip" target="_blank" rel="external">https://server-ip</a> and upload your license</li>
-</ul>
-<p><img src="/images/ucp.png" alt=""></p>
-<h3 id="Comparsion-with-kubernetes"><a href="#Comparsion-with-kubernetes" class="headerlink" title="Comparsion with kubernetes"></a>Comparsion with kubernetes</h3><p>DDC provides deep integration with docker tools (docker, swarm, compose). Because most developers are farmiliar with those tools, there is none learning cost for switching to DDC. This is the best advantage of DDC. Other advantages including:</p>
-<ul>
-<li>Easily to deploy: just a few containers</li>
-<li>Docker commercially support</li>
-<li>User-friendly UI for managing containers togather</li>
-</ul>
-<p>On the other side, kubernetes is more difficult to deploy and the dashboard is still on developing at <a href="https://github.com/kubernetes/dashboard" target="_blank" rel="external">https://github.com/kubernetes/dashboard</a>.</p>
-<p>There is no official release about what size of cluster DDC can support, while kubernetes has officially cluster size supporting plan for each release.</p>
-<p>Kubernetes supports much more features and much more learning curve than DDC.</p>
-<p>Both DDC and kubernetes are in the quick evolving way. Currently I think DDC is much more easy to use, but Kubernetes is much more mature for production, because only kubernetes provides the key features like service-discovering, monitoring, logging, replication controllers and so on.</p>
-<p>See more at <a href="http://www.docker.com/products/docker-datacenter" target="_blank" rel="external">http://www.docker.com/products/docker-datacenter</a>.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1002,7 +945,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">93</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1101,7 +1044,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
