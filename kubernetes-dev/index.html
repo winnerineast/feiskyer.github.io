@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/kubernetes-dev/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash# /hack/start-hyperd.sh# /hack/start-docker.sh# /hack/start-frakti.sh# /hack/start-kubernetes-frakti.sh# /hack/s">
-<meta property="og:updated_time" content="2017-01-05T15:49:36.325Z">
+<meta property="og:updated_time" content="2017-01-06T03:29:04.242Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes Development">
 <meta name="twitter:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash# /hack/start-hyperd.sh# /hack/start-docker.sh# /hack/start-frakti.sh# /hack/start-kubernetes-frakti.sh# /hack/s">
@@ -365,12 +365,13 @@
 <li><code>/lgtm</code></li>
 <li><code>/lgtm cancel</code></li>
 </ul>
+<p>Check more commands at <a href="https://github.com/kubernetes/test-infra/blob/master/prow/commands.md" target="_blank" rel="external">kubernetes test-infra</a>.</p>
 <h2 id="Tips-for-git"><a href="#Tips-for-git" class="headerlink" title="Tips for git"></a>Tips for git</h2><p>Fetch a pull request to local:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">git fetch upstream pull/324/head:branch</div><div class="line">git fetch upstream pull/365/merge:branch</div></pre></td></tr></table></figure>
 <p>Or add following config to <code>.git/config</code> and run <code>git fetch</code> for all pull requests:</p>
 <figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">fetch = +refs/pull/*<span class="symbol">:refs/remotes/origin/pull/*</span></div></pre></td></tr></table></figure>
 <h2 id="Start-a-VM-on-GCE-via-docker-machine"><a href="#Start-a-VM-on-GCE-via-docker-machine" class="headerlink" title="Start a VM on GCE via docker-machine"></a>Start a VM on GCE via docker-machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker-machine create --driver google --google-project xxxx --google-machine-type n1-standard-2 --google-disk-size 30 kubernetes</div></pre></td></tr></table></figure>
-<h2 id="Minikube-for-starting-local-cluster"><a href="#Minikube-for-starting-local-cluster" class="headerlink" title="Minikube for starting local cluster"></a>Minikube for starting local cluster</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ minikube get-k8s-versions</div><div class="line">The following Kubernetes versions are available:</div><div class="line">    - v1.5.0-alpha.0</div><div class="line">    - v1.4.3</div><div class="line">    - v1.4.2</div><div class="line">    - v1.4.1</div><div class="line">    - v1.4.0</div><div class="line">    - v1.3.7</div><div class="line">    - v1.3.6</div><div class="line">    - v1.3.5</div><div class="line">    - v1.3.4</div><div class="line">    - v1.3.3</div><div class="line">    - v1.3.0</div><div class="line"></div><div class="line"><span class="comment"># http proxy is required in China</span></div><div class="line">$ minikube start --docker-env HTTP_PROXY=http://proxy-ip:port --docker-env HTTPS_PROXY=http://proxy-ip:port --vm-driver=xhyve --kubernetes-version=<span class="string">"v1.4.3"</span></div></pre></td></tr></table></figure>
+<h2 id="Minikube-for-starting-local-cluster"><a href="#Minikube-for-starting-local-cluster" class="headerlink" title="Minikube for starting local cluster"></a>Minikube for starting local cluster</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ minikube get-k8s-versions</div><div class="line">The following Kubernetes versions are available:</div><div class="line">    - v1.5.1</div><div class="line">    - v1.4.3</div><div class="line">    ...</div><div class="line"></div><div class="line"><span class="comment"># http proxy is required in China</span></div><div class="line">$ minikube start --docker-env HTTP_PROXY=http://proxy-ip:port --docker-env HTTPS_PROXY=http://proxy-ip:port --vm-driver=xhyve --kubernetes-version=<span class="string">"v1.4.3"</span></div></pre></td></tr></table></figure>
 
     
   </div>
