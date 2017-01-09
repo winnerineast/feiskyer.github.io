@@ -343,6 +343,114 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/09/使用docker-dind创建swarm集群/" itemprop="url">
+                  使用docker dind创建swarm集群
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-09T21:01:18+08:00" content="2017-01-09">
+              2017-01-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/09/使用docker-dind创建swarm集群/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/09/使用docker-dind创建swarm集群/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在OS X系统上，由于Docker for Mac只能创建一台虚拟机，所以要创建多节点swarm集群的话，就需要额外启动其他的虚拟机，并手动安装和配置docker。不过借助dind (docker in docker)，不需要创建额外的虚拟机也可以启动一个swarm集群。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker swarm init</div><div class="line">SWARM_TOKEN=$(docker swarm join-token -q worker)</div><div class="line">NUM_WORKERS=3 </div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq <span class="string">"<span class="variable">$&#123;NUM_WORKERS&#125;</span>"</span>); <span class="keyword">do</span></div><div class="line">    docker run <span class="_">-d</span> --privileged --name worker-<span class="variable">$&#123;i&#125;</span> --hostname=worker-<span class="variable">$&#123;i&#125;</span> --restart=always -p <span class="variable">$&#123;i&#125;</span>2375:2375 docker:1.12-dind</div><div class="line">    docker --host=localhost:<span class="variable">$&#123;i&#125;</span>2375 swarm join --token <span class="variable">$&#123;SWARM_TOKEN&#125;</span> <span class="variable">$&#123;SWARM_MASTER&#125;</span>:2377</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+<p>这时，查询系统的node列表为:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker node ls</div><div class="line">ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS</div><div class="line">82rg1gpkhm5fajnexre6p0v34 *  moby      Ready   Active        Leader</div><div class="line">a0hhwgtqsxosx9gg6h6wqmx68    worker-3  Ready   Active</div><div class="line">bn93fte7yflatee3y88qq7ff0    worker-1  Ready   Active</div><div class="line">emy5y7qr2y26hk3dtqgkvnak3    worker-2  Ready   Active</div></pre></td></tr></table></figure>
+<p>当然，也可以启动一个游Mano Marks创建的swarm集群可视化容器，更直观的查看集群的状态：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">docker run -it -d -<span class="selector-tag">p</span> <span class="number">8000</span>:<span class="number">8080</span> -v /var/run/docker<span class="selector-class">.sock</span>:/var/run/docker<span class="selector-class">.sock</span> manomarks/visualizer</div></pre></td></tr></table></figure>
+<p><img src="/images/docker_visualizer.png" alt=""></p>
+<p>参考文档<a href="http://blog.terranillius.com/post/swarm_dind/" target="_blank" rel="external">http://blog.terranillius.com/post/swarm_dind/</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="url">
                   Grumpy: 使用Go来运行Python程序
                 </a>
@@ -1089,228 +1197,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/14/KubeCon-2016见闻/" itemprop="url">
-                  KubeCon/CloudNativeCon 2016见闻
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-14T09:49:52+08:00" content="2016-11-14">
-              2016-11-14
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/11/14/KubeCon-2016见闻/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/14/KubeCon-2016见闻/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>题记：上周去西雅图参加了<a href="http://events.linuxfoundation.org/events/kubecon" target="_blank" rel="external">KubeCon&amp;CloudNativeCon 2016</a>，不仅见到Dawn、Brendan、Tim以及Sig Node的各路大神，还参加了不少有趣的session。</p>
-<h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
-<ul>
-<li>Simple Service: simply exposes a function as an HTTP service.</li>
-<li>Scatter/Gather: fans all requests out to all leaf nodes (scatter phase), all responses are then aggregated in a root node (gather phase), this aggregate response is returned to the caller.</li>
-<li>Shard: select a shard (replica) for a request.</li>
-<li>Spread: similar to Shard, but uses a randomized shardingFunction.</li>
-</ul>
-<h2 id="Unik-Unikernel-Runtime-for-Kubernetes-Idit-Levine-EMC"><a href="#Unik-Unikernel-Runtime-for-Kubernetes-Idit-Levine-EMC" class="headerlink" title="Unik: Unikernel Runtime for Kubernetes - Idit Levine, EMC"></a><a href="https://cnkc16.sched.org/event/8K8v/unik-unikernel-runtime-for-kubernetes-idit-levine-emc?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Unik: Unikernel Runtime for Kubernetes</a> - Idit Levine, EMC</h2><p><a href="https://github.com/emc-advanced-dev/unik" target="_blank" rel="external">Unik</a>是一个将应用编译成unikernel的工具，支持rump/OSv/IncludeOS/MirageOS等，编译的结果可以直接跑在公有云或者本地的虚拟机中。</p>
-<p>Unik在Kubernetes中实现了一个特殊的<a href="https://github.com/emc-advanced-dev/kubernetes/tree/master/pkg/kubelet/unik" target="_blank" rel="external">runtime</a>，并可以通过kubernetes来管理unik：</p>
-<ul>
-<li>镜像管理：实际上通过rkt来操作镜像</li>
-<li>Pod管理：one Pod == one VM == one Container，通过调用unik daemon来操作</li>
-</ul>
-<h2 id="Technical-View-Comparison-of-Container-Orchestration-and-Management-Systems-Lei-Zhang-HyperHQ"><a href="#Technical-View-Comparison-of-Container-Orchestration-and-Management-Systems-Lei-Zhang-HyperHQ" class="headerlink" title="Technical View: Comparison of Container Orchestration and Management Systems - Lei Zhang, HyperHQ"></a><a href="https://cnkc16.sched.org/event/8K3x/technical-view-comparison-of-container-orchestration-and-management-systems-lei-zhang-hyperhq?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Technical View: Comparison of Container Orchestration and Management Systems</a> - Lei Zhang, HyperHQ</h2><p>我司张磊同学的大作，从架构、控制平面、服务发现与负载均衡、调度等各个角度对比Kubernetes/Swarmkit/Mesos等常见容器编排系统，并以<a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">hypernetes</a>和<a href="http://hyper.sh/" target="_blank" rel="external">Hyper Container Service</a>为例说明为什么kubernetes是一个更好的选择。</p>
-<p><img src="/images/1-4.png" alt="1"><br><img src="/images/2-3.png" alt="2"></p>
-<h2 id="Everything-You-Ever-Wanted-to-Know-About-Resource-Scheduling-But-Were-Afraid-to-Ask-Tim-Hockin-Google"><a href="#Everything-You-Ever-Wanted-to-Know-About-Resource-Scheduling-But-Were-Afraid-to-Ask-Tim-Hockin-Google" class="headerlink" title="Everything You Ever Wanted to Know About Resource Scheduling, But Were Afraid to Ask - Tim Hockin, Google"></a><a href="https://cnkc16.sched.org/event/8K8l/everything-you-ever-wanted-to-know-about-resource-scheduling-but-were-afraid-to-ask-tim-hockin-google?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Everything You Ever Wanted to Know About Resource Scheduling, But Were Afraid to Ask</a> - Tim Hockin, Google</h2><p>Kubernetes is fundamentally about resource management:</p>
-<ul>
-<li>CPU/Memory/Disk</li>
-<li>Network/Ports/IP addresses</li>
-<li>PIDs</li>
-<li>GPUs</li>
-<li>Storage</li>
-<li>Power</li>
-</ul>
-<p>关于资源管理的三方面:</p>
-<ul>
-<li>Isolation：保证应用可以获取想要的资源并且不影响其他应用，目前基于Requests/Limits只支持cpu和内存</li>
-<li>Sizing：应该给用户分配多少资源呢，没有统一的方法，只能靠benchmark，但精确的benchmark很难，所以Kubernetes提供了Horizontal Pod Autoscaler，未来可能还会有VerticalPodAutoscaler</li>
-<li>Utilization：资源的实际使用情况是啥样的，涉及Priority调度、Quota管理、Overcommit等等。</li>
-</ul>
-<p><img src="/images/3-4.png" alt="3"></p>
-<p>Slide见<a href="https://speakerdeck.com/thockin/everything-you-ever-wanted-to-know-about-resource-scheduling-dot-dot-dot-almost" target="_blank" rel="external">这里</a>.</p>
-<h2 id="Self-hosted-Scale-and-Federation-with-Kubernetes-v1-4-and-Beyond-Brandon-Philips-CoreOS"><a href="#Self-hosted-Scale-and-Federation-with-Kubernetes-v1-4-and-Beyond-Brandon-Philips-CoreOS" class="headerlink" title="Self-hosted, Scale, and Federation with Kubernetes v1.4 and Beyond - Brandon Philips, CoreOS"></a><a href="https://cnkc16.sched.org/event/8K3v/self-hosted-scale-and-federation-with-kubernetes-v14-and-beyond-brandon-philips-coreos-inc?iframe=yes&amp;w=100%&amp;sidebar=yes&amp;bg=no#" target="_blank" rel="external">Self-hosted, Scale, and Federation with Kubernetes v1.4 and Beyond</a> - Brandon Philips, CoreOS</h2><p>基本的idea是用Kubernetes来管理Kubernetes的部署和升级，这也是一个孵化状态的项目<a href="https://github.com/kubernetes-incubator/bootkube" target="_blank" rel="external">bootkube</a>。由于kubelet初始化需要控制平面的配合，bootkube会在一开始的时候会启动一个暂时的控制平面（api-server, scheduler, controller manager），部署完成后再替换回来。</p>
-<p>部署前将bootkube作为控制平面：</p>
-<p><img src="/images/bootkube-1.png" alt="bootkube-1"></p>
-<p>部署后替换成真正的控制平面：</p>
-<p><img src="/images/bootkube-2.png" alt="bootkube-2"></p>
-<p>相关文档</p>
-<ul>
-<li><a href="https://github.com/kubernetes-incubator/bootkube" target="_blank" rel="external">Incubator BootKube</a></li>
-<li><a href="https://speakerdeck.com/philips/kubecon-2016-self-hosted-scale-and-federation-with-kubernetes-v1-dot-4-and-beyond" target="_blank" rel="external">Slide</a></li>
-<li><a href="https://docs.google.com/document/d/1VNp4CMjPPHevh2_JQGMl-hpz9JSLq3s7HlI87CTjl-8/edit" target="_blank" rel="external">Design of bootkube</a></li>
-<li><a href="https://coreos.com/blog/self-hosted-kubernetes.html" target="_blank" rel="external">Blog of self-booted kubernetes</a></li>
-<li><a href="https://docs.google.com/document/d/1_I6xT0XHCoOqZUT-dtpxzwvYpTR5JmFQY0S4gL2PPkU/edit#heading=h.yeahbhtih70g" target="_blank" rel="external">Kubelet as a Container and Self-Hosted Kubernetes</a></li>
-</ul>
-<h2 id="F2F"><a href="#F2F" class="headerlink" title="F2F"></a>F2F</h2><p><strong><a href="https://docs.google.com/document/d/1ZVQIzLuHsBFDCw-QLO30rqRlSNSc1xynfs9GAFrjeVc/edit" target="_blank" rel="external">Sig-node F2F</a></strong></p>
-<ul>
-<li>Performance-Sensitive Application Platform<ul>
-<li>高性能应用的场景，比如telecom, HFT等，需要NUMA、GPU、sysctls、hugepage、cpuset等等的支持。</li>
-<li>一个idea是通过daemonset并配合NodeAllocatable</li>
-</ul>
-</li>
-<li>CRI blockers and progress<ul>
-<li>1.5的feature基本完成，只剩下一些bug fixes</li>
-<li>per-pod cgroups</li>
-<li>monitoring</li>
-<li>api versioning</li>
-<li>hostport network</li>
-<li>metrics</li>
-<li>CRI validation tests</li>
-<li>auth</li>
-</ul>
-</li>
-<li>Runtime agnostic debugging tools<ul>
-<li>CLI for CRI?</li>
-</ul>
-</li>
-<li>NodeSpec standardization</li>
-<li>Packaging</li>
-</ul>
-<p><strong><a href="https://docs.google.com/document/d/1wtJeXhiVOL7qdDK_zouZPjskTIrsOLmD-9Ij478y7_Y/edit" target="_blank" rel="external">OCI F2F</a></strong></p>
-<p>最主要的是<code>Runtime CLI Spec</code>和<code>Image Spec rc3</code>。比较有趣的是<a href="https://github.com/vbatts/nspawn-oci" target="_blank" rel="external">systemd wrapper / rkt wrapper for OCI runtime-spec CLI</a>，rkt也要加入OCI的大营。</p>
-<h2 id="Developer-Summit"><a href="#Developer-Summit" class="headerlink" title="Developer Summit"></a>Developer Summit</h2><p><strong><a href="https://docs.google.com/presentation/d/1SD6a6eJl47t0qyTFE8GzaiytW4T_crdWgYAMCaLy1W8" target="_blank" rel="external">Scaling the Kubernetes CodeBase</a></strong></p>
-<p>Kubernetes使用github来管理代码库，但现在碰到了明显的瓶颈：从2015年下半年开始<a href="http://velodrome.k8s.io/dashboard/db/kubernetes-developer-velocity" target="_blank" rel="external">merge时间明显加长</a>，open issues和PRs一直再增长，大量无关紧要的github通知等等。未来计划将Kubernetes的代码拆分到多个repo中，kuberentes代码库只保留核心代码，并通过Extension mechanism来支持各种功能：</p>
-<ul>
-<li>Apiserver federation</li>
-<li>Authorization hooks</li>
-<li>Admission-control hooks</li>
-<li>Initializers and finalizers</li>
-<li>ThirdPartyResource</li>
-<li>Kubectl extensions</li>
-<li>Service Broker, Operators</li>
-<li>Controller pattern</li>
-<li>External cloudproviders</li>
-<li>CRI, network, and storage plugins</li>
-<li>Cluster addons: UI, monitoring, logging</li>
-<li>Feature gates, feature discovery, dependency management</li>
-</ul>
-<p>更多记录见<a href="https://docs.google.com/document/d/1zN2DWKerXwbzxZTO52wBRqp_uHMdLp8P52xYOmp5WZ4/edit" target="_blank" rel="external">这里</a>.</p>
-<p><strong>其他的Summit简介</strong></p>
-<ul>
-<li><a href="https://docs.google.com/presentation/d/1dFfN3_9VM4cRKknZB9_0wsM_1YLJToRTEx7dX6BoEhI" target="_blank" rel="external">Kubernetes 2017 Features &amp; Roadmaps</a> <a href="https://docs.google.com/spreadsheets/d/154cAee2mOn3LoQDgpgG2ZzAIdIlQ_KnMlghGjnGwQ1w" target="_blank" rel="external">Roadmap</a><ul>
-<li>Scale the project (tablestakes)</li>
-<li>Reference architectures for application workflows</li>
-<li>Secure multi-tenancy with service catalog</li>
-<li>Production ready cluster lifecycle</li>
-<li>Multi-cloud support for AWS / Azure / on premises</li>
-</ul>
-</li>
-<li><a href="https://docs.google.com/document/d/11kK39Zz3zxIY9-GFa8buqqWYOrctFQ7hvOw5NBFwJL0/edit#heading=h.n0vlwrfu65r1" target="_blank" rel="external">Cluster Lifecycle Deployment &amp; Upgrade Roadmap</a><ul>
-<li>HA</li>
-<li>Upgrades</li>
-<li>Config Management</li>
-<li>Toolbox vs. guided flow</li>
-<li>Documentation</li>
-<li>Conformance Testing</li>
-<li>PKI</li>
-</ul>
-</li>
-<li><a href="https://docs.google.com/presentation/d/1GFuKgN-1kMmcg41T9HsasP8YEWtMAipEibYnwGkQuHo" target="_blank" rel="external">Documentation</a> and <a href="https://docs.google.com/document/d/1VYoVl63Iq2QSKxpoV7HGXmWasxU5EQCAuoIItj-ODvM/edit" target="_blank" rel="external">here</a></li>
-<li><a href="https://docs.google.com/document/d/1cJhpjRcXpTmTWQswEfBqSbrfqrawtD9ZlWW30Q3BWv4/edit" target="_blank" rel="external">K8s Dev Summit: Outstanding Issues and PRs</a><ul>
-<li>Issues 4600+, PRs 600+，还在不断增长中</li>
-<li><a href="https://github.com/kubernetes/community/tree/master/sig-contribx" target="_blank" rel="external">Sig Contribx</a>会跟进处理这个问题</li>
-</ul>
-</li>
-<li><a href="https://docs.google.com/document/d/1WmRwT3nhLXTYRLKlj9rjZmEXv3BEu7TFX29nuaO3enA/edit#heading=h.w90umf5dyer3" target="_blank" rel="external">Multi-tenancy</a></li>
-<li><a href="https://docs.google.com/document/d/1X5i-Z3GsFyknxq4LyB3cObXEm5ds7DTUYOKwHAMHK5A/edit" target="_blank" rel="external">Azure &amp; AWS Kubernetes Discussion</a></li>
-<li><a href="https://docs.google.com/document/d/1klHgGFKtSPHGNlG24LDb5-ornBUtZLcUnEjF8XKXDes/edit" target="_blank" rel="external">Contrib notes</a> and <a href="https://docs.google.com/document/d/19B2vcK6Y3xE3JO7sd4n6lPF0m9bBVZpNucvcR3MwEXA/edit" target="_blank" rel="external">On developer onboarding</a></li>
-<li><a href="https://docs.google.com/document/d/1p7scsTPzPyouktBFTxu4RhRwW8yUn5Lj7VGY9SaOo-8/edit" target="_blank" rel="external">Compute resource management</a></li>
-<li><a href="https://docs.google.com/document/d/1K2hh7nQ9glYzGE-5J7oKBB7oK3S_MKqwCISXZK-sB2Q/edit" target="_blank" rel="external">Logging volumes</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1356,7 +1242,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">94</span>
+              <span class="site-state-item-count">95</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
