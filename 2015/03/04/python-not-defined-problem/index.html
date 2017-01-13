@@ -94,7 +94,7 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="file仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：
 import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__file__&apos;):    __file__ = inspect.getfile(inspect.currentframe())print os.path.dirname(os">
-<meta property="og:updated_time" content="2017-01-11T13:35:05.938Z">
+<meta property="og:updated_time" content="2017-01-13T07:06:12.364Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python __file__ not defined problem">
 <meta name="twitter:description" content="file仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：
@@ -204,22 +204,12 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-pages">
-          <a href="/pages" rel="section">
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            笔记
+            机器学习
           </a>
         </li>
       
@@ -234,22 +224,22 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
         </li>
       
         
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-k8s">
           <a href="/k8s" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             Kubernetes指南
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-ml">
-          <a href="/machine-learning" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            机器学习
           </a>
         </li>
       
@@ -270,6 +260,16 @@ import osimport inspectimport sysif not hasattr(sys.modules[__name__], &apos;__f
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
