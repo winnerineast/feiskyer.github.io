@@ -8,98 +8,98 @@
 
     <url>
         <loc>http://feisky.xyz/categories/vagrant/</loc>
-        <lastmod>2017-01-23T15:03:49.395Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/mesos/</loc>
-        <lastmod>2017-01-23T15:03:49.395Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/linux/</loc>
-        <lastmod>2017-01-23T15:03:49.395Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/Book/</loc>
-        <lastmod>2017-01-23T15:03:49.399Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/docker/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Docker/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Linux/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/OpenStack/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/SDN/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Networking/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/kubernetes/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <loc>http://feisky.xyz/categories/Book/</loc>
+        <lastmod>2017-01-23T15:07:15.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Kubernetes/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <loc>http://feisky.xyz/categories/docker/</loc>
+        <lastmod>2017-01-23T15:07:15.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Readings/</loc>
-        <lastmod>2017-01-23T15:03:49.403Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.593Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/kubernetes/</loc>
+        <lastmod>2017-01-23T15:07:15.593Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/Kubernetes/</loc>
+        <lastmod>2017-01-23T15:07:15.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/cluster/</loc>
-        <lastmod>2017-01-23T15:03:49.407Z</lastmod>
+        <lastmod>2017-01-23T15:07:15.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

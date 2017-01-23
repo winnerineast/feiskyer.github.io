@@ -760,6 +760,128 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="url">
+                  Use kubectl to connect kubernetes cluster
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-04T00:00:00+08:00" content="2015-11-04">
+              2015-11-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">kubernetes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
+<p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="url">
                   Hypernetes   The multi tenant Kubernetes distribution
                 </a>
@@ -855,128 +977,6 @@
 <p>Also, as an open-source project, we warmly welcome PR contributions and issues, directly on our <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Github</a>.</p>
 <p>As a last word, we are presenting Hypernetes this week at the <a href="https://www.openstack.org/summit/tokyo-2015/" target="_blank" rel="external">OpenStack Tokyo Summit</a> and <a href="http://europe-2015.dockercon.com/" target="_blank" rel="external">DockerCon Europe</a> next month. If you’re around, please come by our booth ;-)</p>
 <p>From <a href="https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html" target="_blank" rel="external">https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="url">
-                  Use kubectl to connect kubernetes cluster
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-04T00:00:00+08:00" content="2015-11-04">
-              2015-11-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">kubernetes</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
-<p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
 
           
         
