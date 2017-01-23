@@ -2764,6 +2764,141 @@
             
               
                 
+                <a class="post-title-link" href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="url">
+                  Perform Consistent Snapshots with qemu guest agent
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-10T00:00:00+08:00" content="2015-02-10">
+              2015-02-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
+<p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
+<h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
+<p>But how does that work?</p>
+<p>The principle is quite easy. A virtual machine boots with a new virtio device attached pointing to unix socket on the hypervisor. Inside the virtual machine this socket will appear as a new character device, commonly under <code>/dev/virtio-ports/</code>.</p>
+<p>A picture is always better:</p>
+<p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
+<h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo echo <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee -a /etc/apparmor.d/abstractions/libvirt-qemu</div><div class="line"><span class="variable">$ </span>sudo service libvirt-bin restart</div><div class="line"><span class="variable">$ </span>sudo service nova-compute restart</div><div class="line"><span class="variable">$ </span>sudo service apparmor reload</div></pre></td></tr></table></figure>
+<p>Configure your Glance image:</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
+<p>Boot your virtual machine: <code>nova boot ....</code></p>
+<p>Verify that the agent is in the virtual machine:</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ file /dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span></div><div class="line">/dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span>: symbolic link to ../vport2p1</div></pre></td></tr></table></figure>
+<p>Install the QEMU agent inside your VM:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo apt-get <span class="keyword">install</span> -y qemu-guest-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo mkdir /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo tee /etc/<span class="keyword">default</span>/qemu-guest-<span class="keyword">agent</span> &gt; /dev/<span class="literal">null</span> &lt;&lt;EOF</div><div class="line">DAEMON\_ARGS=<span class="string">"--logfile /var/log/qemu-agent/org.qemu.guest_agent.0.log --fsfreeze-hook --verbose"</span></div><div class="line">EOF</div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo service qemu-guest-<span class="keyword">agent</span> restart</div><div class="line"> * Restarting QEMU Guest <span class="keyword">Agent</span> qemu-qa</div><div class="line"> *    ...done</div><div class="line"> *    ubuntu@<span class="keyword">agent</span>:~$ sudo ls /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span>/</div><div class="line"> *    org.qemu.guest_agent<span class="number">.0</span>.log</div></pre></td></tr></table></figure>
+<p>Now go back on the hypervisor and check that the socket file is present (it must here since we have the character device inside the virtual machine):</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ sudo bash -c  <span class="string">"ls /var/lib/libvirt/qemu/*.sock"</span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">capabilities</span>.<span class="title">monitor</span>.<span class="title">sock</span>  /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line"></div><div class="line">$ sudo file /var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span>: <span class="title">socket</span></span></div></pre></td></tr></table></figure>
+<p>Test if the QEMU agent responds:</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000007 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-ping"</span>&#125;'</div><div class="line">&#123;<span class="string">"return"</span>:&#123;&#125;&#125;</div></pre></td></tr></table></figure>
+<p>Setup the fsfreeze hook mechanism, on Red Hat systems the file already exists:</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">buntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo wget -O /etc/qemu/fsfreeze-hook <span class="symbol">https:</span>/<span class="regexp">/raw.githubusercontent.com/qemu</span><span class="regexp">/qemu/master</span><span class="regexp">/scripts/qemu</span>-guest-agent/fsfreeze-hook</div><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo chmod +x /etc/qemu/fsfreeze-hook</div></pre></td></tr></table></figure>
+<p>Configure a basic hook, it will be executed either during the freeze or thaw operation:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo mkdir /etc/qemu/fsfreeze-hook.d</div><div class="line">ubuntu@agent:~$ sudo tee &gt; /etc/qemu/fsfreeze-hook.d/foo.sh &gt; /dev/null &lt;&lt;EOF</div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">    freeze)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm frozen"</span> &gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    thaw)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm thawed"</span> &gt;&gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">EOF</div><div class="line">ubuntu@agent:~$ sudo chmod +x /etc/qemu/fsfreeze-hook.d/foo.sh</div></pre></td></tr></table></figure>
+<p>Now let’s freeze ad thaw the filesystem:</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-freeze"</span>&#125;'</div><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-thaw"</span>&#125;'</div></pre></td></tr></table></figure>
+<p>Did the hook work as expected? Yes!</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo cat /tmp/freeze</div><div class="line">I<span class="string">'m frozen</span></div><div class="line">I'm thawed</div></pre></td></tr></table></figure>
+<h1 id="OpenStack-Nova-and-Snapshots"><a href="#OpenStack-Nova-and-Snapshots" class="headerlink" title="OpenStack Nova and Snapshots"></a>OpenStack Nova and Snapshots</h1><p>Several patches have been submitted to quiesce the filesystem prior to run the snapshot.</p>
+<p>The initial work to support fs-freeze while performing a snapshot of an instance was introduced in Juno with a <a href="https://review.openstack.org/#/c/99780/" target="_blank" rel="external">spec</a>.</p>
+<p>However the commit only got <a href="https://review.openstack.org/#/c/72038/9" target="_blank" rel="external">merged</a> in December…<br>This will be available in Kilo.<br>Another effort to support this feature while booting from a volume is currently under review.</p>
+<p>The original blueprint can be found <a href="https://blueprints.launchpad.net/nova/+spec/quiesced-image-snapshots-with-qemu-guest-agent" target="_blank" rel="external">here</a>.<br>Ultimately this option will be available via a Glance property:</p>
+<p><code>$ glance image-update 53bd9dbe-23db-412b-81d5-9743aabdfeb5 --property os_require_quiesce=yes</code></p>
+<p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
+<pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/02/09/cannot-change-locale/" itemprop="url">
                   cannot change locale
                 </a>
@@ -2854,141 +2989,6 @@
 <p>运行locale</p>
 <p>LANG=en_US.UTF-8<br>LANGUAGE=<br>LC_CTYPE=”en_US.UTF-8”<br>LC_NUMERIC=”en_US.UTF-8”<br>LC_TIME=”en_US.UTF-8”<br>LC_COLLATE=”en_US.UTF-8”<br>LC_MONETARY=”en_US.UTF-8”<br>LC_MESSAGES=”en_US.UTF-8”<br>LC_PAPER=”en_US.UTF-8”<br>LC_NAME=”en_US.UTF-8”<br>LC_ADDRESS=”en_US.UTF-8”<br>LC_TELEPHONE=”en_US.UTF-8”<br>LC_MEASUREMENT=”en_US.UTF-8”<br>LC_IDENTIFICATION=”en_US.UTF-8”<br>LC_ALL=en_US.UTF-8</p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="url">
-                  Perform Consistent Snapshots with qemu guest agent
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-10T00:00:00+08:00" content="2015-02-10">
-              2015-02-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
-<p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
-<h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
-<p>But how does that work?</p>
-<p>The principle is quite easy. A virtual machine boots with a new virtio device attached pointing to unix socket on the hypervisor. Inside the virtual machine this socket will appear as a new character device, commonly under <code>/dev/virtio-ports/</code>.</p>
-<p>A picture is always better:</p>
-<p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
-<h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo echo <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee -a /etc/apparmor.d/abstractions/libvirt-qemu</div><div class="line"><span class="variable">$ </span>sudo service libvirt-bin restart</div><div class="line"><span class="variable">$ </span>sudo service nova-compute restart</div><div class="line"><span class="variable">$ </span>sudo service apparmor reload</div></pre></td></tr></table></figure>
-<p>Configure your Glance image:</p>
-<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
-<p>Boot your virtual machine: <code>nova boot ....</code></p>
-<p>Verify that the agent is in the virtual machine:</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ file /dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span></div><div class="line">/dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span>: symbolic link to ../vport2p1</div></pre></td></tr></table></figure>
-<p>Install the QEMU agent inside your VM:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo apt-get <span class="keyword">install</span> -y qemu-guest-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo mkdir /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo tee /etc/<span class="keyword">default</span>/qemu-guest-<span class="keyword">agent</span> &gt; /dev/<span class="literal">null</span> &lt;&lt;EOF</div><div class="line">DAEMON\_ARGS=<span class="string">"--logfile /var/log/qemu-agent/org.qemu.guest_agent.0.log --fsfreeze-hook --verbose"</span></div><div class="line">EOF</div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo service qemu-guest-<span class="keyword">agent</span> restart</div><div class="line"> * Restarting QEMU Guest <span class="keyword">Agent</span> qemu-qa</div><div class="line"> *    ...done</div><div class="line"> *    ubuntu@<span class="keyword">agent</span>:~$ sudo ls /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span>/</div><div class="line"> *    org.qemu.guest_agent<span class="number">.0</span>.log</div></pre></td></tr></table></figure>
-<p>Now go back on the hypervisor and check that the socket file is present (it must here since we have the character device inside the virtual machine):</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ sudo bash -c  <span class="string">"ls /var/lib/libvirt/qemu/*.sock"</span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">capabilities</span>.<span class="title">monitor</span>.<span class="title">sock</span>  /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line"></div><div class="line">$ sudo file /var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span>: <span class="title">socket</span></span></div></pre></td></tr></table></figure>
-<p>Test if the QEMU agent responds:</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000007 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-ping"</span>&#125;'</div><div class="line">&#123;<span class="string">"return"</span>:&#123;&#125;&#125;</div></pre></td></tr></table></figure>
-<p>Setup the fsfreeze hook mechanism, on Red Hat systems the file already exists:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">buntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo wget -O /etc/qemu/fsfreeze-hook <span class="symbol">https:</span>/<span class="regexp">/raw.githubusercontent.com/qemu</span><span class="regexp">/qemu/master</span><span class="regexp">/scripts/qemu</span>-guest-agent/fsfreeze-hook</div><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo chmod +x /etc/qemu/fsfreeze-hook</div></pre></td></tr></table></figure>
-<p>Configure a basic hook, it will be executed either during the freeze or thaw operation:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo mkdir /etc/qemu/fsfreeze-hook.d</div><div class="line">ubuntu@agent:~$ sudo tee &gt; /etc/qemu/fsfreeze-hook.d/foo.sh &gt; /dev/null &lt;&lt;EOF</div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">    freeze)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm frozen"</span> &gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    thaw)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm thawed"</span> &gt;&gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">EOF</div><div class="line">ubuntu@agent:~$ sudo chmod +x /etc/qemu/fsfreeze-hook.d/foo.sh</div></pre></td></tr></table></figure>
-<p>Now let’s freeze ad thaw the filesystem:</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-freeze"</span>&#125;'</div><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-thaw"</span>&#125;'</div></pre></td></tr></table></figure>
-<p>Did the hook work as expected? Yes!</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo cat /tmp/freeze</div><div class="line">I<span class="string">'m frozen</span></div><div class="line">I'm thawed</div></pre></td></tr></table></figure>
-<h1 id="OpenStack-Nova-and-Snapshots"><a href="#OpenStack-Nova-and-Snapshots" class="headerlink" title="OpenStack Nova and Snapshots"></a>OpenStack Nova and Snapshots</h1><p>Several patches have been submitted to quiesce the filesystem prior to run the snapshot.</p>
-<p>The initial work to support fs-freeze while performing a snapshot of an instance was introduced in Juno with a <a href="https://review.openstack.org/#/c/99780/" target="_blank" rel="external">spec</a>.</p>
-<p>However the commit only got <a href="https://review.openstack.org/#/c/72038/9" target="_blank" rel="external">merged</a> in December…<br>This will be available in Kilo.<br>Another effort to support this feature while booting from a volume is currently under review.</p>
-<p>The original blueprint can be found <a href="https://blueprints.launchpad.net/nova/+spec/quiesced-image-snapshots-with-qemu-guest-agent" target="_blank" rel="external">here</a>.<br>Ultimately this option will be available via a Glance property:</p>
-<p><code>$ glance image-update 53bd9dbe-23db-412b-81d5-9743aabdfeb5 --property os_require_quiesce=yes</code></p>
-<p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
-<pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
-</code></pre>
           
         
       
