@@ -1572,6 +1572,15 @@ Available Commands:
     </entry>
     
     <entry>
+      <title><![CDATA[Use kubectl to connect kubernetes cluster]]></title>
+      <url>http://feisky.xyz/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/</url>
+      <content type="html"><![CDATA[<p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
+<p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Hypernetes   The multi tenant Kubernetes distribution]]></title>
       <url>http://feisky.xyz/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/</url>
       <content type="html"><![CDATA[<p>“<a href="https://hyper.sh/blog/post/2015/07/06/the-caas-revolution.html" target="_blank" rel="external">The Caas Revolution</a>“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) <a href="http://www.docker.com/" target="_blank" rel="external">Docker</a>, and embraced by Cloud providers like <a href="https://cloud.google.com/container-engine/" target="_blank" rel="external">Google</a> and <a href="https://aws.amazon.com/ecs/" target="_blank" rel="external">AWS</a>.</p>
@@ -1599,15 +1608,6 @@ Available Commands:
 <p>Also, as an open-source project, we warmly welcome PR contributions and issues, directly on our <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Github</a>.</p>
 <p>As a last word, we are presenting Hypernetes this week at the <a href="https://www.openstack.org/summit/tokyo-2015/" target="_blank" rel="external">OpenStack Tokyo Summit</a> and <a href="http://europe-2015.dockercon.com/" target="_blank" rel="external">DockerCon Europe</a> next month. If you’re around, please come by our booth ;-)</p>
 <p>From <a href="https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html" target="_blank" rel="external">https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Use kubectl to connect kubernetes cluster]]></title>
-      <url>http://feisky.xyz/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/</url>
-      <content type="html"><![CDATA[<p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
-<p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -2657,6 +2657,26 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
+      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
+      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
+      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
+      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
+      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Open vSwitch over DPDK on Ubuntu]]></title>
       <url>http://feisky.xyz/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/</url>
       <content type="html"><![CDATA[<p>There are two approaches for using DPDK acceleration in DPDK. One is the openvswitch fork from intel, called dpdk-ovs the other is done directly in openvswitch with a different approach from intel. <span class="anchor" id="line-10">&lt;/span&gt;<br><span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span></span></p>
@@ -3009,26 +3029,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
 
 
 <p>备注：本文转自 <a href="https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu" target="_blank" rel="external">https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu</a>。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
-      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
-      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
-      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
-      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -3420,7 +3420,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x68;&#x61;&#110;&#x6e;&#x69;&#x62;&#97;&#x6c;&#x40;&#97;&#x2d;&#x74;&#x65;&#97;&#109;&#46;&#99;&#111;&#109;">&#x68;&#x61;&#110;&#x6e;&#x69;&#x62;&#97;&#x6c;&#x40;&#97;&#x2d;&#x74;&#x65;&#97;&#109;&#46;&#99;&#111;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x68;&#x61;&#110;&#x6e;&#x69;&#x62;&#x61;&#108;&#x40;&#x61;&#x2d;&#x74;&#101;&#97;&#109;&#x2e;&#99;&#111;&#109;">&#x68;&#x61;&#110;&#x6e;&#x69;&#x62;&#x61;&#108;&#x40;&#x61;&#x2d;&#x74;&#101;&#97;&#109;&#x2e;&#99;&#111;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -6427,6 +6427,29 @@ ADD static/ /www/static
     </entry>
     
     <entry>
+      <title><![CDATA[Apache的Mesos和Google的Kubernetes 有什么区别]]></title>
+      <url>http://feisky.xyz/2015/02/05/apachemesosgooglekubernetes-/</url>
+      <content type="html"><![CDATA[<p>Kubernetes是一个开源项目，它把谷歌的集群管理工具引入到虚拟机和裸机场景中。它可以完美运行在现代的操作系统环境（比如CoreOS和Red Hat Atomic），并提供可以被你管控的轻量级的计算节点。Kubernetes使用Golang开发，具有轻量化、模块化、便携以及可扩展的特点。我们（Kubernetes开发团队）正在和一些不同的技术公司（包括维护着Mesos项目的MesoSphere）合作来把Kubernetes升级为一种与计算集群交互的标准方式。Kubernetes重新实现了Google在构建集群应用时积累的经验。这些概念包括如下内容：  </p>
+<ul>
+<li>Pods：一种将容器组织在一起的方法；</li>
+<li>Replication Controllers：一种控制容器生命周期的方法（译者注：Replication Controller确保任何时候Kubernetes集群中有指定数量的pod副本(replicas)在运行）；</li>
+<li>Labels：一种可以找到和查询容器的方法；</li>
+<li>Services：一个用于实现某一特定功能的容器组；  </li>
+</ul>
+<p>因此，只要使用Kubernetes你就能够简单并快速的启动、移植并扩展集群。在这种情况下，集群就像是类似虚拟机一样灵活的资源，它是一个逻辑运算单元。打开它，使用它，调整它的大小，然后关闭它，就是这么快，就是这么简单。  </p>
+<p>Mesos和Kubernetes的愿景差不多，但是它们在不同的生命周期中各有不同的优势。Mesos是分布式系统内核，它可以将不同的机器整合在一个逻辑计算机上面。当你拥有很多的物理资源并想构建一个巨大的静态的计算集群的时候，Mesos就派上用场了。有很多的现代化可扩展性的数据处理应用都可以在Mesos上运行，包括Hadoop、Kafka、Spark等，同时你可以通过容器技术将所有的数据处理应用都运行在一个基础的资源池中。在某个方面来看，Mesos是一个比Kubernetes更加重量级的项目，但是得益于那些像Mesosphere一样的贡献者，Mesos正在变得更加简单并且容易管理。  </p>
+<p>有趣的是Mesos正在接受Kubernetes的理念，并已经开始支持Kubernetes API。因此如果你需要它们的话，它将是对你的Kubernetes应用去获得更多能力的一个便捷方式（比如高可用的主干、更加高级的调度命令、去管控很大数目结点的能力），同时能够很好的适用于产品级工作环境中（毕竟Kubernetes仍然还是一个初始版本）。  </p>
+<p>当被问到区别的时候，我会这样回答：  </p>
+<ol>
+<li>如果你是一个集群世界的新手，那Kubernetes是一个很棒的开始。它可以用最快的、最简单的、最轻量级的方式来解决你的问题，并帮助你进行面向集群的开发。它提供了一个高水平的可移植方案，因为很多厂商已经开始支持Kubernetes，例如微软、IBM、Red Hat、CoreOS、MesoSphere、VMWare等。</li>
+<li>如果你拥有已经存在的工作任务（Hadoop、Spark、Kafka等），那Mesos可以给你提供了一个将不同工作任务相互交错的框架，然后还可以加入一些新的东西，比如Kubernetes应用。</li>
+<li>如果你想使用的功能Kuberntes还没实现，那Mesos是一个不错的替代品，毕竟它已经成熟。  </li>
+</ol>
+<p><strong>原文链接：<a href="http://stackoverflow.com/questions/26705201/whats-the-difference-between-apaches-mesos-and-googles-kubernetes" target="_blank" rel="external">Whats the difference between Apaches Mesos and Googles Kubernetes</a> （翻译：刘凯宁 校对：李颖杰）</strong></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[使用Mesos来管理Docker集群]]></title>
       <url>http://feisky.xyz/2015/02/05/mesosdocker/</url>
       <content type="html"><![CDATA[<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Apache Mesos能够在同样的集群机器上运行多种分布式系统类型，更加动态有效率低共享资源。提供失败侦测，任务发布，任务跟踪，任务监控，低层次资源管理和细粒度的资源共享，可以扩展伸缩到数千个节点。Mesos已经被Twitter用来管理它们的数据中心。</p>
@@ -6473,29 +6496,6 @@ ADD static/ /www/static
 <li><a href="http://mesosphere.com/docs/tutorials/" target="_blank" rel="external">http://mesosphere.com/docs/tutorials/</a></li>
 <li><a href="http://mesosphere.com/docs/getting-started/datacenter/install/" target="_blank" rel="external">http://mesosphere.com/docs/getting-started/datacenter/install/</a></li>
 </ul>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Apache的Mesos和Google的Kubernetes 有什么区别]]></title>
-      <url>http://feisky.xyz/2015/02/05/apachemesosgooglekubernetes-/</url>
-      <content type="html"><![CDATA[<p>Kubernetes是一个开源项目，它把谷歌的集群管理工具引入到虚拟机和裸机场景中。它可以完美运行在现代的操作系统环境（比如CoreOS和Red Hat Atomic），并提供可以被你管控的轻量级的计算节点。Kubernetes使用Golang开发，具有轻量化、模块化、便携以及可扩展的特点。我们（Kubernetes开发团队）正在和一些不同的技术公司（包括维护着Mesos项目的MesoSphere）合作来把Kubernetes升级为一种与计算集群交互的标准方式。Kubernetes重新实现了Google在构建集群应用时积累的经验。这些概念包括如下内容：  </p>
-<ul>
-<li>Pods：一种将容器组织在一起的方法；</li>
-<li>Replication Controllers：一种控制容器生命周期的方法（译者注：Replication Controller确保任何时候Kubernetes集群中有指定数量的pod副本(replicas)在运行）；</li>
-<li>Labels：一种可以找到和查询容器的方法；</li>
-<li>Services：一个用于实现某一特定功能的容器组；  </li>
-</ul>
-<p>因此，只要使用Kubernetes你就能够简单并快速的启动、移植并扩展集群。在这种情况下，集群就像是类似虚拟机一样灵活的资源，它是一个逻辑运算单元。打开它，使用它，调整它的大小，然后关闭它，就是这么快，就是这么简单。  </p>
-<p>Mesos和Kubernetes的愿景差不多，但是它们在不同的生命周期中各有不同的优势。Mesos是分布式系统内核，它可以将不同的机器整合在一个逻辑计算机上面。当你拥有很多的物理资源并想构建一个巨大的静态的计算集群的时候，Mesos就派上用场了。有很多的现代化可扩展性的数据处理应用都可以在Mesos上运行，包括Hadoop、Kafka、Spark等，同时你可以通过容器技术将所有的数据处理应用都运行在一个基础的资源池中。在某个方面来看，Mesos是一个比Kubernetes更加重量级的项目，但是得益于那些像Mesosphere一样的贡献者，Mesos正在变得更加简单并且容易管理。  </p>
-<p>有趣的是Mesos正在接受Kubernetes的理念，并已经开始支持Kubernetes API。因此如果你需要它们的话，它将是对你的Kubernetes应用去获得更多能力的一个便捷方式（比如高可用的主干、更加高级的调度命令、去管控很大数目结点的能力），同时能够很好的适用于产品级工作环境中（毕竟Kubernetes仍然还是一个初始版本）。  </p>
-<p>当被问到区别的时候，我会这样回答：  </p>
-<ol>
-<li>如果你是一个集群世界的新手，那Kubernetes是一个很棒的开始。它可以用最快的、最简单的、最轻量级的方式来解决你的问题，并帮助你进行面向集群的开发。它提供了一个高水平的可移植方案，因为很多厂商已经开始支持Kubernetes，例如微软、IBM、Red Hat、CoreOS、MesoSphere、VMWare等。</li>
-<li>如果你拥有已经存在的工作任务（Hadoop、Spark、Kafka等），那Mesos可以给你提供了一个将不同工作任务相互交错的框架，然后还可以加入一些新的东西，比如Kubernetes应用。</li>
-<li>如果你想使用的功能Kuberntes还没实现，那Mesos是一个不错的替代品，毕竟它已经成熟。  </li>
-</ol>
-<p><strong>原文链接：<a href="http://stackoverflow.com/questions/26705201/whats-the-difference-between-apaches-mesos-and-googles-kubernetes" target="_blank" rel="external">Whats the difference between Apaches Mesos and Googles Kubernetes</a> （翻译：刘凯宁 校对：李颖杰）</strong></p>
 ]]></content>
     </entry>
     
@@ -6979,7 +6979,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x66;&#101;&#105;&#115;&#x6b;&#121;&#x40;&#114;&#111;&#x6f;&#x74;">&#x66;&#101;&#105;&#115;&#x6b;&#121;&#x40;&#114;&#111;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#102;&#x65;&#x69;&#115;&#107;&#121;&#x40;&#114;&#x6f;&#111;&#116;">&#102;&#x65;&#x69;&#115;&#107;&#121;&#x40;&#114;&#x6f;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
