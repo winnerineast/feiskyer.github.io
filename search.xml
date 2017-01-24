@@ -1679,6 +1679,16 @@ Available Commands:
     </entry>
     
     <entry>
+      <title><![CDATA[OpenStack Magnum社区及项目介绍]]></title>
+      <url>http://feisky.xyz/2015/06/23/openstack-magnum/</url>
+      <content type="html"><![CDATA[<p><img src="/images/magnum.png" alt=""></p>
+<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
+<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
+<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Weekly reading list (20150626)]]></title>
       <url>http://feisky.xyz/2015/06/23/weekly-reading-list-20150626/</url>
       <content type="html"><![CDATA[<p>这周最热的就是Dockercon了，列表里面很多都是docker相关的。</p>
@@ -2024,16 +2034,6 @@ Available Commands:
 <p>User Guide: <a href="https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide" target="_blank" rel="external">https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide</a></p>
 <p>Source code: <a href="https://github.com/draios/sysdig" target="_blank" rel="external">https://github.com/draios/sysdig</a></p>
 <p>Support website: <a href="http://www.sysdig.org/" target="_blank" rel="external">http://www.sysdig.org/</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[OpenStack Magnum社区及项目介绍]]></title>
-      <url>http://feisky.xyz/2015/06/23/openstack-magnum/</url>
-      <content type="html"><![CDATA[<p><img src="/images/magnum.png" alt=""></p>
-<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
-<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
-<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
 ]]></content>
     </entry>
     
@@ -2600,14 +2600,6 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
-      <title><![CDATA[Python __file__ not defined problem]]></title>
-      <url>http://feisky.xyz/2015/03/04/python-not-defined-problem/</url>
-      <content type="html"><![CDATA[<p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
-<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Docker acquires SDN startup SocketPlane]]></title>
       <url>http://feisky.xyz/2015/03/04/docker-acquires-sdn-startup-socketplane/</url>
       <content type="html"><![CDATA[<p>At <a href="http://socketplane.io/" target="_blank" rel="external">Socketplane</a> we started out as four guys with a collectively strong belief in open source and open communities. &nbsp;We aligned around a shared vision that we wanted to be a critical part of Docker’s once in a decade disruption. Now that we are <a href="http://www.businesswire.com/news/home/20150304005595/en/Docker-Acquires-SocketPlane-Drive-Open-Collaborative-Networking#.VPcQAVPF-Tk" target="_blank" rel="external">part of the Docker team</a>, we couldn’t be happier.</p>
@@ -2615,6 +2607,14 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
 <p>The majority of users want networking to just work, but just as importantly, integrate into their existing networks. Focusing on a “batteries included but swappable” approach, addresses a fair amount of well known simple deployments that developers care about. This enables opportunity for partners and ecosystem to address their customer use-cases.</p>
 <p>Being part of Docker allows us to continue to collaborate with partners that have shown early interest in Docker networking including but not limited to: Cisco, IBM, Joyent, Microsoft, Rancher, VMware and Weave. Our explicit focus is to lead the collaboration around a rich set of APIs that will empower these partners to create enterprise-class networking solutions that will further drive the adoption of multi-container, multi-host distributed applications.</p>
 <p>See more at <a href="https://blog.docker.com/2015/03/socketplane-excited-to-be-joining-docker-to-collaborate-with-networking-ecosystem/" target="_blank" rel="external">https://blog.docker.com/2015/03/socketplane-excited-to-be-joining-docker-to-collaborate-with-networking-ecosystem/</a> and <a href="http://aucouranton.com/2015/01/16/docker-virtual-networking-with-socketplane-io/" target="_blank" rel="external">http://aucouranton.com/2015/01/16/docker-virtual-networking-with-socketplane-io/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python __file__ not defined problem]]></title>
+      <url>http://feisky.xyz/2015/03/04/python-not-defined-problem/</url>
+      <content type="html"><![CDATA[<p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
+<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -2653,6 +2653,16 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
 <p>Now, we add cap_setuid and cap_setgid to <code>test</code>:</p>
 <figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">➜  sudo setcap cap_setuid,cap_setgid+ep <span class="keyword">test</span></div><div class="line">➜  ./<span class="keyword">test</span></div><div class="line">cap_setuid and cap_setgid: 1</div><div class="line"><span class="keyword">File</span> <span class="keyword">cap</span>: = cap_setgid,cap_setuid+ep</div><div class="line">Process <span class="keyword">cap</span>: = cap_setgid,cap_setuid+ep</div><div class="line"># <span class="keyword">cat</span> /etc/shadow   # We are <span class="keyword">in</span> <span class="keyword">sh</span> now and we have root priviledge</div><div class="line">root:!:11111:0:99999:7:::</div><div class="line">daemon:*:12232:0:99999:7:::</div><div class="line">...</div></pre></td></tr></table></figure>
 <h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>See more at <a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="external">man</a> and <a href="https://www.kernel.org/pub/linux/libs/security/linux-privs/kernel-2.2/capfaq-0.2.txt" target="_blank" rel="external">faq</a>.</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
+      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
+      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -3023,16 +3033,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
-      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
-      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Integrating Openstack and Kubernetes with Murano]]></title>
       <url>http://feisky.xyz/2015/02/25/integrating-openstack-and-kubernetes-with-murano/</url>
       <content type="html"><![CDATA[<p>There’s a perceived competition between OpenStack and containers such as Docker, but in reality, the two technologies are a powerful combination. They both solve similar problems, but on different layers of the stack, so combining the two can give users more scalability and automation than ever before.</p>
@@ -3083,53 +3083,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
 <p><img src="https://www.mirantis.com/wp-content/uploads/2015/02/test.png" alt="">(<a href="https://www.mirantis.com/wp-content/uploads/2015/02/test.png" target="_blank" rel="external">https://www.mirantis.com/wp-content/uploads/2015/02/test.png</a>)</p>
 <p>That’s it.</p>
 <p>From <a href="https://www.mirantis.com/blog/integrating-openstack-and-kubernetes-with-murano/" target="_blank" rel="external">https://www.mirantis.com/blog/integrating-openstack-and-kubernetes-with-murano/</a>.</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
-      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
 ]]></content>
     </entry>
     
@@ -3251,6 +3204,53 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 </ul>
 <p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
 ]]></content>
     </entry>
     
@@ -3420,7 +3420,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x68;&#97;&#x6e;&#x6e;&#105;&#x62;&#97;&#108;&#64;&#x61;&#x2d;&#x74;&#x65;&#x61;&#x6d;&#x2e;&#99;&#x6f;&#x6d;">&#x68;&#97;&#x6e;&#x6e;&#105;&#x62;&#97;&#108;&#64;&#x61;&#x2d;&#x74;&#x65;&#x61;&#x6d;&#x2e;&#99;&#x6f;&#x6d;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x68;&#x61;&#x6e;&#x6e;&#105;&#98;&#97;&#108;&#x40;&#x61;&#45;&#116;&#101;&#97;&#109;&#46;&#x63;&#111;&#x6d;">&#x68;&#x61;&#x6e;&#x6e;&#105;&#98;&#97;&#108;&#x40;&#x61;&#45;&#116;&#101;&#97;&#109;&#46;&#x63;&#111;&#x6d;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -6742,6 +6742,13 @@ xhost +targetip
     </entry>
     
     <entry>
+      <title><![CDATA[Pluribus Networks]]></title>
+      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
+      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[vagrant]]></title>
       <url>http://feisky.xyz/2015/01/26/vagrant/</url>
       <content type="html"><![CDATA[<p>简易虚拟机管理工具vagrant</p>
@@ -6779,13 +6786,6 @@ xhost +targetip
 <p>EnableSendfile off</p>
 <p>Nginx 配置添加:</p>
 <p>sendfile off;</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Pluribus Networks]]></title>
-      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
-      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
 ]]></content>
     </entry>
     
@@ -6979,7 +6979,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#102;&#101;&#x69;&#115;&#x6b;&#x79;&#x40;&#x72;&#111;&#111;&#116;">&#102;&#101;&#x69;&#115;&#x6b;&#x79;&#x40;&#x72;&#111;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#102;&#x65;&#x69;&#x73;&#x6b;&#x79;&#x40;&#114;&#x6f;&#111;&#x74;">&#102;&#x65;&#x69;&#x73;&#x6b;&#x79;&#x40;&#114;&#x6f;&#111;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
@@ -7888,16 +7888,16 @@ This means that there is no need for manual setup of block devices, and that gen
     </entry>
     
     <entry>
-      <title><![CDATA[docker底层技术概览 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/19/docker%E5%BA%95%E5%B1%82%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】docker解决了云计算环境难于分发并且管理复杂，而用KVM、Xen等虚拟化又浪费系统资源的问题。Docker最初是基于lxc构建了容器引擎，为了提供跨平台支持，后又专门开发了libcontainer来抽象容器引擎。但无论是libcontainer还是lxc，其底层所依赖的内核特性都是相同的。我们来… <a href="http://www.cnblogs.com/feisky/p/4105739.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105739" alt=""></p>
+      <title><![CDATA[docker存储结构解析 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/19/docker%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】由于aufs并未并入内核，故而目前只有Ubuntu系统上能够使用aufs作为docker的存储引擎，而其他系统上使用lvm thin provisioning（overlayfs是一个和aufs类似的union filesystem，未来有可能进入内核，但目前还没有；Lvm snapshot are… <a href="http://www.cnblogs.com/feisky/p/4106212.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106212" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[docker存储结构解析 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/19/docker%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】由于aufs并未并入内核，故而目前只有Ubuntu系统上能够使用aufs作为docker的存储引擎，而其他系统上使用lvm thin provisioning（overlayfs是一个和aufs类似的union filesystem，未来有可能进入内核，但目前还没有；Lvm snapshot are… <a href="http://www.cnblogs.com/feisky/p/4106212.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106212" alt=""></p>
+      <title><![CDATA[docker底层技术概览 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/19/docker%E5%BA%95%E5%B1%82%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】docker解决了云计算环境难于分发并且管理复杂，而用KVM、Xen等虚拟化又浪费系统资源的问题。Docker最初是基于lxc构建了容器引擎，为了提供跨平台支持，后又专门开发了libcontainer来抽象容器引擎。但无论是libcontainer还是lxc，其底层所依赖的内核特性都是相同的。我们来… <a href="http://www.cnblogs.com/feisky/p/4105739.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105739" alt=""></p>
 ]]></content>
     </entry>
     
@@ -7923,16 +7923,16 @@ This means that there is no need for manual setup of block devices, and that gen
     </entry>
     
     <entry>
-      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
+      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
 ]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
+      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
 ]]></content>
     </entry>
     
