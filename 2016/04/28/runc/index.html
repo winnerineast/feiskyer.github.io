@@ -1,0 +1,988 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="docker,container," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](https://gith">
+<meta property="og:type" content="article">
+<meta property="og:title" content="runc and runV">
+<meta property="og:url" content="http://feisky.xyz/2016/04/28/runc/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](https://gith">
+<meta property="og:updated_time" content="2017-01-24T08:49:58.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="runc and runV">
+<meta name="twitter:description" content="runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](https://gith">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/2016/04/28/runc/"/>
+
+
+  <title> runc and runV | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/k8s" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                runc and runV
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-28T03:15:03+00:00" content="2016-04-28">
+              2016-04-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/28/runc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/28/runc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
+<h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y libseccomp-devel</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line">git <span class="built_in">clone</span> https://github.com/opencontainers/runc</div><div class="line"><span class="built_in">cd</span> runc</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>Run busybox:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runc spec .</div><div class="line">$ runc start <span class="built_in">test</span></div><div class="line">/ <span class="comment"># ps</span></div><div class="line">PID   USER     COMMAND</div><div class="line">1 root     sh</div><div class="line">9 root     ps</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-docker-containerd"><a href="#Playing-with-docker-containerd" class="headerlink" title="Playing with docker-containerd"></a>Playing with docker-containerd</h2><p>docker-containerd is installed togather with docker 1.11.</p>
+<figure class="highlight llvm"><table><tr><td class="code"><pre><div class="line">$ docker-containerd-ctr --address <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers</div><div class="line">ID                                                                 PATH                                                                                             STATUS              PROCESSES</div><div class="line"><span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span>   /var/run/docker/libcontainerd/<span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span>   running             init</div><div class="line">bca<span class="number">15</span>f<span class="number">3420e3218987314</span>e<span class="number">1</span>cbbf<span class="number">440120</span>ff<span class="number">880</span>af<span class="number">44844778293</span><span class="keyword">c</span><span class="number">4130526</span><span class="keyword">c</span><span class="number">85</span><span class="keyword">cc</span>   /var/run/docker/libcontainerd/bca<span class="number">15</span>f<span class="number">3420e3218987314</span>e<span class="number">1</span>cbbf<span class="number">440120</span>ff<span class="number">880</span>af<span class="number">44844778293</span><span class="keyword">c</span><span class="number">4130526</span><span class="keyword">c</span><span class="number">85</span><span class="keyword">cc</span>   running             init</div><div class="line">$ docker-containerd-ctr --address <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers exec --id=<span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span> --pid=<span class="number">20</span> --cwd=/ -a /bin/ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    <span class="number">1</span> root       <span class="number">0</span>:<span class="number">00</span> sh</div><div class="line">   <span class="number">51</span> root       <span class="number">0</span>:<span class="number">00</span> /bin/ps aux</div><div class="line">$ docker-containerd-ctr --address <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> state <span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span></div><div class="line">&#123;<span class="string">"containers"</span>:[&#123;<span class="string">"id"</span>:<span class="string">"346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"bundlePath"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"processes"</span>:[&#123;<span class="string">"pid"</span>:<span class="string">"init"</span>,<span class="string">"terminal"</span>:<span class="keyword">true</span>,<span class="string">"user"</span>:&#123;<span class="string">"additionalGids"</span>:[<span class="number">10</span>]&#125;,<span class="string">"args"</span>:[<span class="string">"sh"</span>],<span class="string">"env"</span>:[<span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,<span class="string">"HOSTNAME=346c1b7bbb04"</span>,<span class="string">"TERM=xterm"</span>],<span class="string">"cwd"</span>:<span class="string">"/"</span>,<span class="string">"systemPid"</span>:<span class="number">3716</span>,<span class="string">"stdin"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdin"</span>,<span class="string">"stdout"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdout"</span>,<span class="string">"stderr"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stderr"</span>,<span class="string">"capabilities"</span>:[<span class="string">"CAP_CHOWN"</span>,<span class="string">"CAP_DAC_OVERRIDE"</span>,<span class="string">"CAP_FSETID"</span>,<span class="string">"CAP_FOWNER"</span>,<span class="string">"CAP_MKNOD"</span>,<span class="string">"CAP_NET_RAW"</span>,<span class="string">"CAP_SETGID"</span>,<span class="string">"CAP_SETUID"</span>,<span class="string">"CAP_SETFCAP"</span>,<span class="string">"CAP_SETPCAP"</span>,<span class="string">"CAP_NET_BIND_SERVICE"</span>,<span class="string">"CAP_SYS_CHROOT"</span>,<span class="string">"CAP_KILL"</span>,<span class="string">"CAP_AUDIT_WRITE"</span>]&#125;],<span class="string">"status"</span>:<span class="string">"running"</span>,<span class="string">"pids"</span>:[<span class="number">3716</span>],<span class="string">"runtime"</span>:<span class="string">"docker-runc"</span>&#125;],<span class="string">"machine"</span>:&#123;<span class="string">"cpus"</span>:<span class="number">2</span>,<span class="string">"memory"</span>:<span class="number">7982</span>&#125;&#125;</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-runV"><a href="#Playing-with-runV" class="headerlink" title="Playing with runV"></a>Playing with runV</h2><p>Install runV:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv/</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>To run container in runV, kernel and initrd are needed since runV is based on hypervisor. They could be compiled from <a href="https://github.com/hyperhq/hyperstart" target="_blank" rel="external">hyperstart</a>.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runv spec .</div><div class="line">$ runv --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img start <span class="built_in">test</span></div></pre></td></tr></table></figure>
+<h2 id="Playing-with-runv-containerd"><a href="#Playing-with-runv-containerd" class="headerlink" title="Playing with runv-containerd"></a>Playing with runv-containerd</h2><p>Install ctr CLI from containerd</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/docker</div><div class="line">git <span class="built_in">clone</span> https://github.com/docker/containerd.git</div><div class="line"><span class="built_in">cd</span> containerd</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p>Start runv containerd</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">runv-containerd --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img</div></pre></td></tr></table></figure>
+<p>Run ctr command now:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Creating OCI bundles</span></div><div class="line">mkdir -p busybox/rootfs</div><div class="line">docker <span class="built_in">export</span> $(docker create busybox) | tar -C busybox/rootfs -xvf -</div><div class="line"><span class="built_in">cd</span> busybox</div><div class="line">runv spec .</div></pre></td></tr></table></figure>
+<p>Change the contents of config.json to </p>
+<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"ociVersion"</span>: <span class="string">"0.5.0-dev"</span>,</div><div class="line">  <span class="attr">"platform"</span>: &#123;</div><div class="line">    <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">    <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"process"</span>: &#123;</div><div class="line">    <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"user"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"args"</span>: [</div><div class="line">      <span class="string">"sh"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"env"</span>: [</div><div class="line">      <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">      <span class="string">"TERM=xterm"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"cwd"</span>: <span class="string">"/"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"root"</span>: &#123;</div><div class="line">    <span class="attr">"path"</span>: <span class="string">"rootfs"</span>,</div><div class="line">    <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"hostname"</span>: <span class="string">"shell"</span>,</div><div class="line">  <span class="attr">"mounts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"proc"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"strictatime"</span>,</div><div class="line">        <span class="string">"mode=755"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"newinstance"</span>,</div><div class="line">        <span class="string">"ptmxmode=0666"</span>,</div><div class="line">        <span class="string">"mode=0620"</span>,</div><div class="line">        <span class="string">"gid=5"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"shm"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"mode=1777"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"relatime"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">  <span class="attr">"linux"</span>: &#123;</div><div class="line">    <span class="attr">"resources"</span>: &#123;</div><div class="line">      <span class="attr">"devices"</span>: [</div><div class="line">				&#123;</div><div class="line">          <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">          <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">        &#125;</div><div class="line">			]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"namespaces"</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">		<span class="attr">"devices"</span>: <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Start container:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers start <span class="built_in">test</span> /root/busybox</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers</div><div class="line">ID                  PATH                STATUS              PROCESSES</div><div class="line"><span class="built_in">test</span>                /root/busybox       running             init</div><div class="line"></div><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers <span class="built_in">exec</span> --id=<span class="built_in">test</span> --pid=20 --cwd=/ <span class="_">-a</span>  ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    1 root       0:00 /init</div><div class="line">    2 root       0:00 sh</div><div class="line">    4 root       0:00 ps aux</div><div class="line"></div><div class="line">ps -ef | grep qemu</div><div class="line">qemu-system-x86_64 -machine pc-i440fx-2.0,usb=off -cpu core2duo -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append <span class="string">"console=ttyS0 panic=1 no_timer_check"</span> -realtime mlock=off -no-user-config -nodefaults -no-hpet -rtc base=utc,driftfix=slew -no-reboot -display none -boot strict=on -m 128 -smp 1 -qmp unix:/var/run/hyper/vm-JRPdDUOkqA/qmp.sock,server,nowait -serial unix:/var/run/hyper/vm-JRPdDUOkqA/console.sock,server,nowait -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -chardev socket,id=charch0,path=/var/run/hyper/vm-JRPdDUOkqA/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charch0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charch1,path=/var/run/hyper/vm-JRPdDUOkqA/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charch1,id=channel1,name=sh.hyper.channel.1 -fsdev <span class="built_in">local</span>,id=virtio9p,path=/var/run/hyper/vm-JRPdDUOkqA/share_dir,security_model=none -device virtio-9p-pci,fsdev=virtio9p,mount_tag=share_dir</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag">#docker</a>
+          
+            <a href="/tags/container/" rel="tag">#container</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/28/Docker-1-11-Runtime/" rel="next" title="Container runtime in Docker v1.11">
+                <i class="fa fa-chevron-left"></i> Container runtime in Docker v1.11
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/29/Reading-notes-of-week-17/" rel="prev" title="Reading notes of week 17">
+                Reading notes of week 17 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Playing-with-runc"><span class="nav-number">1.</span> <span class="nav-text">Playing with runc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Playing-with-docker-containerd"><span class="nav-number">2.</span> <span class="nav-text">Playing with docker-containerd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Playing-with-runV"><span class="nav-number">3.</span> <span class="nav-text">Playing with runV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Playing-with-runv-containerd"><span class="nav-number">4.</span> <span class="nav-text">Playing with runv-containerd</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = '2016/04/28/runc/';
+      var disqus_title = "runc and runV";
+      var disqus_url = 'http://feisky.xyz/2016/04/28/runc/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

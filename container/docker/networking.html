@@ -1,0 +1,978 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Docker Networking容器网络通常需要考虑：
+
+Portability
+Service Discovery
+Load Balancing
+Security
+Performance
+Scalability
+
+
+Container Networking Model (CNM)CNM是docker内置的多主机通信网络模型，如下所示：
+
+其中，
+
+Network Sandbox是一个网络命名空">
+<meta property="og:type" content="website">
+<meta property="og:title" content="docker networking">
+<meta property="og:url" content="http://feisky.xyz/container/docker/networking.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Docker Networking容器网络通常需要考虑：
+
+Portability
+Service Discovery
+Load Balancing
+Security
+Performance
+Scalability
+
+
+Container Networking Model (CNM)CNM是docker内置的多主机通信网络模型，如下所示：
+
+其中，
+
+Network Sandbox是一个网络命名空">
+<meta property="og:image" content="http://feisky.xyz/images/14779801387121.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779726977544.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779762459288.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779763239716.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779764170554.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779765021254.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779765196939.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779766291554.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779767087981.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779799677032.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779799476052.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779800057981.png">
+<meta property="og:image" content="http://feisky.xyz/images/14779800658754.png">
+<meta property="og:updated_time" content="2017-01-24T08:49:58.969Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker networking">
+<meta name="twitter:description" content="Docker Networking容器网络通常需要考虑：
+
+Portability
+Service Discovery
+Load Balancing
+Security
+Performance
+Scalability
+
+
+Container Networking Model (CNM)CNM是docker内置的多主机通信网络模型，如下所示：
+
+其中，
+
+Network Sandbox是一个网络命名空">
+<meta name="twitter:image" content="http://feisky.xyz/images/14779801387121.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/container/docker/networking.html"/>
+
+
+  <title>
+  
+
+  
+    docker networking | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/k8s" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h1 id="Docker-Networking"><a href="#Docker-Networking" class="headerlink" title="Docker Networking"></a>Docker Networking</h1><p>容器网络通常需要考虑：</p>
+<ul>
+<li>Portability</li>
+<li>Service Discovery</li>
+<li>Load Balancing</li>
+<li>Security</li>
+<li>Performance</li>
+<li>Scalability</li>
+</ul>
+<p><img src="/images/14779801387121.png" alt=""></p>
+<h2 id="Container-Networking-Model-CNM"><a href="#Container-Networking-Model-CNM" class="headerlink" title="Container Networking Model (CNM)"></a>Container Networking Model (CNM)</h2><p>CNM是docker内置的多主机通信网络模型，如下所示：</p>
+<p><img src="/images/14779726977544.png" alt=""></p>
+<p>其中，</p>
+<ul>
+<li>Network Sandbox是一个网络命名空间，为容器隔离网络栈，并管理容器的网卡、路由和DNS。</li>
+<li>Endpoint将Sandbox连接到Network，对应容器的一块虚拟网卡。</li>
+<li>Network则是一组互通的Endpoint的集合，不同Network内的Endpoint不可以直接通信。</li>
+</ul>
+<p>CNM提供了四种默认的网络插件</p>
+<ul>
+<li>Bridge: By default containers on a bridge will be able to communicate with each other. External access to containers can also be configured through the bridge driver.</li>
+<li>MACVLAN: It can be used to provide IP addresses to containers that are routable on the physical network. Additionally VLANs can be trunked to the macvlan driver to enforce Layer 2 container segmentation.</li>
+<li>Host: There is no namespace separation, and all interfaces on the host can be used directly by the container.</li>
+<li>None: The none driver gives a container its own networking stack and network namespace but does not configure interfaces inside the container. Without additional configuration, the container is completely isolated from the host networking stack.</li>
+</ul>
+<p><strong>Control plane</strong></p>
+<blockquote>
+<p>The control plane uses a Gossip protocol based on SWIM to propagate network state information and topology across Docker container clusters. The Gossip protocol is highly efficient at reaching eventual consistency within the cluster while maintaining constant rates of message size, failure detection times, and convergence time across very large scale clusters. This that the network is able to scale across many nodes without introducing scaling issues such as slow convergence or false positive node failures.</p>
+</blockquote>
+<ol>
+<li><strong>Message Dissemination</strong> updates nodes in a peer-to-peer fashion fanning out the information in each exchange to a larger group of nodes. Fixed intervals and size of peer groups ensures that network usage is constant even as the size of the cluster scales. Exponential information propagation across peers ensures that convergence is fast and bounded across any cluster size.</li>
+<li><strong>Failure Detection</strong> utilizes direct and indirect hello messages to rule out network congestion and specific paths from causing false positive node failures.</li>
+<li><strong>Full State Syncs</strong> occur periodically to achieve consistency faster and resolve network partitions.</li>
+<li><strong>Topology Aware</strong> algorithms understand the relative latency between themselves and other peers. This is used to optimize the peer groups which makes convergence faster and more efficient.</li>
+<li><strong>Control Plane Encryption</strong> protects against man in the middle and other attacks that could compromise network security.</li>
+</ol>
+<h3 id="Default-Bridge-network"><a href="#Default-Bridge-network" class="headerlink" title="Default Bridge network"></a>Default Bridge network</h3><p>By default bridge will be assigned one subnet from the ranges 172.[17-31].0.0/16 or 192.168.[0-240].0/20 which does not overlap with any existing host interface. The default bridge network is the only network that supports legacy links. Name-based service discovery and user-provided IP addresses are not supported by the default bridge network.</p>
+<p><img src="/images/14779762459288.png" alt=""></p>
+<h3 id="User-defined-bridge-network"><a href="#User-defined-bridge-network" class="headerlink" title="User-defined bridge network"></a>User-defined bridge network</h3><p><img src="/images/14779763239716.png" alt=""></p>
+<p><strong>port mapping</strong></p>
+<p><img src="/images/14779764170554.png" alt=""></p>
+<h3 id="Overlay-network"><a href="#Overlay-network" class="headerlink" title="Overlay network"></a>Overlay network</h3><p>VXLAN has been a part of the Linux kernel since version 3.7, and Docker uses the native VXLAN features of the kernel to create overlay networks. The Docker overlay datapath is entirely in kernel space. This results in fewer context switches, less CPU overhead, and a low-latency, direct traffic path between applications and the physical NIC.</p>
+<p>VXLAN is defined as a MAC-in-UDP encapsulation that places container Layer 2 frames inside an underlay IP/UDP header. The underlay IP/UDP header provides the transport between hosts on the underlay network. The overlay is the stateless VXLAN tunnel that exists as point-to-multipoint connections between each host participating in a given overlay network. Because the overlay is independent of the underlay topology, applications become more portable. Thus, network policy and connectivity can be transported with the application whether it is on-premises, on a developer desktop, or in a public cloud.</p>
+<p><img src="/images/14779765021254.png" alt=""></p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line"><span class="comment">#Create an overlay named "ovnet" with the overlay driver</span></div><div class="line">$ docker network <span class="built_in">create</span> -d overlay ovnet</div><div class="line"></div><div class="line"><span class="comment">#Create a service from an nginx image and connect it to the "ovnet" overlay network</span></div><div class="line">$ docker service <span class="built_in">create</span> <span class="comment">--network ovnet --name container nginx</span></div></pre></td></tr></table></figure>
+<p>Two interfaces have been created inside the container that correspond to two bridges that now exist on the host. On overlay networks, each container will have at least two interfaces that connect it to the overlay and the docker_gwbridge:</p>
+<ul>
+<li>overlay: The ingress and egress point to the overlay network that VXLAN encapsulates and (optionally) encrypts traffic going between containers on the same overlay network. It extends the overlay across all hosts participating in this particular overlay. One will exist per overlay subnet on a host, and it will have the same name that a particular overlay network is given.</li>
+<li>docker_gwbridge:     The egress bridge for traffic leaving the cluster. Only one docker_gwbridge will exist per host. Container-to-Container traffic is blocked on this bridge allowing ingress/egress traffic flows only.</li>
+</ul>
+<p><img src="/images/14779765196939.png" alt=""></p>
+<h3 id="MACVLAN-network"><a href="#MACVLAN-network" class="headerlink" title="MACVLAN network"></a>MACVLAN network</h3><p>MACVLAN offers a number of unique features and capabilities. It has positive performance implications by virtue of having a very simple and lightweight architecture. Rather than port mapping, the MACVLAN driver provides direct access between containers and the physical network. It also allows containers to receive routable IP addresses that are on the subnet of the physical network.</p>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">$ docker network create -d macvlan --subnet <span class="number">192.168</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">24</span> --gateway <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span> -o parent=eth0 mvnet</div></pre></td></tr></table></figure>
+<p><img src="/images/14779766291554.png" alt=""></p>
+<h3 id="VLAN-Trunking-with-MACVLAN"><a href="#VLAN-Trunking-with-MACVLAN" class="headerlink" title="VLAN Trunking with MACVLAN"></a>VLAN Trunking with MACVLAN</h3><p>When the macvlan driver is instantiated with sub-interfaces it allows VLAN trunking to the host and segments containers at L2. The macvlan driver automatically creates the sub-interfaces and connects them to the container interfaces. As a result each container will be in a different VLAN, and communication will not be possible between them unless traffic is routed in the physical network.</p>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">#Creation of  macvlan10 network that will be in VLAN <span class="number">10</span></div><div class="line">$ docker network create -d macvlan --subnet <span class="number">192.168</span><span class="number">.10</span><span class="number">.0</span>/<span class="number">24</span> --gateway <span class="number">192.168</span><span class="number">.10</span><span class="number">.1</span> -o parent=eth0<span class="number">.10</span>macvlan10</div><div class="line"></div><div class="line">#Creation of  macvlan20 network that will be in VLAN <span class="number">20</span></div><div class="line">$ docker network create -d macvlan --subnet <span class="number">192.168</span><span class="number">.20</span><span class="number">.0</span>/<span class="number">24</span> --gateway <span class="number">192.168</span><span class="number">.20</span><span class="number">.1</span> -o parent=eth0<span class="number">.20</span> macvlan20</div><div class="line"></div><div class="line">#Creation of containers on separate MACVLAN networks</div><div class="line">$ docker run -itd --name c1--net macvlan10 --ip <span class="number">192.168</span><span class="number">.10</span><span class="number">.2</span> busybox sh</div><div class="line">$ docker run -it --name c2--net macvlan20 --ip <span class="number">192.168</span><span class="number">.20</span><span class="number">.2</span> busybox sh</div></pre></td></tr></table></figure>
+<p><img src="/images/14779767087981.png" alt=""></p>
+<h3 id="Host-Network"><a href="#Host-Network" class="headerlink" title="Host Network"></a>Host Network</h3><p>The host network driver connects a container directly to the host networking stack. containers will have native bare-metal network performance at the cost of namespace isolation.</p>
+<h3 id="None-network"><a href="#None-network" class="headerlink" title="None network"></a>None network</h3><p>Similar to the host network driver, the none network driver is essentially an unmanaged networking option. Docker Engine will not create interfaces inside the container, establish port mapping, or install routes for connectivity. A container using —net=none will be completely isolated from other containers and the host. The networking admin or external tools must be responsible for providing this plumbing. In the following example we see that a container using none only has a loopback interface and no other interfaces.</p>
+<h2 id="Service-discovery"><a href="#Service-discovery" class="headerlink" title="Service discovery"></a>Service discovery</h2><p>Docker uses embedded DNS to provide service discovery for containers running on a single Docker Engine and tasks running in a Docker Swarm. Docker Engine has an internal DNS server that provides name resolution to all of the containers on the host in user-defined bridge, overlay, and MACVLAN networks. Each Docker container ( or task in Swarm mode) has a DNS resolver that forwards DNS queries to Docker Engine, which acts as a DNS server. </p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line">$ <span class="string">docker </span><span class="string">network </span><span class="string">create </span>-d <span class="string">overlay </span><span class="built_in">--subnet</span> <span class="string">10.</span>1.0.0/<span class="string">24 </span><span class="built_in">--gateway</span> <span class="string">10.</span>1.0.1 <span class="string">dognet</span></div><div class="line">$ <span class="string">docker </span><span class="string">service </span><span class="string">create </span><span class="built_in">--network</span> <span class="string">dognet </span><span class="built_in">--name</span> <span class="string">dog-db </span><span class="string">redis</span></div><div class="line"><span class="comment">#Create the frontend service and expose it on port 8000 externally</span></div><div class="line">$ <span class="string">docker </span><span class="string">service </span><span class="string">create </span><span class="built_in">--network</span> <span class="string">dognet </span>-p <span class="string">8000:5000 </span>-e <span class="string">'DB=dog-db'</span> -e <span class="string">'ROLE=dog'</span> <span class="built_in">--name</span> <span class="string">dog-web </span><span class="string">chrch/</span><span class="string">web</span></div></pre></td></tr></table></figure>
+<p><img src="/images/14779799677032.png" alt=""></p>
+<p><img src="/images/14779799476052.png" alt=""></p>
+<p><strong>Routing mesh</strong></p>
+<ol>
+<li>A service is created with two replicas, and it is port mapped externally to port <code>8000</code>.</li>
+<li>The routing mesh exposes port <code>8000</code> on each host in the cluster.</li>
+<li>Traffic destined for the <code>app</code> can enter on any host. In this case the external LB sends the traffic to a host without a service replica.</li>
+<li>The kernel’s IPVS load balancer redirects traffic on the <code>ingress</code> overlay network to a healthy service replica.</li>
+</ol>
+<p><img src="/images/14779800057981.png" alt=""></p>
+<p><strong>Secure by IPsec</strong></p>
+<p><img src="/images/14779800658754.png" alt=""></p>
+<p><strong>References:</strong></p>
+<ul>
+<li><a href="http://success.docker.com/Datacenter/Apply/Docker_Reference_Architecture%3A_Designing_Scalable%2C_Portable_Docker_Container_Networks" target="_blank" rel="external">http://success.docker.com/Datacenter/Apply/Docker_Reference_Architecture%3A_Designing_Scalable%2C_Portable_Docker_Container_Networks</a></li>
+</ul>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Networking"><span class="nav-number">1.</span> <span class="nav-text">Docker Networking</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Container-Networking-Model-CNM"><span class="nav-number">1.1.</span> <span class="nav-text">Container Networking Model (CNM)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Default-Bridge-network"><span class="nav-number">1.1.1.</span> <span class="nav-text">Default Bridge network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-defined-bridge-network"><span class="nav-number">1.1.2.</span> <span class="nav-text">User-defined bridge network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Overlay-network"><span class="nav-number">1.1.3.</span> <span class="nav-text">Overlay network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MACVLAN-network"><span class="nav-number">1.1.4.</span> <span class="nav-text">MACVLAN network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VLAN-Trunking-with-MACVLAN"><span class="nav-number">1.1.5.</span> <span class="nav-text">VLAN Trunking with MACVLAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host-Network"><span class="nav-number">1.1.6.</span> <span class="nav-text">Host Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#None-network"><span class="nav-number">1.1.7.</span> <span class="nav-text">None network</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-discovery"><span class="nav-number">1.2.</span> <span class="nav-text">Service discovery</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'container/docker/networking.html';
+      var disqus_title = "docker networking";
+      var disqus_url = 'http://feisky.xyz/container/docker/networking.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

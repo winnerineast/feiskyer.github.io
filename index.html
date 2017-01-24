@@ -1,0 +1,1679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Notes about anything.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Notes about anything.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="Notes about anything.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/"/>
+
+
+  <title> Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/k8s" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/09/使用docker-dind创建swarm集群/" itemprop="url">
+                  使用docker dind创建swarm集群
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-09T21:01:18+08:00" content="2017-01-09">
+              2017-01-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/09/使用docker-dind创建swarm集群/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/09/使用docker-dind创建swarm集群/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在OS X系统上，由于Docker for Mac只能创建一台虚拟机，所以要创建多节点swarm集群的话，就需要额外启动其他的虚拟机，并手动安装和配置docker。不过借助dind (docker in docker)，不需要创建额外的虚拟机也可以启动一个swarm集群。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker swarm init</div><div class="line">SWARM_TOKEN=$(docker swarm join-token -q worker)</div><div class="line">NUM_WORKERS=3 </div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq <span class="string">"<span class="variable">$&#123;NUM_WORKERS&#125;</span>"</span>); <span class="keyword">do</span></div><div class="line">    docker run <span class="_">-d</span> --privileged --name worker-<span class="variable">$&#123;i&#125;</span> --hostname=worker-<span class="variable">$&#123;i&#125;</span> --restart=always -p <span class="variable">$&#123;i&#125;</span>2375:2375 docker:1.12-dind</div><div class="line">    docker --host=localhost:<span class="variable">$&#123;i&#125;</span>2375 swarm join --token <span class="variable">$&#123;SWARM_TOKEN&#125;</span> <span class="variable">$&#123;SWARM_MASTER&#125;</span>:2377</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+<p>这时，查询系统的node列表为:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker node ls</div><div class="line">ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS</div><div class="line">82rg1gpkhm5fajnexre6p0v34 *  moby      Ready   Active        Leader</div><div class="line">a0hhwgtqsxosx9gg6h6wqmx68    worker-3  Ready   Active</div><div class="line">bn93fte7yflatee3y88qq7ff0    worker-1  Ready   Active</div><div class="line">emy5y7qr2y26hk3dtqgkvnak3    worker-2  Ready   Active</div></pre></td></tr></table></figure>
+<p>当然，也可以启动一个游Mano Marks创建的swarm集群可视化容器，更直观的查看集群的状态：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">docker run -it -d -<span class="selector-tag">p</span> <span class="number">8000</span>:<span class="number">8080</span> -v /var/run/docker<span class="selector-class">.sock</span>:/var/run/docker<span class="selector-class">.sock</span> manomarks/visualizer</div></pre></td></tr></table></figure>
+<p><img src="/images/docker_visualizer.png" alt=""></p>
+<p>参考文档<a href="http://blog.terranillius.com/post/swarm_dind/" target="_blank" rel="external">http://blog.terranillius.com/post/swarm_dind/</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="url">
+                  Grumpy: 使用Go来运行Python程序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-05T17:11:09+08:00" content="2017-01-05">
+              2017-01-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/05/Grumpy-使用Go来运行Python程序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python" target="_blank" rel="external">https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python</a> GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
+<p>Grumpy还在开发中，也还没有在Google的生产环境中使用，很多系统库还没有完成翻译，并且也不支持各种外部库和C扩展。虽然如此，Grumpy仍然是一个值得关注的有趣项目（Github已经有2700+的star）。</p>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/google/grumpy.git</div><div class="line">$ <span class="built_in">cd</span> grumpy</div><div class="line">$ <span class="built_in">echo</span> <span class="string">"print 'hello, world'"</span> | make run</div><div class="line">hello, world</div></pre></td></tr></table></figure>
+<p>当然，也可以把程序翻译成Go再运行:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'print "hello, world"'</span> &gt; hello.py</div><div class="line">make</div><div class="line"><span class="built_in">export</span> GOPATH=<span class="variable">$PWD</span>/build</div><div class="line"><span class="built_in">export</span> PYTHONPATH=<span class="variable">$PWD</span>/build/lib/python2.7/site-packages</div><div class="line"></div><div class="line">tools/grumpc hello.py &gt; hello.go</div><div class="line">go build -o hello hello.go</div><div class="line">./hello</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/13/Kubernetes-v1-5-0-release/" itemprop="url">
+                  Kubernetes v1.5.0 release
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T11:51:29+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/13/Kubernetes-v1-5-0-release/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/13/Kubernetes-v1-5-0-release/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>Update on 2016.12.14:</strong></p>
+<p>Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.</p>
+<blockquote>
+<p>The <code>--anonymous-auth=</code> flag in v1.5.0 is true by default (which may result in any users being able to access kubernetes API), but v1.5.1 turns it to false.</p>
+</blockquote>
+<h2 id="Kubernetes-v1-5-0"><a href="#Kubernetes-v1-5-0" class="headerlink" title="Kubernetes v1.5.0"></a>Kubernetes v1.5.0</h2><ul>
+<li>StatefulSets (ex-PetSets)<ul>
+<li>StatefulSets are beta now (fixes and stabilization)</li>
+</ul>
+</li>
+<li>Improved Federation Support<ul>
+<li>New command: <code>kubefed</code></li>
+<li>DaemonSets</li>
+<li>Deployments</li>
+<li>ConfigMaps</li>
+</ul>
+</li>
+<li>Simplified Cluster Deployment<ul>
+<li>Improvements to <code>kubeadm</code></li>
+<li>HA Setup for Master</li>
+</ul>
+</li>
+<li>Node Robustness and Extensibility<ul>
+<li>Windows Server Container support</li>
+<li>CRI for pluggable container runtimes</li>
+<li><code>kubelet</code> API supports authentication and authorization</li>
+</ul>
+</li>
+</ul>
+<h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><p>Features for this release were tracked via the use of the <a href="https://github.com/kubernetes/features" target="_blank" rel="external">kubernetes/features</a> issues repo.  Each Feature issue is owned by a Special Interest Group from <a href="https://github.com/kubernetes/community" target="_blank" rel="external">kubernetes/community</a></p>
+<ul>
+<li><strong>API Machinery</strong><ul>
+<li>[beta] <code>kube-apiserver</code> support for the OpenAPI spec is moving from alpha to beta. The first <a href="https://github.com/kubernetes-incubator/client-python" target="_blank" rel="external">non-go client</a> is based on it (<a href="https://github.com/kubernetes/features/issues/53" target="_blank" rel="external">kubernetes/features#53</a>)</li>
+</ul>
+</li>
+<li><strong>Apps</strong><ul>
+<li>[stable] When replica sets cannot create pods, they will now report detail via the API about the underlying reason (<a href="https://github.com/kubernetes/features/issues/120" target="_blank" rel="external">kubernetes/features#120</a>)</li>
+<li>[stable] <code>kubectl apply</code> is now able to delete resources you no longer need with <code>--prune</code> (<a href="https://github.com/kubernetes/features/issues/128" target="_blank" rel="external">kubernetes/features#128</a>)</li>
+<li>[beta] Deployments that cannot make progress in rolling out the newest version will now indicate via the API they are blocked (<a href="http://kubernetes.io/docs/user-guide/deployments/#failed-deployment" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/122" target="_blank" rel="external">kubernetes/features#122</a>)</li>
+<li>[beta] StatefulSets allow workloads that require persistent identity or per-instance storage to be created and managed on Kubernetes. (<a href="http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/137" target="_blank" rel="external">kubernetes/features#137</a>)</li>
+<li>[beta] In order to preserve safety guarantees the cluster no longer force deletes pods on un-responsive nodes and users are now warned if they try to force delete pods via the CLI. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/scale-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/119" target="_blank" rel="external">kubernetes/features#119</a>)</li>
+</ul>
+</li>
+<li><strong>Auth</strong><ul>
+<li>[alpha] Further polishing of the Role-based access control alpha API including a default set of cluster roles. (<a href="http://kubernetes.io/docs/admin/authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/2" target="_blank" rel="external">kubernetes/features#2</a>)</li>
+<li>[beta] Added ability to authenticate/authorize access to the Kubelet API (<a href="http://kubernetes.io/docs/admin/kubelet-authentication-authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/89" target="_blank" rel="external">kubernetes/features#89</a>)</li>
+</ul>
+</li>
+<li><strong>AWS</strong><ul>
+<li>[stable] Roles should appear in kubectl get nodes (<a href="https://github.com/kubernetes/features/issues/113" target="_blank" rel="external">kubernetes/features#113</a>)</li>
+</ul>
+</li>
+<li><strong>Cluster Lifecycle</strong><ul>
+<li>[alpha] Improved UX and usability for the kubeadm binary that makes it easy to get a new cluster running. (<a href="http://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/11" target="_blank" rel="external">kubernetes/features#11</a>)</li>
+</ul>
+</li>
+<li><strong>Cluster Ops</strong><ul>
+<li>[alpha] Added ability to create/remove clusters w/highly available (replicated) masters on GCE using kube-up/kube-down scripts. (<a href="http://kubernetes.io/docs/admin/ha-master-gce/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/48" target="_blank" rel="external">kubernetes/features#48</a>)</li>
+</ul>
+</li>
+<li><strong>Federation</strong><ul>
+<li>[alpha] Support for ConfigMaps in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/configmap/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/105" target="_blank" rel="external">kubernetes/features#105</a>)</li>
+<li>[alpha] Alpha level support for DaemonSets in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/daemonsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/101" target="_blank" rel="external">kubernetes/features#101</a>)</li>
+<li>[alpha] Alpha level support for Deployments in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/deployment/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/100" target="_blank" rel="external">kubernetes/features#100</a>)</li>
+<li>[alpha] Cluster federation: Added support for DeleteOptions.OrphanDependents for federation resources. (<a href="http://kubernetes.io/docs/user-guide/federation/#cascading-deletion" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/99" target="_blank" rel="external">kubernetes/features#99</a>)</li>
+<li>[alpha] Introducing <code>kubefed</code>, a new command line tool to simplify federation control plane kubernetes.io/docs/admin/federation/kubefed/)) (<a href="https://github.com/kubernetes/features/issues/97" target="_blank" rel="external">kubernetes/features#97</a>)</li>
+</ul>
+</li>
+<li><strong>Network</strong><ul>
+<li>[stable] Services can reference another service by DNS name, rather than being hosted in pods (<a href="https://github.com/kubernetes/features/issues/33" target="_blank" rel="external">kubernetes/features#33</a>)</li>
+<li>[beta] Opt in source ip preservation for Services with Type NodePort or LoadBalancer (<a href="http://kubernetes.io/docs/tutorials/services/source-ip/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/27" target="_blank" rel="external">kubernetes/features#27</a>)</li>
+<li>[stable] Enable DNS Horizontal Autoscaling with beta ConfigMap parameters support (<a href="http://kubernetes.io/docs/tasks/administer-cluster/dns-horizontal-autoscaling/" target="_blank" rel="external">docs</a>)</li>
+</ul>
+</li>
+<li><strong>Node</strong><ul>
+<li>[alpha] Added ability to preserve access to host userns when userns remapping is enabled in container runtime (<a href="https://github.com/kubernetes/features/issues/127" target="_blank" rel="external">kubernetes/features#127</a>)</li>
+<li>[alpha] Introducing the v1alpha1 CRI API to allow pluggable container runtimes; an experimental docker-CRI integration is ready for testing and feedback. (<a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/54" target="_blank" rel="external">kubernetes/features#54</a>)</li>
+<li>[alpha] Kubelet launches container in a per pod cgroup hiearchy based on quality of service tier (<a href="https://github.com/kubernetes/features/issues/126" target="_blank" rel="external">kubernetes/features#126</a>)</li>
+<li>[beta] Kubelet integrates with memcg notification API to detect when a hard eviction threshold is crossed (<a href="https://github.com/kubernetes/features/issues/125" target="_blank" rel="external">kubernetes/features#125</a>)</li>
+<li>[beta] Introducing the beta version containerized node conformance test gcr.io/google_containers/node-test:0.2 for users to verify node setup. (<a href="http://kubernetes.io/docs/admin/node-conformance/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/84" target="_blank" rel="external">kubernetes/features#84</a>)</li>
+</ul>
+</li>
+<li><strong>Scheduling</strong><ul>
+<li>[alpha] Added support for accounting opaque integer resources. (<a href="http://kubernetes.io/docs/user-guide/compute-resources/#opaque-integer-resources-alpha-feature" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/76" target="_blank" rel="external">kubernetes/features#76</a>)</li>
+<li>[beta] PodDisruptionBudget has been promoted to beta, can be used to safely drain nodes while respecting application SLO’s (<a href="http://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/85" target="_blank" rel="external">kubernetes/features#85</a>)</li>
+</ul>
+</li>
+<li><strong>UI</strong><ul>
+<li>[stable] Dashboard UI now shows all user facing objects and their resource usage. (<a href="http://kubernetes.io/docs/user-guide/ui/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/136" target="_blank" rel="external">kubernetes/features#136</a>)</li>
+</ul>
+</li>
+<li><strong>Windows</strong><ul>
+<li>[alpha] Added support for Windows Server 2016 nodes and scheduling Windows Server Containers (<a href="http://kubernetes.io/docs/getting-started-guides/windows/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/116" target="_blank" rel="external">kubernetes/features#116</a>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Known-Issues"><a href="#Known-Issues" class="headerlink" title="Known Issues"></a>Known Issues</h2><p>Populated via <a href="https://github.com/kubernetes/kubernetes/issues/37134" target="_blank" rel="external">v1.5.0 known issues / FAQ accumulator</a></p>
+<ul>
+<li>CRI <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md#kubernetes-v15-release-cri-v1alpha1" target="_blank" rel="external">known issues and<br>limitations</a></li>
+<li>getDeviceNameFromMount() function doesn’t return the volume path correctly when the volume path contains spaces <a href="https://github.com/kubernetes/kubernetes/issues/37712" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37712" target="_blank" rel="external">#37712</a></a></li>
+<li>Federation alpha features do not have feature gates defined and<br>are hence enabled by default. This will be fixed in a future release.<br><a href="https://github.com/kubernetes/kubernetes/issues/38593" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/38593" target="_blank" rel="external">#38593</a></a></li>
+<li>Federation control plane can be upgraded by updating the image<br>fields in the <code>Deployment</code> specs of the control plane components.<br>However, federation control plane upgrades were not tested in this<br>release <a href="https://github.com/kubernetes/kubernetes/issues/38537" target="_blank" rel="external">38537</a></li>
+</ul>
+<h2 id="Notable-Changes-to-Existing-Behavior"><a href="#Notable-Changes-to-Existing-Behavior" class="headerlink" title="Notable Changes to Existing Behavior"></a>Notable Changes to Existing Behavior</h2><ul>
+<li>Node controller no longer force-deletes pods from the api-server. (<a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external">#35235</a></a>, <a href="https://github.com/foxish" target="_blank" rel="external"><a href="https://github.com/foxish" target="_blank" rel="external">@foxish</a></a>)<ul>
+<li>For StatefulSet (previously PetSet), this change means creation of<br>replacement pods is blocked until old pods are definitely not running<br>(indicated either by the kubelet returning from partitioned state,<br>deletion of the Node object, deletion of the instance in the cloud provider,<br>or force deletion of the pod from the api-server).<br>This helps prevent “split brain” scenarios in clustered applications by<br>ensuring that unreachable pods will not be presumed dead unless some<br>“fencing” operation has provided one of the above indications.</li>
+<li>For all other existing controllers except StatefulSet, this has no effect on<br>the ability of the controller to replace pods because the controllers do not<br>reuse pod names (they use generate-name).</li>
+<li>User-written controllers that reuse names of pod objects should evaluate this change.</li>
+<li>When deleting an object with <code>kubectl delete ... --grace-period=0</code>, the client will<br>begin a graceful deletion and wait until the resource is fully deleted.  To force<br>deletion immediately, use the <code>--force</code> flag. This prevents users from accidentally<br>allowing two Stateful Set pods to share the same persistent volume which could lead to data<br>corruption <a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external">#37263</a></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Allow anonymous API server access, decorate authenticated users with system:authenticated group (<a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external">#32386</a></a>, <a href="https://github.com/liggitt" target="_blank" rel="external"><a href="https://github.com/liggitt" target="_blank" rel="external">@liggitt</a></a>)</p>
+<ul>
+<li>kube-apiserver learned the ‘—anonymous-auth’ flag, which defaults to true. When enabled, requests to the secure port that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of ‘system:anonymous’ and a group of ‘system:unauthenticated’.</li>
+<li>Authenticated users are decorated with a ‘system:authenticated’ group.</li>
+<li>NOTE: anonymous access is enabled by default. If you rely on authentication alone to authorize access, change to use an authorization mode other than AlwaysAllow, or or set ‘—anonymous-auth=false’.</li>
+</ul>
+</li>
+<li><p>kubectl get -o jsonpath=… will now throw an error if the path is to a field not present in the json, even if the path is for a field valid for the type.  This is a change from the pre-1.5 behavior, which would return the default value for some fields even if they were not present in the json. (<a href="https://github.com/kubernetes/kubernetes/issues/37991" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37991" target="_blank" rel="external">#37991</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
+</li>
+<li><p>The strategicmerge patchMergeKey for VolumeMounts was changed from “name” to “mountPath”.  This was necessary because the name field refers to the name of the Volume, and is not a unique key for the VolumeMount.  Multiple VolumeMounts will have the same Volume name if mounting the same volume more than once.  The “mountPath” is verified to be unique and can act as the mergekey.  (<a href="https://github.coma/kubernetes/kubernetes/pull/35071" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35071" target="_blank" rel="external">#35071</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
+</li>
+</ul>
+<h2 id="Deprecations"><a href="#Deprecations" class="headerlink" title="Deprecations"></a>Deprecations</h2><ul>
+<li>extensions/v1beta1.Jobs is deprecated, use batch/v1.Job instead (<a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external">#36355</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
+<li>The kubelet —reconcile-cdir flag is deprecated because it has no function anymore. (<a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external">#35523</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
+<li>Notice of deprecation for recycler <a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external">#36760</a></a></li>
+</ul>
+<h2 id="Action-Required-Before-Upgrading"><a href="#Action-Required-Before-Upgrading" class="headerlink" title="Action Required Before Upgrading"></a>Action Required Before Upgrading</h2><ul>
+<li>batch/v2alpha1.ScheduledJob has been renamed, use batch/v2alpha1.CronJob instead (<a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external">#36021</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
+<li>PetSet has been renamed to StatefulSet.<br>If you have existing PetSets, <strong>you must perform extra migration steps</strong> both<br>before and after upgrading to convert them to StatefulSets. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/upgrade-pet-set-to-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external">#35663</a></a>, <a href="https://github.com/janetkuo" target="_blank" rel="external"><a href="https://github.com/janetkuo" target="_blank" rel="external">@janetkuo</a></a>)</li>
+<li>If you are upgrading your Cluster Federation components from v1.4.x, please update your <code>federation-apiserver</code> and <code>federation-controller-manager</code> manifests to the new version (<a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external">#30601</a></a>, <a href="https://github.com/madhusudancs" target="_blank" rel="external"><a href="https://github.com/madhusudancs" target="_blank" rel="external">@madhusudancs</a></a>)</li>
+<li>The deprecated kubelet —configure-cbr0 flag has been removed, and with that the “classic” networking mode as well.  If you depend on this mode, please investigate whether the other network plugins <code>kubenet</code> or <code>cni</code> meet your needs. (<a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external">#34906</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
+<li>New client-go structure, refer to kubernetes/client-go for versioning policy (<a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external">#34989</a></a>, <a href="https://github.com/caesarxuchao" target="_blank" rel="external"><a href="https://github.com/caesarxuchao" target="_blank" rel="external">@caesarxuchao</a></a>)</li>
+<li>The deprecated kube-scheduler —bind-pods-qps and —bind-pods burst flags have been removed, use —kube-api-qps and —kube-api-burst instead (<a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external">#34471</a></a>, <a href="https://github.com/timothysc" target="_blank" rel="external"><a href="https://github.com/timothysc" target="_blank" rel="external">@timothysc</a></a>)</li>
+<li>If you used the <a href="http://kubernetes.io/docs/admin/disruptions/" target="_blank" rel="external">PodDisruptionBudget</a> feature in 1.4 (i.e. created <code>PodDisruptionBudget</code> objects), then <strong>BEFORE</strong>  upgrading from 1.4 to 1.5, you must delete all <code>PodDisruptionBudget</code> objects (<code>policy/v1alpha1/PodDisruptionBudget</code>) that you have created. It is not possible to delete these objects after you upgrade, and their presence will prevent you from using the beta PodDisruptionBudget feature in 1.5 (which uses <code>policy/v1beta1/PodDisruptionBudget</code>). If you have already upgraded, you will need to downgrade the master to 1.4 to delete the <code>policy/v1alpha1/PodDisruptionBudget</code> objects.</li>
+</ul>
+<h2 id="External-Dependency-Version-Information"><a href="#External-Dependency-Version-Information" class="headerlink" title="External Dependency Version Information"></a>External Dependency Version Information</h2><p>Continuous integration builds have used the following versions of external dependencies, however, this is not a strong recommendation and users should consult an appropriate installation or upgrade guide before deciding what versions of etcd, docker or rkt to use.</p>
+<ul>
+<li>Docker versions 1.10.3 - 1.12.3<ul>
+<li>Docker version 1.11.2 known issues<ul>
+<li>Kernel crash with Aufs storage driver on Debian Jessie (<a href="https://github.com/kubernetes/kubernetes/issues/27885" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/27885" target="_blank" rel="external">#27885</a></a>)<br>which can be identified by the <a href="http://kubernetes.io/docs/admin/node-problem/" target="_blank" rel="external">node problem detector</a></li>
+<li>Leaked File descriptors (<a href="https://github.com/docker/containerd/issues/275" target="_blank" rel="external">#275</a>)</li>
+<li>Additional memory overhead per container (<a href="https://github.com/docker/docker/issues/21737" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/21737" target="_blank" rel="external">#21737</a></a>)</li>
+</ul>
+</li>
+<li>Docker version 1.12.1 <a href="https://github.com/kubernetes/kubernetes/issues/28698" target="_blank" rel="external">has been validated</a> through the Kubernetes docker automated validation framework as has Docker version 1.12.3</li>
+<li>Docker 1.10.3 contains <a href="https://github.com/docker/docker/compare/v1.10.3...runcom:docker-1.10.3-stable" target="_blank" rel="external">backports provided by RedHat</a> for known issues</li>
+<li>Docker versions as old as may 1.9.1 work with <a href="CHANGELOG.md#191">known issues</a> but this is not guaranteed</li>
+</ul>
+</li>
+<li>rkt version 1.21.0<ul>
+<li>known issues with the rkt runtime are <a href="http://kubernetes.io/docs/getting-started-guides/rkt/notes/" target="_blank" rel="external">listed here</a></li>
+</ul>
+</li>
+<li><p>etcd version 2.2.1</p>
+<ul>
+<li>etcd version 3.0.14 <a href="https://k8s-gubernator.appspot.com/builds/kubernetes-jenkins/logs/ci-kubernetes-e2e-gce-etcd3/" target="_blank" rel="external">has also been validated</a> but does require <a href="https://coreos.com/blog/migrating-applications-etcd-v3.html" target="_blank" rel="external">specific configuration steps</a></li>
+</ul>
+<p><a href="https://docs.k8s.io" target="_blank" rel="external">Documentation</a> &amp; <a href="https://releases.k8s.io/release-1.5/examples" target="_blank" rel="external">Examples</a></p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/08/Weekly-reading-list/" itemprop="url">
+                  Weekly reading list
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-08T14:00:22+08:00" content="2016-12-08">
+              2016-12-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Readings/" itemprop="url" rel="index">
+                    <span itemprop="name">Readings</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/08/Weekly-reading-list/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/08/Weekly-reading-list/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Docker收购Infinit-PDF"><a href="#Docker收购Infinit-PDF" class="headerlink" title="Docker收购Infinit PDF"></a><a href="https://blog.docker.com/2016/12/docker-acquires-infinit/" target="_blank" rel="external">Docker收购Infinit</a> <a href="/assets/infinit.pdf">PDF</a></h1><p><a href="https://infinit.sh/" target="_blank" rel="external">Infinit</a>为容器提供了分布式存储，其特点包括</p>
+<ul>
+<li>基于软件：可以部署在任何硬件之上，从遗留设备到消费级实体机、虚拟机，甚至容器。</li>
+<li>可编程：开发者可以轻松地完成多个存储基础设施的自动化创建和部署，并且每个都能借助基于策略的能力进行自定义，适配上层应用的需求。</li>
+<li>可伸缩：通过依靠一个去中心化的架构（即点对点），Infinit没有使用leader/follower模型，因而不会有瓶颈和单点失效的问题。</li>
+<li>自愈合：Infinit的再平衡策略能让系统适应各种故障，包括拜占庭将军问题。</li>
+<li>多用途：Infinit平台提供了块、对象和文件存储的接口：NFS、SMB、AWS S3、OpenStack Swift、iSCSI和FUSE等等。</li>
+</ul>
+<p><img src="/images/14811775178610.png" alt=""></p>
+<p>基本原理：</p>
+<p>• Federate all nodes in an overlay network for lookup and routing.<br>• Store data as blocks in a distributed hashtable (key-value store) with a per-block consensus.<br>• Use cryptographic access control to dispense from any leader.<br>• Use symmetrical operations to ensure resilience and flexibility.</p>
+<p><img src="/images/14811780770073.jpg" alt=""></p>
+<p><img src="/images/14811782445452.jpg" alt=""></p>
+<p>Infinit以volume的形式挂载到docker容器中：</p>
+<p><img src="/images/14811779192673.jpg" alt=""></p>
+<h2 id="Docker-Alibaba——超大规模Docker化的实战经验"><a href="#Docker-Alibaba——超大规模Docker化的实战经验" class="headerlink" title="Docker@Alibaba——超大规模Docker化的实战经验"></a><a href="https://yq.aliyun.com/articles/64256" target="_blank" rel="external">Docker@Alibaba——超大规模Docker化的实战经验</a></h2><ul>
+<li>AliDocker，并非阿里云，主要是阿里内部业务在用</li>
+<li>Swarm改造支持单swarm实例health nodes 2w+<ul>
+<li>优化连接管理、最小化锁粒度、修改diff算法减少node刷新时的开销、减少连接线程</li>
+</ul>
+</li>
+<li>Docker Engine增强<ul>
+<li>磁盘配额、固定IP、Hooks、解决hyperd重启容器销毁问题等</li>
+</ul>
+</li>
+<li>镜像分发：流式分发、镜像分批预热、P2P等</li>
+<li>swarm-proxy HA</li>
+</ul>
+<p><img src="/images/14811788194621.jpg" alt="">7</p>
+<h2 id="微服务在微信后台的架构实践"><a href="#微服务在微信后台的架构实践" class="headerlink" title="微服务在微信后台的架构实践"></a><a href="http://ppt.geekbang.org/slide/show/607" target="_blank" rel="external">微服务在微信后台的架构实践</a></h2><ul>
+<li>多地自治，园区互备：城市间RTT 30ms-400ms，园区间小于2ms</li>
+<li>RPC：protobuf/libco</li>
+<li>调度：Yard，双层调度器（Mesos+Yard）</li>
+<li>过载保护：轻重分离、队列式、组合命令式</li>
+</ul>
+<p><img src="/images/14811817178100.jpg" alt=""></p>
+<ul>
+<li>数据存储：PaxosStore，同步复制、多主多写</li>
+</ul>
+<p><img src="/images/14811818656014.jpg" alt=""></p>
+<h2 id="Go-微服务架构的基石"><a href="#Go-微服务架构的基石" class="headerlink" title="Go:微服务架构的基石"></a><a href="http://ppt.geekbang.org/slide/show/615" target="_blank" rel="external">Go:微服务架构的基石</a></h2><ul>
+<li>负载均衡：seesaw、caddy</li>
+<li>服务网关：tyk、fabio、vulcand</li>
+<li>进程间通信：RESTful、RPC、自定义<ul>
+<li>REST框架：beego、gin、Iris、micro、go-kit、goa</li>
+<li>RPC框架：grpc、thrift、hprose</li>
+<li>自定义：协议，编解码</li>
+</ul>
+</li>
+<li>服务发现：etcd、consul、serf</li>
+<li>调度系统：kubernetes、swarm、mesos</li>
+<li>消息队列：NSQ、Nats</li>
+<li>APM（应用性能监控）：appdash、Cloudinsight、opentracing</li>
+<li>配置管理：etcd、consul、mgmt</li>
+<li>日志分析：Beats、Heka</li>
+<li>服务监控：open-falcon、prometheus</li>
+<li>CI/CD：Drone</li>
+<li>熔断器：gateway、Hystrix-go</li>
+</ul>
+<h2 id="基于万节点Kubernetes支撑大规模云应用实践"><a href="#基于万节点Kubernetes支撑大规模云应用实践" class="headerlink" title="基于万节点Kubernetes支撑大规模云应用实践"></a><a href="http://ppt.geekbang.org/slide/show/586" target="_blank" rel="external">基于万节点Kubernetes支撑大规模云应用实践</a></h2><ul>
+<li>基于OpenStack的IaaS：裁剪KVM镜像、优化启动流程，Openvswitch SDN、Ceph存储</li>
+<li>容器与虚拟机共用一套虚拟化网络</li>
+<li>Ceph存储直接挂载到容器</li>
+<li>统一的日志收集、分析、搜索</li>
+<li>Kubernetes调度器优化：将原来的串行队列改为多个优先级队列</li>
+<li>etcd集群扩展：将Pod/Node/ReplicationController拆分到不同的etcd集群</li>
+</ul>
+<p><img src="/images/14811811876614.jpg" alt=""></p>
+<p><img src="/images/14811813670269.jpg" alt=""></p>
+<h1 id="20-天持续压测，告诉你云存储性能哪家强-📈"><a href="#20-天持续压测，告诉你云存储性能哪家强-📈" class="headerlink" title="20 天持续压测，告诉你云存储性能哪家强 📈"></a><a href="https://www.v2ex.com/t/326038?from=timeline&amp;isappinstalled=0#reply7" target="_blank" rel="external">20 天持续压测，告诉你云存储性能哪家强</a> <a href="http://www.codingpy.com/specials/cbs_test/" target="_blank" rel="external">📈</a></h1><p>对阿里云和腾讯云两种云存储产品（云盘）的性能和价格对比：</p>
+<ul>
+<li>测试方法：SNIA发布的<a href="http://snia.org/sites/default/files/SSS_PTS_Enterprise_v1.1.pdf" target="_blank" rel="external">企业级SSD评测规范</a>及<a href="https://github.com/cloudharmony/block-storage" target="_blank" rel="external">实现</a></li>
+<li>阿里云 SSD 云盘必须搭配 I/O 优化实例才能给发挥最大性能</li>
+<li>腾讯云高效云盘的读写操作可同时达到预期性能峰值（数据块 16KB 以下），而阿里云方面，读写无法同时达到预期性能峰值</li>
+<li>腾讯云达到了预期的性能；阿里云部分没有达到， 400GB 容量的时延过高</li>
+<li>腾讯云高效云盘的时延在 1ms 以下， IOPS 、吞吐量的优势更加突出</li>
+<li>两家高效云盘的 IOPS 表现均比较稳定，几乎呈一条直线，只有阿里云的 400GB 云盘有些略微波动</li>
+<li>容量越大，似乎闲置时间对性能恢复的影响越明显；阿里云 400GB 高效云盘的性能波动受闲置时间影响较明显</li>
+</ul>
+<p><img src="/images/14811840736214.jpg" alt=""></p>
+<h2 id="外卖的背后-饿了么基础架构从0到1的演进"><a href="#外卖的背后-饿了么基础架构从0到1的演进" class="headerlink" title="外卖的背后-饿了么基础架构从0到1的演进"></a><a href="http://ppt.geekbang.org/slide/show/619" target="_blank" rel="external">外卖的背后-饿了么基础架构从0到1的演进</a></h2><ul>
+<li>负载均衡<ul>
+<li>最初：HAProxy部署在客户端本地，不需要考虑HAProxy的高可用；问题是部署规模大，维护客户列表复杂，并且配置不统一</li>
+<li>解决：<ul>
+<li>RPC+内置LB SDK，服务自注册/自发现，配置少，部署简单</li>
+<li>Redis/DB解决方案GoProxy: DAL/Corvus作为服务自注册，GoProxy订阅注册事件并自带服务发现的Haproxy</li>
+<li>健康检查：心跳检测，进程在、端口活不代表服务可用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>无损升级<ul>
+<li>最初：发布前通知客户端停止请求，服务端将正在处理的请求处理完毕才能升级</li>
+<li>解决：<ul>
+<li>RPC调用：服务发现机制会在注销时通知客户端，直连情况下客户端从可用列表中剔除准备下线的服务</li>
+<li>数据库访问，客户端限制连接存活时间，DAL侧重连</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基础架构：开放式架构<ul>
+<li>基于组件，给业务开发团队最大的自由</li>
+<li>基于运行时，给业务开发团队最大限度的自由</li>
+<li>开放封闭原则：基础框架应该是可以扩展的，但是不可以“选择”的</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/04/Weekly-reading-list/" itemprop="url">
+                  Weekly reading list
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-05T07:59:01+08:00" content="2016-12-05">
+              2016-12-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Readings/" itemprop="url" rel="index">
+                    <span itemprop="name">Readings</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/04/Weekly-reading-list/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/04/Weekly-reading-list/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
+<p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
+</blockquote>
+<p><img src="/images/14809236732969.jpg" alt=""></p>
+<p><img src="/images/14809236897310.jpg" alt=""></p>
+<ul>
+<li>服务发现与负载均衡<ul>
+<li>集中管理每个服务（包括异构服务）的IP地址</li>
+<li>服务之间RPC调用：服务名+接口名</li>
+<li>路由的同时统计过去一段时间的成功率和时延</li>
+</ul>
+</li>
+<li>支持多种编程语言（通过Protocol buffer生成不同语言的接口），如C/C++、Java、PHP等</li>
+<li>Web化的管理界面(Tomcat)</li>
+<li>存储：Redis cluster</li>
+<li>官方网站：<a href="http://haomiao.qq.com" target="_blank" rel="external">http://haomiao.qq.com</a></li>
+<li>Github：<a href="https://github.com/Tencent/MSEC" target="_blank" rel="external">https://github.com/Tencent/MSEC</a></li>
+</ul>
+<h2 id="Understanding-SELinux-Roles"><a href="#Understanding-SELinux-Roles" class="headerlink" title="Understanding SELinux Roles"></a><a href="http://danwalsh.livejournal.com/75683.html" target="_blank" rel="external">Understanding SELinux Roles</a></h2><p>SELinux label包含4个部分<code>user_u:role_r:type_t:level</code>，每个用户可以访问的角色：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line"><span class="symbol">semanage</span> user -l</div><div class="line"></div><div class="line">         Labeling   <span class="keyword">MLS/ </span>      <span class="keyword">MLS/ </span>                       </div><div class="line"><span class="keyword">SELinux </span>User    Prefix     MCS Level  MCS Range       <span class="keyword">SELinux </span>Roles</div><div class="line"></div><div class="line"><span class="symbol">guest_u</span>             user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             guest_r</div><div class="line"><span class="symbol">root</span>                    user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        staff_r sysadm_r system_r unconfined_r</div><div class="line"><span class="symbol">staff_u</span>               user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        staff_r sysadm_r system_r unconfined_r</div><div class="line"><span class="symbol">sysadm_u</span>         user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        sysadm_r</div><div class="line"><span class="symbol">system_u</span>          user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        system_r unconfined_r</div><div class="line"><span class="symbol">unconfined_u</span>    user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        system_r unconfined_r</div><div class="line"><span class="symbol">user_u</span>               user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             user_r</div><div class="line"><span class="symbol">xguest_u</span>           user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             xguest_r</div></pre></td></tr></table></figure>
+<ul>
+<li>system_r role is the default role for all processes started at boot</li>
+<li>You can not assign an SELinux user a role that is not listed</li>
+<li>object_r is not really a role, but more of a place holder.  Roles only make sense for processes, not for files</li>
+<li>on the file system.  But the SELinux label requires a role for all labels.  object_r is the role that we use to fill the objects on disks role.  Changing a process to run as object_r or trying to assign a different role to a file will always be denied by the kernel.</li>
+</ul>
+<h2 id="Kompose-a-tool-to-go-from-Docker-compose-to-Kubernetes"><a href="#Kompose-a-tool-to-go-from-Docker-compose-to-Kubernetes" class="headerlink" title="Kompose: a tool to go from Docker-compose to Kubernetes"></a><a href="http://blog.kubernetes.io/2016/11/kompose-tool-go-from-docker-compose-to-kubernetes.html" target="_blank" rel="external">Kompose: a tool to go from Docker-compose to Kubernetes</a></h2><ul>
+<li>把docker-compose.yml或dab转换为kubernetes service+deployment</li>
+<li>Github: <a href="https://github.com/kubernetes-incubator/kompose" target="_blank" rel="external">https://github.com/kubernetes-incubator/kompose</a></li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ kompose <span class="comment">--bundle docker-compose-bundle.dab convert</span></div><div class="line">WARN[<span class="number">0000</span>]: Unsupported key networks - <span class="keyword">ignoring</span></div><div class="line"><span class="built_in">file</span> <span class="string">"redis-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-deployment.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"redis-deployment.json"</span> created</div><div class="line"></div><div class="line">$ kompose -f docker-compose.yml convert</div><div class="line">WARN[<span class="number">0000</span>]: Unsupported key networks - <span class="keyword">ignoring</span></div><div class="line"><span class="built_in">file</span> <span class="string">"redis-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-deployment.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"redis-deployment.json"</span> created</div></pre></td></tr></table></figure>
+<h2 id="2016年网络虚拟化趋势"><a href="#2016年网络虚拟化趋势" class="headerlink" title="2016年网络虚拟化趋势"></a><a href="http://www.sdnlab.com/18153.html" target="_blank" rel="external">2016年网络虚拟化趋势</a></h2><ul>
+<li>市场持续升温：NV的市场已经是一个数十亿美元的市场，Cisco、Juniper、Nuage、VMware是NV市场的四大巨头，他们占据了NV市场的绝大多数收入</li>
+<li>思科和VMware公布的数据显示其与NV相关的投资组合在2016年将近30亿美元</li>
+<li>容器化：思科收购ContainerX，VMWare推出vSphere集成容器（VIC）</li>
+</ul>
+<p><img src="/images/14809260496846.jpg" alt=""></p>
+<h2 id="Amazon发布一大波新产品"><a href="#Amazon发布一大波新产品" class="headerlink" title="Amazon发布一大波新产品"></a>Amazon发布一大波新产品</h2><ul>
+<li><a href="https://amazonlightsail.com/" target="_blank" rel="external">Amazon Lightsail</a>：廉价VPS，价格跟LightSale, DO, VULTR, Linode相同。</li>
+<li><a href="https://aws.amazon.com/cn/blogs/aws/developer-preview-ec2-instances-f1-with-programmable-hardware/" target="_blank" rel="external">F1 instance with FPGA</a>：VHDL和Verilog终于有出路了</li>
+<li>今年是机器学习大火的一年，Amazon也随大流（微软、Google）推出了AI服务：<ul>
+<li>Amazon Rekognition图像处理和分析</li>
+<li>Amazon Lex自然语言处理</li>
+<li>Amazon Polly文本到语音的转换</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/cn/snowmobile/" target="_blank" rel="external">AWS Snowmobile</a>：带宽从来都不是问题<br>  <img src="/images/14809265679834.jpg" alt=""></li>
+</ul>
+<h2 id="Linux-bcc-BPF-tcplife"><a href="#Linux-bcc-BPF-tcplife" class="headerlink" title="Linux bcc/BPF tcplife"></a><a href="http://www.brendangregg.com/blog/2016-11-30/linux-bcc-tcplife.html" target="_blank" rel="external">Linux bcc/BPF tcplife</a></h2><figure class="highlight tap"><table><tr><td class="code"><pre><div class="line"><span class="comment"># ./tcplife -D 80</span></div><div class="line">PID   COMM       LADDR           LPORT RADDR           RPORT TX_KB RX_KB MS</div><div class="line">27448 curl       100.66.11.247  <span class="number"> 54146 </span>54.154.224.174 <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>263.85</div><div class="line">27450 curl       100.66.11.247  <span class="number"> 20618 </span>54.154.164.22  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>243.62</div><div class="line">27452 curl       100.66.11.247  <span class="number"> 11480 </span>54.154.43.103  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>231.16</div><div class="line">27454 curl       100.66.11.247  <span class="number"> 31382 </span>54.154.15.7    <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>249.95</div><div class="line">27456 curl       100.66.11.247  <span class="number"> 33416 </span>52.210.59.223  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>545.72</div><div class="line">27458 curl       100.66.11.247  <span class="number"> 16406 </span>52.30.140.35   <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>222.29</div><div class="line">27460 curl       100.66.11.247  <span class="number"> 11634 </span>52.30.133.135  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>217.52</div><div class="line">27462 curl       100.66.11.247  <span class="number"> 25660 </span>52.30.126.182  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>250.81</div><div class="line">[...]</div><div class="line"></div><div class="line"><span class="comment"># ./tcplife -h</span></div><div class="line">usage: tcplife [-h] [-T] [-t] [-w] [-s] [-p PID] [-L LOCALPORT]</div><div class="line">               [-D REMOTEPORT]</div><div class="line"></div><div class="line">Trace the lifespan of TCP sessions and summarize</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -T, --time            include time column on output (HH:MM:SS)</div><div class="line">  -t, --timestamp       include timestamp on output (seconds)</div><div class="line">  -w, --wide            wide column output (fits IPv6 addresses)</div><div class="line">  -s, --csv             comma seperated values output</div><div class="line">  -p PID, --pid PID     trace this PID only</div><div class="line">  -L LOCALPORT, --localport LOCALPORT</div><div class="line">                        comma-separated list of local ports to trace.</div><div class="line">  -D REMOTEPORT, --remoteport REMOTEPORT</div><div class="line">                        comma-separated list of remote ports to trace.</div><div class="line"></div><div class="line">examples:</div><div class="line">    ./tcplife           <span class="comment"># trace all TCP connect()s</span></div><div class="line">    ./tcplife -t        <span class="comment"># include time column (HH:MM:SS)</span></div><div class="line">    ./tcplife -w        <span class="comment"># wider colums (fit IPv6)</span></div><div class="line">    ./tcplife -stT      <span class="comment"># csv output, with times &amp; timestamps</span></div><div class="line">    ./tcplife -p<span class="number"> 181 </span>   <span class="comment"># only trace PID 181</span></div><div class="line">    ./tcplife -L<span class="number"> 80 </span>    <span class="comment"># only trace local port 80</span></div><div class="line">    ./tcplife -L 80,81  <span class="comment"># only trace local ports 80 and 81</span></div><div class="line">    ./tcplife -D<span class="number"> 80 </span>    <span class="comment"># only trace remote port 80</span></div></pre></td></tr></table></figure>
+<h2 id="cgroup-namespace"><a href="#cgroup-namespace" class="headerlink" title="cgroup namespace"></a><a href="http://hustcat.github.io/cgroup-namespace/" target="_blank" rel="external">cgroup namespace</a></h2><p>之前，在一个容器查看/proc/$PID/cgroup，或者在容器挂载cgroup时，会看到整个系统的cgroup信息；在内核从4.6开始，支持cgroup namespace （<a href="https://lwn.net/Articles/618873/" target="_blank" rel="external">https://lwn.net/Articles/618873/</a>）。</p>
+<blockquote>
+<p>(1)可以限制容器的cgroup filesytem视图，使得在容器中也可以安全的使用cgroup；<br>(2)此外，会使容器迁移更加容易；在迁移时，/proc/self/cgroup需要复制到目标机器，这要求容器的cgroup路径是唯一的，否则可能会与目标机器冲突。有了cgroupns，每个容器都有自己的cgroup filesystem视图，不用担心这种冲突。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'index.html';
+      var disqus_title = "";
+      var disqus_url = '';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

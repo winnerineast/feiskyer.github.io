@@ -1,0 +1,1041 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。
+serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Notes about serverless">
+<meta property="og:url" content="http://feisky.xyz/serverless/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。
+serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并">
+<meta property="og:image" content="https://github.com/openwhisk/openwhisk/raw/master/docs/OpenWhisk.png">
+<meta property="og:image" content="http://thenewstack.io/wp-content/uploads/2016/10/Funktion-RedHatproject.png">
+<meta property="og:image" content="http://thenewstack.io/wp-content/uploads/2016/10/1-lBa176N3CqOl2su9iTyCAw.png">
+<meta property="og:image" content="http://thenewstack.io/wp-content/uploads/2016/10/serverlesscalc.png">
+<meta property="og:updated_time" content="2017-01-24T08:49:59.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Notes about serverless">
+<meta name="twitter:description" content="“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。
+serverless的主要玩家AWS LambdaAWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并">
+<meta name="twitter:image" content="https://github.com/openwhisk/openwhisk/raw/master/docs/OpenWhisk.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/serverless/"/>
+
+
+  <title> Notes about serverless | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/k8s" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Notes about serverless
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-26T05:36:00+00:00" content="2016-02-26">
+              2016-02-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/serverless/index.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="serverless/index.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>“只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容”， serverless将大家从server中解放了出来，只需要关注业务逻辑本身。serverless的概念跟PaaS很像，又比传统的PaaS有着更好的易用性。</p>
+<h2 id="serverless的主要玩家"><a href="#serverless的主要玩家" class="headerlink" title="serverless的主要玩家"></a>serverless的主要玩家</h2><h4 id="AWS-Lambda"><a href="#AWS-Lambda" class="headerlink" title="AWS Lambda"></a>AWS Lambda</h4><p>AWS Lambda是目前最有影响力的serverless产品，它依据事件响应触发用户自定义的Lambda函数，并自动管理后端的服务器、高可用以及自动扩展等：</p>
+<blockquote>
+<p>通过 AWS Lambda，无需配置或管理服务器即可运行代码。您只需按消耗的计算时间付费 – 代码未运行时不产生费用。借助 Lambda，您几乎可以为任何类型的应用程序或后端服务运行代码，而且全部无需管理。只需上传您的代码，Lambda 会处理运行和扩展高可用性代码所需的一切工作。您可以将您的代码设置为自动从其他 AWS 服务触发，或者直接从任何 Web 或移动应用程序调用。</p>
+<p>AWS Lambda是一项计算服务，依响应事件来运行您的代码并为您自动管理底层计算资源。您可以使用 AWS Lambda 通过自定义逻辑来扩展其他 AWS 服务，或创建您自己的按 AWS 规模、性能和安全性运行的后端服务。AWS Lambda 可以自动运行代码以响应多个事件，例如 Amazon S3 存储桶中对象的修改或 Amazon DynamoDB 中的表更新。</p>
+<p>Lambda 在可用性高的计算基础设施上运行您的代码，执行计算资源的所有管理工作，其中包括服务器和操作系统维护、容量预配置和自动扩展、代码和安全补丁部署以及代码监控和记录。您只需要提供代码。</p>
+</blockquote>
+<p>其主要特性包括：</p>
+<ul>
+<li>用自定义逻辑扩展其他 AWS 服务</li>
+<li>构建自定义后端服务</li>
+<li>完全自动化的管理，无需关注底层操作系统</li>
+<li>内置容错能力， 可在各区域中跨过多个可用区维护计算容量</li>
+<li>自动扩展</li>
+<li>集成化安全模型</li>
+<li>自备代码</li>
+<li>灵活的资源模型</li>
+<li>目前支持Java、JS、Python等语言</li>
+<li><em>Lamdba的价格非常便宜</em></li>
+</ul>
+<p>Lambda推荐的应用场景包括</p>
+<ul>
+<li>数据处理，比如文件处理、实时数据流处理或者提取、转换、加载等</li>
+<li>构建后端以处理 Web、移动、物联网 (IoT) 和第 3 方 API 请求</li>
+</ul>
+<h4 id="Google-Cloud-Functions"><a href="#Google-Cloud-Functions" class="headerlink" title="Google Cloud Functions"></a>Google Cloud Functions</h4><p>Google Cloud Functions允许用户创建js函数来自动响应事件，支持发布/订阅模型。用户可以配置一个“触发器”来监听这些事件，通过在Node.js环境执行JavaScript代码对这些事件做出响应。目前，“触发器”可以通过以下途径激活。</p>
+<ul>
+<li>云发布/订阅（Cloud Pub/Sub）：任何异步的发布/订阅事件</li>
+<li>云存储（Cloud Storage）：对象变更通知</li>
+<li>HTTP调用：通过HTTP进行的同步调用</li>
+<li>调试/直接调用：使用命令行界面（CLI）开发/调试“云函数”</li>
+</ul>
+<p>Google Cloud Functions还在Alpha阶段，不受SLA限制，因此还不适合用在生产环境。</p>
+<h4 id="Azure-Data-Lake"><a href="#Azure-Data-Lake" class="headerlink" title="Azure Data Lake"></a>Azure Data Lake</h4><p>Azure Data Lake提供了针对数据处理场景的ServerLess服务：</p>
+<blockquote>
+<p>Azure Data Lake 包括了所有所需的功能，使开发人员、数据专家和分析师可以更轻松地存储任何大小、形状和速度的数据以及跨平台和语言进行各种类型的处理和分析。它消除了插入和存储所有数据的复杂性，同时启动更快，可与批量、流式、交互式分析一起运行。Azure Data Lake 与现有 IT 投资一起工作以进行简化数据管理和监管的识别、管理和安全防护工作。同时与操作存储区和数据仓库无缝集成，以便可以扩展当前数据应用程序。我们已充分利用与企业客户合作以及运行 Microsoft 业务（如 Office 365、Xbox Live、Azure、Windows、Bing 和 Skype）一些全球规模最大的处理和分析的经验。Azure Data Lake 使用一种已准备好满足你当前和未来业务需求的服务，解决了许多工作效率和可缩放性的挑战，而正是这些挑战阻止你最大化自己的数据资产价值。</p>
+</blockquote>
+<p>更多产品介绍见 <a href="https://azure.microsoft.com/zh-cn/solutions/data-lake" target="_blank" rel="external">https://azure.microsoft.com/zh-cn/solutions/data-lake</a></p>
+<h4 id="IBM-OpenWhisk"><a href="#IBM-OpenWhisk" class="headerlink" title="IBM OpenWhisk"></a>IBM OpenWhisk</h4><p>OpenWhisk是IBM发布的开源事件驱动计算平台，剑指AWS Lambda，其代码开源在Github上<a href="https://github.com/openwhisk/openwhisk。" target="_blank" rel="external">https://github.com/openwhisk/openwhisk。</a></p>
+<p><img src="https://github.com/openwhisk/openwhisk/raw/master/docs/OpenWhisk.png" alt="arch"></p>
+<h4 id="Facebook-Parse"><a href="#Facebook-Parse" class="headerlink" title="Facebook Parse"></a>Facebook Parse</h4><p>Parse是专为移动应用提供后台服务的云计算平台，Parse为开发者承接了繁琐的后台服务，让开发者只需专注于具体的前端开发工作。它提供任意数据存储、通知发送/推送、地理位置数据使用、Facebook/Twitter 登陆帐号添加等服务。</p>
+<p>Facebook在2013年将其收购，并于今年一月份宣布关闭Parse服务并将其开源，开源地址在<a href="https://github.com/ParsePlatform/parse-server。" target="_blank" rel="external">https://github.com/ParsePlatform/parse-server。</a></p>
+<h4 id="基于Kubernetes的Framework"><a href="#基于Kubernetes的Framework" class="headerlink" title="基于Kubernetes的Framework"></a>基于Kubernetes的Framework</h4><ul>
+<li><a href="https://github.com/platform9/fission" target="_blank" rel="external">Fission</a></li>
+<li><a href="https://github.com/fabric8io/funktion" target="_blank" rel="external">Funktion</a>: 通过fabric8-maven-plugin生成镜像和Manifests，同时兼容Kubernetes和Openshift</li>
+<li><a href="https://github.com/skippbox/kubeless" target="_blank" rel="external">Kubeless</a>: 基于ThirdPartyResource和Kafka，目前是POC阶段</li>
+</ul>
+<h2 id="Serverless-Frameworks"><a href="#Serverless-Frameworks" class="headerlink" title="Serverless Frameworks"></a>Serverless Frameworks</h2><ul>
+<li><a href="https://github.com/awslabs/chalice" target="_blank" rel="external">Chalice</a> (AWS Labs): An open source project that provides a Python serverless microframework for AWS that allows you to quickly create and deploy applications that use Amazon API Gateway and AWS Lambda. It makes assumptions about how applications will be deployed, and it has restrictions on how an application can be structured.</li>
+<li><a href="https://claudiajs.com/" target="_blank" rel="external">Claudia.js</a> (Claudia.js): Claudia.js makes it easy to deploy Node.js projects to <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="external">AWS Lambda</a> and <a href="https://aws.amazon.com/api-gateway/" target="_blank" rel="external">API Gateway</a>. It automates all the error-prone deployment and configuration tasks, and sets everything up the way <a href="http://www.thenewstack.io/tag/JavaScript" target="_blank" rel="external">JavaScript</a> developers expect out of the box. Its founder, <a href="https://twitter.com/gojkoadzic" target="_blank" rel="external">Gojko Adzic</a>, has created extension libraries to let users quickly build chatbots and Web API endpoints.</li>
+<li><a href="https://github.com/MitocGroup/deep-framework" target="_blank" rel="external">DEEP Framework</a> (Mitoc Group): A full-stack JavaScript framework for building cloud-native web applications regardless of specific cloud providers. It is used to support Mitoc’s <a href="https://www.deep.mg/" target="_blank" rel="external">DEEP Marketplace</a>, which is a software service that lets customers choose and deploy from lists of microservices.</li>
+<li><a href="http://www.galacticfog.com/product" target="_blank" rel="external">Gestalt Framework</a> (Galactic Fog): A set of microservices that are used together create a platform for application developers to build functionality without managing a container environment. The company is a Mesosphere <a href="http://thenewstack.io/galactic-fog-brings-serverless-container-ecosystem/" target="_blank" rel="external">partner</a>, so may be one of the first ways to execute Lambda functions on Mesosphere’s <a href="http://thenewstack.io/tag/Data-Center-Operating-System/" target="_blank" rel="external">Data Center Operating System </a>(DC/OS).</li>
+<li><a href="http://www.serverless.com/" target="_blank" rel="external">Serverless Framework</a> (Serverless, Inc.):  Serverless is an application framework for building web, mobile and IoT applications exclusively on Amazon Web Services’ Lambda and API Gateway. It’s a command line interface. The company behind it, Serverless, Inc. recently raised over <a href="https://techcrunch.com/2016/10/12/serverless-raises-3m-to-help-developers-go-serverless/" target="_blank" rel="external">$3 million in funding</a>. The New Stack recently interviewed its creator, <a href="https://twitter.com/austencollins" target="_blank" rel="external">Austen Collins</a>.  </li>
+<li><a href="https://github.com/bustlelabs/shep" target="_blank" rel="external">Shep</a> (Bustle): Shep is a framework for building JavaScript APIs with AWS API Gateway and Lambda. It was created and used by <a href="http://thenewstack.io/bustle-migrated-100-million-events-per-day-product-serverless/" target="_blank" rel="external">Bustle’s</a> engineering team.</li>
+<li><a href="http://gosparta.io/" target="_blank" rel="external">Sparta</a> (Open source project): Sparta offers a Go framework for AWS Lambda microservices. This project is led by NodeSource’s <a href="https://twitter.com/mweagle" target="_blank" rel="external">Matt Weagle</a>. Sparta lets your Lambda-based service be integrated with the entire set of AWS lambda <a href="http://docs.aws.amazon.com/lambda/latest/dg/intro-core-components.html" target="_blank" rel="external">event sources</a>. It also can provision <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html" target="_blank" rel="external">CloudFormation</a> supported resources.</li>
+<li><a href="https://github.com/Miserlou/Zappa" target="_blank" rel="external">Zappa</a> (Open source project): Serverless Python web services that make it easy to deploy Python WSGI applications (i.e., based on frameworks like <a href="https://www.djangoproject.com/" target="_blank" rel="external">Django</a> and <a href="http://flask.pocoo.org/" target="_blank" rel="external">Flask</a>), on AWS Lambda and API Gateway. A few months ago <a href="https://twitter.com/ryan_sb" target="_blank" rel="external">Ryan Brown</a> conducted an interesting <a href="https://serverlesscode.com/post/rich-jones-interview-django-zappa/" target="_blank" rel="external">interview</a> with founder <a href="https://github.com/Miserlou" target="_blank" rel="external">Rich Jones</a>.</li>
+</ul>
+<h2 id="Serverless-Platforms"><a href="#Serverless-Platforms" class="headerlink" title="Serverless Platforms"></a>Serverless Platforms</h2><ul>
+<li><a href="http://apex.run/" target="_blank" rel="external">Apex</a> (PubNub): Lets you build, deploy, and manage AWS Lambda jobs. <a href="http://thenewstack.io/apex-makes-aws-lambda-easy-peasy-programmers/" target="_blank" rel="external">Apex</a> allows the use of non-natively supported language by using a Node.js shim injected into the build. Testing functions and other tooling is also part of the project, which is sponsored by <a href="http://thenewstack.io/pubnub-makes-network-programmable/" target="_blank" rel="external">PubNub</a>.</li>
+<li><a href="https://github.com/fabric8io/funktion" target="_blank" rel="external">Funktion</a> (Red Hat): An open source, event-driven, lambda-style programming model on top of <a href="http://kubernetes.io/" target="_blank" rel="external">Kubernetes</a>. A <em>funktion</em> (note the funky spelling) is a regular function written in any language<img src="http://thenewstack.io/wp-content/uploads/2016/10/Funktion-RedHatproject.png" alt="funktion-redhatproject">, but then connected to a trigger that is deployed into Kubernetes. When activated, these triggers work with endpoint URLs for databases, messaging systems and many other cloud services. The project is still experimental.</li>
+<li><a href="https://www.iron.io/platform/" target="_blank" rel="external">Iron.io Platform</a> (Iron.io): The platform includes <a href="https://www.iron.io/platform/ironworker/" target="_blank" rel="external">IronWorker</a>, <a href="https://www.iron.io/platform/ironmq/" target="_blank" rel="external">IronMQ</a> and <a href="https://www.iron.io/platform/ironcache/" target="_blank" rel="external">IronCache</a>, and is<a href="http://thenewstack.io/iron-io-brings-serverless-computing-cloud-foundry-platform/" target="_blank" rel="external"> pre-integrated into many cloud-native platforms</a>, such as Cloud Foundry, Kubernetes, Mesos and others.With IronWorker you can run <a href="https://www.iron.io/aws-lambda-vs-ironworker/" target="_blank" rel="external">AWS Lamba-like serverless functions</a> from inside your firewall. IronWorker is a platform that isolates the code and dependencies of individual tasks to be processed on demand in a containerized environment. IronMQ is a distributed queue service and IronCache is a data service.</li>
+<li><a href="https://github.com/jorgebastida/gordon" target="_blank" rel="external">Gordon</a> (Open source project): Gordon is a platform to create, wire and deploy AWS Lambdas using CloudFormation. <a href="https://twitter.com/jorgebastida" target="_blank" rel="external">Jorge Bastida</a> is the leading developer for this project.</li>
+<li><a href="http://nano-lambda.com/" target="_blank" rel="external">Nano Lambda</a> (Nano Lambda): An automated compute service that runs and scales microservices. Code is uploaded into a container. Outside of the container, Nano Lambda will orchestrate the required tasks to network, secure, authenticate and log the micro-service. We learned about this emerging company from an <a href="https://twitter.com/adrianco" target="_blank" rel="external">Adrian Cockcroft</a> presentation and look forward to seeing how their attempt to make money in the serverless space.</li>
+<li><a href="http://go.iron.io/project-kratos" target="_blank" rel="external">Project Kratos</a> (Iron.io): Still in beta, Project Kratos will enable enterprises to run AWS Lambda functionality in any cloud provider, as well as on-premise. Iron.io already offers another product, IronWorker, that can run <a href="https://www.iron.io/aws-lambda-vs-ironworker/" target="_blank" rel="external">AWS Lamba-like serverless functions</a> that is<a href="http://thenewstack.io/iron-io-brings-serverless-computing-cloud-foundry-platform/" target="_blank" rel="external"> pre-integrated into many cloud-native platforms</a>.</li>
+<li><a href="https://www.syncano.io/" target="_blank" rel="external">Syncano</a> (Syncano): Syncano is a platform for building serverless apps, allowing users to customize sockets, which are configurations connected to Syncano services. It offers a dashboard and SDKs to define data schema. The company is among the most mature in the serverless space.</li>
+</ul>
+<h2 id="Serverless-Tools"><a href="#Serverless-Tools" class="headerlink" title="Serverless Tools"></a>Serverless Tools</h2><ul>
+<li><a href="https://www.iopipe.com/" target="_blank" rel="external">IOpipe</a> (IOpipe): IOpipe is analytics and distributed tracing service to monitor Amazon Lambda functions. Users add a module to their Lambda functions to get telemetry. IOpipe aggregates data, sends email reports and will provide a dashboard and metrics. Its founder is <a href="https://twitter.com/ewindisch" target="_blank" rel="external">Eric Windisch</a>, a Docker alum, was our podcast guest in both in <a href="http://thenewstack.io/the-new-stack-analysts-show-23-docker-its-just-the-beginning/" target="_blank" rel="external">2014</a> and <a href="http://thenewstack.io/tns-analysts-show-56-the-pancake-breakfast-circuit-comes-to-containercon/" target="_blank" rel="external">2015</a>.</li>
+<li><a href="https://kaazing.com/products/websocket-gateway/editions/" target="_blank" rel="external">Kaazing WebSocket Gateway</a> (Kaazing): This network gateway provides a single access point for real-time, web-based protocol elevation that supports load balancing, clustering, and security management. It is available in a free (community) and enterprise edition.</li>
+<li><a href="https://github.com/garnaat/kappa" target="_blank" rel="external">Kappa</a> (Open source project): Kappa is a command line tool that (hopefully) makes it easier to deploy, update, and test functions for AWS Lambda.</li>
+<li><a href="http://lambci.org/" target="_blank" rel="external">LambCI</a> (Open source project): LambCI is a continuous integration system built on AWS Lambda. It is a package you can upload to AWS Lambda that gets triggered when you push new code or open pull requests on GitHub and runs your tests in the Lambda environment itself. While founder <a href="https://twitter.com/hichaelmart" target="_blank" rel="external">Michael Hart</a> launched LambCI with a <a href="https://medium.com/@hichaelmart/lambci-4c3e29d6599b#.pdaqdnq4a" target="_blank" rel="external">compelling case</a> to use it, there may not yet be a market for it as a commercial offering.<br><img src="http://thenewstack.io/wp-content/uploads/2016/10/1-lBa176N3CqOl2su9iTyCAw.png" alt="Assumes 7 days/wk — with LambCI running on fastest 1.5GB Lambda option)"></li>
+<li><a href="https://pusher.com/" target="_blank" rel="external">Pusher</a> (Pusher): Pusher is a hosted real-time messaging service with APIs, developer tools and open source libraries that simplify integrating real-time functionality into web and mobile applications.</li>
+<li><a href="https://github.com/vandium-io/vandium-node" target="_blank" rel="external">Vandium-node</a> (Vandium Software): An AWS Lambda wrapper, Vandium is an open source npm module for protecting Node.js security using validation and protecting against injection attacks. This project and its eponymous <a href="https://vandium.io/" target="_blank" rel="external">company</a> appear to be led by <a href="https://github.com/richardhyatt" target="_blank" rel="external">Richard Hyatt</a>, a co-founder of <a href="https://www.bluecatnetworks.com/" target="_blank" rel="external">BlueCat Networks</a>.</li>
+<li><a href="https://webtask.io/" target="_blank" rel="external">Webtask</a> (Auth0): Webtask <a href="http://thenewstack.io/often-choose-webtask-lambda/" target="_blank" rel="external">uses HTTP calls</a> to run server-side code for your JavaScript and native applications. Auth0’s <a href="https://auth0.com/how-it-works" target="_blank" rel="external">primary offering</a> is a set of authentication services for mobile and serverless applications.</li>
+</ul>
+<h2 id="Miscellaneous-Serverless-Resources"><a href="#Miscellaneous-Serverless-Resources" class="headerlink" title="Miscellaneous Serverless Resources"></a>Miscellaneous Serverless Resources</h2><ul>
+<li><a href="http://rundexter.com/" target="_blank" rel="external">Dexter</a>: Dexter is a platform that to connect third-party APIs. The development team is focusing on the “bot” use cases.</li>
+<li><a href="http://thenewstack.io/amazon-debuts-flourish-runtime-application-model-serverless-computing/" target="_blank" rel="external">Flourish</a> (AWS): As we reported earlier in the year, Flourish will be an open source platform to manage components of serverless applications. Although it has not been released yet, Flourish gets a lot of mindshare among serverless developers.</li>
+<li><a href="https://form.io/" target="_blank" rel="external">Form.io</a> (Form.io): A combined form and API platform for <a href="http://www.thenewstack.io/angular" target="_blank" rel="external">Angular</a> and <a href="http://www.thenewstack.io/tag/React" target="_blank" rel="external">React</a>, Form.io simplifies connections between your forms and APIs.</li>
+<li><a href="http://nstack.com/" target="_blank" rel="external">nstack</a> (nstack): The nstack software turns a piece of code (such as a function, a class, or a library) into a lightweight microservice that can be bound to a stream of events. It used to be called Stackhut.</li>
+<li><a href="http://serverlesscalc.com/" target="_blank" rel="external">Serverless Calculator</a> (Serverless, Inc.): This calculator helps compare estimated costs across different FaaS providers, initially for AWS Lambda and Azure Functions. When Google Cloud Functions and IBM OpenWhisk set their pricing, this information will be included also.<br><a href="http://serverlesscalc.com/" target="_blank" rel="external"><img src="http://thenewstack.io/wp-content/uploads/2016/10/serverlesscalc.png" alt=""></a></li>
+<li><a href="https://stamplay.com/" target="_blank" rel="external">Stamplay</a> (Stamplay): Stamplay connects APIs into service-based applications.</li>
+</ul>
+<h2 id="Serverless-Consultancies"><a href="#Serverless-Consultancies" class="headerlink" title="Serverless Consultancies"></a><strong>Serverless Consultancies</strong></h2><p><em>In so many emerging technology spaces, most companies are comprised mostly of manpower, implementing projects, not selling intellectual property. These companies are just a few examples.</em> </p>
+<ul>
+<li><a href="https://cloudonaut.io/serverless-consulting/" target="_blank" rel="external">Cloudonaut</a></li>
+<li><a href="http://microapps.com/serverless-consulting/" target="_blank" rel="external">Microapps</a></li>
+<li><a href="https://serverlessheroes.com/" target="_blank" rel="external">Serverless Heroes</a></li>
+<li><a href="http://sga.com/" target="_blank" rel="external">SGA Serverless</a></li>
+<li><a href="https://www.trek10.com/" target="_blank" rel="external">Trek10</a></li>
+<li><a href="http://www.useful.io/" target="_blank" rel="external">Useful IO</a></li>
+</ul>
+<p><strong>参考</strong></p>
+<p>[1] <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="external">AWS Lambda  introduction </a><br>[2] <a href="http://mp.weixin.qq.com/s?__biz=MzAxODUwNDE1Mg==&amp;mid=407457372&amp;idx=1&amp;sn=5666314daaf7a3f4f224eaa6b31f7c30&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd" target="_blank" rel="external">OpenStack和Docker不能，Kubernetes和Mesos也不能，ServerLess能决定云计算胜负吗</a><br>[3] <a href="https://cloud.google.com/functions/docs" target="_blank" rel="external">Google Cloud Functions</a><br>[4] <a href="http://www.infoq.com/cn/news/2016/02/google-cloud-functions" target="_blank" rel="external">Google引入云函数（Cloud Functions）服务</a><br>[5] <a href="http://thenewstack.io/tns-guide-serverless-technologies-best-frameworks-platforms-tools/" target="_blank" rel="external">http://thenewstack.io/tns-guide-serverless-technologies-best-frameworks-platforms-tools/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#serverless的主要玩家"><span class="nav-number">1.</span> <span class="nav-text">serverless的主要玩家</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AWS-Lambda"><span class="nav-number">1.0.1.</span> <span class="nav-text">AWS Lambda</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Google-Cloud-Functions"><span class="nav-number">1.0.2.</span> <span class="nav-text">Google Cloud Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Azure-Data-Lake"><span class="nav-number">1.0.3.</span> <span class="nav-text">Azure Data Lake</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IBM-OpenWhisk"><span class="nav-number">1.0.4.</span> <span class="nav-text">IBM OpenWhisk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Facebook-Parse"><span class="nav-number">1.0.5.</span> <span class="nav-text">Facebook Parse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于Kubernetes的Framework"><span class="nav-number">1.0.6.</span> <span class="nav-text">基于Kubernetes的Framework</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Frameworks"><span class="nav-number">2.</span> <span class="nav-text">Serverless Frameworks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Platforms"><span class="nav-number">3.</span> <span class="nav-text">Serverless Platforms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Tools"><span class="nav-number">4.</span> <span class="nav-text">Serverless Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Miscellaneous-Serverless-Resources"><span class="nav-number">5.</span> <span class="nav-text">Miscellaneous Serverless Resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-Consultancies"><span class="nav-number">6.</span> <span class="nav-text">Serverless Consultancies</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'serverless/index.html';
+      var disqus_title = "Notes about serverless";
+      var disqus_url = 'http://feisky.xyz/serverless/index.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
