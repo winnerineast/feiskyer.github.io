@@ -2784,6 +2784,141 @@
             
               
                 
+                <a class="post-title-link" href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="url">
+                  Perform Consistent Snapshots with qemu guest agent
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-10T00:00:00+08:00" content="2015-02-10">
+              2015-02-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
+<p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
+<h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
+<p>But how does that work?</p>
+<p>The principle is quite easy. A virtual machine boots with a new virtio device attached pointing to unix socket on the hypervisor. Inside the virtual machine this socket will appear as a new character device, commonly under <code>/dev/virtio-ports/</code>.</p>
+<p>A picture is always better:</p>
+<p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
+<h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo echo <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee -a /etc/apparmor.d/abstractions/libvirt-qemu</div><div class="line"><span class="variable">$ </span>sudo service libvirt-bin restart</div><div class="line"><span class="variable">$ </span>sudo service nova-compute restart</div><div class="line"><span class="variable">$ </span>sudo service apparmor reload</div></pre></td></tr></table></figure>
+<p>Configure your Glance image:</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
+<p>Boot your virtual machine: <code>nova boot ....</code></p>
+<p>Verify that the agent is in the virtual machine:</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ file /dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span></div><div class="line">/dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span>: symbolic link to ../vport2p1</div></pre></td></tr></table></figure>
+<p>Install the QEMU agent inside your VM:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo apt-get <span class="keyword">install</span> -y qemu-guest-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo mkdir /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo tee /etc/<span class="keyword">default</span>/qemu-guest-<span class="keyword">agent</span> &gt; /dev/<span class="literal">null</span> &lt;&lt;EOF</div><div class="line">DAEMON\_ARGS=<span class="string">"--logfile /var/log/qemu-agent/org.qemu.guest_agent.0.log --fsfreeze-hook --verbose"</span></div><div class="line">EOF</div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo service qemu-guest-<span class="keyword">agent</span> restart</div><div class="line"> * Restarting QEMU Guest <span class="keyword">Agent</span> qemu-qa</div><div class="line"> *    ...done</div><div class="line"> *    ubuntu@<span class="keyword">agent</span>:~$ sudo ls /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span>/</div><div class="line"> *    org.qemu.guest_agent<span class="number">.0</span>.log</div></pre></td></tr></table></figure>
+<p>Now go back on the hypervisor and check that the socket file is present (it must here since we have the character device inside the virtual machine):</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ sudo bash -c  <span class="string">"ls /var/lib/libvirt/qemu/*.sock"</span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">capabilities</span>.<span class="title">monitor</span>.<span class="title">sock</span>  /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line"></div><div class="line">$ sudo file /var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span>: <span class="title">socket</span></span></div></pre></td></tr></table></figure>
+<p>Test if the QEMU agent responds:</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000007 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-ping"</span>&#125;'</div><div class="line">&#123;<span class="string">"return"</span>:&#123;&#125;&#125;</div></pre></td></tr></table></figure>
+<p>Setup the fsfreeze hook mechanism, on Red Hat systems the file already exists:</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">buntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo wget -O /etc/qemu/fsfreeze-hook <span class="symbol">https:</span>/<span class="regexp">/raw.githubusercontent.com/qemu</span><span class="regexp">/qemu/master</span><span class="regexp">/scripts/qemu</span>-guest-agent/fsfreeze-hook</div><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo chmod +x /etc/qemu/fsfreeze-hook</div></pre></td></tr></table></figure>
+<p>Configure a basic hook, it will be executed either during the freeze or thaw operation:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo mkdir /etc/qemu/fsfreeze-hook.d</div><div class="line">ubuntu@agent:~$ sudo tee &gt; /etc/qemu/fsfreeze-hook.d/foo.sh &gt; /dev/null &lt;&lt;EOF</div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">    freeze)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm frozen"</span> &gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    thaw)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm thawed"</span> &gt;&gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">EOF</div><div class="line">ubuntu@agent:~$ sudo chmod +x /etc/qemu/fsfreeze-hook.d/foo.sh</div></pre></td></tr></table></figure>
+<p>Now let’s freeze ad thaw the filesystem:</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-freeze"</span>&#125;'</div><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-thaw"</span>&#125;'</div></pre></td></tr></table></figure>
+<p>Did the hook work as expected? Yes!</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo cat /tmp/freeze</div><div class="line">I<span class="string">'m frozen</span></div><div class="line">I'm thawed</div></pre></td></tr></table></figure>
+<h1 id="OpenStack-Nova-and-Snapshots"><a href="#OpenStack-Nova-and-Snapshots" class="headerlink" title="OpenStack Nova and Snapshots"></a>OpenStack Nova and Snapshots</h1><p>Several patches have been submitted to quiesce the filesystem prior to run the snapshot.</p>
+<p>The initial work to support fs-freeze while performing a snapshot of an instance was introduced in Juno with a <a href="https://review.openstack.org/#/c/99780/" target="_blank" rel="external">spec</a>.</p>
+<p>However the commit only got <a href="https://review.openstack.org/#/c/72038/9" target="_blank" rel="external">merged</a> in December…<br>This will be available in Kilo.<br>Another effort to support this feature while booting from a volume is currently under review.</p>
+<p>The original blueprint can be found <a href="https://blueprints.launchpad.net/nova/+spec/quiesced-image-snapshots-with-qemu-guest-agent" target="_blank" rel="external">here</a>.<br>Ultimately this option will be available via a Glance property:</p>
+<p><code>$ glance image-update 53bd9dbe-23db-412b-81d5-9743aabdfeb5 --property os_require_quiesce=yes</code></p>
+<p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
+<pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/02/09/cannot-change-locale/" itemprop="url">
                   cannot change locale
                 </a>
@@ -2922,143 +3057,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="url">
-                  Perform Consistent Snapshots with qemu guest agent
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-10T00:00:00+08:00" content="2015-02-10">
-              2015-02-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
-<p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
-<h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
-<p>But how does that work?</p>
-<p>The principle is quite easy. A virtual machine boots with a new virtio device attached pointing to unix socket on the hypervisor. Inside the virtual machine this socket will appear as a new character device, commonly under <code>/dev/virtio-ports/</code>.</p>
-<p>A picture is always better:</p>
-<p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
-<h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo echo <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee -a /etc/apparmor.d/abstractions/libvirt-qemu</div><div class="line"><span class="variable">$ </span>sudo service libvirt-bin restart</div><div class="line"><span class="variable">$ </span>sudo service nova-compute restart</div><div class="line"><span class="variable">$ </span>sudo service apparmor reload</div></pre></td></tr></table></figure>
-<p>Configure your Glance image:</p>
-<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
-<p>Boot your virtual machine: <code>nova boot ....</code></p>
-<p>Verify that the agent is in the virtual machine:</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ file /dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span></div><div class="line">/dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span>: symbolic link to ../vport2p1</div></pre></td></tr></table></figure>
-<p>Install the QEMU agent inside your VM:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo apt-get <span class="keyword">install</span> -y qemu-guest-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo mkdir /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo tee /etc/<span class="keyword">default</span>/qemu-guest-<span class="keyword">agent</span> &gt; /dev/<span class="literal">null</span> &lt;&lt;EOF</div><div class="line">DAEMON\_ARGS=<span class="string">"--logfile /var/log/qemu-agent/org.qemu.guest_agent.0.log --fsfreeze-hook --verbose"</span></div><div class="line">EOF</div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo service qemu-guest-<span class="keyword">agent</span> restart</div><div class="line"> * Restarting QEMU Guest <span class="keyword">Agent</span> qemu-qa</div><div class="line"> *    ...done</div><div class="line"> *    ubuntu@<span class="keyword">agent</span>:~$ sudo ls /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span>/</div><div class="line"> *    org.qemu.guest_agent<span class="number">.0</span>.log</div></pre></td></tr></table></figure>
-<p>Now go back on the hypervisor and check that the socket file is present (it must here since we have the character device inside the virtual machine):</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ sudo bash -c  <span class="string">"ls /var/lib/libvirt/qemu/*.sock"</span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">capabilities</span>.<span class="title">monitor</span>.<span class="title">sock</span>  /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line"></div><div class="line">$ sudo file /var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span>: <span class="title">socket</span></span></div></pre></td></tr></table></figure>
-<p>Test if the QEMU agent responds:</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000007 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-ping"</span>&#125;'</div><div class="line">&#123;<span class="string">"return"</span>:&#123;&#125;&#125;</div></pre></td></tr></table></figure>
-<p>Setup the fsfreeze hook mechanism, on Red Hat systems the file already exists:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">buntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo wget -O /etc/qemu/fsfreeze-hook <span class="symbol">https:</span>/<span class="regexp">/raw.githubusercontent.com/qemu</span><span class="regexp">/qemu/master</span><span class="regexp">/scripts/qemu</span>-guest-agent/fsfreeze-hook</div><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo chmod +x /etc/qemu/fsfreeze-hook</div></pre></td></tr></table></figure>
-<p>Configure a basic hook, it will be executed either during the freeze or thaw operation:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo mkdir /etc/qemu/fsfreeze-hook.d</div><div class="line">ubuntu@agent:~$ sudo tee &gt; /etc/qemu/fsfreeze-hook.d/foo.sh &gt; /dev/null &lt;&lt;EOF</div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">    freeze)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm frozen"</span> &gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    thaw)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm thawed"</span> &gt;&gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">EOF</div><div class="line">ubuntu@agent:~$ sudo chmod +x /etc/qemu/fsfreeze-hook.d/foo.sh</div></pre></td></tr></table></figure>
-<p>Now let’s freeze ad thaw the filesystem:</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-freeze"</span>&#125;'</div><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-thaw"</span>&#125;'</div></pre></td></tr></table></figure>
-<p>Did the hook work as expected? Yes!</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo cat /tmp/freeze</div><div class="line">I<span class="string">'m frozen</span></div><div class="line">I'm thawed</div></pre></td></tr></table></figure>
-<h1 id="OpenStack-Nova-and-Snapshots"><a href="#OpenStack-Nova-and-Snapshots" class="headerlink" title="OpenStack Nova and Snapshots"></a>OpenStack Nova and Snapshots</h1><p>Several patches have been submitted to quiesce the filesystem prior to run the snapshot.</p>
-<p>The initial work to support fs-freeze while performing a snapshot of an instance was introduced in Juno with a <a href="https://review.openstack.org/#/c/99780/" target="_blank" rel="external">spec</a>.</p>
-<p>However the commit only got <a href="https://review.openstack.org/#/c/72038/9" target="_blank" rel="external">merged</a> in December…<br>This will be available in Kilo.<br>Another effort to support this feature while booting from a volume is currently under review.</p>
-<p>The original blueprint can be found <a href="https://blueprints.launchpad.net/nova/+spec/quiesced-image-snapshots-with-qemu-guest-agent" target="_blank" rel="external">here</a>.<br>Ultimately this option will be available via a Glance property:</p>
-<p><code>$ glance image-update 53bd9dbe-23db-412b-81d5-9743aabdfeb5 --property os_require_quiesce=yes</code></p>
-<p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
-<pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/02/05/mesosdocker/" itemprop="url">
-                  使用Mesos来管理Docker集群
+                <a class="post-title-link" href="/2015/02/05/apachemesosgooglekubernetes-/" itemprop="url">
+                  Apache的Mesos和Google的Kubernetes 有什么区别
                 </a>
               
             
@@ -3077,32 +3077,13 @@
           </span>
 
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/02/05/mesosdocker/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/05/mesosdocker/" itemprop="commentsCount"></span>
+                <a href="/2015/02/05/apachemesosgooglekubernetes-/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/05/apachemesosgooglekubernetes-/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -3127,50 +3108,23 @@
       
         
           
-            <h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Apache Mesos能够在同样的集群机器上运行多种分布式系统类型，更加动态有效率低共享资源。提供失败侦测，任务发布，任务跟踪，任务监控，低层次资源管理和细粒度的资源共享，可以扩展伸缩到数千个节点。Mesos已经被Twitter用来管理它们的数据中心。</p>
-<p><img src="/assets/mesos_1.png" alt=""></p>
-<p>Mesos架构图如下：</p>
-<p><img src="/assets/mesos_2.png" alt=""></p>
-<p>Mesos框架是一个在Mesos上运行分布式应用的应用程序，它有两个组件：</p>
-<ol>
-<li>调度器 : 与Mesos交互，订阅资源，然后在mesos从服务器中加载任务。  </li>
-<li>执行器 :  从框架的环境变量 配置中获得信息，在mesos从服务器中运行任务。</li>
-</ol>
-<p>下面看看其是如何实现资源调用？Mesos通过”resources offers” 分配资源，资源其实是当前可用资源的一个快照，调度器将使用这些资源在mesos从服务器上运行任务。</p>
-<p>Mesos主从服务器调度资源的顺序图如下：</p>
-<p><img src="/assets/mesos_3.png" alt=""></p>
-<p>首先由Mesos主服务器查询可用资源给调度器，第二步调度器向主服务器发出加载任务，主服务器再传达给从服务器，从服务器向执行器命令加载任务执行，执行器执行任务以后，将状态反馈上报给从服务器，最终告知调度器 。</p>
-<p>从服务器下管理多个执行器，每个执行器是一个容器，以前可以使用Linux容器LXC，现在使用Docker容器。</p>
-<p><img src="/assets/mesos_4.png" alt=""></p>
-<h3 id="失败恢复和高可用性"><a href="#失败恢复和高可用性" class="headerlink" title="失败恢复和高可用性"></a>失败恢复和高可用性</h3><p>Mesos主服务器使用Zookeeper进行服务选举和发现。它有一个注册器记录了所有运行任何和从服务器信息，使用MultiPaxos进行日志复制实现一致性。</p>
-<p>Mesos有一个从服务器恢复机制，无论什么时候一个从服务器死机了，用户的任务还是能够继续运行，从服务器会将一些关键点信息如任务信息 状态更新持久化到本地磁盘上，重新启动时可以从磁盘上恢复运行这些任务(类似Java中的钝化和唤醒)</p>
-<h3 id="什么是Marathon"><a href="#什么是Marathon" class="headerlink" title="什么是Marathon"></a>什么是Marathon</h3><p>它是一个mesos框架，能够支持运行长服务，比如web应用等。是集群的分布式Init.d，能够原样运行任何Linux二进制发布版本，如Tomcat Play等等，可以集群的多进程管理。也是一种私有的Pass，实现服务的发现，为部署提供提供REST API服务，有授权和SSL、配置约束，通过HAProxy实现服务发现和负载平衡。  </p>
-<p><img src="/assets/mesos_5.png" alt=""></p>
-<p>这样，我们可以如同一台Linux主机一样管理数千台服务器，它们的对应原理如下图，使用Marathon类似Linux主机内的init Systemd等外壳管理，而Mesos则不只包含一个Linux核，可以调度数千台服务器的Linux核，实际是一个数据中心的内核：</p>
-<p><img src="/assets/mesos_6.png" alt=""></p>
-<h3 id="部署方法"><a href="#部署方法" class="headerlink" title="部署方法"></a>部署方法</h3><p>首先安装Mesos和Marathon，并配置slave使用docker：</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.<span class="keyword">com</span> --recv E56151BF</div><div class="line">DISTRO=$(lsb_release -<span class="keyword">is</span> | <span class="keyword">tr</span> <span class="string">'[:upper:]'</span> <span class="string">'[:lower:]'</span>)</div><div class="line">CODENAME=$(lsb_release -<span class="keyword">cs</span>)</div><div class="line"><span class="keyword">echo</span> <span class="string">"deb http://repos.mesosphere.io/$&#123;DISTRO&#125; $&#123;CODENAME&#125; main"</span> | \</div><div class="line">  sudo tee /etc/apt/sources.<span class="keyword">list</span>.d/mesosphere.<span class="keyword">list</span></div><div class="line">sudo apt-<span class="built_in">get</span> -<span class="keyword">y</span> <span class="keyword">update</span></div><div class="line">sudo apt-<span class="built_in">get</span> -<span class="keyword">y</span> install mesos marathon</div><div class="line"><span class="keyword">echo</span> <span class="string">'docker,mesos'</span> &gt; /etc/mesos-slave/containerizers</div><div class="line"><span class="keyword">echo</span> <span class="string">'5mins'</span> &gt; /etc/mesos-slave/executor_registration_timeout</div></pre></td></tr></table></figure>
-<p>启动所有服务</p>
-<figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">sudo service zookeeper restart</div><div class="line">sudo service mesos-<span class="keyword">master</span> <span class="title">start</span></div><div class="line">sudo service mesos-<span class="literal">slave</span> <span class="literal">start</span></div><div class="line">sudo service marathon <span class="literal">start</span></div></pre></td></tr></table></figure>
-<p>现在打开浏览器，访问<code>http://localhost:8080</code>和<code>http://localhost:5050</code>就可以分别看到Mesos和Marathon的界面了. </p>
-<p><img src="/assets/mesos1.png" alt=""></p>
-<p>执行下面的命令，来运行一个简单的任务确认Mesos部署正常：</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><div class="line">MASTER=$(mesos-resolve <span class="string">`cat /etc/mesos/zk`</span> <span class="number">2</span>&gt;<span class="regexp">/dev/null</span>)</div><div class="line">mesos-execute --master=$MASTER --name=<span class="string">"cluster-test"</span> --command=<span class="string">"sleep 5"</span></div></pre></td></tr></table></figure>
-<h3 id="部署docker容器"><a href="#部署docker容器" class="headerlink" title="部署docker容器"></a>部署docker容器</h3><p>通过Marathon提供了RestAPI，方便管理和部署各种应用，并支持通过HAProxy实现负载均衡。下面我们就通过Rest API来创建docker容器：</p>
-<figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">curl -X POST -H <span class="string">"Accept: application/json"</span> -H <span class="string">"Content-Type: application/json"</span> <span class="string">http:</span><span class="comment">//localhost:8080/v2/apps -d '&#123;</span></div><div class="line">  <span class="string">"container"</span>: &#123;</div><div class="line">    <span class="string">"type"</span>: <span class="string">"DOCKER"</span>,</div><div class="line">    <span class="string">"docker"</span>: &#123;</div><div class="line">      <span class="string">"image"</span>: <span class="string">"centos"</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="string">"id"</span>: <span class="string">"cent"</span>,</div><div class="line">  <span class="string">"instances"</span>: <span class="number">1</span>,</div><div class="line">  <span class="string">"cpus"</span>: <span class="number">0.5</span>,</div><div class="line">  <span class="string">"mem"</span>: <span class="number">512</span>,</div><div class="line">  <span class="string">"uris"</span>: [],</div><div class="line">  <span class="string">"cmd"</span>: <span class="string">"while sleep 10; do date -u +%T; done"</span></div><div class="line">&#125;<span class="string">'</span></div></pre></td></tr></table></figure>
-<p>返回数据为：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"id"</span>: <span class="string">"/cent"</span>,</div><div class="line">    <span class="attr">"cmd"</span>: <span class="string">"while sleep 10; do date -u +%T; done"</span>,</div><div class="line">    <span class="attr">"args"</span>: <span class="literal">null</span>,</div><div class="line">    <span class="attr">"user"</span>: <span class="literal">null</span>,</div><div class="line">    <span class="attr">"env"</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"instances"</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">"cpus"</span>: <span class="number">0.5</span>,</div><div class="line">    <span class="attr">"mem"</span>: <span class="number">512.0</span>,</div><div class="line">    <span class="attr">"disk"</span>: <span class="number">0.0</span>,</div><div class="line">    <span class="attr">"executor"</span>: <span class="string">""</span>,</div><div class="line">    <span class="attr">"constraints"</span>: [</div><div class="line">    ],</div><div class="line">    <span class="attr">"uris"</span>: [</div><div class="line">    ],</div><div class="line">    <span class="attr">"storeUrls"</span>: [</div><div class="line">    ],</div><div class="line">    <span class="attr">"ports"</span>: [</div><div class="line">        <span class="number">0</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"requirePorts"</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">"backoffSeconds"</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">"backoffFactor"</span>: <span class="number">1.15</span>,</div><div class="line">    <span class="attr">"maxLaunchDelaySeconds"</span>: <span class="number">3600</span>,</div><div class="line">    <span class="attr">"container"</span>: &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"DOCKER"</span>,</div><div class="line">        <span class="attr">"volumes"</span>: [</div><div class="line">        ],</div><div class="line">        <span class="attr">"docker"</span>: &#123;</div><div class="line">            <span class="attr">"image"</span>: <span class="string">"centos"</span>,</div><div class="line">            <span class="attr">"network"</span>: <span class="literal">null</span>,</div><div class="line">            <span class="attr">"portMappings"</span>: <span class="literal">null</span>,</div><div class="line">            <span class="attr">"privileged"</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">"parameters"</span>: [</div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"healthChecks"</span>: [</div><div class="line">    ],</div><div class="line">    <span class="attr">"dependencies"</span>: [</div><div class="line">    ],</div><div class="line">    <span class="attr">"upgradeStrategy"</span>: &#123;</div><div class="line">        <span class="attr">"minimumHealthCapacity"</span>: <span class="number">1.0</span>,</div><div class="line">        <span class="attr">"maximumOverCapacity"</span>: <span class="number">1.0</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"labels"</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"version"</span>: <span class="string">"2015-02-06T01:25:27.392Z"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此时，通过Marathon的界面<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a>就可以看到已经有一个app在Deploying了，稍等一会该状态会变成Running。在Slave上执行<code>docker ps</code>也可以看到正在运行的容器。</p>
-<p>Mesos也支持通过端口映射将容器内部的服务开放出来：</p>
-<figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">curl -X POST -H <span class="string">"Accept: application/json"</span> -H <span class="string">"Content-Type: application/json"</span> <span class="string">http:</span><span class="comment">//localhost:8080/v2/apps -d '&#123;</span></div><div class="line">  <span class="string">"id"</span>: <span class="string">"webserver"</span>,</div><div class="line">  <span class="string">"cmd"</span>: <span class="string">"python -m SimpleHTTPServer 8080"</span>,</div><div class="line">  <span class="string">"cpus"</span>: <span class="number">0.5</span>,</div><div class="line">  <span class="string">"mem"</span>: <span class="number">64.0</span>,</div><div class="line">  <span class="string">"instances"</span>: <span class="number">1</span>,</div><div class="line">  <span class="string">"container"</span>: &#123;</div><div class="line">    <span class="string">"type"</span>: <span class="string">"DOCKER"</span>,</div><div class="line">    <span class="string">"docker"</span>: &#123;</div><div class="line">      <span class="string">"image"</span>: <span class="string">"centos"</span>,</div><div class="line">      <span class="string">"network"</span>: <span class="string">"BRIDGE"</span>,</div><div class="line">      <span class="string">"portMappings"</span>: [</div><div class="line">        &#123; <span class="string">"containerPort"</span>: <span class="number">8080</span>, <span class="string">"hostPort"</span>: <span class="number">0</span>, <span class="string">"servicePort"</span>: <span class="number">9000</span>, <span class="string">"protocol"</span>: <span class="string">"tcp"</span> &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;<span class="string">'</span></div></pre></td></tr></table></figure>
-<p><img src="/assets/mesos2.png" alt=""></p>
-<h3 id="部署其他应用"><a href="#部署其他应用" class="headerlink" title="部署其他应用"></a>部署其他应用</h3><p>前面是通过单机来测试了Mesos部署docker的功能的，而Mesos通常都是用在集群中，关于Mesos集群的部署请参考<a href="http://mesosphere.com/docs/getting-started/datacenter/install/" target="_blank" rel="external">http://mesosphere.com/docs/getting-started/datacenter/install/</a>.</p>
-<p>Mesos支持部署各种集群应用，如Kubernets、Hadoop、Spark、Chronos、Storm等，具体部署方法参考<a href="http://mesosphere.com/docs/tutorials/" target="_blank" rel="external">http://mesosphere.com/docs/tutorials/</a>.</p>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
-<li><a href="http://mesosphere.com/docs/getting-started/developer/single-node-install/" target="_blank" rel="external">http://mesosphere.com/docs/getting-started/developer/single-node-install/</a></li>
-<li><a href="http://mesosphere.com/docs/tutorials/" target="_blank" rel="external">http://mesosphere.com/docs/tutorials/</a></li>
-<li><a href="http://mesosphere.com/docs/getting-started/datacenter/install/" target="_blank" rel="external">http://mesosphere.com/docs/getting-started/datacenter/install/</a></li>
+            <p>Kubernetes是一个开源项目，它把谷歌的集群管理工具引入到虚拟机和裸机场景中。它可以完美运行在现代的操作系统环境（比如CoreOS和Red Hat Atomic），并提供可以被你管控的轻量级的计算节点。Kubernetes使用Golang开发，具有轻量化、模块化、便携以及可扩展的特点。我们（Kubernetes开发团队）正在和一些不同的技术公司（包括维护着Mesos项目的MesoSphere）合作来把Kubernetes升级为一种与计算集群交互的标准方式。Kubernetes重新实现了Google在构建集群应用时积累的经验。这些概念包括如下内容：  </p>
+<ul>
+<li>Pods：一种将容器组织在一起的方法；</li>
+<li>Replication Controllers：一种控制容器生命周期的方法（译者注：Replication Controller确保任何时候Kubernetes集群中有指定数量的pod副本(replicas)在运行）；</li>
+<li>Labels：一种可以找到和查询容器的方法；</li>
+<li>Services：一个用于实现某一特定功能的容器组；  </li>
 </ul>
+<p>因此，只要使用Kubernetes你就能够简单并快速的启动、移植并扩展集群。在这种情况下，集群就像是类似虚拟机一样灵活的资源，它是一个逻辑运算单元。打开它，使用它，调整它的大小，然后关闭它，就是这么快，就是这么简单。  </p>
+<p>Mesos和Kubernetes的愿景差不多，但是它们在不同的生命周期中各有不同的优势。Mesos是分布式系统内核，它可以将不同的机器整合在一个逻辑计算机上面。当你拥有很多的物理资源并想构建一个巨大的静态的计算集群的时候，Mesos就派上用场了。有很多的现代化可扩展性的数据处理应用都可以在Mesos上运行，包括Hadoop、Kafka、Spark等，同时你可以通过容器技术将所有的数据处理应用都运行在一个基础的资源池中。在某个方面来看，Mesos是一个比Kubernetes更加重量级的项目，但是得益于那些像Mesosphere一样的贡献者，Mesos正在变得更加简单并且容易管理。  </p>
+<p>有趣的是Mesos正在接受Kubernetes的理念，并已经开始支持Kubernetes API。因此如果你需要它们的话，它将是对你的Kubernetes应用去获得更多能力的一个便捷方式（比如高可用的主干、更加高级的调度命令、去管控很大数目结点的能力），同时能够很好的适用于产品级工作环境中（毕竟Kubernetes仍然还是一个初始版本）。  </p>
+<p>当被问到区别的时候，我会这样回答：  </p>
+<ol>
+<li>如果你是一个集群世界的新手，那Kubernetes是一个很棒的开始。它可以用最快的、最简单的、最轻量级的方式来解决你的问题，并帮助你进行面向集群的开发。它提供了一个高水平的可移植方案，因为很多厂商已经开始支持Kubernetes，例如微软、IBM、Red Hat、CoreOS、MesoSphere、VMWare等。</li>
+<li>如果你拥有已经存在的工作任务（Hadoop、Spark、Kafka等），那Mesos可以给你提供了一个将不同工作任务相互交错的框架，然后还可以加入一些新的东西，比如Kubernetes应用。</li>
+<li>如果你想使用的功能Kuberntes还没实现，那Mesos是一个不错的替代品，毕竟它已经成熟。  </li>
+</ol>
+<p><strong>原文链接：<a href="http://stackoverflow.com/questions/26705201/whats-the-difference-between-apaches-mesos-and-googles-kubernetes" target="_blank" rel="external">Whats the difference between Apaches Mesos and Googles Kubernetes</a> （翻译：刘凯宁 校对：李颖杰）</strong></p>
 
           
         
