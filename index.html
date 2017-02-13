@@ -363,6 +363,232 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/13/Software-Engineering-at-Google/" itemprop="url">
+                  Software Engineering at Google
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-13T19:36:09+08:00" content="2017-02-13">
+              2017-02-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/13/Software-Engineering-at-Google/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/13/Software-Engineering-at-Google/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Google的Fergus Henderson在<a href="https://arxiv.org/pdf/1702.01715.pdf" target="_blank" rel="external">Software Engineering at Google</a>中介绍了Google的软件工程实践。</p>
+<h2 id="软件开发"><a href="#软件开发" class="headerlink" title="软件开发"></a>软件开发</h2><p>源码仓库</p>
+<ul>
+<li>单一源代码仓库，除了核心配置和安全相关代码，任何工程师都可以访问任何代码，并可以根据需要修改</li>
+<li>所有开发都基于master分支，发布的时候才创建发布分枝</li>
+<li>代码的每个子树都有owner，任何修改都需要owner批准</li>
+</ul>
+<p>Blaze分布式构建系统</p>
+<ul>
+<li>构建和测试存储库中的任何软件通常非常简单和快捷</li>
+<li>开发人员只需要编写BUILD文件，并且每个构建系统仅依赖BUILD文件所声明的文件</li>
+<li>构建系统的优化：可靠，自动跟踪依赖关系，增量构建，缓存构建结果以便复用</li>
+<li>自动代码检查和测试</li>
+</ul>
+<p>代码审查</p>
+<ul>
+<li>完善的代码审查工具，如可视化的Web界面、电子邮件集成、自动展示测试或静态分析的结果</li>
+<li>每个变更都必须由至少另外一人审查，并将审查结果自动复制到项目维护者的邮件列表</li>
+<li>鼓励小的变更，大的变更可以拆分为一系列较小的变更</li>
+</ul>
+<p>测试</p>
+<ul>
+<li>鼓励和广泛使用单元测试，Mocking非常普遍</li>
+<li>广泛使用集成测试和回归测试</li>
+<li>自动测量测试覆盖率</li>
+<li>部署之前进行负载测试，显示关键的metrics，比如延迟、错误率以及它们随请求速率的变化情况</li>
+</ul>
+<p>Bug跟踪</p>
+<ul>
+<li>Google使用名为Buganizer的Bug跟踪系统</li>
+<li>使用标签分类bug</li>
+<li>每个bug都有一个默认的assignee和抄送邮件列表</li>
+</ul>
+<p>编程语言</p>
+<ul>
+<li>鼓励使用C++、Java、Python或Go之一，最小化不同编程语言的数量</li>
+<li>每种语言都有Google风格指南，还有一个公司范围内的可读性培训</li>
+<li>不同语言之前使用基于Protocol Buffers的RPC通信</li>
+<li>为所有语言提供通用的开发工具，比如代码签出、编辑、构建、测试、审查、bug报告等</li>
+</ul>
+<p>调试和分析</p>
+<ul>
+<li>在通用框架中提供调试和代码跟踪工具</li>
+<li>提供用于调试的网络接口检查RPC调用的时间、错误率和频率限制以及资源消耗、性能分析数据等</li>
+</ul>
+<p>发布</p>
+<ul>
+<li>频繁发布（比如每周或每两周），自动化发布任务，提高工程师积极性，允许更多迭代以加快整体速度</li>
+<li>发布分支，将master的修改cherry-pick到发布分支</li>
+<li>发布到staging服务器，测试部分生产流量的副本</li>
+<li>发布到canary服务器，测试真实生产流量的一个子集</li>
+<li>最后逐步发布到所有服务器</li>
+</ul>
+<p>Launch approval</p>
+<ul>
+<li>任何用户可见的更改或重大的设计变更都需要工程团队之外的很多人员的审查和批准，以确保这些变更满足符合法律、隐私、安全、可靠性以及业务需求</li>
+<li>Google内部的Launch approval工具会跟踪这些审查和批准</li>
+</ul>
+<p>Post-mortems</p>
+<ul>
+<li>任何重大的生产故障都需要写一份事后的总结文档，描述事件的原因、影响以及如何解决</li>
+<li>重点关注如何避免它们再次发生（而不是追究人员责任）</li>
+</ul>
+<p>频繁重写</p>
+<ul>
+<li>大部分软件每隔几年都会重写一次</li>
+<li>减少了累计复杂性</li>
+<li>有助于适应当前的最佳实践，鼓励新的想法</li>
+<li>也是一种团队成员之间传递ownership的方式，</li>
+<li>这是Google保持敏捷和长期成功的关键</li>
+</ul>
+<h2 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h2><p>20%时间</p>
+<ul>
+<li>允许工程师可以将20%时间花在喜欢的任何项目上</li>
+<li>有助于新想法的原型开发和演示，提高员工积极性</li>
+<li>鼓励创新企业文化</li>
+</ul>
+<p>OKR（Objectives and Key Results）</p>
+<ul>
+<li>个人和团队要明确记录目标并评估这些目标的进展情况，团队设置季度和年度目标</li>
+<li>建立关键结果来量化OKR，用OKR score评估进展情况</li>
+<li>设置野心勃勃的OKR指标，即设置期望为目标的65%</li>
+<li>OKR是全公司透明的，是一种简化的沟通框架，使每个人都清晰了解公司的目标以及自己的位置</li>
+</ul>
+<p>项目审批</p>
+<ul>
+<li>Google没有明确的项目审批流程，一般通过自下而上的方式进行</li>
+</ul>
+<p>公司重组</p>
+<ul>
+<li>因项目取消而重组时工程师可以自由选择新的团队或角色</li>
+<li>在很大程度上，技术驱动公司应该进行频繁的重组以避免组织效率低下</li>
+</ul>
+<h2 id="人员管理"><a href="#人员管理" class="headerlink" title="人员管理"></a>人员管理</h2><p>角色，技术角色与管理角色分开，项目由技术主管领导和决策，而经理负责管理技术主管，指导职业发展，并负责绩效评估</p>
+<ul>
+<li>高标准的软件工程师</li>
+<li>研究科学家</li>
+<li>SRE</li>
+<li>产品经理</li>
+<li>项目经理</li>
+</ul>
+<p>工作环境（Facilities）</p>
+<ul>
+<li>Google提供丰富的娱乐、运动和餐饮设施</li>
+<li>开放式办公鼓励沟通</li>
+<li>先进的视频会议设施方便不同团队的沟通</li>
+</ul>
+<p>培训</p>
+<ul>
+<li>新员工培训，每个新员工都有导师和伙伴（Buddy）</li>
+<li>“Codelabs”和丰富的培训课程</li>
+<li>也支持外部机构学习</li>
+</ul>
+<p>换岗</p>
+<ul>
+<li>鼓励在不同部门换岗，帮助公司内传播知识</li>
+<li>允许12个月内表现良好的员工更换项目</li>
+<li>鼓励临时性的参与其他项目</li>
+</ul>
+<p>绩效考核和奖励</p>
+<ul>
+<li>鼓励“peer bonuses”和“kudos”</li>
+<li>明确详细的晋升过程，确保正确的人得到晋升</li>
+<li>匿名反馈调查评估经理的绩效</li>
+</ul>
+<p>更多内容请参考英文原文<a href="https://arxiv.org/pdf/1702.01715.pdf" target="_blank" rel="external">https://arxiv.org/pdf/1702.01715.pdf</a>。更多SRE的内容请参考<a href="http://landing.google.com/sre/book/index.html" target="_blank" rel="external">SRE</a>以及<a href="http://feisky.xyz/SRE/">SRE笔记</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/09/使用docker-dind创建swarm集群/" itemprop="url">
                   使用docker dind创建swarm集群
                 </a>
@@ -1045,183 +1271,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/04/Weekly-reading-list/" itemprop="url">
-                  Weekly reading list
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-05T07:59:01+08:00" content="2016-12-05">
-              2016-12-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Readings/" itemprop="url" rel="index">
-                    <span itemprop="name">Readings</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/04/Weekly-reading-list/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/04/Weekly-reading-list/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
-<p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
-</blockquote>
-<p><img src="/images/14809236732969.jpg" alt=""></p>
-<p><img src="/images/14809236897310.jpg" alt=""></p>
-<ul>
-<li>服务发现与负载均衡<ul>
-<li>集中管理每个服务（包括异构服务）的IP地址</li>
-<li>服务之间RPC调用：服务名+接口名</li>
-<li>路由的同时统计过去一段时间的成功率和时延</li>
-</ul>
-</li>
-<li>支持多种编程语言（通过Protocol buffer生成不同语言的接口），如C/C++、Java、PHP等</li>
-<li>Web化的管理界面(Tomcat)</li>
-<li>存储：Redis cluster</li>
-<li>官方网站：<a href="http://haomiao.qq.com" target="_blank" rel="external">http://haomiao.qq.com</a></li>
-<li>Github：<a href="https://github.com/Tencent/MSEC" target="_blank" rel="external">https://github.com/Tencent/MSEC</a></li>
-</ul>
-<h2 id="Understanding-SELinux-Roles"><a href="#Understanding-SELinux-Roles" class="headerlink" title="Understanding SELinux Roles"></a><a href="http://danwalsh.livejournal.com/75683.html" target="_blank" rel="external">Understanding SELinux Roles</a></h2><p>SELinux label包含4个部分<code>user_u:role_r:type_t:level</code>，每个用户可以访问的角色：</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line"><span class="symbol">semanage</span> user -l</div><div class="line"></div><div class="line">         Labeling   <span class="keyword">MLS/ </span>      <span class="keyword">MLS/ </span>                       </div><div class="line"><span class="keyword">SELinux </span>User    Prefix     MCS Level  MCS Range       <span class="keyword">SELinux </span>Roles</div><div class="line"></div><div class="line"><span class="symbol">guest_u</span>             user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             guest_r</div><div class="line"><span class="symbol">root</span>                    user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        staff_r sysadm_r system_r unconfined_r</div><div class="line"><span class="symbol">staff_u</span>               user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        staff_r sysadm_r system_r unconfined_r</div><div class="line"><span class="symbol">sysadm_u</span>         user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        sysadm_r</div><div class="line"><span class="symbol">system_u</span>          user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        system_r unconfined_r</div><div class="line"><span class="symbol">unconfined_u</span>    user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        system_r unconfined_r</div><div class="line"><span class="symbol">user_u</span>               user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             user_r</div><div class="line"><span class="symbol">xguest_u</span>           user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             xguest_r</div></pre></td></tr></table></figure>
-<ul>
-<li>system_r role is the default role for all processes started at boot</li>
-<li>You can not assign an SELinux user a role that is not listed</li>
-<li>object_r is not really a role, but more of a place holder.  Roles only make sense for processes, not for files</li>
-<li>on the file system.  But the SELinux label requires a role for all labels.  object_r is the role that we use to fill the objects on disks role.  Changing a process to run as object_r or trying to assign a different role to a file will always be denied by the kernel.</li>
-</ul>
-<h2 id="Kompose-a-tool-to-go-from-Docker-compose-to-Kubernetes"><a href="#Kompose-a-tool-to-go-from-Docker-compose-to-Kubernetes" class="headerlink" title="Kompose: a tool to go from Docker-compose to Kubernetes"></a><a href="http://blog.kubernetes.io/2016/11/kompose-tool-go-from-docker-compose-to-kubernetes.html" target="_blank" rel="external">Kompose: a tool to go from Docker-compose to Kubernetes</a></h2><ul>
-<li>把docker-compose.yml或dab转换为kubernetes service+deployment</li>
-<li>Github: <a href="https://github.com/kubernetes-incubator/kompose" target="_blank" rel="external">https://github.com/kubernetes-incubator/kompose</a></li>
-</ul>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ kompose <span class="comment">--bundle docker-compose-bundle.dab convert</span></div><div class="line">WARN[<span class="number">0000</span>]: Unsupported key networks - <span class="keyword">ignoring</span></div><div class="line"><span class="built_in">file</span> <span class="string">"redis-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-deployment.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"redis-deployment.json"</span> created</div><div class="line"></div><div class="line">$ kompose -f docker-compose.yml convert</div><div class="line">WARN[<span class="number">0000</span>]: Unsupported key networks - <span class="keyword">ignoring</span></div><div class="line"><span class="built_in">file</span> <span class="string">"redis-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-deployment.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"redis-deployment.json"</span> created</div></pre></td></tr></table></figure>
-<h2 id="2016年网络虚拟化趋势"><a href="#2016年网络虚拟化趋势" class="headerlink" title="2016年网络虚拟化趋势"></a><a href="http://www.sdnlab.com/18153.html" target="_blank" rel="external">2016年网络虚拟化趋势</a></h2><ul>
-<li>市场持续升温：NV的市场已经是一个数十亿美元的市场，Cisco、Juniper、Nuage、VMware是NV市场的四大巨头，他们占据了NV市场的绝大多数收入</li>
-<li>思科和VMware公布的数据显示其与NV相关的投资组合在2016年将近30亿美元</li>
-<li>容器化：思科收购ContainerX，VMWare推出vSphere集成容器（VIC）</li>
-</ul>
-<p><img src="/images/14809260496846.jpg" alt=""></p>
-<h2 id="Amazon发布一大波新产品"><a href="#Amazon发布一大波新产品" class="headerlink" title="Amazon发布一大波新产品"></a>Amazon发布一大波新产品</h2><ul>
-<li><a href="https://amazonlightsail.com/" target="_blank" rel="external">Amazon Lightsail</a>：廉价VPS，价格跟LightSale, DO, VULTR, Linode相同。</li>
-<li><a href="https://aws.amazon.com/cn/blogs/aws/developer-preview-ec2-instances-f1-with-programmable-hardware/" target="_blank" rel="external">F1 instance with FPGA</a>：VHDL和Verilog终于有出路了</li>
-<li>今年是机器学习大火的一年，Amazon也随大流（微软、Google）推出了AI服务：<ul>
-<li>Amazon Rekognition图像处理和分析</li>
-<li>Amazon Lex自然语言处理</li>
-<li>Amazon Polly文本到语音的转换</li>
-</ul>
-</li>
-<li><a href="https://aws.amazon.com/cn/snowmobile/" target="_blank" rel="external">AWS Snowmobile</a>：带宽从来都不是问题<br>  <img src="/images/14809265679834.jpg" alt=""></li>
-</ul>
-<h2 id="Linux-bcc-BPF-tcplife"><a href="#Linux-bcc-BPF-tcplife" class="headerlink" title="Linux bcc/BPF tcplife"></a><a href="http://www.brendangregg.com/blog/2016-11-30/linux-bcc-tcplife.html" target="_blank" rel="external">Linux bcc/BPF tcplife</a></h2><figure class="highlight tap"><table><tr><td class="code"><pre><div class="line"><span class="comment"># ./tcplife -D 80</span></div><div class="line">PID   COMM       LADDR           LPORT RADDR           RPORT TX_KB RX_KB MS</div><div class="line">27448 curl       100.66.11.247  <span class="number"> 54146 </span>54.154.224.174 <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>263.85</div><div class="line">27450 curl       100.66.11.247  <span class="number"> 20618 </span>54.154.164.22  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>243.62</div><div class="line">27452 curl       100.66.11.247  <span class="number"> 11480 </span>54.154.43.103  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>231.16</div><div class="line">27454 curl       100.66.11.247  <span class="number"> 31382 </span>54.154.15.7    <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>249.95</div><div class="line">27456 curl       100.66.11.247  <span class="number"> 33416 </span>52.210.59.223  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>545.72</div><div class="line">27458 curl       100.66.11.247  <span class="number"> 16406 </span>52.30.140.35   <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>222.29</div><div class="line">27460 curl       100.66.11.247  <span class="number"> 11634 </span>52.30.133.135  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>217.52</div><div class="line">27462 curl       100.66.11.247  <span class="number"> 25660 </span>52.30.126.182  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>250.81</div><div class="line">[...]</div><div class="line"></div><div class="line"><span class="comment"># ./tcplife -h</span></div><div class="line">usage: tcplife [-h] [-T] [-t] [-w] [-s] [-p PID] [-L LOCALPORT]</div><div class="line">               [-D REMOTEPORT]</div><div class="line"></div><div class="line">Trace the lifespan of TCP sessions and summarize</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -T, --time            include time column on output (HH:MM:SS)</div><div class="line">  -t, --timestamp       include timestamp on output (seconds)</div><div class="line">  -w, --wide            wide column output (fits IPv6 addresses)</div><div class="line">  -s, --csv             comma seperated values output</div><div class="line">  -p PID, --pid PID     trace this PID only</div><div class="line">  -L LOCALPORT, --localport LOCALPORT</div><div class="line">                        comma-separated list of local ports to trace.</div><div class="line">  -D REMOTEPORT, --remoteport REMOTEPORT</div><div class="line">                        comma-separated list of remote ports to trace.</div><div class="line"></div><div class="line">examples:</div><div class="line">    ./tcplife           <span class="comment"># trace all TCP connect()s</span></div><div class="line">    ./tcplife -t        <span class="comment"># include time column (HH:MM:SS)</span></div><div class="line">    ./tcplife -w        <span class="comment"># wider colums (fit IPv6)</span></div><div class="line">    ./tcplife -stT      <span class="comment"># csv output, with times &amp; timestamps</span></div><div class="line">    ./tcplife -p<span class="number"> 181 </span>   <span class="comment"># only trace PID 181</span></div><div class="line">    ./tcplife -L<span class="number"> 80 </span>    <span class="comment"># only trace local port 80</span></div><div class="line">    ./tcplife -L 80,81  <span class="comment"># only trace local ports 80 and 81</span></div><div class="line">    ./tcplife -D<span class="number"> 80 </span>    <span class="comment"># only trace remote port 80</span></div></pre></td></tr></table></figure>
-<h2 id="cgroup-namespace"><a href="#cgroup-namespace" class="headerlink" title="cgroup namespace"></a><a href="http://hustcat.github.io/cgroup-namespace/" target="_blank" rel="external">cgroup namespace</a></h2><p>之前，在一个容器查看/proc/$PID/cgroup，或者在容器挂载cgroup时，会看到整个系统的cgroup信息；在内核从4.6开始，支持cgroup namespace （<a href="https://lwn.net/Articles/618873/" target="_blank" rel="external">https://lwn.net/Articles/618873/</a>）。</p>
-<blockquote>
-<p>(1)可以限制容器的cgroup filesytem视图，使得在容器中也可以安全的使用cgroup；<br>(2)此外，会使容器迁移更加容易；在迁移时，/proc/self/cgroup需要复制到目标机器，这要求容器的cgroup路径是唯一的，否则可能会与目标机器冲突。有了cgroupns，每个容器都有自己的cgroup filesystem视图，不用担心这种冲突。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1262,7 +1316,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-count">96</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
