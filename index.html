@@ -363,6 +363,128 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/14/Debugging-application-in-containers/" itemprop="url">
+                  Debugging application in containers
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-14T21:24:48+08:00" content="2017-02-14">
+              2017-02-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/14/Debugging-application-in-containers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/14/Debugging-application-in-containers/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于普通的服务器进程，我们可以很方便的使用宿主机上的各种工具来调试；但容器经常是仅包含必要的应用程序，一般不包含常用的调试工具，那如何在线调试容器中的进程呢？最简单的方法是再起一个新的包含了调试工具的容器。</p>
+<p>来看一个最简单的web容器如何调试。</p>
+<h3 id="webserver容器"><a href="#webserver容器" class="headerlink" title="webserver容器"></a>webserver容器</h3><p>用Go编写一个最简单的webserver：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="comment">// go-examples/basic/webserver</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"net/http"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"log"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">index</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</div><div class="line">	fmt.Fprintln(w, <span class="string">"Hello World"</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	http.HandleFunc(<span class="string">"/"</span>, index)</div><div class="line">	err := http.ListenAndServe(<span class="string">":80"</span>, <span class="literal">nil</span>)</div><div class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line"></div><div class="line">		log.Println(err)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以linux平台方式编译</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">GOOS=linux go build -o webserver</div></pre></td></tr></table></figure>
+<p>然后用下面的Docker build一个docker镜像：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"><span class="keyword">FROM</span> scratch</div><div class="line"></div><div class="line"><span class="keyword">COPY</span><span class="bash"> ./webserver /</span></div><div class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"/webserver"</span>]</span></div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># docker build -t feisky/hello-world .</span></div><div class="line">Sending build context to Docker daemon 5.655 MB</div><div class="line">Step 1/3 : FROM scratch</div><div class="line"> ---&gt;</div><div class="line">Step 2/3 : COPY ./webserver /</div><div class="line"> ---&gt; 184eb7c074b5</div><div class="line">Removing intermediate container abf107844295</div><div class="line">Step 3/3 : CMD /webserver</div><div class="line"> ---&gt; Running <span class="keyword">in</span> fe9fa4841e70</div><div class="line"> ---&gt; dca5ec00b3e7</div><div class="line">Removing intermediate container fe9fa4841e70</div><div class="line">Successfully built dca5ec00b3e7</div></pre></td></tr></table></figure>
+<p>最后启动webserver容器</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -itd --name webserver -p 80:80 feisky/hello-world</div></pre></td></tr></table></figure>
+<p>访问映射后的80端口，webserver容器正常返回”Hello World”</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># curl http://$(hostname):80</span></div><div class="line">Hello World</div></pre></td></tr></table></figure>
+<h3 id="新建一个容器调试webserver"><a href="#新建一个容器调试webserver" class="headerlink" title="新建一个容器调试webserver"></a>新建一个容器调试webserver</h3><p>用一个包含调试工具或者方便安装调试工具的镜像（如alpine）创建一个新的container，为了便于获取webserver进程的状态，新的容器共享webserver容器的pid namespace和net namespace，并增加必要的capability：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -it --rm --pid=container:webserver --net=container:webserver --cap-add sys_admin --cap-add sys_ptrace alpine sh</div><div class="line">/ <span class="comment"># ps -ef</span></div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    1 root       0:00 /webserver</div><div class="line">   13 root       0:00 sh</div><div class="line">   18 root       0:00 ps -ef</div></pre></td></tr></table></figure>
+<p>这样，新的容器可以直接attach到webserver进程上来在线调试，比如strace到webserver进程</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 继续在刚创建的新容器sh中执行</span></div><div class="line">/ <span class="comment"># apk update &amp;&amp; apk add strace</span></div><div class="line">fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz</div><div class="line">fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz</div><div class="line">v3.5.1-34-g1d3b13bd53 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]</div><div class="line">v3.5.1-29-ga981b1f149 [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]</div><div class="line">OK: 7958 distinct packages available</div><div class="line">(1/1) Installing strace (4.14-r0)</div><div class="line">Executing busybox-1.25.1-r0.trigger</div><div class="line">OK: 5 MiB <span class="keyword">in</span> 12 packages</div><div class="line">/ <span class="comment"># strace -p 1</span></div><div class="line">strace: Process 1 attached</div><div class="line">epoll_wait(4,</div><div class="line">^Cstrace: Process 1 detached</div><div class="line"> &lt;detached ...&gt;</div></pre></td></tr></table></figure>
+<p>也可以获取webserver容器的网络状态</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 继续在刚创建的新容器sh中执行</span></div><div class="line">/ <span class="comment"># apk add lsof</span></div><div class="line">(1/1) Installing lsof (4.89-r0)</div><div class="line">Executing busybox-1.25.1-r0.trigger</div><div class="line">OK: 5 MiB <span class="keyword">in</span> 13 packages</div><div class="line">/ <span class="comment"># lsof -i TCP</span></div><div class="line">COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</div><div class="line">webserver   1 root    3u  IPv6  14233      0t0  TCP *:http (LISTEN)</div></pre></td></tr></table></figure>
+<p>当然，也可以访问webserver容器的文件系统</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">/ <span class="comment"># ls -l /proc/1/root/</span></div><div class="line">total 5524</div><div class="line">drwxr-xr-x    5 root     root           360 Feb 14 13:16 dev</div><div class="line">drwxr-xr-x    2 root     root          4096 Feb 14 13:16 etc</div><div class="line">dr-xr-xr-x  128 root     root             0 Feb 14 13:16 proc</div><div class="line">dr-xr-xr-x   13 root     root             0 Feb 14 13:16 sys</div><div class="line">-rwxr-xr-x    1 root     root       5651357 Feb 14 13:15 webserver</div></pre></td></tr></table></figure>
+<p>Kubernetes社区也在提议增加一个<code>kubectl debug</code>命令，用类似的方式在Pod中启动一个新容器来调试运行中的进程，可以参见<a href="https://github.com/kubernetes/kubernetes/pull/35584" target="_blank" rel="external">https://github.com/kubernetes/kubernetes/pull/35584</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/13/Software-Engineering-at-Google/" itemprop="url">
                   Software Engineering at Google
                 </a>
@@ -1045,232 +1167,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/08/Weekly-reading-list/" itemprop="url">
-                  Weekly reading list
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-08T14:00:22+08:00" content="2016-12-08">
-              2016-12-08
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Readings/" itemprop="url" rel="index">
-                    <span itemprop="name">Readings</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/08/Weekly-reading-list/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/08/Weekly-reading-list/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Docker收购Infinit-PDF"><a href="#Docker收购Infinit-PDF" class="headerlink" title="Docker收购Infinit PDF"></a><a href="https://blog.docker.com/2016/12/docker-acquires-infinit/" target="_blank" rel="external">Docker收购Infinit</a> <a href="/assets/infinit.pdf">PDF</a></h1><p><a href="https://infinit.sh/" target="_blank" rel="external">Infinit</a>为容器提供了分布式存储，其特点包括</p>
-<ul>
-<li>基于软件：可以部署在任何硬件之上，从遗留设备到消费级实体机、虚拟机，甚至容器。</li>
-<li>可编程：开发者可以轻松地完成多个存储基础设施的自动化创建和部署，并且每个都能借助基于策略的能力进行自定义，适配上层应用的需求。</li>
-<li>可伸缩：通过依靠一个去中心化的架构（即点对点），Infinit没有使用leader/follower模型，因而不会有瓶颈和单点失效的问题。</li>
-<li>自愈合：Infinit的再平衡策略能让系统适应各种故障，包括拜占庭将军问题。</li>
-<li>多用途：Infinit平台提供了块、对象和文件存储的接口：NFS、SMB、AWS S3、OpenStack Swift、iSCSI和FUSE等等。</li>
-</ul>
-<p><img src="/images/14811775178610.png" alt=""></p>
-<p>基本原理：</p>
-<p>• Federate all nodes in an overlay network for lookup and routing.<br>• Store data as blocks in a distributed hashtable (key-value store) with a per-block consensus.<br>• Use cryptographic access control to dispense from any leader.<br>• Use symmetrical operations to ensure resilience and flexibility.</p>
-<p><img src="/images/14811780770073.jpg" alt=""></p>
-<p><img src="/images/14811782445452.jpg" alt=""></p>
-<p>Infinit以volume的形式挂载到docker容器中：</p>
-<p><img src="/images/14811779192673.jpg" alt=""></p>
-<h2 id="Docker-Alibaba——超大规模Docker化的实战经验"><a href="#Docker-Alibaba——超大规模Docker化的实战经验" class="headerlink" title="Docker@Alibaba——超大规模Docker化的实战经验"></a><a href="https://yq.aliyun.com/articles/64256" target="_blank" rel="external">Docker@Alibaba——超大规模Docker化的实战经验</a></h2><ul>
-<li>AliDocker，并非阿里云，主要是阿里内部业务在用</li>
-<li>Swarm改造支持单swarm实例health nodes 2w+<ul>
-<li>优化连接管理、最小化锁粒度、修改diff算法减少node刷新时的开销、减少连接线程</li>
-</ul>
-</li>
-<li>Docker Engine增强<ul>
-<li>磁盘配额、固定IP、Hooks、解决hyperd重启容器销毁问题等</li>
-</ul>
-</li>
-<li>镜像分发：流式分发、镜像分批预热、P2P等</li>
-<li>swarm-proxy HA</li>
-</ul>
-<p><img src="/images/14811788194621.jpg" alt="">7</p>
-<h2 id="微服务在微信后台的架构实践"><a href="#微服务在微信后台的架构实践" class="headerlink" title="微服务在微信后台的架构实践"></a><a href="http://ppt.geekbang.org/slide/show/607" target="_blank" rel="external">微服务在微信后台的架构实践</a></h2><ul>
-<li>多地自治，园区互备：城市间RTT 30ms-400ms，园区间小于2ms</li>
-<li>RPC：protobuf/libco</li>
-<li>调度：Yard，双层调度器（Mesos+Yard）</li>
-<li>过载保护：轻重分离、队列式、组合命令式</li>
-</ul>
-<p><img src="/images/14811817178100.jpg" alt=""></p>
-<ul>
-<li>数据存储：PaxosStore，同步复制、多主多写</li>
-</ul>
-<p><img src="/images/14811818656014.jpg" alt=""></p>
-<h2 id="Go-微服务架构的基石"><a href="#Go-微服务架构的基石" class="headerlink" title="Go:微服务架构的基石"></a><a href="http://ppt.geekbang.org/slide/show/615" target="_blank" rel="external">Go:微服务架构的基石</a></h2><ul>
-<li>负载均衡：seesaw、caddy</li>
-<li>服务网关：tyk、fabio、vulcand</li>
-<li>进程间通信：RESTful、RPC、自定义<ul>
-<li>REST框架：beego、gin、Iris、micro、go-kit、goa</li>
-<li>RPC框架：grpc、thrift、hprose</li>
-<li>自定义：协议，编解码</li>
-</ul>
-</li>
-<li>服务发现：etcd、consul、serf</li>
-<li>调度系统：kubernetes、swarm、mesos</li>
-<li>消息队列：NSQ、Nats</li>
-<li>APM（应用性能监控）：appdash、Cloudinsight、opentracing</li>
-<li>配置管理：etcd、consul、mgmt</li>
-<li>日志分析：Beats、Heka</li>
-<li>服务监控：open-falcon、prometheus</li>
-<li>CI/CD：Drone</li>
-<li>熔断器：gateway、Hystrix-go</li>
-</ul>
-<h2 id="基于万节点Kubernetes支撑大规模云应用实践"><a href="#基于万节点Kubernetes支撑大规模云应用实践" class="headerlink" title="基于万节点Kubernetes支撑大规模云应用实践"></a><a href="http://ppt.geekbang.org/slide/show/586" target="_blank" rel="external">基于万节点Kubernetes支撑大规模云应用实践</a></h2><ul>
-<li>基于OpenStack的IaaS：裁剪KVM镜像、优化启动流程，Openvswitch SDN、Ceph存储</li>
-<li>容器与虚拟机共用一套虚拟化网络</li>
-<li>Ceph存储直接挂载到容器</li>
-<li>统一的日志收集、分析、搜索</li>
-<li>Kubernetes调度器优化：将原来的串行队列改为多个优先级队列</li>
-<li>etcd集群扩展：将Pod/Node/ReplicationController拆分到不同的etcd集群</li>
-</ul>
-<p><img src="/images/14811811876614.jpg" alt=""></p>
-<p><img src="/images/14811813670269.jpg" alt=""></p>
-<h1 id="20-天持续压测，告诉你云存储性能哪家强-📈"><a href="#20-天持续压测，告诉你云存储性能哪家强-📈" class="headerlink" title="20 天持续压测，告诉你云存储性能哪家强 📈"></a><a href="https://www.v2ex.com/t/326038?from=timeline&amp;isappinstalled=0#reply7" target="_blank" rel="external">20 天持续压测，告诉你云存储性能哪家强</a> <a href="http://www.codingpy.com/specials/cbs_test/" target="_blank" rel="external">📈</a></h1><p>对阿里云和腾讯云两种云存储产品（云盘）的性能和价格对比：</p>
-<ul>
-<li>测试方法：SNIA发布的<a href="http://snia.org/sites/default/files/SSS_PTS_Enterprise_v1.1.pdf" target="_blank" rel="external">企业级SSD评测规范</a>及<a href="https://github.com/cloudharmony/block-storage" target="_blank" rel="external">实现</a></li>
-<li>阿里云 SSD 云盘必须搭配 I/O 优化实例才能给发挥最大性能</li>
-<li>腾讯云高效云盘的读写操作可同时达到预期性能峰值（数据块 16KB 以下），而阿里云方面，读写无法同时达到预期性能峰值</li>
-<li>腾讯云达到了预期的性能；阿里云部分没有达到， 400GB 容量的时延过高</li>
-<li>腾讯云高效云盘的时延在 1ms 以下， IOPS 、吞吐量的优势更加突出</li>
-<li>两家高效云盘的 IOPS 表现均比较稳定，几乎呈一条直线，只有阿里云的 400GB 云盘有些略微波动</li>
-<li>容量越大，似乎闲置时间对性能恢复的影响越明显；阿里云 400GB 高效云盘的性能波动受闲置时间影响较明显</li>
-</ul>
-<p><img src="/images/14811840736214.jpg" alt=""></p>
-<h2 id="外卖的背后-饿了么基础架构从0到1的演进"><a href="#外卖的背后-饿了么基础架构从0到1的演进" class="headerlink" title="外卖的背后-饿了么基础架构从0到1的演进"></a><a href="http://ppt.geekbang.org/slide/show/619" target="_blank" rel="external">外卖的背后-饿了么基础架构从0到1的演进</a></h2><ul>
-<li>负载均衡<ul>
-<li>最初：HAProxy部署在客户端本地，不需要考虑HAProxy的高可用；问题是部署规模大，维护客户列表复杂，并且配置不统一</li>
-<li>解决：<ul>
-<li>RPC+内置LB SDK，服务自注册/自发现，配置少，部署简单</li>
-<li>Redis/DB解决方案GoProxy: DAL/Corvus作为服务自注册，GoProxy订阅注册事件并自带服务发现的Haproxy</li>
-<li>健康检查：心跳检测，进程在、端口活不代表服务可用</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>无损升级<ul>
-<li>最初：发布前通知客户端停止请求，服务端将正在处理的请求处理完毕才能升级</li>
-<li>解决：<ul>
-<li>RPC调用：服务发现机制会在注销时通知客户端，直连情况下客户端从可用列表中剔除准备下线的服务</li>
-<li>数据库访问，客户端限制连接存活时间，DAL侧重连</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>基础架构：开放式架构<ul>
-<li>基于组件，给业务开发团队最大的自由</li>
-<li>基于运行时，给业务开发团队最大限度的自由</li>
-<li>开放封闭原则：基础框架应该是可以扩展的，但是不可以“选择”的</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1316,7 +1212,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-count">97</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
