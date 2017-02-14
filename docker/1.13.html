@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Docker v1.13重新定义了CLI命令的格式，将原来的命令分组，并加入了一些新的命令，包括container, image, plugin, secret, stack 和 system等。
+docker container命令之前常用的容器管理命令都放到了docker container的子命令里面，比如
+Commands:  attach      Attach to a running">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Docker v1.13">
+<meta property="og:url" content="http://feisky.xyz/docker/1.13.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Docker v1.13重新定义了CLI命令的格式，将原来的命令分组，并加入了一些新的命令，包括container, image, plugin, secret, stack 和 system等。
+docker container命令之前常用的容器管理命令都放到了docker container的子命令里面，比如
+Commands:  attach      Attach to a running">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.325Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker v1.13">
+<meta name="twitter:description" content="Docker v1.13重新定义了CLI命令的格式，将原来的命令分组，并加入了一些新的命令，包括container, image, plugin, secret, stack 和 system等。
+docker container命令之前常用的容器管理命令都放到了docker container的子命令里面，比如
+Commands:  attach      Attach to a running">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/docker/1.13.html"/>
+
+
+  <title> Docker v1.13 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Docker v1.13
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-24T04:39:49+00:00" content="2016-06-24">
+              2016-06-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/docker/1.13.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="docker/1.13.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Docker v1.13重新定义了CLI命令的格式，将原来的命令分组，并加入了一些新的命令，包括container, image, plugin, secret, stack 和 system等。</p>
+<h2 id="docker-container命令"><a href="#docker-container命令" class="headerlink" title="docker container命令"></a>docker container命令</h2><p>之前常用的容器管理命令都放到了<code>docker container</code>的子命令里面，比如</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">Commands:</div><div class="line">  attach      Attach to a running container</div><div class="line">  commit      Create a new image from a container's changes</div><div class="line">  cp          <span class="keyword">Copy</span> files/folders between a container and the <span class="keyword">local</span> filesystem</div><div class="line">  create      Create a new container</div><div class="line">  diff        <span class="keyword">Inspect</span> changes <span class="keyword">on</span> a container's filesystem</div><div class="line">  exec        <span class="keyword">Run</span> a command <span class="keyword">in</span> a running container</div><div class="line">  export      Export a container's filesystem <span class="keyword">as</span> a tar archive</div><div class="line">  <span class="keyword">inspect</span>     <span class="keyword">Display</span> detailed information <span class="keyword">on</span> <span class="keyword">one</span> or <span class="keyword">more</span> containers</div><div class="line">  kill        Kill <span class="keyword">one</span> or <span class="keyword">more</span> running containers</div><div class="line">  logs        Fetch the logs of a container</div><div class="line">  <span class="keyword">ls</span>          <span class="keyword">List</span> containers</div><div class="line">  <span class="keyword">pause</span>       <span class="keyword">Pause</span> all processes within <span class="keyword">one</span> or <span class="keyword">more</span> containers</div><div class="line">  port        <span class="keyword">List</span> port mappings or a specific mapping <span class="keyword">for</span> the container</div><div class="line">  prune       Remove all stopped containers</div><div class="line">  <span class="keyword">rename</span>      <span class="keyword">Rename</span> a container</div><div class="line">  restart     Restart <span class="keyword">one</span> or <span class="keyword">more</span> containers</div><div class="line">  <span class="keyword">rm</span>          Remove <span class="keyword">one</span> or <span class="keyword">more</span> containers</div><div class="line">  <span class="keyword">run</span>         <span class="keyword">Run</span> a command <span class="keyword">in</span> a new container</div><div class="line">  start       Start <span class="keyword">one</span> or <span class="keyword">more</span> stopped containers</div><div class="line">  stats       <span class="keyword">Display</span> a live stream of container(s) resource usage statistics</div><div class="line">  stop        Stop <span class="keyword">one</span> or <span class="keyword">more</span> running containers</div><div class="line">  top         <span class="keyword">Display</span> the running processes of a container</div><div class="line">  unpause     Unpause all processes within <span class="keyword">one</span> or <span class="keyword">more</span> containers</div><div class="line">  <span class="keyword">update</span>      <span class="keyword">Update</span> configuration of <span class="keyword">one</span> or <span class="keyword">more</span> containers</div><div class="line">  wait        Block until <span class="keyword">one</span> or <span class="keyword">more</span> containers stop, then <span class="keyword">print</span> their <span class="keyword">exit</span> codes</div></pre></td></tr></table></figure>
+<p>使用示例</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a new container</span></div><div class="line">docker container create --name <span class="built_in">test</span> busybox</div><div class="line"><span class="comment"># To run a container</span></div><div class="line">docker container run --name busybox -itd busybox</div><div class="line"><span class="comment"># To attach to a running container</span></div><div class="line">docker container attach busybox</div><div class="line"></div><div class="line"><span class="comment"># To create a image from a container’s changes</span></div><div class="line">docker container commit busybox busybox:v2</div><div class="line"></div><div class="line"><span class="comment"># To copy files/folders from the host to a container or vice-versa.</span></div><div class="line">docker container cp file busybox:/file</div><div class="line">docker container cp busybox:/file newfile</div><div class="line"></div><div class="line"><span class="comment"># To inspect changes on a container’s filesystem</span></div><div class="line">docker container diff busybox</div><div class="line"><span class="comment"># To run a command in a running container</span></div><div class="line"></div><div class="line">docker container <span class="built_in">exec</span> busybox ip addr</div><div class="line"><span class="comment"># To export a container’s filesystem as a tar archive</span></div><div class="line"></div><div class="line">docker container <span class="built_in">export</span> busybox -o busybox.tar</div><div class="line"><span class="comment"># To display low-level information of a container</span></div><div class="line"></div><div class="line">docker container inspect busybox</div><div class="line"><span class="comment"># To kill a running container</span></div><div class="line">docker container <span class="built_in">kill</span> busybox</div><div class="line"></div><div class="line"><span class="comment"># To fetch the logs of a container</span></div><div class="line">docker container logs busybox</div><div class="line"></div><div class="line"><span class="comment"># To list containers</span></div><div class="line">docker container ls|list|ps</div><div class="line"><span class="comment"># To pause all processes within a container</span></div><div class="line">docker container pause busybox</div><div class="line"><span class="comment"># To unpause all processes within a container</span></div><div class="line">docker container unpause busybox</div><div class="line"></div><div class="line"><span class="comment"># To list port mappings for the container</span></div><div class="line">docker container port busybox</div><div class="line"></div><div class="line"><span class="comment"># To remove all stopped containers</span></div><div class="line">docker container prune --force</div><div class="line"></div><div class="line"><span class="comment"># To rename a container</span></div><div class="line">docker container rename <span class="built_in">test</span> <span class="built_in">test</span>2</div><div class="line"><span class="comment"># To restart a container</span></div><div class="line">docker container restart busybox</div><div class="line"><span class="comment"># To stop a container</span></div><div class="line">docker container stop busybox</div><div class="line"><span class="comment"># To start a stopped container</span></div><div class="line">docker container start busybox</div><div class="line"></div><div class="line"><span class="comment"># To remove a container</span></div><div class="line">docker container rm <span class="built_in">test</span>2</div><div class="line"></div><div class="line"><span class="comment"># To display a live stream of container(s) resource usage statistics</span></div><div class="line">docker container stats</div><div class="line"></div><div class="line"><span class="comment"># To display the running processes of a container</span></div><div class="line">docker container top busybox</div><div class="line"></div><div class="line"><span class="comment"># To update configuration of a container</span></div><div class="line">docker container update &lt;OPTIONS&gt; busybox</div><div class="line"></div><div class="line"><span class="comment"># To block until a container stops and then print their exit codes</span></div><div class="line">docker container <span class="built_in">wait</span> busybox</div></pre></td></tr></table></figure>
+<h2 id="docker-image命令"><a href="#docker-image命令" class="headerlink" title="docker image命令"></a>docker image命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">cat &gt;Dockerfile &lt;&lt;EOF</div><div class="line">FROM alpine</div><div class="line">RUN apk update &amp;&amp; apk add curl &amp;&amp; rm -rf /var/cache/apk/*</div><div class="line">ENTRYPOINT [<span class="string">"sh"</span>]</div><div class="line">EOF</div><div class="line"></div><div class="line"><span class="comment"># To build an image from a Dockerfile</span></div><div class="line">docker image build -t curl .</div><div class="line"><span class="comment"># To show the history of an image</span></div><div class="line">docker image <span class="built_in">history</span> curl</div><div class="line"></div><div class="line"><span class="comment"># To import the contents from a tarball to create a filesystem image</span></div><div class="line">docker image import &lt;file-name&gt; &lt;image-name&gt;</div><div class="line"><span class="comment"># To display low-level information of a image</span></div><div class="line">docker image inspect curl</div><div class="line"></div><div class="line"><span class="comment"># To load an image from a tar archive or STDIN</span></div><div class="line">docker image load -i &lt;file-name&gt;</div><div class="line"></div><div class="line"><span class="comment">#To list images</span></div><div class="line">docker image ls|list|images</div><div class="line"></div><div class="line"><span class="comment"># To remove unused images</span></div><div class="line">docker image prune --force</div><div class="line"></div><div class="line"><span class="comment"># To pull an image from a registry</span></div><div class="line">docker image pull &lt;image-name:tag&gt;</div><div class="line"></div><div class="line"><span class="comment"># To push an image to a registry</span></div><div class="line">docker image push &lt;image-name:tag&gt;</div><div class="line"></div><div class="line"><span class="comment"># To remove a image</span></div><div class="line">docker image rm &lt;image-id/name&gt;</div><div class="line"></div><div class="line"><span class="comment"># To save an image to a tar archive</span></div><div class="line">docker image save &lt;image-name&gt;</div><div class="line"></div><div class="line"><span class="comment"># To create a tag for a image</span></div><div class="line">docker image tag &lt;old-image-name&gt; &lt;new-image-name&gt;</div></pre></td></tr></table></figure>
+<h2 id="docker-network命令"><a href="#docker-network命令" class="headerlink" title="docker network命令"></a>docker network命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To list networks</span></div><div class="line">docker network ls</div><div class="line"><span class="comment"># To create a network</span></div><div class="line">docker network create <span class="_">-d</span> overlay --attachable dev</div><div class="line"></div><div class="line"><span class="comment"># To connect a container to a network</span></div><div class="line">docker network connect dev busybox</div><div class="line"><span class="comment"># To disconnect a container from a network</span></div><div class="line">docker network disconnect dev busybox</div><div class="line"></div><div class="line"><span class="comment"># To display detailed information of a network</span></div><div class="line">docker network inspect dev</div><div class="line"></div><div class="line"><span class="comment"># To remove a network</span></div><div class="line">docker network rm dev</div><div class="line"></div><div class="line"><span class="comment"># To remove all unused networks</span></div><div class="line">docker network prune</div></pre></td></tr></table></figure>
+<h2 id="docker-node命令"><a href="#docker-node命令" class="headerlink" title="docker node命令"></a>docker node命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To list nodes in the swarm</span></div><div class="line">docker node ls</div><div class="line"></div><div class="line"><span class="comment"># To demote a node from manager in the swarm</span></div><div class="line">docker node demote node2</div><div class="line"><span class="comment"># To promote one or more nodes to manager in the swarm</span></div><div class="line">docker node promote node2</div><div class="line"></div><div class="line"><span class="comment"># To display detailed information on a node</span></div><div class="line">docker node inspect node1</div><div class="line"></div><div class="line"><span class="comment"># To list tasks running on one or more nodes.</span></div><div class="line">docker node ps self|node1</div><div class="line"></div><div class="line"><span class="comment"># To remove one or more nodes from the swarm</span></div><div class="line">docker node rm node1</div><div class="line"></div><div class="line"><span class="comment"># To update a node</span></div><div class="line">docker node update [OPTIONS] node2</div></pre></td></tr></table></figure>
+<h2 id="docker-plugin命令"><a href="#docker-plugin命令" class="headerlink" title="docker plugin命令"></a>docker plugin命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To install a plugin</span></div><div class="line">docker plugin install vieux/sshfs</div><div class="line"><span class="comment"># Use the plugin</span></div><div class="line">docker volume create \</div><div class="line">  <span class="_">-d</span> vieux/sshfs \</div><div class="line">  --name sshvolume \</div><div class="line">  -o sshcmd=user@1.2.3.4:/remote</div><div class="line">docker run -v sshvolume:/data busybox ls /data</div><div class="line"></div><div class="line"><span class="comment"># To create a plugin from a rootfs and configuration. Plugin data directory must</span></div><div class="line"><span class="comment"># contain config.json and rootfs directory.</span></div><div class="line">docker plugin create &lt;plugin-name&gt; &lt;plugin-data-dir&gt;</div><div class="line"><span class="comment"># To disable a plugin</span></div><div class="line">docker plugin <span class="built_in">disable</span> &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To enable a plugin</span></div><div class="line">docker plugin <span class="built_in">enable</span> &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a plugin</span></div><div class="line">docker plugin inspect &lt;plugin-name&gt;</div><div class="line"></div><div class="line"><span class="comment"># To list plugins</span></div><div class="line">docker plugin ls|list</div><div class="line"><span class="comment"># To push a plugin to a registry</span></div><div class="line">docker plugin push &lt;plugin-name:tag&gt;</div><div class="line"><span class="comment"># To remove a plugin</span></div><div class="line">docker plugin rm &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To change settings for a plugin</span></div><div class="line">docker plugin <span class="built_in">set</span> &lt;plugin-name&gt; KEY=VALUE</div></pre></td></tr></table></figure>
+<h2 id="docker-secret命令"><a href="#docker-secret命令" class="headerlink" title="docker secret命令"></a>docker secret命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a secret from a file or STDIN as content</span></div><div class="line">docker secret create &lt;secret-name&gt; &lt;file-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a secret</span></div><div class="line">docker secret inspect &lt;secret-name&gt;</div><div class="line"><span class="comment"># To list secrets</span></div><div class="line">docker secret ls|list</div><div class="line"><span class="comment"># To remove a secret</span></div><div class="line">docker secret rm &lt;secret-name&gt;</div></pre></td></tr></table></figure>
+<h2 id="docker-service命令"><a href="#docker-service命令" class="headerlink" title="docker service命令"></a>docker service命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a new service</span></div><div class="line">docker service create --name nginx nginx</div><div class="line"></div><div class="line"><span class="comment"># To display detailed information of a service</span></div><div class="line">docker service inspect nginx</div><div class="line"></div><div class="line"><span class="comment"># To list services</span></div><div class="line">docker service ls</div><div class="line"></div><div class="line"><span class="comment"># To list the tasks of a service</span></div><div class="line">docker service ps nginx</div><div class="line"></div><div class="line"><span class="comment"># To scale one or multiple replicated services</span></div><div class="line">docker service scale nginx=3</div><div class="line"><span class="comment"># To update a service</span></div><div class="line">docker service update --publish-add=80 nginx</div><div class="line"></div><div class="line"><span class="comment"># To view logs of this service</span></div><div class="line">docker service logs <span class="_">-f</span> nginx</div><div class="line"></div><div class="line"><span class="comment"># To remove a service</span></div><div class="line">docker service rm nginx</div></pre></td></tr></table></figure>
+<h2 id="docker-stack命令"><a href="#docker-stack命令" class="headerlink" title="docker stack命令"></a>docker stack命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">cat &gt; voteapp.yaml &lt;&lt;EOF</div><div class="line">version: <span class="string">"3"</span></div><div class="line"></div><div class="line">services:</div><div class="line"></div><div class="line">  redis:</div><div class="line">    image: redis:3.2-alpine</div><div class="line">    ports:</div><div class="line">      - <span class="string">"6379"</span></div><div class="line">    networks:</div><div class="line">      - voteapp</div><div class="line">    deploy:</div><div class="line">      placement:</div><div class="line">        constraints: [node.role == manager]</div><div class="line"></div><div class="line">  db:</div><div class="line">    image: postgres:9.4</div><div class="line">    volumes:</div><div class="line">      - db-data:/var/lib/postgresql/data</div><div class="line">    networks:</div><div class="line">      - voteapp</div><div class="line">    deploy:</div><div class="line">      placement:</div><div class="line">        constraints: [node.role == manager]</div><div class="line"></div><div class="line">  voting-app:</div><div class="line">    image: gaiadocker/example-voting-app-vote:good</div><div class="line">    ports:</div><div class="line">      - 5000:80</div><div class="line">    networks:</div><div class="line">      - voteapp</div><div class="line">    depends_on:</div><div class="line">      - redis</div><div class="line">    deploy:</div><div class="line">      mode: replicated</div><div class="line">      replicas: 2</div><div class="line">      labels: [APP=VOTING]</div><div class="line">      placement:</div><div class="line">        constraints: [node.role == worker]</div><div class="line"></div><div class="line">  result-app:</div><div class="line">    image: gaiadocker/example-voting-app-result:latest</div><div class="line">    ports:</div><div class="line">      - 5001:80</div><div class="line">    networks:</div><div class="line">      - voteapp</div><div class="line">    depends_on:</div><div class="line">      - db</div><div class="line"></div><div class="line">  worker:</div><div class="line">    image: gaiadocker/example-voting-app-worker:latest</div><div class="line">    networks:</div><div class="line">      voteapp:</div><div class="line">        aliases:</div><div class="line">          - workers</div><div class="line">    depends_on:</div><div class="line">      - db</div><div class="line">      - redis</div><div class="line">    <span class="comment"># service deployment</span></div><div class="line">    deploy:</div><div class="line">      mode: replicated</div><div class="line">      replicas: 2</div><div class="line">      labels: [APP=VOTING]</div><div class="line">      <span class="comment"># service resource management</span></div><div class="line">      resources:</div><div class="line">        <span class="comment"># Hard limit - Docker does not allow to allocate more</span></div><div class="line">        limits:</div><div class="line">          cpus: <span class="string">'0.25'</span></div><div class="line">          memory: 512M</div><div class="line">        <span class="comment"># Soft limit - Docker makes best effort to return to it</span></div><div class="line">        reservations:</div><div class="line">          cpus: <span class="string">'0.25'</span></div><div class="line">          memory: 256M</div><div class="line">      <span class="comment"># service restart policy</span></div><div class="line">      restart_policy:</div><div class="line">        condition: on-failure</div><div class="line">        delay: 5s</div><div class="line">        max_attempts: 3</div><div class="line">        window: 120s</div><div class="line">      <span class="comment"># service update configuration</span></div><div class="line">      update_config:</div><div class="line">        parallelism: 1</div><div class="line">        delay: 10s</div><div class="line">        failure_action: <span class="built_in">continue</span></div><div class="line">        monitor: 60s</div><div class="line">        max_failure_ratio: 0.3</div><div class="line">      <span class="comment"># placement constraint - in this case on 'worker' nodes only</span></div><div class="line">      placement:</div><div class="line">        constraints: [node.role == worker]</div><div class="line"></div><div class="line">networks:</div><div class="line">    voteapp:</div><div class="line"></div><div class="line">volumes:</div><div class="line">  db-data:</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To deploy a new stack or update an existing stack</span></div><div class="line">docker stack deploy -c voteapp.yaml voteapp</div><div class="line"></div><div class="line"><span class="comment"># To list stacks</span></div><div class="line">docker stack ls|list</div><div class="line"></div><div class="line"><span class="comment">#To list the services in the stack</span></div><div class="line">docker stack services voteapp</div><div class="line"></div><div class="line"><span class="comment"># To list the tasks in the stack</span></div><div class="line">docker stack ps voteapp</div><div class="line"></div><div class="line"><span class="comment">#To remove the stack</span></div><div class="line">docker stack rm voteapp</div></pre></td></tr></table></figure>
+<h2 id="docker-swarm命令"><a href="#docker-swarm命令" class="headerlink" title="docker swarm命令"></a>docker swarm命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To initialize a swarm</span></div><div class="line">docker swarm init &lt;OPTIONS&gt;</div><div class="line"><span class="comment"># To join a swarm as a node and/or manager</span></div><div class="line">docker swarm join &lt;OPTIONS&gt; &lt;HOST&gt;:&lt;PORT&gt;</div><div class="line"><span class="comment"># To manage join tokens</span></div><div class="line">docker swarm join-token &lt;OPTIONS&gt; worker/manager</div><div class="line"><span class="comment"># To update the swarm</span></div><div class="line">docker swarm update &lt;OPTIONS&gt;</div><div class="line"><span class="comment"># To leave the swarm</span></div><div class="line">docker swarm leave</div><div class="line"></div><div class="line"><span class="comment"># To manage the unlock key</span></div><div class="line">docker swarm unlock-key</div><div class="line"><span class="comment"># To unlock swarm</span></div><div class="line">docker swarm unlock</div></pre></td></tr></table></figure>
+<h2 id="docker-system命令"><a href="#docker-system命令" class="headerlink" title="docker system命令"></a>docker system命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To show docker disk usage</span></div><div class="line">docker system df</div><div class="line"><span class="comment"># To get real time events from the server</span></div><div class="line">docker system events</div><div class="line"><span class="comment"># To display system-wide information</span></div><div class="line">docker system info</div><div class="line"><span class="comment"># To remove unused data</span></div><div class="line">docker system prune</div></pre></td></tr></table></figure>
+<h2 id="docker-volume命令"><a href="#docker-volume命令" class="headerlink" title="docker volume命令"></a>docker volume命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a volume</span></div><div class="line">docker volume create <span class="_">-d</span> &lt;volume-driver-name&gt; &lt;volume-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a volume</span></div><div class="line">docker volume inspect &lt;volume-name&gt;</div><div class="line"><span class="comment"># To list volumes</span></div><div class="line">docker volume ls</div><div class="line"><span class="comment"># To remove all unused volumes</span></div><div class="line">docker volume prune</div><div class="line"><span class="comment"># To remove a volume</span></div><div class="line">docker volume rm &lt;volume-name&gt;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-container命令"><span class="nav-number">1.</span> <span class="nav-text">docker container命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-image命令"><span class="nav-number">2.</span> <span class="nav-text">docker image命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-network命令"><span class="nav-number">3.</span> <span class="nav-text">docker network命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-node命令"><span class="nav-number">4.</span> <span class="nav-text">docker node命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-plugin命令"><span class="nav-number">5.</span> <span class="nav-text">docker plugin命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-secret命令"><span class="nav-number">6.</span> <span class="nav-text">docker secret命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-service命令"><span class="nav-number">7.</span> <span class="nav-text">docker service命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-stack命令"><span class="nav-number">8.</span> <span class="nav-text">docker stack命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-swarm命令"><span class="nav-number">9.</span> <span class="nav-text">docker swarm命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-system命令"><span class="nav-number">10.</span> <span class="nav-text">docker system命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-volume命令"><span class="nav-number">11.</span> <span class="nav-text">docker volume命令</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'docker/1.13.html';
+      var disqus_title = "Docker v1.13";
+      var disqus_url = 'http://feisky.xyz/docker/1.13.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

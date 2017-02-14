@@ -1,0 +1,984 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="基本概念
+
+节点（Node）：一个节点是一个运行 Kubernetes 中的主机。
+容器组（Pod）：一个 Pod 对应于由若干容器组成的一个容器组，同个组内的容器共享一个存储卷(volume)。
+容器组生命周期（pos-states）：包含所有容器状态集合，包括容器组状态类型，容器组生命周期，事件，重启策略，以及replication controllers。
+Replication Contr">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/docker/kubernetes/concepts.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="基本概念
+
+节点（Node）：一个节点是一个运行 Kubernetes 中的主机。
+容器组（Pod）：一个 Pod 对应于由若干容器组成的一个容器组，同个组内的容器共享一个存储卷(volume)。
+容器组生命周期（pos-states）：包含所有容器状态集合，包括容器组状态类型，容器组生命周期，事件，重启策略，以及replication controllers。
+Replication Contr">
+<meta property="og:image" content="http://feisky.xyz/../images/kubernetes_design.jpg">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.341Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="基本概念
+
+节点（Node）：一个节点是一个运行 Kubernetes 中的主机。
+容器组（Pod）：一个 Pod 对应于由若干容器组成的一个容器组，同个组内的容器共享一个存储卷(volume)。
+容器组生命周期（pos-states）：包含所有容器状态集合，包括容器组状态类型，容器组生命周期，事件，重启策略，以及replication controllers。
+Replication Contr">
+<meta name="twitter:image" content="http://feisky.xyz/../images/kubernetes_design.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/docker/kubernetes/concepts.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p><img src="../images/kubernetes_design.jpg" alt=""></p>
+<ul>
+<li>节点（Node）：一个节点是一个运行 Kubernetes 中的主机。</li>
+<li>容器组（Pod）：一个 Pod 对应于由若干容器组成的一个容器组，同个组内的容器共享一个存储卷(volume)。</li>
+<li>容器组生命周期（pos-states）：包含所有容器状态集合，包括容器组状态类型，容器组生命周期，事件，重启策略，以及replication controllers。</li>
+<li>Replication Controllers（replication-controllers）：主要负责指定数量的pod在同一时间一起运行。</li>
+<li>服务（services）：一个Kubernetes服务是容器组逻辑的高级抽象，同时也对外提供访问容器组的策略。</li>
+<li>卷（volumes）：一个卷就是一个目录，容器对其有访问权限。</li>
+<li>标签（labels）：标签是用来连接一组对象的，比如容器组。标签可以被用来组织和选择子对象。</li>
+<li>接口权限（accessing_the_api）：端口，ip地址和代理的防火墙规则。</li>
+<li>web 界面（ux）：用户可以通过 web 界面操作Kubernetes。</li>
+<li>命令行操作（cli）：<code>kubecfg</code>命令。</li>
+</ul>
+<h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><p>在 Kubernetes 中，节点是实际工作的点，以前叫做 Minion。节点可以是虚拟机或者物理机器，依赖于一个集群环境。每个节点都有一些必要的服务以运行容器组，并且它们都可以通过主节点来管理。必要服务包括 Docker，kubelet 和代理服务。</p>
+<h3 id="容器状态"><a href="#容器状态" class="headerlink" title="容器状态"></a>容器状态</h3><p>容器状态用来描述节点的当前状态。现在，其中包含三个信息：</p>
+<h4 id="主机IP"><a href="#主机IP" class="headerlink" title="主机IP"></a>主机IP</h4><p>主机IP需要云平台来查询，Kubernetes把它作为状态的一部分来保存。如果Kubernetes没有运行在云平台上，节点ID就是必需的。IP地址可以变化，并且可以包含多种类型的IP地址，如公共IP，私有IP，动态IP，ipv6等等。</p>
+<h4 id="节点周期"><a href="#节点周期" class="headerlink" title="节点周期"></a>节点周期</h4><p>通常来说节点有 <code>Pending</code>，<code>Running</code>，<code>Terminated</code>三个周期，如果Kubernetes发现了一个节点并且其可用，那么Kubernetes就把它标记为 <code>Pending</code>。然后在某个时刻，Kubernetes将会标记其为 <code>Running</code>。节点的结束周期称为 <code>Terminated</code>。一个已经terminated的节点不会接受和调度任何请求，并且已经在其上运行的容器组也会删除。</p>
+<h4 id="节点状态"><a href="#节点状态" class="headerlink" title="节点状态"></a>节点状态</h4><p>节点的状态主要是用来描述处于 <code>Running</code>的节点。当前可用的有 <code>NodeReachable</code> 和 <code>NodeReady</code> 。以后可能会增加其他状态。<code>NodeReachable</code> 表示集群可达。<code>NodeReady</code>表示kubelet返回 StatusOk并且HTTP状态检查健康。</p>
+<h3 id="节点管理"><a href="#节点管理" class="headerlink" title="节点管理"></a>节点管理</h3><p>节点并非Kubernetes创建，而是由云平台创建，或者就是物理机器、虚拟机。在Kubernetes中，节点仅仅是一条记录，节点创建之后，Kubernetes会检查其是否可用。在Kubernetes中，节点用如下结构保存：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"id"</span>: <span class="string">"10.1.2.3"</span>,</div><div class="line">  <span class="attr">"kind"</span>: <span class="string">"Minion"</span>,</div><div class="line">  <span class="attr">"apiVersion"</span>: <span class="string">"v1beta1"</span>,</div><div class="line">  <span class="attr">"resources"</span>: &#123;</div><div class="line">    <span class="attr">"capacity"</span>: &#123;</div><div class="line">      <span class="attr">"cpu"</span>: <span class="number">1000</span>,</div><div class="line">      <span class="attr">"memory"</span>: <span class="number">1073741824</span></div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"labels"</span>: &#123;</div><div class="line">    <span class="attr">"name"</span>: <span class="string">"my-first-k8s-node"</span>,</div><div class="line">  &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Kubernetes校验节点可用依赖于id。在当前的版本中，有两个接口可以用来管理节点：节点控制和Kube管理。</p>
+<h3 id="节点控制"><a href="#节点控制" class="headerlink" title="节点控制"></a>节点控制</h3><p>在Kubernetes主节点中，节点控制器是用来管理节点的组件。主要包含：</p>
+<ul>
+<li>集群范围内节点同步</li>
+<li>单节点生命周期管理</li>
+</ul>
+<p>节点控制有一个同步轮寻，主要监听所有云平台的虚拟实例，会根据节点状态创建和删除。可以通过 <code>--node_sync_period</code>标志来控制该轮寻。如果一个实例已经创建，节点控制将会为其创建一个结构。同样的，如果一个节点被删除，节点控制也会删除该结构。在Kubernetes启动时可用通过 <code>--machines</code>标记来显示指定节点。同样可以使用 <code>kubectl</code>来一条一条的添加节点，两者是相同的。通过设置 <code>--sync_nodes=false</code>标记来禁止集群之间的节点同步，你也可以使用api/kubectl 命令行来增删节点。</p>
+<h2 id="容器组"><a href="#容器组" class="headerlink" title="容器组"></a>容器组</h2><p>在Kubernetes中，使用的最小单位是容器组，容器组是创建，调度，管理的最小单位。<br>一个容器组使用相同的Dokcer容器并共享卷（挂载点）。一个容器组是一个特定运用的打包集合，包含一个或多个容器。</p>
+<p>和运行的容器类似，一个容器组被认为只有很短的运行周期。容器组被调度到一组节点运行，知道容器的生命周期结束或者其被删除。如果节点死掉，运行在其上的容器组将会被删除而不是重新调度。（也许在将来的版本中会添加容器组的移动）。</p>
+<h3 id="容器组设计的初衷"><a href="#容器组设计的初衷" class="headerlink" title="容器组设计的初衷"></a>容器组设计的初衷</h3><h3 id="资源共享和通信"><a href="#资源共享和通信" class="headerlink" title="资源共享和通信"></a>资源共享和通信</h3><p>容器组主要是为了数据共享和它们之间的通信。</p>
+<p>在一个容器组中，容器都使用相同的网络地址和端口，可以通过本地网络来相互通信。每个容器组都有独立的ip，可用通过网络来和其他物理主机或者容器通信。</p>
+<p>容器组有一组存储卷（挂载点），主要是为了让容器在重启之后可以不丢失数据。</p>
+<h3 id="容器组管理"><a href="#容器组管理" class="headerlink" title="容器组管理"></a>容器组管理</h3><p>容器组是一个运用管理和部署的高层次抽象，同时也是一组容器的接口。容器组是部署、水平放缩的最小单位。</p>
+<h3 id="容器组的使用"><a href="#容器组的使用" class="headerlink" title="容器组的使用"></a>容器组的使用</h3><p>容器组可以通过组合来构建复杂的运用，其本来的意义包含：</p>
+<ul>
+<li>内容管理，文件和数据加载以及本地缓存管理等。</li>
+<li>日志和检查点备份，压缩，快照等。</li>
+<li>监听数据变化，跟踪日志，日志和监控代理，消息发布等。</li>
+<li>代理，网桥</li>
+<li>控制器，管理，配置以及更新</li>
+</ul>
+<h3 id="替代方案"><a href="#替代方案" class="headerlink" title="替代方案"></a>替代方案</h3><p>为什么不在一个单一的容器里运行多个程序？</p>
+<ul>
+<li>1.透明化。为了使容器组中的容器保持一致的基础设施和服务，比如进程管理和资源监控。这样设计是为了用户的便利性。</li>
+<li>2.解偶软件之间的依赖。每个容器都可能重新构建和发布，Kubernetes必须支持热发布和热更新（将来）。</li>
+<li>3.方便使用。用户不必运行独立的程序管理，也不用担心每个运用程序的退出状态。</li>
+<li>4.高效。考虑到基础设施有更多的职责，容器必须要轻量化。</li>
+</ul>
+<h3 id="容器组的生命状态"><a href="#容器组的生命状态" class="headerlink" title="容器组的生命状态"></a>容器组的生命状态</h3><p>包括若干状态值：pending、running、succeeded、failed。</p>
+<h4 id="pending"><a href="#pending" class="headerlink" title="pending"></a>pending</h4><p>容器组已经被节点接受，但有一个或多个容器还没有运行起来。这将包含某些节点正在下载镜像的时间，这种情形会依赖于网络情况。</p>
+<h4 id="running"><a href="#running" class="headerlink" title="running"></a>running</h4><p>容器组已经被调度到节点，并且所有的容器都已经启动。至少有一个容器处于运行状态（或者处于重启状态）。</p>
+<h4 id="succeeded"><a href="#succeeded" class="headerlink" title="succeeded"></a>succeeded</h4><p>所有的容器都正常退出。</p>
+<h4 id="failed"><a href="#failed" class="headerlink" title="failed"></a>failed</h4><p>容器组中所有容器都意外中断了。</p>
+<h3 id="容器组生命周期"><a href="#容器组生命周期" class="headerlink" title="容器组生命周期"></a>容器组生命周期</h3><p>通常来说，如果容器组被创建了就不会自动销毁，除非被某种行为出发，而触发此种情况可能是人为，或者复制控制器所为。唯一例外的是容器组由 succeeded状态成功退出，或者在一定时间内重试多次依然失败。</p>
+<p>如果某个节点死掉或者不能连接，那么节点控制器将会标记其上的容器组的状态为 <code>failed</code>。</p>
+<p>举例如下。</p>
+<ul>
+<li>容器组状态 <code>running</code>，有 1 容器，容器正常退出<ul>
+<li>记录完成事件</li>
+<li>如果重启策略为：<ul>
+<li>始终：重启容器，容器组保持 <code>running</code></li>
+<li>失败时：容器组变为 <code>succeeded</code></li>
+<li>从不：容器组变为 <code>succeeded</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>容器组状态 <code>running</code>，有1容器，容器异常退出<ul>
+<li>记录失败事件</li>
+<li>如果重启策略为：<ul>
+<li>始终：重启容器，容器组保持 <code>running</code></li>
+<li>失败时：重启容器，容器组保持 <code>running</code></li>
+<li>从不：容器组变为 <code>failed</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>容器组状态 <code>running</code>，有2容器，有1容器异常退出<ul>
+<li>记录失败事件</li>
+<li>如果重启策略为：<ul>
+<li>始终：重启容器，容器组保持 <code>running</code></li>
+<li>失败时：重启容器，容器组保持 <code>running</code></li>
+<li>从不：容器组保持 <code>running</code><ul>
+<li>当有2容器退出</li>
+</ul>
+</li>
+<li>记录失败事件</li>
+<li>如果重启策略为：<ul>
+<li>始终：重启容器，容器组保持 <code>running</code></li>
+<li>失败时：重启容器，容器组保持 <code>running</code></li>
+<li>从不：容器组变为 <code>failed</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>容器组状态 <code>running</code>，容器内存不足<ul>
+<li>标记容器错误中断</li>
+<li>记录内存不足事件</li>
+<li>如果重启策略为：<ul>
+<li>始终：重启容器，容器组保持 <code>running</code></li>
+<li>失败时：重启容器，容器组保持 <code>running</code></li>
+<li>从不：记录错误事件，容器组变为 <code>failed</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>容器组状态 <code>running</code>，一块磁盘死掉<ul>
+<li>杀死所有容器</li>
+<li>记录事件</li>
+<li>容器组变为 <code>failed</code></li>
+<li>如果容器组运行在一个控制器下，容器组将会在其他地方重新创建</li>
+</ul>
+</li>
+<li>容器组状态 <code>running</code>，对应的节点段溢出<ul>
+<li>节点控制器等到超时</li>
+<li>节点控制器标记容器组 <code>failed</code></li>
+<li>如果容器组运行在一个控制器下，容器组将会在其他地方重新创建</li>
+</ul>
+</li>
+</ul>
+<h2 id="Replication-Controllers"><a href="#Replication-Controllers" class="headerlink" title="Replication Controllers"></a>Replication Controllers</h2><h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><h2 id="卷"><a href="#卷" class="headerlink" title="卷"></a>卷</h2><h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><h2 id="接口权限"><a href="#接口权限" class="headerlink" title="接口权限"></a>接口权限</h2><h2 id="web界面"><a href="#web界面" class="headerlink" title="web界面"></a>web界面</h2><h2 id="命令行操作"><a href="#命令行操作" class="headerlink" title="命令行操作"></a>命令行操作</h2>
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点"><span class="nav-number">1.1.</span> <span class="nav-text">节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#容器状态"><span class="nav-number">1.1.1.</span> <span class="nav-text">容器状态</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主机IP"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">主机IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#节点周期"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">节点周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#节点状态"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">节点状态</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点管理"><span class="nav-number">1.1.2.</span> <span class="nav-text">节点管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点控制"><span class="nav-number">1.1.3.</span> <span class="nav-text">节点控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器组"><span class="nav-number">1.2.</span> <span class="nav-text">容器组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#容器组设计的初衷"><span class="nav-number">1.2.1.</span> <span class="nav-text">容器组设计的初衷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源共享和通信"><span class="nav-number">1.2.2.</span> <span class="nav-text">资源共享和通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器组管理"><span class="nav-number">1.2.3.</span> <span class="nav-text">容器组管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器组的使用"><span class="nav-number">1.2.4.</span> <span class="nav-text">容器组的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替代方案"><span class="nav-number">1.2.5.</span> <span class="nav-text">替代方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器组的生命状态"><span class="nav-number">1.2.6.</span> <span class="nav-text">容器组的生命状态</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pending"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">pending</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#running"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">running</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#succeeded"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">succeeded</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#failed"><span class="nav-number">1.2.6.4.</span> <span class="nav-text">failed</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器组生命周期"><span class="nav-number">1.2.7.</span> <span class="nav-text">容器组生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replication-Controllers"><span class="nav-number">1.3.</span> <span class="nav-text">Replication Controllers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务"><span class="nav-number">1.4.</span> <span class="nav-text">服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷"><span class="nav-number">1.5.</span> <span class="nav-text">卷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标签"><span class="nav-number">1.6.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口权限"><span class="nav-number">1.7.</span> <span class="nav-text">接口权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web界面"><span class="nav-number">1.8.</span> <span class="nav-text">web界面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行操作"><span class="nav-number">1.9.</span> <span class="nav-text">命令行操作</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'docker/kubernetes/concepts.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/docker/kubernetes/concepts.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

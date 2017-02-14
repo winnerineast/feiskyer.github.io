@@ -1,0 +1,1 @@
+{"global":{"scrape_interval":"15s","external_labels":{"monitor":"prometheus-monitor"}},"scrape_configs":[{"job_name":"prometheus","scrape_interval":"5s","static_configs":[{"targets":["localhost:9090","cadvisor:8080"]}]}]}

@@ -93,7 +93,8 @@
 服务节点是真正运行容器的主机，负责管理镜像和容器以及cluster内的服务发现和负载均衡
 etcd集群保存了整个集群的状态
 
-创建Kubernetes cluster">
+集群联邦
+Kubernetes单机版创建">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Feisky's Blog">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/introduction/cluster.html">
@@ -105,9 +106,11 @@ etcd集群保存了整个集群的状态
 服务节点是真正运行容器的主机，负责管理镜像和容器以及cluster内的服务发现和负载均衡
 etcd集群保存了整个集群的状态
 
-创建Kubernetes cluster">
-<meta property="og:image" content="http://feisky.xyz/media/14731196066424.png">
-<meta property="og:updated_time" content="2017-02-13T13:36:42.640Z">
+集群联邦
+Kubernetes单机版创建">
+<meta property="og:image" content="http://feisky.xyz/architecture.png">
+<meta property="og:image" content="http://feisky.xyz/federation.png">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="Kubernetes cluster
@@ -117,8 +120,9 @@ etcd集群保存了整个集群的状态
 服务节点是真正运行容器的主机，负责管理镜像和容器以及cluster内的服务发现和负载均衡
 etcd集群保存了整个集群的状态
 
-创建Kubernetes cluster">
-<meta name="twitter:image" content="http://feisky.xyz/media/14731196066424.png">
+集群联邦
+Kubernetes单机版创建">
+<meta name="twitter:image" content="http://feisky.xyz/architecture.png">
 
 
 
@@ -142,13 +146,7 @@ etcd集群保存了整个集群的状态
   <link rel="canonical" href="http://feisky.xyz/kubernetes/introduction/cluster.html"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>  | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -178,7 +176,7 @@ etcd集群保存了整个集群的状态
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -281,7 +279,7 @@ etcd集群保存了整个集群的状态
       
         
         <li class="menu-item menu-item-k8s">
-          <a href="/k8s" rel="section">
+          <a href="/kubernetes" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -371,18 +369,115 @@ etcd集群保存了整个集群的状态
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <h1 id="Kubernetes-cluster"><a href="#Kubernetes-cluster" class="headerlink" title="Kubernetes cluster"></a>Kubernetes cluster</h1><p><img src="media/14731196066424.png" alt=""></p>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-14T04:08:55+00:00" content="2017-02-14">
+              2017-02-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/kubernetes/introduction/cluster.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="kubernetes/introduction/cluster.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Kubernetes-cluster"><a href="#Kubernetes-cluster" class="headerlink" title="Kubernetes cluster"></a>Kubernetes cluster</h1><p><img src="architecture.png" alt=""></p>
 <p>一个Kubernetes集群由分布式存储etcd、控制节点controller以及服务节点Node组成。</p>
 <ul>
 <li>控制节点主要负责整个集群的管理，比如容器的调度、维护资源的状态、自动扩展以及滚动更新等</li>
 <li>服务节点是真正运行容器的主机，负责管理镜像和容器以及cluster内的服务发现和负载均衡</li>
 <li>etcd集群保存了整个集群的状态</li>
 </ul>
-<p>创建Kubernetes cluster（单机版）最简单的方法是<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>:</p>
+<h2 id="集群联邦"><a href="#集群联邦" class="headerlink" title="集群联邦"></a>集群联邦</h2><p><img src="federation.png" alt=""></p>
+<h2 id="Kubernetes单机版"><a href="#Kubernetes单机版" class="headerlink" title="Kubernetes单机版"></a>Kubernetes单机版</h2><p>创建Kubernetes cluster（单机版）最简单的方法是<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ minikube start                                              </div><div class="line">Starting <span class="built_in">local</span> Kubernetes cluster...  </div><div class="line">Kubectl is now configured to use the cluster.</div><div class="line">$ kubectl cluster-info</div><div class="line">Kubernetes master is running at https://192.168.64.12:8443</div><div class="line">kubernetes-dashboard is running at https://192.168.64.12:8443/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard</div><div class="line"></div><div class="line">To further debug and diagnose cluster problems, use <span class="string">'kubectl cluster-info dump'</span>.</div></pre></td></tr></table></figure>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -533,7 +628,7 @@ etcd集群保存了整个集群的状态
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-cluster"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes cluster</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-cluster"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes cluster</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#集群联邦"><span class="nav-number">1.1.</span> <span class="nav-text">集群联邦</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes单机版"><span class="nav-number">1.2.</span> <span class="nav-text">Kubernetes单机版</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -640,6 +735,10 @@ etcd集群保存了整个集群的状态
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 

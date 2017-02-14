@@ -87,19 +87,19 @@
 
 
 <meta name="description" content="Minikube相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
-安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1">
+安装minikubeminikube最新release版本为v0.15.0，支持Kubernetes v">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Minikube">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/cluster/minikube.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Minikube相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
-安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1">
+安装minikubeminikube最新release版本为v0.15.0，支持Kubernetes v">
 <meta property="og:image" content="http://feisky.xyz/media/14735740742630.jpg">
-<meta property="og:updated_time" content="2017-02-13T13:36:42.640Z">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Minikube">
 <meta name="twitter:description" content="Minikube相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助minikube项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。
-安装minikubeminikube最新release版本为v0.8.0，支持Kubernetes v1">
+安装minikubeminikube最新release版本为v0.15.0，支持Kubernetes v">
 <meta name="twitter:image" content="http://feisky.xyz/media/14735740742630.jpg">
 
 
@@ -257,7 +257,7 @@
       
         
         <li class="menu-item menu-item-k8s">
-          <a href="/k8s" rel="section">
+          <a href="/kubernetes" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -414,13 +414,13 @@
 
       
         <h1 id="Minikube"><a href="#Minikube" class="headerlink" title="Minikube"></a>Minikube</h1><p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
-<h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
+<h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.15.0，支持Kubernetes v1.3.0到v1.5.1的各个版本，默认启动Kubernetes v1.5.1。</p>
 <p>OSX</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.8.0/mi</span>nikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.15.0/mi</span>nikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
 <p>Linux</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.8.0/mi</span>nikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.15.0/mi</span>nikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
 <p>Windows</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">下载http<span class="variable">s:</span>//storage.googleapis.<span class="keyword">com</span>/minikube/releases/v0.<span class="number">8.0</span>/minikube-windows-amd64.<span class="keyword">exe</span>，并重命名为minikube.<span class="keyword">exe</span></div></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">下载http<span class="variable">s:</span>//storage.googleapis.<span class="keyword">com</span>/minikube/releases/v0.<span class="number">15.0</span>/minikube-windows-amd64.<span class="keyword">exe</span>，并重命名为minikube.<span class="keyword">exe</span></div></pre></td></tr></table></figure>
 <p>minikube支持xhyve(on OSX)、VirtualBox、VMWare Fusion等多种不同的driver，这些driver也需要单独安装，比如在OSX上安装xhyve driver:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">brew install docker-machine-driver-xhyve</div><div class="line"><span class="comment"># docker-machine-driver-xhyve need root owner and uid</span></div><div class="line">sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</div><div class="line">sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</div></pre></td></tr></table></figure>
 <p>另外，还需要安装一个<code>kubectl</code>客户端，用来跟kubernetes交互：</p>

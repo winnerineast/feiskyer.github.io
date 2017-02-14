@@ -1,0 +1,893 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="容器互联容器的连接（linking）系统是除了端口映射外，另一种跟容器中应用交互的方式。
+该系统会在源和接收容器之间创建一个隧道，接收容器可以看到源容器指定的信息。
+自定义容器命名连接系统依据容器的名称来执行。因此，首先需要自定义一个好记的容器命名。
+虽然当创建容器的时候，系统默认会分配一个名字。自定义命名容器有2个好处：
+
+自定义的命名，比较好记，比如一个web应用容器我们可以给它起名叫web">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/docker/network/linking.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="容器互联容器的连接（linking）系统是除了端口映射外，另一种跟容器中应用交互的方式。
+该系统会在源和接收容器之间创建一个隧道，接收容器可以看到源容器指定的信息。
+自定义容器命名连接系统依据容器的名称来执行。因此，首先需要自定义一个好记的容器命名。
+虽然当创建容器的时候，系统默认会分配一个名字。自定义命名容器有2个好处：
+
+自定义的命名，比较好记，比如一个web应用容器我们可以给它起名叫web">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="容器互联容器的连接（linking）系统是除了端口映射外，另一种跟容器中应用交互的方式。
+该系统会在源和接收容器之间创建一个隧道，接收容器可以看到源容器指定的信息。
+自定义容器命名连接系统依据容器的名称来执行。因此，首先需要自定义一个好记的容器命名。
+虽然当创建容器的时候，系统默认会分配一个名字。自定义命名容器有2个好处：
+
+自定义的命名，比较好记，比如一个web应用容器我们可以给它起名叫web">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/docker/network/linking.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="容器互联"><a href="#容器互联" class="headerlink" title="容器互联"></a>容器互联</h2><p>容器的连接（linking）系统是除了端口映射外，另一种跟容器中应用交互的方式。</p>
+<p>该系统会在源和接收容器之间创建一个隧道，接收容器可以看到源容器指定的信息。</p>
+<h3 id="自定义容器命名"><a href="#自定义容器命名" class="headerlink" title="自定义容器命名"></a>自定义容器命名</h3><p>连接系统依据容器的名称来执行。因此，首先需要自定义一个好记的容器命名。</p>
+<p>虽然当创建容器的时候，系统默认会分配一个名字。自定义命名容器有2个好处：</p>
+<ul>
+<li>自定义的命名，比较好记，比如一个web应用容器我们可以给它起名叫web</li>
+<li>当要连接其他容器时候，可以作为一个有用的参考点，比如连接web容器到db容器</li>
+</ul>
+<p>使用 <code>--name</code> 标记可以为容器自定义命名。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -P --name web training/webapp python app.py</span></div></pre></td></tr></table></figure></p>
+<p>使用 <code>docker ps</code> 来验证设定的命名。<br><figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">ps</span> -<span class="keyword">l</span></div><div class="line">CONTAINER ID  IMAGE                  COMMAND        CREATED       STATUS       PORTS                    NAMES</div><div class="line">aed84ee21bde  training/webapp:latest <span class="keyword">python</span> app.<span class="keyword">py</span>  <span class="number">12</span> hours ago  Up <span class="number">2</span> seconds <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">49154</span>-&gt;<span class="number">5000</span>/tcp  web</div></pre></td></tr></table></figure></p>
+<p>也可以使用 <code>docker inspect</code> 来查看容器的名字<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ sudo docker inspect <span class="_">-f</span> <span class="string">"&#123;&#123; .Name &#125;&#125;"</span> aed84ee21bde</div><div class="line">/web</div></pre></td></tr></table></figure></p>
+<p>注意：容器的名称是唯一的。如果已经命名了一个叫 web 的容器，当你要再次使用 web 这个名称的时候，需要先用<code>docker rm</code> 来删除之前创建的同名容器。</p>
+<p>在执行 <code>docker run</code> 的时候如果添加 <code>--rm</code> 标记，则容器在终止后会立刻删除。注意，<code>--rm</code> 和 <code>-d</code> 参数不能同时使用。</p>
+<h3 id="容器互联-1"><a href="#容器互联-1" class="headerlink" title="容器互联"></a>容器互联</h3><p>使用 <code>--link</code> 参数可以让容器之间安全的进行交互。</p>
+<p>下面先创建一个新的数据库容器。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> --name db training/postgres</span></div></pre></td></tr></table></figure></p>
+<p>删除之前创建的 web 容器<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ docker rm <span class="_">-f</span> web</div></pre></td></tr></table></figure></p>
+<p>然后创建一个新的 web 容器，并将它连接到 db 容器<br><figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span> -<span class="keyword">d</span> -P --name web --link <span class="keyword">db</span>:<span class="keyword">db</span> training/webapp python <span class="keyword">app</span>.py</div></pre></td></tr></table></figure></p>
+<p>此时，db 容器和 web 容器建立互联关系。</p>
+<p><code>--link</code> 参数的格式为 <code>--link name:alias</code>，其中 <code>name</code> 是要链接的容器的名称，<code>alias</code> 是这个连接的别名。</p>
+<p>使用 <code>docker ps</code> 来查看容器的连接<br><figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">$ docker ps</div><div class="line">CONTAINER ID  IMAGE                     COMMAND               CREATED             STATUS             PORTS                    NAMES</div><div class="line">349169744e49  training/postgres:latest  <span class="keyword">su</span> postgres -c '/usr  <span class="keyword">About</span> a minute ago  Up <span class="keyword">About</span> a minute  5432/tcp                 <span class="keyword">db</span>, web/<span class="keyword">db</span></div><div class="line">aed84ee21bde  training/webapp:latest    python <span class="keyword">app</span>.py         16 hours ago        Up 2 minutes       0.0.0.0:49154-&gt;5000/tcp  web</div></pre></td></tr></table></figure></p>
+<p>可以看到自定义命名的容器，db 和 web，db 容器的 names 列有 db 也有 web/db。这表示 web 容器链接到 db 容器，web 容器将被允许访问 db 容器的信息。</p>
+<p>Docker 在两个互联的容器之间创建了一个安全隧道，而且不用映射它们的端口到宿主主机上。在启动 db 容器的时候并没有使用 <code>-p</code> 和 <code>-P</code> 标记，从而避免了暴露数据库端口到外部网络上。</p>
+<p>Docker 通过 2 种方式为容器公开连接信息：</p>
+<ul>
+<li>环境变量</li>
+<li>更新 <code>/etc/hosts</code> 文件</li>
+</ul>
+<p>使用 <code>env</code> 命令来查看 web 容器的环境变量<br><figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">$ sudo docker run --rm --name web2 --link <span class="built_in">db</span>:<span class="built_in">db</span> training/webapp env</div><div class="line">. . .</div><div class="line">DB_NAME=/web2/<span class="built_in">db</span></div><div class="line">DB_PORT=tcp://<span class="number">172.17</span><span class="meta">.0</span><span class="meta">.5</span>:<span class="number">5432</span></div><div class="line">DB_PORT_5000_TCP=tcp://<span class="number">172.17</span><span class="meta">.0</span><span class="meta">.5</span>:<span class="number">5432</span></div><div class="line">DB_PORT_5000_TCP_PROTO=tcp</div><div class="line">DB_PORT_5000_TCP_PORT=<span class="number">5432</span></div><div class="line">DB_PORT_5000_TCP_ADDR=<span class="number">172.17</span><span class="meta">.0</span><span class="meta">.5</span></div><div class="line">. . .</div></pre></td></tr></table></figure></p>
+<p>其中 DB_ 开头的环境变量是供 web 容器连接 db 容器使用，前缀采用大写的连接别名。</p>
+<p>除了环境变量，Docker 还添加 host 信息到父容器的 <code>/etc/hosts</code> 的文件。下面是父容器 web 的 hosts 文件<br><figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo docker run -t -i --rm --link <span class="symbol">db:</span>db training/webapp /bin/bash</div><div class="line">root<span class="variable">@aed84ee21bde</span><span class="symbol">:/opt/webapp</span><span class="comment"># cat /etc/hosts</span></div><div class="line"><span class="number">172.17</span>.<span class="number">0</span>.<span class="number">7</span>  aed84ee21bde</div><div class="line">. . .</div><div class="line"><span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>  db</div></pre></td></tr></table></figure></p>
+<p>这里有 2 个 hosts，第一个是 web 容器，web 容器用 id 作为他的主机名，第二个是 db 容器的 ip 和主机名。<br>可以在 web 容器中安装 ping 命令来测试跟db容器的连通。<br><figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">root<span class="variable">@aed84ee21bde</span><span class="symbol">:/opt/webapp</span><span class="comment"># apt-get install -yqq inetutils-ping</span></div><div class="line">root<span class="variable">@aed84ee21bde</span><span class="symbol">:/opt/webapp</span><span class="comment"># ping db</span></div><div class="line">PING db (<span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>): <span class="number">48</span> data bytes</div><div class="line"><span class="number">56</span> bytes from <span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>: icmp_seq=<span class="number">0</span> ttl=<span class="number">64</span> time=<span class="number">0</span>.<span class="number">267</span> ms</div><div class="line"><span class="number">56</span> bytes from <span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>: icmp_seq=<span class="number">1</span> ttl=<span class="number">64</span> time=<span class="number">0</span>.<span class="number">250</span> ms</div><div class="line"><span class="number">56</span> bytes from <span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>: icmp_seq=<span class="number">2</span> ttl=<span class="number">64</span> time=<span class="number">0</span>.<span class="number">256</span> ms</div></pre></td></tr></table></figure></p>
+<p>用 ping 来测试db容器，它会解析成 <code>172.17.0.5</code>。<br>*注意：官方的 ubuntu 镜像默认没有安装 ping，需要自行安装。</p>
+<p>用户可以链接多个父容器到子容器，比如可以链接多个 web 到 db 容器上。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器互联"><span class="nav-number">1.</span> <span class="nav-text">容器互联</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义容器命名"><span class="nav-number">1.1.</span> <span class="nav-text">自定义容器命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器互联-1"><span class="nav-number">1.2.</span> <span class="nav-text">容器互联</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'docker/network/linking.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/docker/network/linking.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

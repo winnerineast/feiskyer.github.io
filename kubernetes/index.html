@@ -86,78 +86,82 @@
 
 
 
-<meta name="description" content="Kubernetes
+<meta name="description" content="Kubernetes笔记
 
 1. Kubernetes简介
-1.1 Kubernetes Cluster
+1.1 核心概念
 1.2 Kubernetes 101
-1.3 核心概念
-1.4 Kubernetes 201
+1.3 Kubernetes 201
+1.4 Kubernetes集群
 
 
 2. 核心原理
 2.1 设计理念
-[2.2 主要概念]
+2.2 主要概念
 Service
 Volume
-[Deployment]
+Deployment
 Secret
+StatefulSet
+更多…
 
 
-[2.3 核心组件的工作原理]
-[API Server]
-[etcd]">
+2.3 核心组件的工作原理
+Etcd
+API Serv">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Kubernetes">
+<meta property="og:title" content="Kubernetes笔记">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Kubernetes
+<meta property="og:description" content="Kubernetes笔记
 
 1. Kubernetes简介
-1.1 Kubernetes Cluster
+1.1 核心概念
 1.2 Kubernetes 101
-1.3 核心概念
-1.4 Kubernetes 201
+1.3 Kubernetes 201
+1.4 Kubernetes集群
 
 
 2. 核心原理
 2.1 设计理念
-[2.2 主要概念]
+2.2 主要概念
 Service
 Volume
-[Deployment]
+Deployment
 Secret
+StatefulSet
+更多…
 
 
-[2.3 核心组件的工作原理]
-[API Server]
-[etcd]">
-<meta property="og:image" content="http://feisky.xyz/images/14791968861612.png">
-<meta property="og:updated_time" content="2017-02-13T13:36:42.640Z">
+2.3 核心组件的工作原理
+Etcd
+API Serv">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.569Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kubernetes">
-<meta name="twitter:description" content="Kubernetes
+<meta name="twitter:title" content="Kubernetes笔记">
+<meta name="twitter:description" content="Kubernetes笔记
 
 1. Kubernetes简介
-1.1 Kubernetes Cluster
+1.1 核心概念
 1.2 Kubernetes 101
-1.3 核心概念
-1.4 Kubernetes 201
+1.3 Kubernetes 201
+1.4 Kubernetes集群
 
 
 2. 核心原理
 2.1 设计理念
-[2.2 主要概念]
+2.2 主要概念
 Service
 Volume
-[Deployment]
+Deployment
 Secret
+StatefulSet
+更多…
 
 
-[2.3 核心组件的工作原理]
-[API Server]
-[etcd]">
-<meta name="twitter:image" content="http://feisky.xyz/images/14791968861612.png">
+2.3 核心组件的工作原理
+Etcd
+API Serv">
 
 
 
@@ -181,7 +185,7 @@ Secret
   <link rel="canonical" href="http://feisky.xyz/kubernetes/"/>
 
 
-  <title> Kubernetes | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Kubernetes笔记 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -314,7 +318,7 @@ Secret
       
         
         <li class="menu-item menu-item-k8s">
-          <a href="/k8s" rel="section">
+          <a href="/kubernetes" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -423,7 +427,7 @@ Secret
             
             
               
-                Kubernetes
+                Kubernetes笔记
               
             
           </h1>
@@ -435,8 +439,8 @@ Secret
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-21T08:11:07+00:00" content="2016-10-21">
-              2016-10-21
+            <time itemprop="dateCreated" datetime="2017-02-14T04:08:55+00:00" content="2017-02-14">
+              2017-02-14
             </time>
           </span>
 
@@ -470,51 +474,67 @@ Secret
       
 
       
-        <h1 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h1><p><img src="/images/14791968861612.png" alt=""></p>
+        <p><em>Kubernetes笔记</em></p>
 <ul>
-<li><a href="introduction/README.html">1. Kubernetes简介</a><ul>
-<li><a href="introduction/cluster.html">1.1 Kubernetes Cluster</a></li>
+<li><a href="introduction/">1. Kubernetes简介</a><ul>
+<li><a href="introduction/concepts.html">1.1 核心概念</a></li>
 <li><a href="introduction/101.html">1.2 Kubernetes 101</a></li>
-<li><a href="introduction/concepts.html">1.3 核心概念</a></li>
-<li><a href="introduction/201.html">1.4 Kubernetes 201</a></li>
+<li><a href="introduction/201.html">1.3 Kubernetes 201</a></li>
+<li><a href="introduction/cluster.html">1.4 Kubernetes集群</a></li>
 </ul>
 </li>
-<li><a href="architecture/README.html">2. 核心原理</a><ul>
+<li><a href="architecture/">2. 核心原理</a><ul>
 <li><a href="architecture/concepts.html">2.1 设计理念</a></li>
-<li>[2.2 主要概念]<ul>
+<li><a href="architecture/objects.html">2.2 主要概念</a><ul>
 <li><a href="architecture/Service.html">Service</a></li>
 <li><a href="architecture/Volume.html">Volume</a></li>
-<li>[Deployment]</li>
+<li><a href="architecture/deployment.html">Deployment</a></li>
 <li><a href="architecture/Secret.html">Secret</a></li>
+<li><a href="architecture/statefulset.html">StatefulSet</a></li>
+<li><a href="architecture/objects.html">更多…</a></li>
 </ul>
 </li>
-<li>[2.3 核心组件的工作原理]<ul>
-<li>[API Server]</li>
-<li>[etcd]</li>
-<li>[Scheduler]</li>
-<li>[Controller Manager]</li>
-<li>[Kubelet]</li>
-<li>[Kube-proxy]</li>
-<li>[Kube-dns]</li>
-<li>[hyperkube]</li>
-<li>[Federation]</li>
+<li><a href="components/">2.3 核心组件的工作原理</a><ul>
+<li>Etcd</li>
+<li>API Server</li>
+<li>Scheduler</li>
+<li>Controller Manager</li>
+<li>Kubelet</li>
+<li>Kube Proxy</li>
+<li>Kube DNS</li>
+<li>hyperkube</li>
+<li>Federation</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="plugins/README.html">3. 插件指南</a><ul>
+<li><a href="plugins/">3. 插件指南</a><ul>
 <li><a href="plugins/auth.html">3.1 认证和授权插件</a></li>
 <li><a href="plugins/network.html">3.2 网络插件</a></li>
 <li><a href="plugins/volume.html">3.3 Volume插件</a></li>
 <li><a href="plugins/CRI.html">3.4 Container Runtime Interface</a></li>
-<li>[3.5 Network Policy]</li>
-<li>[3.6 Ingress Controller]</li>
-<li>[3.7 Cloud Provider]</li>
-<li>[3.8 Scheduler]</li>
+<li>3.5 Network Policy</li>
+<li>3.6 Ingress Controller</li>
+<li>3.7 Cloud Provider</li>
+<li>3.8 Scheduler</li>
 <li><a href="plugins/other.html">3.9 其他</a></li>
 </ul>
 </li>
-<li><a href="appendix/README.html">附录</a><ul>
+<li><a href="deploy/">4. 常用技巧</a><ul>
+<li><a href="deploy/">4.1 部署</a></li>
+<li><a href="monitor/">4.2 监控</a></li>
+<li><a href="deploy/logging.html">4.3 日志</a></li>
+<li>4.4 HA</li>
+</ul>
+</li>
+<li><a href="dev/">5. 开发指南</a><ul>
+<li><a href="dev/index.html">5.1 开发环境搭建</a></li>
+<li><a href="dev/testing.html">5.2 单元测试</a></li>
+<li><a href="dev/testing.html">5.3 集成测试</a></li>
+<li><a href="dev/contribute.html">5.4 社区贡献</a></li>
+</ul>
+</li>
+<li><a href="appendix/">6. 附录</a><ul>
 <li><a href="appendix/awesome-docker.html">awesome-docker</a></li>
 <li><a href="appendix/awesome-kubernetes.html">awesome-kubernetes</a></li>
 <li><a href="ecosystem.html">Kubernetes ecosystem</a></li>
@@ -704,7 +724,7 @@ Secret
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
@@ -832,7 +852,7 @@ Secret
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
       var disqus_identifier = 'kubernetes/index.html';
-      var disqus_title = "Kubernetes";
+      var disqus_title = "Kubernetes笔记";
       var disqus_url = 'http://feisky.xyz/kubernetes/index.html';
 
       function run_disqus_script(disqus_script){

@@ -1,0 +1,897 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="fig.yml 参考每个在 fig.yml 定义的服务都需要指定一个镜像或镜像的构建内容。像 docker run 的命令行一样，其它内容是可选的。
+docker run 在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV) 作为已经提供的默认设置 - 你不需要在 fig.yml 中重新设置。
+image
+这里可以设置为标签或镜像ID的一部分。它可以是本">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/docker/fig/yml_ref.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="fig.yml 参考每个在 fig.yml 定义的服务都需要指定一个镜像或镜像的构建内容。像 docker run 的命令行一样，其它内容是可选的。
+docker run 在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV) 作为已经提供的默认设置 - 你不需要在 fig.yml 中重新设置。
+image
+这里可以设置为标签或镜像ID的一部分。它可以是本">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.329Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="fig.yml 参考每个在 fig.yml 定义的服务都需要指定一个镜像或镜像的构建内容。像 docker run 的命令行一样，其它内容是可选的。
+docker run 在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV) 作为已经提供的默认设置 - 你不需要在 fig.yml 中重新设置。
+image
+这里可以设置为标签或镜像ID的一部分。它可以是本">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/docker/fig/yml_ref.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="fig-yml-参考"><a href="#fig-yml-参考" class="headerlink" title="fig.yml 参考"></a>fig.yml 参考</h2><p>每个在 <code>fig.yml</code> 定义的服务都需要指定一个镜像或镜像的构建内容。像 <code>docker run</code> 的命令行一样，其它内容是可选的。</p>
+<p><code>docker run</code> 在 <code>Dockerfile</code> 中设置的选项(例如：<code>CMD</code>, <code>EXPOSE</code>, <code>VOLUME</code>, <code>ENV</code>) 作为已经提供的默认设置 - 你不需要在 <code>fig.yml</code> 中重新设置。</p>
+<p><code>image</code></p>
+<p>这里可以设置为标签或镜像ID的一部分。它可以是本地的，也可以是远程的 - 如果镜像在本地不存在，<code>Fig</code> 将会尝试拉去这个镜像。</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><div class="line"><span class="built_in">image</span>: ubuntu</div><div class="line"><span class="built_in">image</span>: orchardup/postgresql</div><div class="line"><span class="built_in">image</span>: a4bc65fd</div></pre></td></tr></table></figure>
+<p><code>build</code></p>
+<p>指定 <code>Dockerfile</code> 所在文件夹的路径。 <code>Fig</code> 将会构建这个镜像并给它生成一个名字，然后使用这个镜像。</p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><div class="line"><span class="symbol">build:</span> <span class="meta-keyword">/path/</span>to<span class="meta-keyword">/build/</span>dir</div></pre></td></tr></table></figure>
+<p><code>command</code></p>
+<p>覆盖默认的命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="built_in">command</span>: bundle <span class="built_in">exec</span> thin -p 3000</div></pre></td></tr></table></figure>
+<p><code>links</code></p>
+<p>在其它的服务中连接容器。使用服务名称（经常也作为别名）或服务名称加服务别名 <code>（SERVICE:ALIAS）</code> 都可以。</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">links:</div><div class="line"> -<span class="ruby"> db</span></div><div class="line"> -<span class="ruby"> <span class="symbol">db:</span>database</span></div><div class="line"> -<span class="ruby"> redis</span></div></pre></td></tr></table></figure>
+<p>可以在服务的容器中的 <code>/etc/hosts</code> 里创建别名。例如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line">172<span class="selector-class">.17</span><span class="selector-class">.2</span><span class="selector-class">.186</span>  <span class="selector-tag">db</span></div><div class="line">172<span class="selector-class">.17</span><span class="selector-class">.2</span><span class="selector-class">.186</span>  <span class="selector-tag">database</span></div><div class="line">172<span class="selector-class">.17</span><span class="selector-class">.2</span><span class="selector-class">.187</span>  <span class="selector-tag">redis</span></div></pre></td></tr></table></figure>
+<p>环境变量也将被创建 - 细节查看环境变量参考章节。</p>
+<p><code>ports</code></p>
+<p>暴露端口。使用宿主和容器 <code>（HOST:CONTAINER）</code> 或者仅仅容器的端口（宿主将会随机选择端口）都可以。</p>
+<p>注：当使用 <code>HOST:CONTAINER</code> 格式来映射端口时，如果你使用的容器端口小于60你可能会得到错误得结果，因为 <code>YAML</code> 将会解析 <code>xx:yy</code> 这种数字格式为60进制。所以我们建议用字符指定你得端口映射。</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">ports:</div><div class="line"> -<span class="ruby"> <span class="string">"3000"</span></span></div><div class="line"> -<span class="ruby"> <span class="string">"8000:8000"</span></span></div><div class="line"> -<span class="ruby"> <span class="string">"49100:22"</span></span></div><div class="line"> -<span class="ruby"> <span class="string">"127.0.0.1:8001:8001"</span></span></div></pre></td></tr></table></figure>
+<p><code>expose</code></p>
+<p>暴露不发布到宿主机的端口 - 它们只被连接的服务访问。仅仅内部的端口可以被指定。</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">expose:</div><div class="line"> -<span class="ruby"> <span class="string">"3000"</span></span></div><div class="line"> -<span class="ruby"> <span class="string">"8000"</span></span></div></pre></td></tr></table></figure>
+<p><code>volumes</code></p>
+<p>卷挂载路径设置。可以设置宿主机路径 <code>（HOST:CONTAINER）</code> 或访问模式 <code>（HOST:CONTAINER:ro）</code> 。</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">volumes:</div><div class="line"> -<span class="ruby"> /var/lib/mysql</span></div><div class="line"> -<span class="ruby"> cache/<span class="symbol">:/tmp/cache</span></span></div><div class="line"> -<span class="ruby"> ~<span class="regexp">/configs:/etc</span><span class="regexp">/configs/</span><span class="symbol">:ro</span></span></div></pre></td></tr></table></figure>
+<p><code>volumes_from</code></p>
+<p>从另一个服务或容器挂载所有卷。</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">volumes_from:</div><div class="line"> -<span class="ruby"> service_name</span></div><div class="line"> -<span class="ruby"> container_name</span></div></pre></td></tr></table></figure>
+<p><code>environment</code></p>
+<p>设置环境变量。你可以使用数组或字典两种格式。</p>
+<p>环境变量在运行 <code>Fig</code> 的机器上被解析成一个key。它有助于安全和指定的宿主值。</p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><div class="line"><span class="symbol">environment:</span></div><div class="line"><span class="symbol">  RACK_ENV:</span> development</div><div class="line"><span class="symbol">  SESSION_SECRET:</span></div><div class="line"><span class="symbol"></span></div><div class="line">environment:</div><div class="line">  - RACK_ENV=development</div><div class="line">  - SESSION_SECRET</div></pre></td></tr></table></figure>
+<p><code>net</code></p>
+<p>设置网络模式。使用和 <code>docker client</code> 的 <code>--net</code> 参数一样的值。</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><div class="line"><span class="symbol">net:</span> <span class="string">"bridge"</span></div><div class="line"><span class="symbol">net:</span> <span class="string">"none"</span></div><div class="line"><span class="symbol">net:</span> <span class="string">"container:[name or id]"</span></div><div class="line"><span class="symbol">net:</span> <span class="string">"host"</span></div></pre></td></tr></table></figure>
+<p><code>dns</code></p>
+<p>配置DNS服务器。它可以是一个值，也可以是一个列表。</p>
+<figure class="highlight ldif"><table><tr><td class="code"><pre><div class="line"><span class="attribute">dns</span>: 8.8.8.8</div><div class="line"><span class="attribute">dns:</span></div><div class="line">  - 8.8.8.8</div><div class="line">  - 9.9.9.9</div></pre></td></tr></table></figure>
+<p><code>working_dir, entrypoint, user, hostname, domainname, mem_limit, privileged</code></p>
+<p>这些都是和 <code>docker run</code> 对应的一个值。</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><div class="line"><span class="attribute">working_dir</span>: /code</div><div class="line"><span class="attribute">entrypoint</span>: /code/entrypoint.sh</div><div class="line"><span class="attribute">user</span>: postgresql</div><div class="line"></div><div class="line"><span class="http"><span class="attribute">hostname</span>: foo</span></div><div class="line"><span class="attribute">domainname</span>: foo.com</div><div class="line"></div><div class="line"><span class="groovy"><span class="string">mem_limit:</span> <span class="number">1000000000</span></span></div><div class="line"><span class="string">privileged:</span> <span class="literal">true</span></div></pre></td></tr></table></figure>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#fig-yml-参考"><span class="nav-number">1.</span> <span class="nav-text">fig.yml 参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'docker/fig/yml_ref.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/docker/fig/yml_ref.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="使用术语首先介绍几个术语。
+
+服务（service）：一个应用容器，实际上可以运行多个相同镜像的实例。
+项目(project)：由一组关联的应用容器组成的一个完整业务单元。
+
+可见，一个项目可以由多个服务（容器）关联而成，Compose 面向项目进行管理。
+场景下面，我们创建一个经典的 Web 项目：一个 Haproxy，挂载三个 Web 容器。
+创建一个 compose-haproxy-web">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/docker/compose/usage.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="使用术语首先介绍几个术语。
+
+服务（service）：一个应用容器，实际上可以运行多个相同镜像的实例。
+项目(project)：由一组关联的应用容器组成的一个完整业务单元。
+
+可见，一个项目可以由多个服务（容器）关联而成，Compose 面向项目进行管理。
+场景下面，我们创建一个经典的 Web 项目：一个 Haproxy，挂载三个 Web 容器。
+创建一个 compose-haproxy-web">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.325Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="使用术语首先介绍几个术语。
+
+服务（service）：一个应用容器，实际上可以运行多个相同镜像的实例。
+项目(project)：由一组关联的应用容器组成的一个完整业务单元。
+
+可见，一个项目可以由多个服务（容器）关联而成，Compose 面向项目进行管理。
+场景下面，我们创建一个经典的 Web 项目：一个 Haproxy，挂载三个 Web 容器。
+创建一个 compose-haproxy-web">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/docker/compose/usage.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><p>首先介绍几个术语。</p>
+<ul>
+<li>服务（service）：一个应用容器，实际上可以运行多个相同镜像的实例。</li>
+<li>项目(project)：由一组关联的应用容器组成的一个完整业务单元。</li>
+</ul>
+<p>可见，一个项目可以由多个服务（容器）关联而成，Compose 面向项目进行管理。</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>下面，我们创建一个经典的 Web 项目：一个 <a href="http://www.haproxy.org/" target="_blank" rel="external">Haproxy</a>，挂载三个 Web 容器。</p>
+<p>创建一个 <code>compose-haproxy-web</code> 目录，作为项目工作目录，并在其中分别创建两个子目录：<code>haproxy</code> 和 <code>web</code>。</p>
+<h3 id="Web-子目录"><a href="#Web-子目录" class="headerlink" title="Web 子目录"></a>Web 子目录</h3><p>这里用 Python 程序来提供一个简单的 HTTP 服务，打印出访问者的 IP 和 实际的本地 IP。</p>
+<h4 id="index-py"><a href="#index-py" class="headerlink" title="index.py"></a>index.py</h4><p>编写一个 <code>index.py</code> 作为服务器文件，代码为<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"><span class="comment">#authors: yeasy.github.com</span></div><div class="line"><span class="comment">#date: 2013-07-05</span></div><div class="line"></div><div class="line">import sys</div><div class="line">import BaseHTTPServer</div><div class="line">from SimpleHTTPServer import SimpleHTTPRequestHandler</div><div class="line">import socket</div><div class="line">import fcntl</div><div class="line">import struct</div><div class="line">import pickle</div><div class="line">from datetime import datetime</div><div class="line">from collections import OrderedDict</div><div class="line"></div><div class="line">class HandlerClass(SimpleHTTPRequestHandler):</div><div class="line">    def get_ip_address(self,ifname):</div><div class="line">        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</div><div class="line">        <span class="built_in">return</span> socket.inet_ntoa(fcntl.ioctl(</div><div class="line">            s.fileno(),</div><div class="line">            0x8915,  <span class="comment"># SIOCGIFADDR</span></div><div class="line">            struct.pack(<span class="string">'256s'</span>, ifname[:15])</div><div class="line">        )[20:24])</div><div class="line">    def log_message(self, format, *args):</div><div class="line">        <span class="keyword">if</span> len(args) &lt; 3 or <span class="string">"200"</span> not <span class="keyword">in</span> args[1]:</div><div class="line">            <span class="built_in">return</span></div><div class="line">        try:</div><div class="line">            request = pickle.load(open(<span class="string">"pickle_data.txt"</span>,<span class="string">"r"</span>))</div><div class="line">        except:</div><div class="line">            request=OrderedDict()</div><div class="line">        time_now = datetime.now()</div><div class="line">        ts = time_now.strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>)</div><div class="line">        server = self.get_ip_address(<span class="string">'eth0'</span>)</div><div class="line">        host=self.address_string()</div><div class="line">        addr_pair = (host,server)</div><div class="line">        <span class="keyword">if</span> addr_pair not <span class="keyword">in</span> request:</div><div class="line">            request[addr_pair]=[1,ts]</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            num = request[addr_pair][0]+1</div><div class="line">            del request[addr_pair]</div><div class="line">            request[addr_pair]=[num,ts]</div><div class="line">        file=open(<span class="string">"index.html"</span>, <span class="string">"w"</span>)</div><div class="line">        file.write(<span class="string">"&lt;!DOCTYPE html&gt; &lt;html&gt; &lt;body&gt;&lt;center&gt;&lt;h1&gt;&lt;font color=\"blue\" face=\"Georgia, Arial\" size=8&gt;&lt;em&gt;HA&lt;/em&gt;&lt;/font&gt; Webpage Visit Results&lt;/h1&gt;&lt;/center&gt;"</span>);</div><div class="line">        <span class="keyword">for</span> pair <span class="keyword">in</span> request:</div><div class="line">            <span class="keyword">if</span> pair[0] == host:</div><div class="line">                guest = <span class="string">"LOCAL: "</span>+pair[0]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                guest = pair[0]</div><div class="line">            <span class="keyword">if</span> (time_now-datetime.strptime(request[pair][1],<span class="string">'%Y-%m-%d %H:%M:%S'</span>)).seconds &lt; 3:</div><div class="line">                file.write(<span class="string">"&lt;p style=\"font-size:150%\" &gt;#"</span>+ str(request[pair][1]) +<span class="string">": &lt;font color=\"red\"&gt;"</span>+str(request[pair][0])+ <span class="string">"&lt;/font&gt; requests "</span> + <span class="string">"from &amp;lt&lt;font color=\"blue\"&gt;"</span>+guest+<span class="string">"&lt;/font&gt;&amp;gt to WebServer &amp;lt&lt;font color=\"blue\"&gt;"</span>+pair[1]+<span class="string">"&lt;/font&gt;&amp;gt&lt;/p&gt;"</span>)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                file.write(<span class="string">"&lt;p style=\"font-size:150%\" &gt;#"</span>+ str(request[pair][1]) +<span class="string">": &lt;font color=\"maroon\"&gt;"</span>+str(request[pair][0])+ <span class="string">"&lt;/font&gt; requests "</span> + <span class="string">"from &amp;lt&lt;font color=\"navy\"&gt;"</span>+guest+<span class="string">"&lt;/font&gt;&amp;gt to WebServer &amp;lt&lt;font color=\"navy\"&gt;"</span>+pair[1]+<span class="string">"&lt;/font&gt;&amp;gt&lt;/p&gt;"</span>)</div><div class="line">        file.write(<span class="string">"&lt;/body&gt; &lt;/html&gt;"</span>);</div><div class="line">        file.close()</div><div class="line">        pickle.dump(request,open(<span class="string">"pickle_data.txt"</span>,<span class="string">"w"</span>))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    try:</div><div class="line">        ServerClass  = BaseHTTPServer.HTTPServer</div><div class="line">        Protocol     = <span class="string">"HTTP/1.0"</span></div><div class="line">        addr = len(sys.argv) &lt; 2 and <span class="string">"0.0.0.0"</span> or sys.argv[1]</div><div class="line">        port = len(sys.argv) &lt; 3 and 80 or int(sys.argv[2])</div><div class="line">        HandlerClass.protocol_version = Protocol</div><div class="line">        httpd = ServerClass((addr, port), HandlerClass)</div><div class="line">        sa = httpd.socket.getsockname()</div><div class="line">        <span class="built_in">print</span> <span class="string">"Serving HTTP on"</span>, sa[0], <span class="string">"port"</span>, sa[1], <span class="string">"..."</span></div><div class="line">        httpd.serve_forever()</div><div class="line">    except:</div><div class="line">        <span class="built_in">exit</span>()</div></pre></td></tr></table></figure></p>
+<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><p>生成一个临时的 <code>index.html</code> 文件，其内容会被 index.py 更新。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ touch index.html</div></pre></td></tr></table></figure></p>
+<h4 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h4><p>生成一个 Dockerfile，内容为<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">FROM python:2.7</div><div class="line">WORKDIR /code</div><div class="line">ADD . /code</div><div class="line">EXPOSE 80</div><div class="line">CMD python index.py</div></pre></td></tr></table></figure></p>
+<h3 id="haproxy-目录"><a href="#haproxy-目录" class="headerlink" title="haproxy 目录"></a>haproxy 目录</h3><p>在其中生成一个 <code>haproxy.cfg</code> 文件，内容为<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">global</div><div class="line">  <span class="built_in">log</span> 127.0.0.1 <span class="built_in">local</span>0</div><div class="line">  <span class="built_in">log</span> 127.0.0.1 <span class="built_in">local</span>1 notice</div><div class="line"></div><div class="line">defaults</div><div class="line">  <span class="built_in">log</span> global</div><div class="line">  mode http</div><div class="line">  option httplog</div><div class="line">  option dontlognull</div><div class="line">  timeout connect 5000ms</div><div class="line">  timeout client 50000ms</div><div class="line">  timeout server 50000ms</div><div class="line"></div><div class="line">listen stats</div><div class="line">    <span class="built_in">bind</span> 0.0.0.0:70</div><div class="line">    stats <span class="built_in">enable</span></div><div class="line">    stats uri /</div><div class="line"></div><div class="line">frontend balancer</div><div class="line">    <span class="built_in">bind</span> 0.0.0.0:80</div><div class="line">    mode http</div><div class="line">    default_backend web_backends</div><div class="line"></div><div class="line">backend web_backends</div><div class="line">    mode http</div><div class="line">    option forwardfor</div><div class="line">    balance roundrobin</div><div class="line">    server weba weba:80 check</div><div class="line">    server webb webb:80 check</div><div class="line">    server webc webc:80 check</div><div class="line">    option httpchk GET /</div><div class="line">    http-check expect status 200</div></pre></td></tr></table></figure></p>
+<h3 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h3><p>编写 docker-compose.yml 文件，这个是 Compose 使用的主模板文件。内容十分简单，指定 3 个 web 容器，以及 1 个 haproxy 容器。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">weba:</div><div class="line">    build: ./web</div><div class="line">    expose:</div><div class="line">        - 80</div><div class="line"></div><div class="line">webb:</div><div class="line">    build: ./web</div><div class="line">    expose:</div><div class="line">        - 80</div><div class="line"></div><div class="line">webc:</div><div class="line">    build: ./web</div><div class="line">    expose:</div><div class="line">        - 80</div><div class="line"></div><div class="line">haproxy:</div><div class="line">    image: haproxy:latest</div><div class="line">    volumes:</div><div class="line">        - ./haproxy:/haproxy-override</div><div class="line">        - ./haproxy/haproxy.cfg:/usr/<span class="built_in">local</span>/etc/haproxy/haproxy.cfg:ro</div><div class="line">    links:</div><div class="line">        - weba</div><div class="line">        - webb</div><div class="line">        - webc</div><div class="line">    ports:</div><div class="line">        - <span class="string">"80:80"</span></div><div class="line">        - <span class="string">"70:70"</span></div><div class="line">    expose:</div><div class="line">        - <span class="string">"80"</span></div><div class="line">        - <span class="string">"70"</span></div></pre></td></tr></table></figure>
+<h3 id="运行-compose-项目"><a href="#运行-compose-项目" class="headerlink" title="运行 compose 项目"></a>运行 compose 项目</h3><p>现在 compose-haproxy-web 目录长成下面的样子。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">compose-haproxy-web</div><div class="line">├── docker-compose.yml</div><div class="line">├── haproxy</div><div class="line">│   └── haproxy.cfg</div><div class="line">└── web</div><div class="line">    ├── Dockerfile</div><div class="line">    ├── index.html</div><div class="line">    └── index.py</div></pre></td></tr></table></figure></p>
+<p>在该目录下执行 <code>docker-compose up</code> 命令，会整合输出所有容器的输出。<br><figure class="highlight gams"><table><tr><td class="code"><pre><div class="line"><span class="meta"><span class="meta-keyword">$sudo</span> docker-compose up</span></div><div class="line"><span class="function"><span class="title">Recreating</span></span> composehaproxyweb_webb_1...</div><div class="line"><span class="function"><span class="title">Recreating</span></span> composehaproxyweb_webc_1...</div><div class="line"><span class="function"><span class="title">Recreating</span></span> composehaproxyweb_weba_1...</div><div class="line"><span class="function"><span class="title">Recreating</span></span> composehaproxyweb_haproxy_1...</div><div class="line">Attaching to composehaproxyweb_webb_1, composehaproxyweb_webc_1, composehaproxyweb_weba_1, composehaproxyweb_haproxy_1</div></pre></td></tr></table></figure></p>
+<p>此时访问本地的 80 端口，会经过 haproxy 自动转发到后端的某个 web 容器上，刷新页面，可以观察到访问的容器地址的变化。</p>
+<p>访问本地 70 端口，可以查看到 haproxy 的统计信息。</p>
+<p>当然，还可以使用 consul、etcd 等实现服务发现，这样就可以避免手动指定后端的 web 容器了，更为灵活。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#术语"><span class="nav-number">1.1.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">1.2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-子目录"><span class="nav-number">1.3.</span> <span class="nav-text">Web 子目录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#index-py"><span class="nav-number">1.3.1.</span> <span class="nav-text">index.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#index-html"><span class="nav-number">1.3.2.</span> <span class="nav-text">index.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dockerfile"><span class="nav-number">1.3.3.</span> <span class="nav-text">Dockerfile</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#haproxy-目录"><span class="nav-number">1.4.</span> <span class="nav-text">haproxy 目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">1.5.</span> <span class="nav-text">docker-compose.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-compose-项目"><span class="nav-number">1.6.</span> <span class="nav-text">运行 compose 项目</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'docker/compose/usage.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/docker/compose/usage.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

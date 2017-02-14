@@ -86,28 +86,25 @@
 
 
 
-<meta name="description" content="Kubernetes核心概念Pod
-Pod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
-Node
-Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要">
+<meta name="description" content="Kubernetes核心概念PodPod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
+
+NodeNode是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要运">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Feisky's Blog">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/introduction/concepts.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Kubernetes核心概念Pod
-Pod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
-Node
-Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要">
+<meta property="og:description" content="Kubernetes核心概念PodPod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
+
+NodeNode是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要运">
 <meta property="og:image" content="http://feisky.xyz/media/pod.png">
 <meta property="og:image" content="http://feisky.xyz/media/node.png">
 <meta property="og:image" content="http://feisky.xyz/media/14731220608865.png">
-<meta property="og:updated_time" content="2017-02-13T13:36:42.640Z">
+<meta property="og:updated_time" content="2017-02-14T04:08:55.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
-<meta name="twitter:description" content="Kubernetes核心概念Pod
-Pod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
-Node
-Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要">
+<meta name="twitter:description" content="Kubernetes核心概念PodPod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
+
+NodeNode是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要运">
 <meta name="twitter:image" content="http://feisky.xyz/media/pod.png">
 
 
@@ -132,13 +129,7 @@ Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为�
   <link rel="canonical" href="http://feisky.xyz/kubernetes/introduction/concepts.html"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>  | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -168,7 +159,7 @@ Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为�
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -271,7 +262,7 @@ Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为�
       
         
         <li class="menu-item menu-item-k8s">
-          <a href="/k8s" rel="section">
+          <a href="/kubernetes" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -361,15 +352,120 @@ Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为�
 
   <div id="posts" class="posts-expand">
     
-    
-      <h1 id="Kubernetes核心概念"><a href="#Kubernetes核心概念" class="headerlink" title="Kubernetes核心概念"></a>Kubernetes核心概念</h1><h2 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h2><p><img src="media/pod.png" alt="pod"></p>
-<p>Pod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。</p>
-<h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p><img src="media/node.png" alt="node"></p>
-<p>Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要运行container runtime（比如docker或者rkt）、<code>kubelet</code>和<code>kube-proxy</code>服务。</p>
-<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p><img src="media/14731220608865.png" alt=""></p>
-<p>Service是应用服务的抽象，通过labels为应用提供负载均衡和服务发现。Service对外暴露一个统一的访问接口，外部服务不需要了解后端容器的运行。</p>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-14T04:08:55+00:00" content="2017-02-14">
+              2017-02-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/kubernetes/introduction/concepts.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="kubernetes/introduction/concepts.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Kubernetes核心概念"><a href="#Kubernetes核心概念" class="headerlink" title="Kubernetes核心概念"></a>Kubernetes核心概念</h1><h2 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h2><p>Pod是一组紧密关联的容器集合，它们共享Volume和network namespace，是Kubernetes调度的基本单位。Pod的设计理念是支持多个容器在一个Pod中共享网络和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。</p>
+<p><img src="media/pod.png" alt="pod"></p>
+<h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为了管理Pod，每个Node节点上至少要运行container runtime（比如docker或者rkt）、<code>kubelet</code>和<code>kube-proxy</code>服务。</p>
+<p><img src="media/node.png" alt="node"></p>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service是应用服务的抽象，通过labels为应用提供负载均衡和服务发现。Service对外暴露一个统一的访问接口，外部服务不需要了解后端容器的运行。</p>
+<p><img src="media/14731220608865.png" alt=""></p>
+<h2 id="Label"><a href="#Label" class="headerlink" title="Label"></a>Label</h2><p>Label是识别Kubernetes对象的标签，以key/value的方式附加到对象上。Label不提供唯一性，并且实际上经常是很多对象（如Pods）都使用相同的label来标志具体的应用。</p>
+<p>Label定义好后其他对象可以使用Label Selector来选择一组相同label的对象（比如ReplicaSet和Service用label来选择一组Pod）。Label Selector支持以下几种方式：</p>
+<ul>
+<li>等式，如<code>app=nginx</code>和<code>env!=production</code></li>
+<li>集合，如<code>env in (production, qa)</code></li>
+<li>多个label（它们之间是AND关系），如<code>app=nginx,env=test</code></li>
+</ul>
+<h2 id="Annotations"><a href="#Annotations" class="headerlink" title="Annotations"></a>Annotations</h2><p>Annotations是key/value形式附加于对象的注解。不同于Labels用于标志和选择对象，Annotations则是用来记录一些附加信息，以便于外部工具进行查找。</p>
+<h2 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h2><p>Namespace是对一组资源和对象的抽象集合，比如可以用来将系统内部的对象划分为不同的项目组或用户组。常见的pods, services, replication controllers和deployments等都是属于某一个namespace的（默认是default），而node, persistentVolumes等则不属于任何namespace。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -520,7 +616,7 @@ Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes核心概念"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod"><span class="nav-number">1.1.</span> <span class="nav-text">Pod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node"><span class="nav-number">1.2.</span> <span class="nav-text">Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service"><span class="nav-number">1.3.</span> <span class="nav-text">Service</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes核心概念"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod"><span class="nav-number">1.1.</span> <span class="nav-text">Pod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node"><span class="nav-number">1.2.</span> <span class="nav-text">Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service"><span class="nav-number">1.3.</span> <span class="nav-text">Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label"><span class="nav-number">1.4.</span> <span class="nav-text">Label</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Annotations"><span class="nav-number">1.5.</span> <span class="nav-text">Annotations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Namespace"><span class="nav-number">1.6.</span> <span class="nav-text">Namespace</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -627,6 +723,10 @@ Node是Pod真正运行的主机，可以物理机，也可以是虚拟机。为�
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
