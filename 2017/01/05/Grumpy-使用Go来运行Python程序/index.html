@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/2017/01/05/Grumpy-使用Go来运行Python程序/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Grumpy是Google近期开源（https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python">
-<meta property="og:updated_time" content="2017-02-14T14:28:21.369Z">
+<meta property="og:updated_time" content="2017-02-15T12:18:51.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Grumpy: 使用Go来运行Python程序">
 <meta name="twitter:description" content="Grumpy是Google近期开源（https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python">
@@ -247,6 +247,16 @@
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-dis">
+          <a href="/distributed" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分布式系统
           </a>
         </li>
       
@@ -408,7 +418,7 @@
       
 
       
-        <p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python" target="_blank" rel="external">https://github.com/google/grumpy）的把Python程序编译成Go程序的工具，主要是为了解决Python</a> GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
+        <p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy" target="_blank" rel="external">https://github.com/google/grumpy</a>）的把Python程序编译成Go程序的工具，主要是为了解决Python GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
 <p>Grumpy还在开发中，也还没有在Google的生产环境中使用，很多系统库还没有完成翻译，并且也不支持各种外部库和C扩展。虽然如此，Grumpy仍然是一个值得关注的有趣项目（Github已经有2700+的star）。</p>
 <h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/google/grumpy.git</div><div class="line">$ <span class="built_in">cd</span> grumpy</div><div class="line">$ <span class="built_in">echo</span> <span class="string">"print 'hello, world'"</span> | make run</div><div class="line">hello, world</div></pre></td></tr></table></figure>
 <p>当然，也可以把程序翻译成Go再运行:</p>
