@@ -1,0 +1,1000 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="OpenvswitchOVS常用命令参考如何添加bridge和port
+ovs-vsctl add-br br0
+ovs-vsctl del-br br0
+ovs-vsctl list-br
+ovs-vsctl add-port br0 eth0
+ovs-vsctl set port eth0 tag=1 #vlan id
+ovs-vsctl del-port br0 eth0
+ovs-vsctl">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/sdn/ovs/index.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="OpenvswitchOVS常用命令参考如何添加bridge和port
+ovs-vsctl add-br br0
+ovs-vsctl del-br br0
+ovs-vsctl list-br
+ovs-vsctl add-port br0 eth0
+ovs-vsctl set port eth0 tag=1 #vlan id
+ovs-vsctl del-port br0 eth0
+ovs-vsctl">
+<meta property="og:updated_time" content="2017-02-15T13:27:34.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="OpenvswitchOVS常用命令参考如何添加bridge和port
+ovs-vsctl add-br br0
+ovs-vsctl del-br br0
+ovs-vsctl list-br
+ovs-vsctl add-port br0 eth0
+ovs-vsctl set port eth0 tag=1 #vlan id
+ovs-vsctl del-port br0 eth0
+ovs-vsctl">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/sdn/ovs/"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-dis">
+          <a href="/distributed" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分布式系统
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h1 id="Openvswitch"><a href="#Openvswitch" class="headerlink" title="Openvswitch"></a>Openvswitch</h1><h2 id="OVS常用命令参考"><a href="#OVS常用命令参考" class="headerlink" title="OVS常用命令参考"></a>OVS常用命令参考</h2><p><strong>如何添加bridge和port</strong></p>
+<pre><code>ovs-vsctl add-br br0
+ovs-vsctl del-br br0
+ovs-vsctl list-br
+ovs-vsctl add-port br0 eth0
+ovs-vsctl set port eth0 tag=1 #vlan id
+ovs-vsctl del-port br0 eth0
+ovs-vsctl list-ports br0
+ovs-vsctl show
+</code></pre><p><strong>给OVS端口配置IP</strong></p>
+<pre><code>ovs−vsctl add−port br-ex port tag=10 −− set Interface port type=internal # default is access
+ifconfig port 192.168.100.1
+</code></pre><p><strong>如何配置流镜像</strong></p>
+<pre><code>ovs-vsctl -- set Bridge br-int mirrors=@m -- --id=@tap6a094914-cd get Port tap6a094914-cd -- --id=@tap73e945b4-79 get Port tap73e945b4-79 -- --id=@tapa6cd1168-a2 get Port tapa6cd1168-a2 -- --id=@m create Mirror name=mymirror select-dst-port=@tap6a094914-cd,@tap73e945b4-79 select-src-port=@tap6a094914-cd,@tap73e945b4-79 output-port=@tapa6cd1168-a2
+
+# clear
+ovs-vsctl remove Bridge br0 mirrors mymirror
+ovs-vsctl clear Bridge br-int mirrors
+</code></pre><p><strong>利用mirror特性对ovs端口patch-tun抓包</strong></p>
+<pre><code>ip link add name snooper0 type dummy
+ip link set dev snooper0 up
+ovs-vsctl add-port br-int snooper0
+ovs-vsctl -- set Bridge br-int mirrors=@m  \
+-- --id=@snooper0 get Port snooper0  \
+-- --id=@patch-tun get Port patch-tun  \
+-- --id=@m create Mirror name=mymirror select-dst-port=@patch-tun \
+select-src-port=@patch-tun output-port=@snooper0
+
+# capture
+tcpdump -i snooper0
+
+# clear
+ovs-vsctl clear Bridge br-int mirrors
+ip link delete dev snooper0
+</code></pre><p><strong>如何配置QOS，比如队列和限速</strong></p>
+<pre><code>ovs-vsctl -- set Port eth2 qos=@newqos  \
+-- --id=@newqos create QoS type=linux-htb other-config:max-rate=1000000000 queues=0=@q0,1=@q1 \
+-- --id=@q0 create  Queue dscp =1 other-config:min-rate=100000000 other-config:max-rate=100000000 \
+-- --id=@q1 create Queue other-config:min-rate=500000000
+
+# clear
+ovs-vsctl clear Port eth2 qos
+ovs-vsctl list qos
+ovs-vsctl destroy qos _uuid
+ovs-vsctl list qos
+ovs-vsctl destroy queue _uuid
+</code></pre><p><strong>如何配置流监控sflow</strong></p>
+<pre><code>ovs-vsctl -- --id=@s create sFlow agent=eth2 target=\&quot;10.0.0.1:6343\&quot; header=128 sampling=64 polling=10  -- set Bridge br-int sflow=@s
+ovs-vsctl -- clear Bridge br-int sflow
+</code></pre><p><strong>如何配置流规则</strong></p>
+<pre><code>ovs-ofctl add-flow br-int idle_timeout=0,in_port=2,dl_type=0x0800,dl_src=00:88:77:66:55:44,dl_dst=11:22:33:44:55:66,nw_src=1.2.3.4,nw_dst=5.6.7.8,nw_proto=1,tp_src=1,tp_dst=2,actions=drop
+ovs-ofctl del-flows br-int in_port=2 //in_port=2的所有流规则被删除
+ovs-ofctl  dump-ports br-int
+ovs-ofctl  dump-flows br-int
+ovs-ofctl show br-int //查看端口号
+</code></pre><ul>
+<li>支持字段还有nw_tos,nw_ecn,nw_ttl,dl_vlan,dl_vlan_pcp,ip_frag，arp_sha,arp_tha,ipv6_src,ipv6_dst等;</li>
+<li>支持流动作还有output：port，mod_dl_src/mod_dl_dst,set field等;</li>
+</ul>
+<p><strong>如何查看OVS的配置</strong></p>
+<pre><code>ovs-vsctl list/set/get/add/remove/clear/destroy table record column [VALUE]
+</code></pre><p>其中，TABLE名支持bridge,controller,interface,mirror,netflow,open_vswitch,port,qos,queue,ssl,sflow</p>
+<p><strong>配置VXLAN/GRE</strong></p>
+<pre><code>ovs-vsctl add-port br-ex port -- set interface port type=vxlan options:remote_ip=192.168.100.3
+ovs−vsctl add−port br-ex port −− set Interface port type=gre options:remote_ip=192.168.100.3
+ovs-vsctl set interface vxlan type=vxlan option:remote_ip=140.113.215.200 option:key=flow ofport_request=9
+</code></pre><p><strong>显示并学习MAC</strong></p>
+<pre><code>ovs-appctl fdb/show br-ex
+</code></pre><p><strong>设置控制器地址</strong></p>
+<pre><code>ovs-vsctl set-controller br-ex tcp:192.168.100.1:6633
+ovs-vsctl get-controller br0
+</code></pre><h2 id="流规则管理"><a href="#流规则管理" class="headerlink" title="流规则管理"></a>流规则管理</h2><h3 id="流规则组成"><a href="#流规则组成" class="headerlink" title="流规则组成"></a>流规则组成</h3><p>每条流规则由一系列字段组成，分为基本字段、条件字段和动作字段三部分：</p>
+<ul>
+<li>基本字段包括生效时间duration_sec、所属表项table_id、优先级priority、处理的数据包数n_packets，空闲超时时间idle_timeout等，空闲超时时间idle_timeout以秒为单位，超过设置的空闲超时时间后该流规则将被自动删除，空闲超时时间设置为0表示该流规则永不过期，idle_timeout将不包含于ovs-ofctl dump-flows brname的输出中。</li>
+<li>条件字段包括输入端口号in_port、源目的mac地址dl_src/dl_dst、源目的ip地址nw_src/nw_dst、数据包类型dl_type、网络层协议类型nw_proto等，可以为这些字段的任意组合，但在网络分层结构中底层的字段未给出确定值时上层的字段不允许给确定值，即一条流规则中允许底层协议字段指定为确定值，高层协议字段指定为通配符(不指定即为匹配任何值)，而不允许高层协议字段指定为确定值，而底层协议字段却为通配符(不指定即为匹配任何值)，否则，ovs-vswitchd 中的流规则将全部丢失，网络无法连接。</li>
+<li>动作字段包括正常转发normal、定向到某交换机端口output：port、丢弃drop、更改源目的mac地址mod_dl_src/mod_dl_dst等，一条流规则可有多个动作，动作执行按指定的先后顺序依次完成。</li>
+</ul>
+<p>流规则中可包含通配符和简写形式，任何字段都可等于*或ANY，如丢弃所有收到的数据包</p>
+<pre><code>ovs-ofctl add-flow xenbr0 dl_type=*,nw_src=ANY,actions=drop
+</code></pre><p>简写形式为将字段组简写为协议名，目前支持的简写有ip，arp，icmp，tcp，udp，与流规则条件字段的对应关系如下:</p>
+<pre><code>dl_type=0x0800 &lt;=&gt;ip
+dl_type=0x0806 &lt;=&gt;arp
+dl_type=0x0800，nw_proto=1 &lt;=&gt; icmp
+dl_type=0x0800，nw_proto=6 &lt;=&gt; tcp
+dl_type=0x0800，nw_proto=17 &lt;=&gt; udp
+dl_type=0x86dd. &lt;=&gt; ipv6
+dl_type=0x86dd,nw_proto=6. &lt;=&gt; tcp6
+dl_type=0x86dd,nw_proto=17. &lt;=&gt; udp6
+dl_type=0x86dd,nw_proto=58. &lt;=&gt; icmp6
+</code></pre><p>屏蔽某个IP</p>
+<pre><code>ovs-ofctl add-flow xenbr0 idle_timeout=0,dl_type=0x0800,nw_src=119.75.213.50,actions=drop
+</code></pre><p>数据包重定向</p>
+<pre><code>ovs-ofctl add-flow xenbr0 idle_timeout=0,dl_type=0x0800,nw_proto=1,actions=output:4
+</code></pre><p>去除VLAN tag</p>
+<pre><code>ovs-ofctl add-flow xenbr0 idle_timeout=0,in_port=3,actions=strip_vlan,normal
+</code></pre><p>更改数据包源IP地址后转发</p>
+<pre><code>ovs-ofctl add-flow xenbr0 idle_timeout=0,in_port=3,actions=mod_nw_src:211.68.52.32,normal
+</code></pre><p>注包</p>
+<pre><code># 格式为：ovs-ofctl packet-out switch in_port actions packet
+# 其中，packet为hex格式数据包
+ovs-ofctl packet-out br2 none output:2 040815162342FFFFFFFFFFFF07C30000
+</code></pre><p><strong>流表常用字段</strong></p>
+<ul>
+<li>in_port=port    传递数据包的端口的 OpenFlow 端口编号</li>
+<li>dl_vlan=vlan    数据包的 VLAN Tag 值，范围是 0-4095，0xffff 代表不包含 VLAN Tag 的数据包</li>
+<li>dl_src=<mac>和dl_dst=<mac> 匹配源或者目标的 MAC 地址<br>  01:00:00:00:00:00/01:00:00:00:00:00 代表广播地址<br>  00:00:00:00:00:00/01:00:00:00:00:00 代表单播地址</mac></mac></li>
+<li>dl_type=ethertype    匹配以太网协议类型，其中：<br>  dl_type=0x0800 代表 IPv4 协议<br>  dl_type=0x086dd 代表 IPv6 协议<br>  dl_type=0x0806 代表 ARP 协议</li>
+<li>nw_src=ip[/netmask]和nw_dst=ip[/netmask]<br>  当 dl_typ=0x0800 时，匹配源或者目标的 IPv4 地址，可以使 IP 地址或者域名</li>
+<li>nw_proto=proto    和 dl_type 字段协同使用。当 dl_type=0x0800 时，匹配 IP 协议编号；当 dl_type=0x086dd 代表 IPv6 协议编号</li>
+<li>table=number    指定要使用的流表的编号，范围是 0-254。在不指定的情况下，默认值为 0。通过使用流表编号，可以创建或者修改多个 Table 中的 Flow</li>
+<li>reg<idx>=value[/mask]    交换机中的寄存器的值。当一个数据包进入交换机时，所有的寄存器都被清零，用户可以通过 Action 的指令修改寄存器中的值</idx></li>
+</ul>
+<p><strong>常见的操作</strong></p>
+<ul>
+<li>output:port: 输出数据包到指定的端口。port 是指端口的 OpenFlow 端口编号</li>
+<li>mod_vlan_vid: 修改数据包中的 VLAN tag</li>
+<li>strip_vlan: 移除数据包中的 VLAN tag</li>
+<li>mod_dl_src/ mod_dl_dest: 修改源或者目标的 MAC 地址信息</li>
+<li>mod_nw_src/mod_nw_dst: 修改源或者目标的 IPv4 地址信息</li>
+<li>resubmit:port: 替换流表的 in_port 字段，并重新进行匹配</li>
+<li>load:value−&gt;dst[start..end]: 写数据到指定的字段</li>
+</ul>
+<p><strong>跟踪数据包的处理过程</strong></p>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">ovs-appctl ofproto/trace br0 in_port=<span class="number">3</span>,tcp,nw_src=<span class="number">10.0</span><span class="number">.0</span><span class="number">.2</span>,tcp_dst=<span class="number">22</span></div></pre></td></tr></table></figure>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Openvswitch"><span class="nav-number">1.</span> <span class="nav-text">Openvswitch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OVS常用命令参考"><span class="nav-number">1.1.</span> <span class="nav-text">OVS常用命令参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流规则管理"><span class="nav-number">1.2.</span> <span class="nav-text">流规则管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流规则组成"><span class="nav-number">1.2.1.</span> <span class="nav-text">流规则组成</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'sdn/ovs/index.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/sdn/ovs/index.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

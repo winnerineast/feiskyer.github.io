@@ -1,0 +1,963 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="加密技术TLS 依赖两种加密技术：
+
+对称加密（symmetric encryption）
+非对称加密（asymmetric encryption）
+
+对称加密对称加密的一方（比如小红）用秘钥 K 给文本 M 加密；另一方（比如小明）用同一个秘钥解密：
+小红 : C = E(M, K)小明 : M = D(C, K)
+这有一个问题：当一方生成了秘钥 K 之后得把 K 分享给另一方。但是穿越 Sin">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TLS和安全通信">
+<meta property="og:url" content="http://feisky.xyz/sdn/basic/tls/tls.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="加密技术TLS 依赖两种加密技术：
+
+对称加密（symmetric encryption）
+非对称加密（asymmetric encryption）
+
+对称加密对称加密的一方（比如小红）用秘钥 K 给文本 M 加密；另一方（比如小明）用同一个秘钥解密：
+小红 : C = E(M, K)小明 : M = D(C, K)
+这有一个问题：当一方生成了秘钥 K 之后得把 K 分享给另一方。但是穿越 Sin">
+<meta property="og:image" content="http://feisky.xyz/single-directional.png">
+<meta property="og:image" content="http://feisky.xyz/bidirectional.png">
+<meta property="og:updated_time" content="2017-02-15T13:27:34.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TLS和安全通信">
+<meta name="twitter:description" content="加密技术TLS 依赖两种加密技术：
+
+对称加密（symmetric encryption）
+非对称加密（asymmetric encryption）
+
+对称加密对称加密的一方（比如小红）用秘钥 K 给文本 M 加密；另一方（比如小明）用同一个秘钥解密：
+小红 : C = E(M, K)小明 : M = D(C, K)
+这有一个问题：当一方生成了秘钥 K 之后得把 K 分享给另一方。但是穿越 Sin">
+<meta name="twitter:image" content="http://feisky.xyz/single-directional.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/sdn/basic/tls/tls.html"/>
+
+
+  <title>
+  
+
+  
+    TLS和安全通信 | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-dis">
+          <a href="/distributed" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分布式系统
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="加密技术"><a href="#加密技术" class="headerlink" title="加密技术"></a>加密技术</h2><p>TLS 依赖两种加密技术：</p>
+<ol>
+<li>对称加密（symmetric encryption）</li>
+<li>非对称加密（asymmetric encryption）</li>
+</ol>
+<h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><p>对称加密的一方（比如小红）用秘钥 K 给文本 M 加密；另一方（比如小明）用<br>同一个秘钥解密：</p>
+<figure class="highlight mathematica"><table><tr><td class="code"><pre><div class="line">小红 : <span class="keyword">C</span> = <span class="keyword">E</span>(M, <span class="keyword">K</span>)</div><div class="line">小明 : M = <span class="keyword">D</span>(<span class="keyword">C</span>, <span class="keyword">K</span>)</div></pre></td></tr></table></figure>
+<p>这有一个问题：当一方生成了秘钥 K 之后得把 K 分享给另一方。但是穿越 Sin<br>City 的道路危险中途很可能有人窃听到 K，窃听者就可以假扮双方中的任何一<br>方与另一方通信。这叫中间人攻击<sup><a href="#mim">mim</a></sup>。</p>
+<h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><p>非对称加密利用成对的两个秘钥：K1 和 K2。小红用其中一个加密文本，小明可<br>以用另一个解密文本。比如，小红用 K1 加密，小明用 K2 解密：</p>
+<figure class="highlight mathematica"><table><tr><td class="code"><pre><div class="line">小红 : <span class="keyword">C</span> = <span class="keyword">E</span>(M, K1)</div><div class="line">小明 : M = <span class="keyword">D</span>(<span class="keyword">C</span>, K2)</div></pre></td></tr></table></figure>
+<p>这样一来，双方中的一方（比如小红）可以生成 K1和K2，然后把其中一个秘钥<br>（比如K1）私藏，称为<em>私钥</em>；另一个（比如K2）公开，称为<em>公钥</em>。另一<br>方（比如小明）得到公钥之后，双方就可以通信。</p>
+<p>然并卵，中间人还是可能截获公钥 K2，然后自己弄一对秘钥（κ1, κ2），然后<br>告诉小明说 κ2 是小红的公钥。这样中间人每次可以用截获的 K2 解密小红发给<br>小明的文本（甚至可能修改文本），再用 κ1 加密了发出去；小明用 κ2 解密接<br>收。</p>
+<p><a href="./openssl.html#生成RSA秘钥对">这里</a>有一个用OpenSSL工具生成密钥对的例子。</p>
+<h2 id="数字签名和CA"><a href="#数字签名和CA" class="headerlink" title="数字签名和CA"></a>数字签名和CA</h2><p>为了帮小明确定得到的公钥确实是小红的 K2，而不是中间人伪造的 κ2，牛人们<br>发明了<em>数字签名（digital signature）</em>技术。</p>
+<p>数字签名的做法是：</p>
+<ol>
+<li>小红把自己的公钥和ID（身份证号码，或者域名）合为<em>身份证申请（certificate signing request，CSR）</em>，</li>
+<li>小红把CSR发给一个德高望重的人（被称为 certificate authority，CA），比如小亮，</li>
+<li>小亮用自己的私钥加密小红的 CSR，得到的密文被称为<em>数字签名（digital signature）</em>，</li>
+<li>小亮把 signature 和 CSR 的明文合在一起称为 <em>CA签署的身份证（CA signed certificate，CRT）</em>，发给小红，</li>
+</ol>
+<figure class="highlight nix"><table><tr><td class="code"><pre><div class="line">小红：<span class="attr">CSR</span> = 小红公钥+小红域名</div><div class="line">     <span class="attr">signature</span> = E(CSR, 小亮的私钥)</div><div class="line">     <span class="attr">CRT</span> = CSR + signature</div></pre></td></tr></table></figure>
+<p><a href="./openssl.html#生成身份证申请">这里</a>有一个用OpenSSL生成CSR的例子。 签署<br>CSR的例子在<a href="./openssl.html#签署身份证">这里</a>。</p>
+<p>每当其他人（比如小明）找小红聊天（建立HTTPS连接）的时候，小红出示自己的小亮签署的身份证。<br>拿到这个身份证的人，只要他是相信小亮的——在自己机器上安装了小亮的身份证，就可以</p>
+<ol>
+<li>从小亮的身份证中的小亮的CSR里提取小亮的公钥；</li>
+<li>然后用小亮的公钥解密小红的身份证中小亮的signature，得到一个小红的CSR’；</li>
+<li>如果这个CSR’和小红身份证中的CSR明文一致，则说明“这个小红的身份证是小亮确认过并且签名的”。</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><div class="line">小明：小亮的公钥 = 小亮的CRT.CSR.小亮的公钥</div><div class="line">     CSR' = D(CRT.signature, 小亮的公钥)</div><div class="line">     <span class="keyword">if</span> CSR' == CRT.CSR then OK</div></pre></td></tr></table></figure>
+<p>由此过程可以看出来：随便谁都可以当CA——只要愿意公开自己的公钥，即可用自<br>己的私钥去加密别人的认证。那我们要是信错了 CA，被他摆一道怎么办？答案<br>是：没办法。我们选择信任社会，要相信如果 CA 说谎，万一被识破，就没有人<br>再相信他了。现实中，很多操作系统（Windows、Mac OS X）和浏览器（Chrome、<br>Firefox、IE）会内置一些靠谱的 CA 的身份证。但是有没有 CA 冒天下之大不<br>韪说谎呢？据传说有一个自称 CNNIC 的机构说过谎。</p>
+<p>这个过程可以用下图描述：</p>
+<p><a name="single-directional"><br><img src="single-directional.png" width="800">
+</a></p>
+<p>请注意，这只是一个示意图，并不为了精准描述HTTPS协议的握手和通信过程。<br>图中省略了一些重要的细节，比如握手之后的实际通信都是采用<br><a href="#加密和解密的性能">对称加密技术来实现的</a>。</p>
+<h2 id="信任链"><a href="#信任链" class="headerlink" title="信任链"></a>信任链</h2><p>小亮如果担心没有人信任自己是个好 CA（就像没人信CNNIC一样），可以找一个<br>大家都信的 CA，比如老王，用老王的私钥在小亮的身份证上签名：</p>
+<figure class="highlight nix"><table><tr><td class="code"><pre><div class="line">小亮：<span class="attr">CSR</span> = 小亮的公钥+小亮域名</div><div class="line">     <span class="attr">signature</span> = E(CSR, 老王的私钥)</div><div class="line">     <span class="attr">CRT</span> = CSR + signature</div></pre></td></tr></table></figure>
+<p>如果浏览器或者操作系统里安装了老王的公钥则可以验证“小亮的身份证是老王<br>确认并且签名过的”。</p>
+<p>这样，小亮在签署小红的身份证的时候，可以在小红身份证后面附上自己的身份<br>证。这样小红的身份证就有“两页”了。</p>
+<p>当小明和小红通信的时候：</p>
+<ol>
+<li>小明会先要求小红出示自己的身份证；</li>
+<li>小明虽然不信任小亮，但是信任老王，所以小明可以用老王的身份证里的老<br>王的公钥来验证小红身份证附带的小亮的身份证，于是就可以信任小亮了；</li>
+<li>然后小明用小亮身份证里的公钥验证小红的身份证。</li>
+</ol>
+<p>要是怕小明连自己也也不信任，老王可以再找一个小明信任的人来签名确认自己<br>的身份证。这个过程可以不断递推，从而形成了一条信任链（trust of<br>chain)<sup><a href="#chain">chain</a></sup>。</p>
+<h2 id="根身份证和自签名"><a href="#根身份证和自签名" class="headerlink" title="根身份证和自签名"></a>根身份证和自签名</h2><p>信任链总会有个顶端，被称为<em>根身份证（root CA）</em>。那么根身份证是谁签名<br>的呢？答案是：自己签名。实际上，我们每个人都可以自己签名认证自己的身份<br>证，得到<em>自签名的身份证（self-signed certificate）</em>。具体过程是：</p>
+<ol>
+<li>生成一对秘钥：公钥 K2 和私钥 K1，</li>
+<li>创建自己的 CSR，</li>
+<li>用自己的秘钥加密CSR得到signature，然后把CSR明文和signature一起发布。</li>
+</ol>
+<p>任何人只要信任我们自签名的身份证 CRT，也就可以用 CRT.CSR.K2 作为公钥加<br>密要传递给我们的文本。我们可以用自己的私钥 K1 来解密文本。</p>
+<p>如果老王就是根CA了，那么上述各位的身份证的信任链如下：</p>
+<figure class="highlight nix"><table><tr><td class="code"><pre><div class="line">小红：<span class="attr">CSR</span> = 小红公钥+小红域名</div><div class="line">     <span class="attr">signature</span> = E(CSR, 小亮的私钥)</div><div class="line">     <span class="attr">CRT</span> = CSR + signature</div><div class="line"></div><div class="line">小亮：<span class="attr">CSR</span> = 小亮的公钥+小亮域名</div><div class="line">     <span class="attr">signature</span> = E(小亮的CSR, 老王的私钥)</div><div class="line">     <span class="attr">CRT</span> = 小亮的CSR + signature</div><div class="line"></div><div class="line">老王：<span class="attr">CSR</span> = 老王的公钥+老王的域名</div><div class="line">     <span class="attr">signature</span> = E(老王的CSR, 老王自己的私钥)</div><div class="line">     <span class="attr">CRT</span> = 老王的CSR + signature</div></pre></td></tr></table></figure>
+<p><a href="./openssl.html#签署身份证">这里</a>有一个用OpenSSL工具自签署身份证的例子，<br>以及一个用自己创建的根身份证签署其他身份证的例子。</p>
+<h2 id="双方TLS认证"><a href="#双方TLS认证" class="headerlink" title="双方TLS认证"></a>双方TLS认证</h2><p>上述例子解释了通信的一方如何验证另一方的身份。这种情况的一个常见应用是：<br>我们通过浏览器访问银行的网页。这里的关键是，我们要能验证银行的身份证，<br>然后才敢于在网页里输入账号和密码。浏览器验证银行的身份证的过程如下：</p>
+<ol>
+<li>在浏览器和银行的HTTPS服务建立安全连接的过程中，银行的HTTPS服务会把<br>它的身份证发给浏览器<sup><a href="./openssl.html#showcerts">showcerts</a></sup>；</li>
+<li>浏览器使用内置的CA的身份证来验证银行的身份证。</li>
+</ol>
+<p>浏览器验证了银行的HTTPS服务的身份之后，就轮到银行验证浏览器的用户的身份了：</p>
+<ol>
+<li>浏览器展示银行HTTPS服务发来的登陆页面；</li>
+<li>用户在这个页面里输入账号和密码，银行的HTTPS服务由此验证用户的身份。</li>
+</ol>
+<p>在这个过程中，银行HTTPS服务器的身份是通过TLS身份证来验证的。而我们（用<br>户）的身份是通过我们输入的账号和密码来验证的。</p>
+<p>有时通信的双方都是程序（而不是人）。此时，让一方输入账号和密码，不如让<br>双方都通过TLS身份证来互相验证方便。尤其是在很多分布式系统里，有多种类<br>型的程序互相通信，而不只是两方通信。</p>
+<p>比如在 Kubernetes 集群里，不光操作集群的客户端程序 kubectl 要能验证<br>Kubernetes master node（具体的说是 apiserver）的身份，才能放心地把包括<br>敏感信息（比如数据库密码）的计算作业提交给 apiserver。类似的，<br>apiserver也要能验证 kubectl 的身份，以确认提交作业的是公司的合法雇员，<br>而不是外贼<sup><a href="#sign">sign</a></sup>。</p>
+<p>为此，通信各方都需要有各自的身份证。一个公司可以自签名一个CA身份证，并<br>且用它来给每个雇员以及每个程序签署身份证。这样，只要每台电脑上都预先安<br>装好公司自己的CA身份证，就可以用这个身份证验证每个雇员和程序的身份了。<br>这是目前很多公司的常用做法。</p>
+<p>双向认证和通信的过程请参见下图</p>
+<p><a name="bidirectional"><br><img src="bidirectional.png" width="800">
+</a></p>
+<h2 id="加密和解密的性能"><a href="#加密和解密的性能" class="headerlink" title="加密和解密的性能"></a>加密和解密的性能</h2><p>因为TLS模式下所有传输的数据都是加密的，大家会关注加密和解密的性能。客<br>观的说，非对称加密技术的加密和解密比较慢，相对来说，对称加密技术的加密<br>解密过程更快。所以实际的连接和握手过程中，通信双方会协商一个对称加密秘<br>钥，之后的数据通信过程中的加密都是利用对称加密技术来实现的。</p>
+<p>具体的做法是：握手的时候，双方各自生成一个随机数，并且以非对称加密的方式<br>分享给对方。然后每一方都把自己的随机数和对方的随机数拼起来，就是接下来<br>通信时候使用的对称加密方法的秘钥了。</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>上面介绍的概念在实际操作中往往是靠开源工具 <code>openssl</code> 实现的。<br><a href="./openssl.html">下一篇</a>介绍如何使用 <code>openssl</code>。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a name="mim">mim</a> <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack" target="_blank" rel="external">https://en.wikipedia.org/wiki/Man-in-the-middle_attack</a></p>
+</li>
+<li><p><a name="chain">chain</a> <a href="https://en.wikipedia.org/wiki/Chain_of_trust" target="_blank" rel="external">https://en.wikipedia.org/wiki/Chain_of_trust</a></p>
+</li>
+<li><p><a name="sign">sign</a> <a href="https://coreos.com/kubernetes/docs/latest/openssl.html#kubernetes-api-server-keypair" target="_blank" rel="external">https://coreos.com/kubernetes/docs/latest/openssl.html#kubernetes-api-server-keypair</a></p>
+</li>
+</ul>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密技术"><span class="nav-number">1.</span> <span class="nav-text">加密技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对称加密"><span class="nav-number">2.</span> <span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非对称加密"><span class="nav-number">3.</span> <span class="nav-text">非对称加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名和CA"><span class="nav-number">4.</span> <span class="nav-text">数字签名和CA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信任链"><span class="nav-number">5.</span> <span class="nav-text">信任链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根身份证和自签名"><span class="nav-number">6.</span> <span class="nav-text">根身份证和自签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双方TLS认证"><span class="nav-number">7.</span> <span class="nav-text">双方TLS认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密和解密的性能"><span class="nav-number">8.</span> <span class="nav-text">加密和解密的性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一步"><span class="nav-number">9.</span> <span class="nav-text">下一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">10.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'sdn/basic/tls/tls.html';
+      var disqus_title = "TLS和安全通信";
+      var disqus_url = 'http://feisky.xyz/sdn/basic/tls/tls.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>

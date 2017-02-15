@@ -1,0 +1,904 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="实现细节以 OpenvSwitch plugin 为例，主要在 neutron\plugins\openvswitch\agent\ovs_dvr_neutron_agent.py 文件中。
+OVSDVRNeutronAgent 类是本地处理的 agent，启动后会在三个网桥上添加初始化的规则，主要过程如下。
+def setup_dvr_flows(self):    self.setup_dvr">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/sdn/neutron/dvr/implementation.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="实现细节以 OpenvSwitch plugin 为例，主要在 neutron\plugins\openvswitch\agent\ovs_dvr_neutron_agent.py 文件中。
+OVSDVRNeutronAgent 类是本地处理的 agent，启动后会在三个网桥上添加初始化的规则，主要过程如下。
+def setup_dvr_flows(self):    self.setup_dvr">
+<meta property="og:updated_time" content="2017-02-15T13:27:34.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="实现细节以 OpenvSwitch plugin 为例，主要在 neutron\plugins\openvswitch\agent\ovs_dvr_neutron_agent.py 文件中。
+OVSDVRNeutronAgent 类是本地处理的 agent，启动后会在三个网桥上添加初始化的规则，主要过程如下。
+def setup_dvr_flows(self):    self.setup_dvr">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/sdn/neutron/dvr/implementation.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-docker">
+          <a href="/docker" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Docker
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-dis">
+          <a href="/distributed" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分布式系统
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><p>以 OpenvSwitch plugin 为例，主要在 <code>neutron\plugins\openvswitch\agent\ovs_dvr_neutron_agent.py</code> 文件中。</p>
+<p>OVSDVRNeutronAgent 类是本地处理的 agent，启动后会在三个网桥上添加初始化的规则，主要过程如下。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setup_dvr_flows</span><span class="params">(self)</span>:</span></div><div class="line">    self.setup_dvr_flows_on_integ_br()</div><div class="line">    self.setup_dvr_flows_on_tun_br()</div><div class="line">    self.setup_dvr_flows_on_phys_br()</div><div class="line">    self.setup_dvr_mac_flows_on_all_brs()</div></pre></td></tr></table></figure>
+<p>其中，br-int 是本地交换网桥；br-tun 是跟其它计算节点通信的承载网桥；br-phy 是跟外部公共网络通信的网桥。</p>
+<h3 id="integration-网桥规则添加"><a href="#integration-网桥规则添加" class="headerlink" title="integration 网桥规则添加"></a>integration 网桥规则添加</h3><p>integrate 网桥负责本地同一子网内的网包交换。</p>
+<p>主要过程为<br><figure class="highlight py"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Add a canary flow to int_br to track OVS restarts</span></div><div class="line">        self.int_br.add_flow(table=constants.CANARY_TABLE, priority=<span class="number">0</span>,</div><div class="line">                             actions=<span class="string">"drop"</span>)</div><div class="line"></div><div class="line">        <span class="comment"># Insert 'drop' action as the default for Table DVR_TO_SRC_MAC</span></div><div class="line">        self.int_br.add_flow(table=constants.DVR_TO_SRC_MAC,</div><div class="line">                             priority=<span class="number">1</span>,</div><div class="line">                             actions=<span class="string">"drop"</span>)</div><div class="line"></div><div class="line">        self.int_br.add_flow(table=constants.DVR_TO_SRC_MAC_VLAN,</div><div class="line">                             priority=<span class="number">1</span>,</div><div class="line">                             actions=<span class="string">"drop"</span>)</div><div class="line"></div><div class="line">        <span class="comment"># Insert 'normal' action as the default for Table LOCAL_SWITCHING</span></div><div class="line">        self.int_br.add_flow(table=constants.LOCAL_SWITCHING,</div><div class="line">                             priority=<span class="number">1</span>,</div><div class="line">                             actions=<span class="string">"normal"</span>)</div><div class="line"></div><div class="line">        <span class="keyword">for</span> physical_network <span class="keyword">in</span> self.bridge_mappings:</div><div class="line">            self.int_br.add_flow(table=constants.LOCAL_SWITCHING,</div><div class="line">                                 priority=<span class="number">2</span>,</div><div class="line">                                 in_port=self.int_ofports[physical_network],</div><div class="line">                                 actions=<span class="string">"drop"</span>)</div></pre></td></tr></table></figure></p>
+<p>首先，网桥上采用了多个流表，定义在 openvswitch/common 目录下的 constants.py。主要流表包括：</p>
+<ul>
+<li>LOCAL_SWITCHING 表：0，顾名思义，用于本地的交换。</li>
+<li>CANARY 表：23</li>
+<li>DVR_TO_SRC_MAC 表：1</li>
+<li>DVR_TO_SRC_MAC_VLAN 表：2</li>
+</ul>
+<p>上面的代码配置 LOCAL_SWITCHING 表默认规则为 NORMAL（作为本地的正常学习交换机），并不允许宿主机本地端口进来的包。配置其它表默认行为为丢弃。</p>
+<h3 id="tunnel-网桥规则添加"><a href="#tunnel-网桥规则添加" class="headerlink" title="tunnel 网桥规则添加"></a>tunnel 网桥规则添加</h3><p>主要过程为<br><figure class="highlight py"><table><tr><td class="code"><pre><div class="line">self.tun_br.add_flow(priority=<span class="number">1</span>,</div><div class="line">                     in_port=self.patch_int_ofport,</div><div class="line">                     actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                     constants.DVR_PROCESS)</div><div class="line"></div><div class="line"><span class="comment"># table-miss should be sent to learning table</span></div><div class="line">self.tun_br.add_flow(table=constants.DVR_NOT_LEARN,</div><div class="line">                     priority=<span class="number">0</span>,</div><div class="line">                     actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                     constants.LEARN_FROM_TUN)</div><div class="line"></div><div class="line">self.tun_br.add_flow(table=constants.DVR_PROCESS,</div><div class="line">                     priority=<span class="number">0</span>,</div><div class="line">                     actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                     constants.PATCH_LV_TO_TUN)</div></pre></td></tr></table></figure></p>
+<p>主要流表包括：</p>
+<ul>
+<li>DVR_PROCESS 表：1，顾名思义，用于 DVR 处理。</li>
+<li>DVR_NOT_LEARN 表：9。</li>
+<li>LEARN_FROM_TUN 表：10，学习从 tunnel 收到的网包。</li>
+<li>PATCH_LV_TO_TUN 表：2。</li>
+</ul>
+<p>所有从 br-int 过来的网包，发到 DVR_PROCESS 表处理。</p>
+<p>DVR_NOT_LEARN 表，默认将网包发给表 LEARN_FROM_TUN。</p>
+<p>DVR_PROCESS 表，默认将网包发给表 PATCH_LV_TO_TUN。</p>
+<h3 id="physical-网桥规则添加"><a href="#physical-网桥规则添加" class="headerlink" title="physical 网桥规则添加"></a>physical 网桥规则添加</h3><p>主要过程为<br><figure class="highlight py"><table><tr><td class="code"><pre><div class="line"><span class="keyword">for</span> physical_network <span class="keyword">in</span> self.bridge_mappings:</div><div class="line">            self.phys_brs[physical_network].add_flow(priority=<span class="number">2</span>,</div><div class="line">                in_port=self.phys_ofports[physical_network],</div><div class="line">                actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                constants.DVR_PROCESS_VLAN)</div><div class="line">            self.phys_brs[physical_network].add_flow(priority=<span class="number">1</span>,</div><div class="line">                actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                constants.DVR_NOT_LEARN_VLAN)</div><div class="line">            self.phys_brs[physical_network].add_flow(</div><div class="line">                table=constants.DVR_PROCESS_VLAN,</div><div class="line">                priority=<span class="number">0</span>,</div><div class="line">                actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                constants.LOCAL_VLAN_TRANSLATION)</div><div class="line">            self.phys_brs[physical_network].add_flow(</div><div class="line">                table=constants.LOCAL_VLAN_TRANSLATION,</div><div class="line">                priority=<span class="number">2</span>,</div><div class="line">                in_port=self.phys_ofports[physical_network],</div><div class="line">                actions=<span class="string">"drop"</span>)</div><div class="line">            self.phys_brs[physical_network].add_flow(</div><div class="line">                table=constants.DVR_NOT_LEARN_VLAN,</div><div class="line">                priority=<span class="number">1</span>,</div><div class="line">                actions=<span class="string">"NORMAL"</span>)</div></pre></td></tr></table></figure></p>
+<p>对所有的连接到外部的物理网桥都添加类似规则。</p>
+<p>主要流表包括：</p>
+<ul>
+<li>DVR_PROCESS_VLAN：1</li>
+<li>LOCAL_VLAN_TRANSLATION：2</li>
+<li>DVR_NOT_LEARN_VLAN：3。</li>
+</ul>
+<p>默认从 br-int 来的所有网包发送给表 DVR_PROCESS_VLAN。</p>
+<p>DVR_PROCESS_VLAN 表，默认发给表 LOCAL_VLAN_TRANSLATION。</p>
+<p>LOCAL_VLAN_TRANSLATION 表丢弃从 br-int 来的所有网包。</p>
+<p>其他所有网包发送给表 DVR_NOT_LEARN_VLAN。</p>
+<p>表 DVR_NOT_LEARN_VLAN 默认规则为 NORMAL。</p>
+<h3 id="所有网桥上添加-mac-规则"><a href="#所有网桥上添加-mac-规则" class="headerlink" title="所有网桥上添加 mac 规则"></a>所有网桥上添加 mac 规则</h3><p>主要过程为<br><figure class="highlight py"><table><tr><td class="code"><pre><div class="line"><span class="keyword">for</span> physical_network <span class="keyword">in</span> self.bridge_mappings:</div><div class="line">    self.int_br.add_flow(table=constants.LOCAL_SWITCHING,</div><div class="line">        priority=<span class="number">4</span>,</div><div class="line">        in_port=self.int_ofports[physical_network],</div><div class="line">        dl_src=mac[<span class="string">'mac_address'</span>],</div><div class="line">        actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">        constants.DVR_TO_SRC_MAC_VLAN)</div><div class="line">    self.phys_brs[physical_network].add_flow(</div><div class="line">        table=constants.DVR_NOT_LEARN_VLAN,</div><div class="line">        priority=<span class="number">2</span>,</div><div class="line">        dl_src=mac[<span class="string">'mac_address'</span>],</div><div class="line">        actions=<span class="string">"output:%s"</span> %</div><div class="line">        self.phys_ofports[physical_network])</div><div class="line"></div><div class="line"><span class="keyword">if</span> self.enable_tunneling:</div><div class="line">    <span class="comment"># Table 0 (default) will now sort DVR traffic from other</span></div><div class="line">    <span class="comment"># traffic depending on in_port</span></div><div class="line">    self.int_br.add_flow(table=constants.LOCAL_SWITCHING,</div><div class="line">                         priority=<span class="number">2</span>,</div><div class="line">                         in_port=self.patch_tun_ofport,</div><div class="line">                         dl_src=mac[<span class="string">'mac_address'</span>],</div><div class="line">                         actions=<span class="string">"resubmit(,%s)"</span> %</div><div class="line">                         constants.DVR_TO_SRC_MAC)</div><div class="line">    <span class="comment"># Table DVR_NOT_LEARN ensures unique dvr macs in the cloud</span></div><div class="line">    <span class="comment"># are not learnt, as they may</span></div><div class="line">    <span class="comment"># result in flow explosions</span></div><div class="line">    self.tun_br.add_flow(table=constants.DVR_NOT_LEARN,</div><div class="line">                     priority=<span class="number">1</span>,</div><div class="line">                     dl_src=mac[<span class="string">'mac_address'</span>],</div><div class="line">                     actions=<span class="string">"output:%s"</span> %</div><div class="line">                     self.patch_int_ofport)</div><div class="line">self.registered_dvr_macs.add(mac[<span class="string">'mac_address'</span>])</div></pre></td></tr></table></figure></p>
+<p>这里主要是添加对其他主机上的 DVR 网关发过来的网包的处理。</p>
+<h4 id="外部网络为-vlan-的情况下"><a href="#外部网络为-vlan-的情况下" class="headerlink" title="外部网络为 vlan 的情况下"></a>外部网络为 vlan 的情况下</h4><p>br-int 网桥上，表 LOCAL_SWITCHING 添加优先级为 4 的流，如果从外面过来的网包，MAC 源地址是其他的 DVR 网关地址，则扔给表 DVR_TO_SRC_MAC_VLAN 处理。</p>
+<p>br-eth 网桥上，表 DVR_NOT_LEARN_VLAN 则添加优先级为 2 的规则，MAC 源地址是其他的 DVR 网关地址，则发给 br-int。</p>
+<h4 id="外部网络为-tunnel-的情况下"><a href="#外部网络为-tunnel-的情况下" class="headerlink" title="外部网络为 tunnel 的情况下"></a>外部网络为 tunnel 的情况下</h4><p>类似，分别在 br-int 网桥的 LOCAL_SWITCHING 表和 br-tun 网桥的 DVR_NOT_LEARN 表添加流，优先级分别改为 2 和 1。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现细节"><span class="nav-number">1.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#integration-网桥规则添加"><span class="nav-number">1.1.</span> <span class="nav-text">integration 网桥规则添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tunnel-网桥规则添加"><span class="nav-number">1.2.</span> <span class="nav-text">tunnel 网桥规则添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#physical-网桥规则添加"><span class="nav-number">1.3.</span> <span class="nav-text">physical 网桥规则添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所有网桥上添加-mac-规则"><span class="nav-number">1.4.</span> <span class="nav-text">所有网桥上添加 mac 规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#外部网络为-vlan-的情况下"><span class="nav-number">1.4.1.</span> <span class="nav-text">外部网络为 vlan 的情况下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外部网络为-tunnel-的情况下"><span class="nav-number">1.4.2.</span> <span class="nav-text">外部网络为 tunnel 的情况下</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'sdn/neutron/dvr/implementation.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/sdn/neutron/dvr/implementation.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
