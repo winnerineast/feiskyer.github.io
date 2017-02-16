@@ -86,25 +86,34 @@
 
 
 
-<meta name="description" content="Kubernetes测试单元测试单元测试直接运行go test命令即可，比如
-go test -v k8s.io/kubernetes/pkg/kubelet
-End to end (e2e)测试e2e测试相对麻烦些，本地e2e测试的方法为：
-make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=local# 只测试某">
+<meta name="description" content="单元测试单元测试仅依赖于源代码，是测试代码逻辑是否符合预期的最简单方法。
+运行所有的单元测试
+make test
+仅测试指定的package
+# 单个packagemake test WHAT=./pkg/api# 多个packagesmake test WHAT=./pkg/&amp;#123;api,kubelet&amp;#125;
+或者，也可以直接用go test
+go test -v k8s.io/ku">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
+<meta property="og:title" content="Kubernetes测试">
 <meta property="og:url" content="http://feisky.xyz/kubernetes/dev/testing.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Kubernetes测试单元测试单元测试直接运行go test命令即可，比如
-go test -v k8s.io/kubernetes/pkg/kubelet
-End to end (e2e)测试e2e测试相对麻烦些，本地e2e测试的方法为：
-make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=local# 只测试某">
-<meta property="og:updated_time" content="2017-02-15T13:38:45.631Z">
+<meta property="og:description" content="单元测试单元测试仅依赖于源代码，是测试代码逻辑是否符合预期的最简单方法。
+运行所有的单元测试
+make test
+仅测试指定的package
+# 单个packagemake test WHAT=./pkg/api# 多个packagesmake test WHAT=./pkg/&amp;#123;api,kubelet&amp;#125;
+或者，也可以直接用go test
+go test -v k8s.io/ku">
+<meta property="og:updated_time" content="2017-02-16T14:01:25.843Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
-<meta name="twitter:description" content="Kubernetes测试单元测试单元测试直接运行go test命令即可，比如
-go test -v k8s.io/kubernetes/pkg/kubelet
-End to end (e2e)测试e2e测试相对麻烦些，本地e2e测试的方法为：
-make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=local# 只测试某">
+<meta name="twitter:title" content="Kubernetes测试">
+<meta name="twitter:description" content="单元测试单元测试仅依赖于源代码，是测试代码逻辑是否符合预期的最简单方法。
+运行所有的单元测试
+make test
+仅测试指定的package
+# 单个packagemake test WHAT=./pkg/api# 多个packagesmake test WHAT=./pkg/&amp;#123;api,kubelet&amp;#125;
+或者，也可以直接用go test
+go test -v k8s.io/ku">
 
 
 
@@ -128,7 +137,7 @@ make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=loc
   <link rel="canonical" href="http://feisky.xyz/kubernetes/dev/testing.html"/>
 
 
-  <title>  | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Kubernetes测试 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -380,7 +389,7 @@ make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=loc
             
             
               
-                
+                Kubernetes测试
               
             
           </h1>
@@ -392,8 +401,8 @@ make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=loc
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-15T13:38:45+00:00" content="2017-02-15">
-              2017-02-15
+            <time itemprop="dateCreated" datetime="2017-02-16T14:01:25+00:00" content="2017-02-16">
+              2017-02-16
             </time>
           </span>
 
@@ -427,13 +436,58 @@ make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=loc
       
 
       
-        <h1 id="Kubernetes测试"><a href="#Kubernetes测试" class="headerlink" title="Kubernetes测试"></a>Kubernetes测试</h1><h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>单元测试直接运行<code>go test</code>命令即可，比如</p>
+        <h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>单元测试仅依赖于源代码，是测试代码逻辑是否符合预期的最简单方法。</p>
+<p><strong>运行所有的单元测试</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">make <span class="built_in">test</span></div></pre></td></tr></table></figure>
+<p><strong>仅测试指定的package</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 单个package</span></div><div class="line">make <span class="built_in">test</span> WHAT=./pkg/api</div><div class="line"><span class="comment"># 多个packages</span></div><div class="line">make <span class="built_in">test</span> WHAT=./pkg/&#123;api,kubelet&#125;</div></pre></td></tr></table></figure>
+<p>或者，也可以直接用<code>go test</code></p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">go <span class="built_in">test</span> -v k8s.io/kubernetes/pkg/kubelet</div></pre></td></tr></table></figure>
-<h2 id="End-to-end-e2e-测试"><a href="#End-to-end-e2e-测试" class="headerlink" title="End to end (e2e)测试"></a>End to end (e2e)测试</h2><p>e2e测试相对麻烦些，本地e2e测试的方法为：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">make WHAT=<span class="string">'test/e2e/e2e.test'</span></div><div class="line">make ginkgo</div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line"></div><div class="line"><span class="comment"># 只测试某个case</span></div><div class="line">go run hack/e2e.go -v -test --test_args=<span class="string">'--ginkgo.focus=Kubectl\sclient\s\[k8s\.io\]\sKubectl\srolling\-update\sshould\ssupport\srolling\-update\sto\ssame\simage\s\[Conformance\]$'</span></div></pre></td></tr></table></figure>
-<h2 id="Node-e2e测试"><a href="#Node-e2e测试" class="headerlink" title="Node e2e测试"></a>Node e2e测试</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">make <span class="built_in">test</span><span class="_">-e</span>2e-node FOCUS=<span class="string">"InitContainer"</span></div></pre></td></tr></table></figure>
-<h2 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h2><p>有时可以借助kubectl的模版来获取想要的数据，比如查询某个container的镜像的方法为</p>
+<p><strong>仅测试指定package的某个测试case</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Runs TestValidatePod in pkg/api/validation with the verbose flag set</span></div><div class="line">make <span class="built_in">test</span> WHAT=./pkg/api/validation KUBE_GOFLAGS=<span class="string">"-v"</span> KUBE_TEST_ARGS=<span class="string">'-run ^TestValidatePod$'</span></div><div class="line"></div><div class="line"><span class="comment"># Runs tests that match the regex ValidatePod|ValidateConfigMap in pkg/api/validation</span></div><div class="line">make <span class="built_in">test</span> WHAT=./pkg/api/validation KUBE_GOFLAGS=<span class="string">"-v"</span> KUBE_TEST_ARGS=<span class="string">"-run ValidatePod\|ValidateConfigMap$"</span></div></pre></td></tr></table></figure>
+<p>或者直接用<code>go test</code></p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">go test -v k8s.io<span class="regexp">/kubernetes/</span>pkg<span class="regexp">/api/</span>validation -run ^TestValidatePod$</div></pre></td></tr></table></figure>
+<p><strong>并行测试</strong></p>
+<p>并行测试是root out flakes的一种有效方法：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Have 2 workers run all tests 5 times each (10 total iterations).</span></div><div class="line">make <span class="built_in">test</span> PARALLEL=2 ITERATION=5</div></pre></td></tr></table></figure>
+<p><strong>生成测试报告</strong></p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">make <span class="keyword">test</span> KUBE_COVER=<span class="built_in">y</span></div></pre></td></tr></table></figure>
+<h2 id="Benchmark测试"><a href="#Benchmark测试" class="headerlink" title="Benchmark测试"></a>Benchmark测试</h2><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">go test ./pkg/apiserver -benchmem -<span class="keyword">run</span><span class="bash">=XXX -bench=BenchmarkWatch</span></div></pre></td></tr></table></figure>
+<h2 id="集成测试"><a href="#集成测试" class="headerlink" title="集成测试"></a>集成测试</h2><p>Kubernetes集成测试需要安装etcd（只要按照即可，不需要启动），比如</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">hack/<span class="keyword">install</span>-etcd.sh  # Installs <span class="keyword">in</span> ./third_party/etcd</div><div class="line">echo <span class="keyword">export</span> <span class="keyword">PATH</span>=<span class="string">"\$PATH:$(pwd)/third_party/etcd"</span> &gt;&gt; ~/.profile  # <span class="keyword">Add</span> <span class="keyword">to</span> <span class="keyword">PATH</span></div></pre></td></tr></table></figure>
+<p>集成测试会在需要的时候自动启动etcd和kubernetes服务，并运行<a href="https://github.com/kubernetes/kubernetes/tree/master/test/integration" target="_blank" rel="external">test/integration</a>里面的测试。</p>
+<p><strong>运行所有集成测试</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">make <span class="built_in">test</span>-integration  <span class="comment"># Run all integration tests.</span></div></pre></td></tr></table></figure>
+<p><strong>指定集成测试用例</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Run integration test TestPodUpdateActiveDeadlineSeconds with the verbose flag set.</span></div><div class="line">make <span class="built_in">test</span>-integration KUBE_GOFLAGS=<span class="string">"-v"</span> KUBE_TEST_ARGS=<span class="string">"-run ^TestPodUpdateActiveDeadlineSeconds$"</span></div></pre></td></tr></table></figure>
+<h2 id="End-to-end-e2e-测试"><a href="#End-to-end-e2e-测试" class="headerlink" title="End to end (e2e)测试"></a>End to end (e2e)测试</h2><p>End to end (e2e) 测试模拟用户行为操作Kubernetes，用来保证Kubernetes服务或集群的行为完全符合设计预期。</p>
+<p>在开启e2e测试之前，需要先编译测试文件，并设置KUBERNETES_PROVIDER（默认为gce）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">make WHAT=<span class="string">'test/e2e/e2e.test'</span></div><div class="line">make ginkgo</div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div></pre></td></tr></table></figure>
+<p><strong>启动cluster，测试，最后停止cluster</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># build Kubernetes, up a cluster, run tests, and tear everything down</span></div><div class="line">go run hack/e2e.go -- -v --build --up --test --down</div></pre></td></tr></table></figure>
+<p><strong>仅测试指定的用例</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">go run hack/e2e.go -v -test --test_args=<span class="string">'--ginkgo.focus=Kubectl\sclient\s\[k8s\.io\]\sKubectl\srolling\-update\sshould\ssupport\srolling\-update\sto\ssame\simage\s\[Conformance\]$'</span></div></pre></td></tr></table></figure>
+<p><strong>略过测试用例</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">go run hack/e2e.go -- -v --test --test_args=<span class="string">"--ginkgo.skip=Pods.*env</span></div></pre></td></tr></table></figure>
+<p><strong>并行测试</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Run tests in parallel, skip any that must be run serially</span></div><div class="line">GINKGO_PARALLEL=y go run hack/e2e.go --v --test --test_args=<span class="string">"--ginkgo.skip=\[Serial\]"</span></div><div class="line"></div><div class="line"><span class="comment"># Run tests in parallel, skip any that must be run serially and keep the test namespace if test failed</span></div><div class="line">GINKGO_PARALLEL=y go run hack/e2e.go --v --test --test_args=<span class="string">"--ginkgo.skip=\[Serial\] --delete-namespace-on-failure=false"</span></div></pre></td></tr></table></figure>
+<p><strong>清理测试</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">go run hack/e2e.go -- -v --down</div></pre></td></tr></table></figure>
+<p><strong>有用的<code>-ctl</code></strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -ctl can be used to quickly call kubectl against your e2e cluster. Useful for</span></div><div class="line"><span class="comment"># cleaning up after a failed test or viewing logs. Use -v to avoid suppressing</span></div><div class="line"><span class="comment"># kubectl output.</span></div><div class="line">go run hack/e2e.go -- -v -ctl=<span class="string">'get events'</span></div><div class="line">go run hack/e2e.go -- -v -ctl=<span class="string">'delete pod foobar'</span></div></pre></td></tr></table></figure>
+<h2 id="Fedaration-e2e测试"><a href="#Fedaration-e2e测试" class="headerlink" title="Fedaration e2e测试"></a>Fedaration e2e测试</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> FEDERATION=<span class="literal">true</span></div><div class="line"><span class="built_in">export</span> E2E_ZONES=<span class="string">"us-central1-a us-central1-b us-central1-f"</span></div><div class="line"><span class="comment"># or export FEDERATION_PUSH_REPO_BASE="quay.io/colin_hom"</span></div><div class="line"><span class="built_in">export</span> FEDERATION_PUSH_REPO_BASE=<span class="string">"gcr.io/<span class="variable">$&#123;GCE_PROJECT_NAME&#125;</span>"</span></div><div class="line"></div><div class="line"><span class="comment"># build container images</span></div><div class="line">KUBE_RELEASE_RUN_TESTS=n KUBE_FASTBUILD=<span class="literal">true</span> go run hack/e2e.go -- -v -build</div><div class="line"></div><div class="line"><span class="comment"># push the federation container images</span></div><div class="line">build/push-federation-images.sh</div><div class="line"></div><div class="line"><span class="comment"># Deploy federation control plane</span></div><div class="line">go run hack/e2e.go -- -v --up</div><div class="line"></div><div class="line"><span class="comment"># Finally, run the tests</span></div><div class="line">go run hack/e2e.go -- -v --test --test_args=<span class="string">"--ginkgo.focus=\[Feature:Federation\]"</span></div><div class="line"></div><div class="line"><span class="comment"># Don't forget to teardown everything down</span></div><div class="line">go run hack/e2e.go -- -v --down</div></pre></td></tr></table></figure>
+<p>可以用<code>cluster/log-dump.sh &lt;directory&gt;</code>方便的下载相关日志，帮助排查测试中碰到的问题。</p>
+<h2 id="Node-e2e测试"><a href="#Node-e2e测试" class="headerlink" title="Node e2e测试"></a>Node e2e测试</h2><p>Node e2e仅测试Kubelet的相关功能，可以在本地或者集群中测试</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">make <span class="built_in">test</span><span class="_">-e</span>2e-node FOCUS=<span class="string">"InitContainer"</span></div><div class="line">make test_e2e_node TEST_ARGS=<span class="string">"--experimental-cgroups-per-qos=true"</span></div></pre></td></tr></table></figure>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><p>借助kubectl的模版可以方便获取想要的数据，比如查询某个container的镜像的方法为</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl get pods nginx-4263166205-ggst4 -o template <span class="string">'--template=&#123;&#123;if (exists . "status" "containerStatuses")&#125;&#125;&#123;&#123;range .status.containerStatuses&#125;&#125;&#123;&#123;if eq .name "nginx"&#125;&#125;&#123;&#123;.image&#125;&#125;&#123;&#123;end&#125;&#125;&#123;&#123;end&#125;&#125;&#123;&#123;end&#125;&#125;'</span></div></pre></td></tr></table></figure>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a href="https://github.com/kubernetes/community/blob/master/contributors/devel/testing.md" target="_blank" rel="external">Kubernetes testing</a></li>
+<li><a href="https://github.com/kubernetes/community/blob/master/contributors/devel/e2e-tests.md" target="_blank" rel="external">End-to-End Testing</a></li>
+<li><a href="https://github.com/kubernetes/community/blob/master/contributors/devel/e2e-node-tests.md" target="_blank" rel="external">Node e2e test</a></li>
+<li><a href="https://github.com/kubernetes/community/blob/master/contributors/devel/writing-good-e2e-tests.md" target="_blank" rel="external">How to write e2e test</a></li>
+<li><a href="https://github.com/kubernetes/community/blob/master/contributors/devel/coding-conventions.md#testing-conventions" target="_blank" rel="external">Coding Conventions</a></li>
+</ul>
 
       
     </div>
@@ -617,7 +671,7 @@ make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=loc
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes测试"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试"><span class="nav-number">1.1.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#End-to-end-e2e-测试"><span class="nav-number">1.2.</span> <span class="nav-text">End to end (e2e)测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-e2e测试"><span class="nav-number">1.3.</span> <span class="nav-text">Node e2e测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助工具"><span class="nav-number">1.4.</span> <span class="nav-text">辅助工具</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试"><span class="nav-number">1.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Benchmark测试"><span class="nav-number">2.</span> <span class="nav-text">Benchmark测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成测试"><span class="nav-number">3.</span> <span class="nav-text">集成测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#End-to-end-e2e-测试"><span class="nav-number">4.</span> <span class="nav-text">End to end (e2e)测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fedaration-e2e测试"><span class="nav-number">5.</span> <span class="nav-text">Fedaration e2e测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-e2e测试"><span class="nav-number">6.</span> <span class="nav-text">Node e2e测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充说明"><span class="nav-number">7.</span> <span class="nav-text">补充说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">8.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
             
           </div>
         </section>
@@ -745,7 +799,7 @@ make WHAT=&apos;test/e2e/e2e.test&apos;make ginkgoexport KUBERNETES_PROVIDER=loc
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
       var disqus_identifier = 'kubernetes/dev/testing.html';
-      var disqus_title = "";
+      var disqus_title = "Kubernetes测试";
       var disqus_url = 'http://feisky.xyz/kubernetes/dev/testing.html';
 
       function run_disqus_script(disqus_script){

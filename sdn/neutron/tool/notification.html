@@ -88,13 +88,13 @@
 
 <meta name="description" content="监听notification消息#!/usr/bin/env python# coding: utf-8import loggingimport socketimport timeimport eventletimport oslo_messagingfrom oslo_config import cfg# global configrabbit_username = &apos;guest&apos;rabbit_">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
+<meta property="og:title" content="监听notification消息">
 <meta property="og:url" content="http://feisky.xyz/sdn/neutron/tool/notification.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="监听notification消息#!/usr/bin/env python# coding: utf-8import loggingimport socketimport timeimport eventletimport oslo_messagingfrom oslo_config import cfg# global configrabbit_username = &apos;guest&apos;rabbit_">
-<meta property="og:updated_time" content="2017-02-15T13:38:45.879Z">
+<meta property="og:updated_time" content="2017-02-16T14:01:26.075Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:title" content="监听notification消息">
 <meta name="twitter:description" content="监听notification消息#!/usr/bin/env python# coding: utf-8import loggingimport socketimport timeimport eventletimport oslo_messagingfrom oslo_config import cfg# global configrabbit_username = &apos;guest&apos;rabbit_">
 
 
@@ -119,13 +119,7 @@
   <link rel="canonical" href="http://feisky.xyz/sdn/neutron/tool/notification.html"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 监听notification消息 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -155,7 +149,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -358,10 +352,107 @@
 
   <div id="posts" class="posts-expand">
     
-    
-      <h1 id="监听notification消息"><a href="#监听notification消息" class="headerlink" title="监听notification消息"></a>监听notification消息</h1><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding: utf-8</span></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> socket</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> eventlet</div><div class="line"><span class="keyword">import</span> oslo_messaging</div><div class="line"><span class="keyword">from</span> oslo_config <span class="keyword">import</span> cfg</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># global config</span></div><div class="line">rabbit_username = <span class="string">'guest'</span></div><div class="line">rabbit_password = <span class="string">'guest'</span></div><div class="line">hostname = socket.gethostname()</div><div class="line">rabbit_hosts = [<span class="string">'127.0.0.1'</span>]</div><div class="line"></div><div class="line">eventlet.monkey_patch()</div><div class="line">FORMAT = <span class="string">"%(asctime)s - %(name)s - %(levelname)s - %(message)s"</span></div><div class="line">logging.basicConfig(format=FORMAT)</div><div class="line">log = logging.getLogger()</div><div class="line">log.setLevel(logging.INFO)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">rabbitmq_listener</span><span class="params">()</span>:</span></div><div class="line">    transports = []</div><div class="line">    <span class="keyword">for</span> host <span class="keyword">in</span> rabbit_hosts:</div><div class="line">        transports.append(oslo_messaging.TransportHost(</div><div class="line">            host, <span class="number">5672</span>, rabbit_username, rabbit_password))</div><div class="line">    transport_url = oslo_messaging.TransportURL(</div><div class="line">        cfg.CONF, <span class="string">'rabbit'</span>, <span class="string">'/'</span>, transports)</div><div class="line">    transport = oslo_messaging.get_transport(</div><div class="line">        cfg.CONF, transport_url)</div><div class="line">    targets = [oslo_messaging.Target(</div><div class="line">        topic=<span class="string">'notifications'</span>, exchange=<span class="string">'neutron'</span>)]</div><div class="line">    endpoints = [NotificationEndpoint()]</div><div class="line">    <span class="keyword">return</span> oslo_messaging.get_notification_listener(</div><div class="line">        transport, targets, endpoints,</div><div class="line">        allow_requeue=<span class="keyword">True</span>,</div><div class="line">        executor=<span class="string">'eventlet'</span>,</div><div class="line">        pool=<span class="string">'test-rmq'</span> + hostname)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NotificationEndpoint</span><span class="params">(object)</span>:</span></div><div class="line">    filter_rule = oslo_messaging.NotificationFilter(</div><div class="line">        publisher_id=<span class="string">'^network.*'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">info</span><span class="params">(self, ctxt, publisher_id, event_type, payload, metadata)</span>:</span></div><div class="line">        log.info(<span class="string">"Got event %s from %s with payload: %s"</span> % (</div><div class="line">            event_type, publisher_id, payload</div><div class="line">        ))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">warn</span><span class="params">(self, ctxt, publisher_id, event_type, payload, metadata)</span>:</span></div><div class="line">        <span class="keyword">None</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">error</span><span class="params">(self, ctxt, publisher_id, event_type, payload, metadata)</span>:</span></div><div class="line">        <span class="keyword">None</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        server = rabbitmq_listener()</div><div class="line">        server.start()</div><div class="line">        <span class="keyword">print</span> <span class="string">"Server started"</span></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            time.sleep(<span class="number">1</span>)</div><div class="line">    <span class="keyword">except</span> KeyboardInterrupt:</div><div class="line">        <span class="keyword">print</span> <span class="string">"Stopping executor service..."</span></div><div class="line">        server.stop()</div><div class="line">        server.wait()</div></pre></td></tr></table></figure>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                监听notification消息
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-16T14:01:26+00:00" content="2017-02-16">
+              2017-02-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/sdn/neutron/tool/notification.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="sdn/neutron/tool/notification.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="监听notification消息"><a href="#监听notification消息" class="headerlink" title="监听notification消息"></a>监听notification消息</h2><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding: utf-8</span></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> socket</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> eventlet</div><div class="line"><span class="keyword">import</span> oslo_messaging</div><div class="line"><span class="keyword">from</span> oslo_config <span class="keyword">import</span> cfg</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># global config</span></div><div class="line">rabbit_username = <span class="string">'guest'</span></div><div class="line">rabbit_password = <span class="string">'guest'</span></div><div class="line">hostname = socket.gethostname()</div><div class="line">rabbit_hosts = [<span class="string">'127.0.0.1'</span>]</div><div class="line"></div><div class="line">eventlet.monkey_patch()</div><div class="line">FORMAT = <span class="string">"%(asctime)s - %(name)s - %(levelname)s - %(message)s"</span></div><div class="line">logging.basicConfig(format=FORMAT)</div><div class="line">log = logging.getLogger()</div><div class="line">log.setLevel(logging.INFO)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">rabbitmq_listener</span><span class="params">()</span>:</span></div><div class="line">    transports = []</div><div class="line">    <span class="keyword">for</span> host <span class="keyword">in</span> rabbit_hosts:</div><div class="line">        transports.append(oslo_messaging.TransportHost(</div><div class="line">            host, <span class="number">5672</span>, rabbit_username, rabbit_password))</div><div class="line">    transport_url = oslo_messaging.TransportURL(</div><div class="line">        cfg.CONF, <span class="string">'rabbit'</span>, <span class="string">'/'</span>, transports)</div><div class="line">    transport = oslo_messaging.get_transport(</div><div class="line">        cfg.CONF, transport_url)</div><div class="line">    targets = [oslo_messaging.Target(</div><div class="line">        topic=<span class="string">'notifications'</span>, exchange=<span class="string">'neutron'</span>)]</div><div class="line">    endpoints = [NotificationEndpoint()]</div><div class="line">    <span class="keyword">return</span> oslo_messaging.get_notification_listener(</div><div class="line">        transport, targets, endpoints,</div><div class="line">        allow_requeue=<span class="keyword">True</span>,</div><div class="line">        executor=<span class="string">'eventlet'</span>,</div><div class="line">        pool=<span class="string">'test-rmq'</span> + hostname)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NotificationEndpoint</span><span class="params">(object)</span>:</span></div><div class="line">    filter_rule = oslo_messaging.NotificationFilter(</div><div class="line">        publisher_id=<span class="string">'^network.*'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">info</span><span class="params">(self, ctxt, publisher_id, event_type, payload, metadata)</span>:</span></div><div class="line">        log.info(<span class="string">"Got event %s from %s with payload: %s"</span> % (</div><div class="line">            event_type, publisher_id, payload</div><div class="line">        ))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">warn</span><span class="params">(self, ctxt, publisher_id, event_type, payload, metadata)</span>:</span></div><div class="line">        <span class="keyword">None</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">error</span><span class="params">(self, ctxt, publisher_id, event_type, payload, metadata)</span>:</span></div><div class="line">        <span class="keyword">None</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        server = rabbitmq_listener()</div><div class="line">        server.start()</div><div class="line">        <span class="keyword">print</span> <span class="string">"Server started"</span></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            time.sleep(<span class="number">1</span>)</div><div class="line">    <span class="keyword">except</span> KeyboardInterrupt:</div><div class="line">        <span class="keyword">print</span> <span class="string">"Stopping executor service..."</span></div><div class="line">        server.stop()</div><div class="line">        server.wait()</div></pre></td></tr></table></figure>
+<h2 id="删除queue"><a href="#删除queue" class="headerlink" title="删除queue"></a>删除queue</h2><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> pika</div><div class="line"></div><div class="line">queue_name = <span class="string">"test"</span></div><div class="line"><span class="keyword">try</span>:</div><div class="line">  connection = pika.BlockingConnection(pika.ConnectionParameters(</div><div class="line">                 <span class="string">'localhost'</span>))</div><div class="line">  channel = connection.channel()</div><div class="line">  channel.queue_delete(queue=queue_name)</div><div class="line"><span class="keyword">finally</span>:</div><div class="line">  connection.close()</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -512,7 +603,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#监听notification消息"><span class="nav-number">1.</span> <span class="nav-text">监听notification消息</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#监听notification消息"><span class="nav-number">1.</span> <span class="nav-text">监听notification消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除queue"><span class="nav-number">2.</span> <span class="nav-text">删除queue</span></a></li></ol></div>
             
           </div>
         </section>
@@ -619,6 +710,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
@@ -636,7 +731,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
       var disqus_identifier = 'sdn/neutron/tool/notification.html';
-      var disqus_title = "";
+      var disqus_title = "监听notification消息";
       var disqus_url = 'http://feisky.xyz/sdn/neutron/tool/notification.html';
 
       function run_disqus_script(disqus_script){
