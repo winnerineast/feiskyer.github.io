@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://feisky.xyz/media/14749893574191.jpg">
 <meta property="og:image" content="http://feisky.xyz/media/14749893757711.jpg">
 <meta property="og:image" content="http://feisky.xyz/media/14749896132580.jpg">
-<meta property="og:updated_time" content="2017-02-16T14:01:26.031Z">
+<meta property="og:updated_time" content="2017-02-17T13:06:24.954Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="分段 (fragmentation)老的内核通常在IP层处理IP分段，IP层可以接收0~64KB的数据。因此，当数据IP packet大于PMTU时，就必须把数据分成多个IP分段。 较新的内核中，L4会尝试进行分段：L4不会再把超过PMTU的缓冲区直接传给IP层，而是传递一组和PMTU相匹配的缓冲区。这样，IP层只需要给每个分段增加IP报头。但是这并不意味着IP层就不做分段的工作了，一些情况下，I">
@@ -392,13 +392,18 @@
 <li>重发 overhead：一个分包丢失，则整个包需要重传。</li>
 <li>在多个分包出现顺序错开时，防火墙可能将分到当无效包处理而丢弃。</li>
 </ul>
-<h2 id="TCP-fragmentation"><a href="#TCP-fragmentation" class="headerlink" title="TCP fragmentation"></a>TCP fragmentation</h2><p>每个TCP数据包（segment）的大小受MSS（TCP_MAXSEG选项）限制。最大报文段长度 ( MSS )表示 TCP 传往另一端的最大块数据的长度。当一个连接建立时（SYN packet）, 连接的双方都要通告各自的MSS。<br>一般说来,如果没有分段发生, MSS还是越大越好。报文段越大允许每个报文段传送的数据就越多,相对IP和TCP首部有更高的网络利用率。当TCP发送一个SYN时,或者是因为一个本地应用进程想发起一个连接,或者是因为另一端的主机收到了一个连接请求,它能将MSS值设置为外出接口上的MTU长度减去固定的IP首部(20 bytes)和TCP首部长度(20 bytes)。对于一个以太网，MSS值可达1460字节。详细参考tcp_sendmsg。<br>TCP/SCTP会将数据按MTU进行切片，然后3层的工作只需要给传递下来的切片加上 ip头就可以了(也就是说调用这个函数的时候,其实4层已经切好片了)。</p>
+<h2 id="TCP-fragmentation"><a href="#TCP-fragmentation" class="headerlink" title="TCP fragmentation"></a>TCP fragmentation</h2><p>每个TCP数据包（segment）的大小受MSS（TCP_MAXSEG选项）限制。最大报文段长度 ( MSS )表示 TCP 传往另一端的最大块数据的长度。当一个连接建立时（SYN packet）, 连接的双方都要通告各自的MSS。</p>
+<p>一般说来,如果没有分段发生, MSS还是越大越好。报文段越大允许每个报文段传送的数据就越多,相对IP和TCP首部有更高的网络利用率。当TCP发送一个SYN时,或者是因为一个本地应用进程想发起一个连接,或者是因为另一端的主机收到了一个连接请求,它能将MSS值设置为外出接口上的MTU长度减去固定的IP首部(20 bytes)和TCP首部长度(20 bytes)。对于一个以太网，MSS值可达1460字节（详细参考tcp_sendmsg）。</p>
+<p>TCP/SCTP会将数据按MTU进行切片，然后3层的工作只需要给传递下来的切片加上 ip头就可以了(也就是说调用这个函数的时候,其实4层已经切好片了)。</p>
 <h2 id="Segmentation-offload"><a href="#Segmentation-offload" class="headerlink" title="Segmentation offload"></a>Segmentation offload</h2><p>现在很多网卡本身支持数据分片，这样，上层L4/L3就可以不用进行分片(最大64KB)，而由NIC来完成，从而提高网络性能。</p>
-<h3 id="TCP-Segmentation-Offload-TSO"><a href="#TCP-Segmentation-Offload-TSO" class="headerlink" title="TCP Segmentation Offload (TSO)"></a>TCP Segmentation Offload (TSO)</h3><p>TSO是使得网络协议栈能够将超过PMTU的TCP数据包推送至网卡，然后网卡执行分片工作，这样减轻了CPU的负荷。</p>
-<h3 id="UDP-Fragmentation-Offload-UFO"><a href="#UDP-Fragmentation-Offload-UFO" class="headerlink" title="UDP Fragmentation Offload (UFO)"></a>UDP Fragmentation Offload (UFO)</h3><p>Uses the UDP protocol to send large packets. Uses the NIC to handle IP fragmentation into MTU sized packets for large UDP datagrams.</p>
-<h3 id="Generic-Segmentation-Offload-GSO"><a href="#Generic-Segmentation-Offload-GSO" class="headerlink" title="Generic Segmentation Offload (GSO)"></a>Generic Segmentation Offload (GSO)</h3><p>Uses the TCP or UDP protocol to send large packets. If the NIC cannot handle segmentation/fragmentation, GSO performs the same operations, bypassing the NIC hardware. This is achieved by delaying segmentation until as late as possible, for example, when the packet is processed by the device driver.</p>
-<h3 id="Large-Receive-Offload-LRO"><a href="#Large-Receive-Offload-LRO" class="headerlink" title="Large Receive Offload (LRO)"></a>Large Receive Offload (LRO)</h3><p>Uses the TCP protocol. All incoming packets are re-segmented as they are received, reducing the number of segments the system has to process. They can be merged either in the driver or using the NIC. A problem with LRO is that it tends to resegment all incoming packets, often ignoring differences in headers and other information which can cause errors. It is generally not possible to use LRO when IP forwarding is enabled. LRO in combination with IP forwarding can lead to checksum errors. Forwarding is enabled if /proc/sys/net/ipv4/ip_forward is set to 1.</p>
-<h3 id="Generic-Receive-Offload-GRO"><a href="#Generic-Receive-Offload-GRO" class="headerlink" title="Generic Receive Offload (GRO)"></a>Generic Receive Offload (GRO)</h3><p>Uses either the TCP or UDP protocols. GRO is more rigorous than LRO when resegmenting packets. For example it checks the MAC headers of each packet, which must match, only a limited number of TCP or IP headers can be different, and the TCP timestamps must match. Resegmenting can be handled by either the NIC or the GSO code.</p>
+<ul>
+<li>Large Segment Offload (LSO)：使得网络协议栈能够将超过PMTU的数据包推送至网卡，然后网卡执行分片工作，这样减轻了CPU的负荷</li>
+<li>TCP Segmentation Offload (TSO)：类似于LSO，针对TCP协议包</li>
+<li>UDP Fragmentation Offload (UFO): 类似于TSO，针对UDP包</li>
+<li>Large Receive Offload (LRO): 将接收到的包聚合成一个大的数据包，然后再发给协议栈处理</li>
+<li>Generic Segmentation Offload (GSO): TSO/LSO的增强，同时支持TCP和UDP协议，负责把超过MTU的包分片</li>
+<li>Generic Receive Offload (GRO)：LRO的增强，负责将接收到的多个包聚合成一个大的数据包，然后再发给协议栈处理</li>
+</ul>
 <h2 id="PMTU-Path-Maximum-Transmission-Unit-Discovery"><a href="#PMTU-Path-Maximum-Transmission-Unit-Discovery" class="headerlink" title="PMTU (Path Maximum Transmission Unit Discovery)"></a>PMTU (Path Maximum Transmission Unit Discovery)</h2><p>PMTU 的用途是动态的确定从发送端到接收端整个路径上的最小 MTU，从而避免分包。注意，PMTU 只支持 TCP，对其他协议比如 UDP 无效。而且，如果发送方已经开启了 PMTU，那么它发送的所有 TCP/IP 包的 DF 标志都被设置为 1 即不再允许分包。当网络路径上某个路由器发现发送者的包因为超过前面转发路径的 MTU 而无法发送时，它向发送者返回一个 ICMP  “Destination Unreachable” 消息，其中包含了那个 MTU，然后发送者就会在它的路由表中将该mtu值保存下来，再使用较小的 MTU 重新发出新的较小的包。</p>
 <p>例子1：超过 MTU，DF = 0 =&gt; 路由器分包、发送，接收主机组装</p>
 <p><img src="media/14749893574191.jpg" alt=""></p>
@@ -558,7 +563,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分段-fragmentation"><span class="nav-number">1.</span> <span class="nav-text">分段 (fragmentation)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-fragmentation"><span class="nav-number">1.1.</span> <span class="nav-text">TCP fragmentation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Segmentation-offload"><span class="nav-number">1.2.</span> <span class="nav-text">Segmentation offload</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Segmentation-Offload-TSO"><span class="nav-number">1.2.1.</span> <span class="nav-text">TCP Segmentation Offload (TSO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP-Fragmentation-Offload-UFO"><span class="nav-number">1.2.2.</span> <span class="nav-text">UDP Fragmentation Offload (UFO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-Segmentation-Offload-GSO"><span class="nav-number">1.2.3.</span> <span class="nav-text">Generic Segmentation Offload (GSO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Large-Receive-Offload-LRO"><span class="nav-number">1.2.4.</span> <span class="nav-text">Large Receive Offload (LRO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-Receive-Offload-GRO"><span class="nav-number">1.2.5.</span> <span class="nav-text">Generic Receive Offload (GRO)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PMTU-Path-Maximum-Transmission-Unit-Discovery"><span class="nav-number">1.3.</span> <span class="nav-text">PMTU (Path Maximum Transmission Unit Discovery)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分段-fragmentation"><span class="nav-number">1.</span> <span class="nav-text">分段 (fragmentation)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-fragmentation"><span class="nav-number">1.1.</span> <span class="nav-text">TCP fragmentation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Segmentation-offload"><span class="nav-number">1.2.</span> <span class="nav-text">Segmentation offload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PMTU-Path-Maximum-Transmission-Unit-Discovery"><span class="nav-number">1.3.</span> <span class="nav-text">PMTU (Path Maximum Transmission Unit Discovery)</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
