@@ -86,23 +86,23 @@
 
 
 
-<meta name="description" content="Spanner是Google的全球分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。
+<meta name="description" content="Spanner是Google提供的跨区域/跨数据中心的关系型分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。
 
-在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个大轮子 Spanner，项">
+在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个">
 <meta property="og:type" content="website">
 <meta property="og:title" content="spanner">
 <meta property="og:url" content="http://feisky.xyz/distributed/spanner.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Spanner是Google的全球分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。
+<meta property="og:description" content="Spanner是Google提供的跨区域/跨数据中心的关系型分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。
 
-在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个大轮子 Spanner，项">
+在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个">
 <meta property="og:image" content="http://feisky.xyz/images/14871461131101.jpg">
-<meta property="og:updated_time" content="2017-02-19T00:44:43.694Z">
+<meta property="og:updated_time" content="2017-02-20T10:27:53.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spanner">
-<meta name="twitter:description" content="Spanner是Google的全球分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。
+<meta name="twitter:description" content="Spanner是Google提供的跨区域/跨数据中心的关系型分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。
 
-在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个大轮子 Spanner，项">
+在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个">
 <meta name="twitter:image" content="http://feisky.xyz/images/14871461131101.jpg">
 
 
@@ -391,8 +391,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-19T00:44:43+00:00" content="2017-02-19">
-              2017-02-19
+            <time itemprop="dateCreated" datetime="2017-02-20T10:27:53+00:00" content="2017-02-20">
+              2017-02-20
             </time>
           </span>
 
@@ -426,7 +426,7 @@
       
 
       
-        <p><a href="https://research.google.com/archive/spanner.html" target="_blank" rel="external">Spanner</a>是Google的全球分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。</p>
+        <p><a href="https://research.google.com/archive/spanner.html" target="_blank" rel="external">Spanner</a>是Google提供的跨区域/跨数据中心的关系型分布式数据库，在满足事务一致性的同时还具备极强的可扩展性，结合了传统关系数据库和NoSQL数据库的优点。</p>
 <p><img src="/images/14871461131101.jpg" alt=""></p>
 <p>在 Spanner 论文中提到，2012 年大概已经有 300+ 的业务跑在 Megastore 上，在越来越多的业务在 BigTable 上造 ACID Transaction 实现的轮子后，Google 实在受不了了，开始造一个大轮子 Spanner，项目的野心巨大，和 Megastore 一样，ACID 事务 + 水平扩展 + SQL 支持。</p>
 <ul>
@@ -438,7 +438,7 @@
 <h2 id="Spanner与CAP"><a href="#Spanner与CAP" class="headerlink" title="Spanner与CAP"></a>Spanner与CAP</h2><p><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="external">CAP理论</a>指出，分布式系统最多只能满足一致性、可用性和分区容忍性中的两个，而不能同时满足三者。所以，常见的分布式系统都需要根据实际场景对这三者作相应的取舍，比如对一个大规模分布式系统来说，网络分区通常是不可避免的，所以要么牺牲一致性保证可用性（AP），要么牺牲可用性，保证一致性（CP）。</p>
 <p>而Google Cloud Spanner同时满足了一致性和可用性（CA）：</p>
 <ul>
-<li>网络分区是不可避免的，在分区出现时，Spanner实际上优先保证一致性，也就是说实际上这是一个CP系统</li>
+<li>网络分区是不可避免的，在分区出现时，Spanner实际上优先保证一致性，也就是严格意义上来说这是一个CP系统</li>
 <li>但是Spanner实现了高达5个9的可用性，对大部分用户来说，这个可以认为是一个CA系统</li>
 </ul>
 <p>那Google是如何实现这么高的可用性的呢</p>
