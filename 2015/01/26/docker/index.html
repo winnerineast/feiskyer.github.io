@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/2015/01/26/docker/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="简介Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规">
-<meta property="og:updated_time" content="2017-02-20T10:27:53.136Z">
+<meta property="og:updated_time" content="2017-02-21T15:48:34.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker">
 <meta name="twitter:description" content="简介Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规">
@@ -461,7 +461,7 @@
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x66;&#x65;&#105;&#115;&#x6b;&#x79;&#x40;&#114;&#111;&#x6f;&#116;">&#x66;&#x65;&#105;&#115;&#x6b;&#x79;&#x40;&#114;&#111;&#x6f;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#102;&#101;&#x69;&#x73;&#x6b;&#121;&#64;&#x72;&#x6f;&#x6f;&#x74;">&#102;&#101;&#x69;&#x73;&#x6b;&#121;&#64;&#x72;&#x6f;&#x6f;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
@@ -537,8 +537,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/01/26/bigdata/" rel="prev" title="bigdata">
-                bigdata <i class="fa fa-chevron-right"></i>
+              <a href="/2015/01/26/neutron-layer-3-high-availability/" rel="prev" title="Neutron Layer 3 High Availability">
+                Neutron Layer 3 High Availability <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
