@@ -111,7 +111,7 @@ CONSENSUS: BRIDGING THEORY AND PRACTICE
 Paxos算法基本问题
 解决分布式系统中多个节点之间就某个值（提案）达成一致（决议">
 <meta property="og:image" content="http://feisky.xyz/images/14803289545403.jpg">
-<meta property="og:updated_time" content="2017-02-23T00:45:41.810Z">
+<meta property="og:updated_time" content="2017-02-24T15:20:49.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Paxos">
 <meta name="twitter:description" content="PaxosPaxos算法是莱斯利·兰伯特于1990年提出的一种基于消息传递且具有高度容错特性的一致性算法。
@@ -449,7 +449,7 @@ Paxos算法基本问题
 <p>Multi Paxos要求在各个Proposer中有唯一的Leader，并由这个Leader唯一地提交value给各Acceptor进行表决，在系统中仅有一个Leader进行value提交的情况下，Prepare的过程就可以被跳过：</p>
 <figure class="highlight gherkin"><table><tr><td class="code"><pre><div class="line">Client   Proposer       Acceptor     Learner</div><div class="line">   |<span class="string">         </span>|<span class="string">          </span>|<span class="string">  </span>|<span class="string">  </span>|<span class="string">       </span>|<span class="string">  </span>|<span class="string">  --- Following Requests ---</span></div><div class="line">   X--------&gt;|<span class="string">          </span>|<span class="string">  </span>|<span class="string">  </span>|<span class="string">       </span>|<span class="string">  </span>|<span class="string">  Request</span></div><div class="line">   |<span class="string">         X---------&gt;</span>|<span class="string">-&gt;</span>|<span class="string">-&gt;</span>|<span class="string">       </span>|<span class="string">  </span>|<span class="string">  Accept!(N,I+1,W)</span></div><div class="line">   |<span class="string">         </span>|<span class="string">&lt;---------X--X--X------&gt;</span>|<span class="string">-&gt;</span>|<span class="string">  Accepted(N,I+1,W)</span></div><div class="line">   |<span class="string">&lt;---------------------------------X--X  Response</span></div><div class="line">   |<span class="string">         </span>|<span class="string">          </span>|<span class="string">  </span>|<span class="string">  </span>|<span class="string">       </span>|<span class="string">  </span>|</div></pre></td></tr></table></figure>
 <h2 id="Fast-Paxos"><a href="#Fast-Paxos" class="headerlink" title="Fast Paxos"></a>Fast Paxos</h2><h2 id="Cheap-Paxos"><a href="#Cheap-Paxos" class="headerlink" title="Cheap Paxos"></a>Cheap Paxos</h2><h2 id="Fast-Paxos-1"><a href="#Fast-Paxos-1" class="headerlink" title="Fast Paxos"></a>Fast Paxos</h2><h2 id="与raft对比"><a href="#与raft对比" class="headerlink" title="与raft对比"></a>与raft对比</h2><p>从上面的描述中可以看出basic-paxos无法和raft进行比较，一次basic-paxos的过程只相当于同步raft算法中的一个日志项的过程。multi-paxos和raft的流程才是相似的。根据我上面的描述可以看出，raft算法其实是对multi-paxos的流程做了更加严格的限制：</p>
-<p>raft中发送的请求（日志项）必须是连续的,而paxos中使可以并发的（就是说paxos可以同时发送日志项2,3，3不需要等待2处理完才能发送，但在状态集中日志顺序还是不变的，有点类似于TCP中的数据发送）<br>raft选主是有限制的, 必须有最新，最全的日志节点才可以当选. 而multi-paxos中是随意的。所以raft 可以看成是简化版本的multi-paxos(这里multi-paxos因为允许并发的写日志,因此不存在一个最新，最全的日志节点，因此只能这么做。这样带来的麻烦就是选主以后, 需要将主里面没有的日志给补全, 并执行commit 过程)<br>根据上面可以看出，raft更加的简单，paxos支持日志并发，更加的灵活。看一下raft和paxos中的日志结构图。</p>
+<p>raft中发送的请求（日志项）必须是连续的,而paxos中使可以并发的（就是说paxos可以同时发送日志项2,3，3不需要等待2处理完才能发送，但在状态集中日志顺序还是不变的，有点类似于TCP中的数据发送）<br>raft选主是有限制的, 必须有最新，最全的日志节点才可以当选. 而multi-paxos中是随意的。所以raft 可以看成是简化版本的multi-paxos(这里multi-paxos因为允许并发的写日志,因此不存在一个最新，最全的日志节点，因此只能这么做。这样带来的麻烦就是选主以后, 需要将主里面没有的日志给补全, 并执行commit 过程)<br>根据上面可以看出，raft更加的简单，paxos支持日志并发，更加的灵活。</p>
 <h2 id="主要应用"><a href="#主要应用" class="headerlink" title="主要应用"></a>主要应用</h2><ul>
 <li>Zookeeper</li>
 <li>Chubby</li>

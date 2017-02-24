@@ -104,7 +104,7 @@ from scapy.all import *
 查看所有支持的协议和预制工具：
 ls()
 lsc(">
-<meta property="og:updated_time" content="2017-02-23T00:45:42.286Z">
+<meta property="og:updated_time" content="2017-02-24T15:20:50.067Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scapy">
 <meta name="twitter:description" content="scapy是一个强大的python网络数据包处理库，它可以生成或解码网络协议数据包，可以用来端口扫描、探测、网络测试等。
@@ -390,6 +390,11 @@ pkt.show()
 print pkt.dst  # 8.8.8.8
 str(pkt)       # hex string
 hexdump(pkt)   # hex dump
+</code></pre><p>输出HEX格式的数据包</p>
+<pre><code>import binascii
+from scapy.all import *
+a=Ether(dst=&quot;02:ac:10:ff:00:22&quot;,src=&quot;02:ac:10:ff:00:11&quot;)/IP(dst=&quot;172.16.255.22&quot;,src=&quot;172.16.255.11&quot;, ttl=10)/ICMP()
+print binascii.hexlify(str(a))
 </code></pre><p>TCP/IP协议的四层模型都可以分别构造，并通过<code>/</code>连接</p>
 <pre><code>Ether()/IP()/TCP()
 IP()/TCP()
