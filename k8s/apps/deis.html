@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Kubernetes," />
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
 
 
 
@@ -86,18 +86,32 @@
 
 
 
-<meta name="description" content="“The Caas Revolution“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) Docker, and embraced by Cloud provide">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hypernetes   The multi tenant Kubernetes distribution">
-<meta property="og:url" content="http://feisky.xyz/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/index.html">
+<meta name="description" content="Deis架构
+
+
+Deis安装部署首先需要部署一套kubernetes（比如minikube，GKE等，记得启用KUBE_ENABLE_CLUSTER_DNS=true），并配置好本机的kubectl客户端，然后运行以下脚本安装deis：
+# install deis v2 (workflow)curl -sSL http://deis.io/deis-cli/install-v2.sh | ba">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Deis workflow">
+<meta property="og:url" content="http://feisky.xyz/k8s/apps/deis.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="“The Caas Revolution“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) Docker, and embraced by Cloud provide">
-<meta property="og:image" content="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true">
-<meta property="og:updated_time" content="2017-03-02T13:01:40.483Z">
+<meta property="og:description" content="Deis架构
+
+
+Deis安装部署首先需要部署一套kubernetes（比如minikube，GKE等，记得启用KUBE_ENABLE_CLUSTER_DNS=true），并配置好本机的kubectl客户端，然后运行以下脚本安装deis：
+# install deis v2 (workflow)curl -sSL http://deis.io/deis-cli/install-v2.sh | ba">
+<meta property="og:image" content="https://deis.com/docs/workflow/diagrams/Workflow_Overview.png">
+<meta property="og:image" content="https://deis.com/docs/workflow/diagrams/Workflow_Detail.png">
+<meta property="og:image" content="https://deis.com/docs/workflow/diagrams/Application_Layout.png">
+<meta property="og:updated_time" content="2017-03-02T13:01:40.771Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hypernetes   The multi tenant Kubernetes distribution">
-<meta name="twitter:description" content="“The Caas Revolution“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) Docker, and embraced by Cloud provide">
-<meta name="twitter:image" content="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true">
+<meta name="twitter:title" content="Deis workflow">
+<meta name="twitter:description" content="Deis架构
+
+
+Deis安装部署首先需要部署一套kubernetes（比如minikube，GKE等，记得启用KUBE_ENABLE_CLUSTER_DNS=true），并配置好本机的kubectl客户端，然后运行以下脚本安装deis：
+# install deis v2 (workflow)curl -sSL http://deis.io/deis-cli/install-v2.sh | ba">
+<meta name="twitter:image" content="https://deis.com/docs/workflow/diagrams/Workflow_Overview.png">
 
 
 
@@ -118,10 +132,10 @@
 
 
 
-  <link rel="canonical" href="http://feisky.xyz/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/"/>
+  <link rel="canonical" href="http://feisky.xyz/k8s/apps/deis.html"/>
 
 
-  <title> Hypernetes   The multi tenant Kubernetes distribution | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Deis workflow | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -373,7 +387,7 @@
             
             
               
-                Hypernetes   The multi tenant Kubernetes distribution
+                Deis workflow
               
             
           </h1>
@@ -385,38 +399,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-03T16:00:00+00:00" content="2015-11-04">
-              2015-11-04
+            <time itemprop="dateCreated" datetime="2017-03-02T13:01:40+00:00" content="2017-03-02">
+              2017-03-02
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">Kubernetes</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="commentsCount"></span>
+                <a href="/k8s/apps/deis.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="k8s/apps/deis.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -439,31 +434,27 @@
       
 
       
-        <p>“<a href="https://hyper.sh/blog/post/2015/07/06/the-caas-revolution.html" target="_blank" rel="external">The Caas Revolution</a>“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) <a href="http://www.docker.com/" target="_blank" rel="external">Docker</a>, and embraced by Cloud providers like <a href="https://cloud.google.com/container-engine/" target="_blank" rel="external">Google</a> and <a href="https://aws.amazon.com/ecs/" target="_blank" rel="external">AWS</a>.</p>
-<p>However, most multi-tenant CaaS solutions today run on a public IaaS, and use fully isolated virtual machine clusters to schedule containers. This is in contrast to the solely container-based implementation provided in private CaaS deployments. The public “hybrid” VM/container isolation approach is a direct result from the shared kernel architecture in container technology.</p>
-<p>Which got us thinking… do users really need to configure a cluster of full-blown virtual machines to ship containers in a secure cloud? Isn’t there a native container approach to perform true isolation?</p>
-<p>When we introduced <a href="http://hyper.sh/" target="_blank" rel="external">Hyper</a>, we wanted to show that it is actually possible to run truly isolated containers applications without any guest OS configuration required. We claimed that Hyper unlocks the possibility to build app-centric secure and isolated public CaaS platform, and now want to show you its power with a real-world implementation.</p>
-<p>Today, we are happy to announce <strong><a href="http://hypernetes.com" target="_blank" rel="external">Hypernetes</a>*: the Secure, Multi-tenant Kubernetes distribution</strong>.</p>
-<p>Simply put:</p>
-<pre><code>   Hypernetes = Bare-metal + Hyper + Kubernetes + Cinder(Ceph) + Neutron + Keystone
-</code></pre><p><img src="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true" alt="Hypernetes"></p>
-<ul>
-<li>Hyper (Hyperd) runs directly on all your bare-metal machines to provision HyperVM (with Docker images) in milliseconds</li>
-<li>Within the VM, the “Hyperstart” init process is launched on top of the Hyper Kernel (or any compatible Linux kernel) to run Docker images as Pod</li>
-<li>Kubelet agent runs on each bare-metal host and manages HyperVM with Hyperd’s APIs</li>
-<li>The formed cluster of “Kubelets” is managed with the help of a “Kubernetes Master” server</li>
-<li>Hypernetes also makes uses of several OpenStack components<ul>
-<li><a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> for identities management and authentication</li>
-<li><a href="https://wiki.openstack.org/wiki/Neutron" target="_blank" rel="external">Neutron</a> for virtual networks management and isolation</li>
-<li><a href="https://wiki.openstack.org/wiki/Cinder" target="_blank" rel="external">Cinder</a> + <a href="http://ceph.com/" target="_blank" rel="external">Ceph</a> for persistent storage volume management</li>
+        <h2 id="Deis架构"><a href="#Deis架构" class="headerlink" title="Deis架构"></a>Deis架构</h2><p><img src="https://deis.com/docs/workflow/diagrams/Workflow_Overview.png" alt=""></p>
+<p><img src="https://deis.com/docs/workflow/diagrams/Workflow_Detail.png" alt=""></p>
+<p><img src="https://deis.com/docs/workflow/diagrams/Application_Layout.png" alt=""></p>
+<h2 id="Deis安装部署"><a href="#Deis安装部署" class="headerlink" title="Deis安装部署"></a>Deis安装部署</h2><p>首先需要部署一套kubernetes（比如minikube，GKE等，记得启用<code>KUBE_ENABLE_CLUSTER_DNS=true</code>），并配置好本机的kubectl客户端，然后运行以下脚本安装deis：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># install deis v2 (workflow)</span></div><div class="line">curl <span class="_">-s</span>SL http://deis.io/deis-cli/install-v2.sh | bash</div><div class="line">mv deis /usr/<span class="built_in">local</span>/bin/</div><div class="line"></div><div class="line"><span class="comment"># install helm</span></div><div class="line">wget https://storage.googleapis.com/kubernetes-helm/helm-v2.2.1-linux-amd64.tar.gz</div><div class="line">tar zxvf helm-v2.2.1-linux-amd64.tar.gz</div><div class="line">mv linux-amd64/helm /usr/<span class="built_in">local</span>/bin/</div><div class="line">rm -rf linux-amd64 helm-v2.2.1-linux-amd64.tar.gz</div><div class="line">helm init</div><div class="line"></div><div class="line"><span class="comment"># deploy helm components</span></div><div class="line">helm repo add deis https://charts.deis.com/workflow</div><div class="line">helm install deis/workflow --namespace deis</div><div class="line">kubectl --namespace=deis get pods</div></pre></td></tr></table></figure>
+<h2 id="Deis基本使用"><a href="#Deis基本使用" class="headerlink" title="Deis基本使用"></a>Deis基本使用</h2><h3 id="注册用户并登录"><a href="#注册用户并登录" class="headerlink" title="注册用户并登录"></a>注册用户并登录</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">deis register deis-controller.deis.svc.cluster.local</div><div class="line">deis login deis-controller.deis.svc.cluster.local</div><div class="line">deis perms:create newuser --admin</div></pre></td></tr></table></figure>
+<h3 id="部署应用"><a href="#部署应用" class="headerlink" title="部署应用"></a>部署应用</h3><p><strong>注意，deis的大部分操作命令都需要在应用的目录中（即下面的<code>example-dockerfile-http</code>）。</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/deis/example-dockerfile-http.git</div><div class="line"><span class="built_in">cd</span> example-dockerfile-http</div><div class="line">docker build -t deis/example-dockerfile-http .</div><div class="line">docker push deis/example-dockerfile-http</div><div class="line"></div><div class="line"><span class="comment"># create app</span></div><div class="line">deis create example-dockerfile-http --no-remote</div><div class="line"><span class="comment"># deploy app</span></div><div class="line">deis pull deis/example-dockerfile-http:latest</div><div class="line"></div><div class="line"><span class="comment"># query application status</span></div><div class="line">deis info</div></pre></td></tr></table></figure>
+<p>扩展应用</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ deis scale cmd=3</div><div class="line">$ deis ps</div><div class="line">=== example-dockerfile-http Processes</div><div class="line">--- cmd:</div><div class="line">example-dockerfile-http-cmd-4246296512-08124 up (v2)</div><div class="line">example-dockerfile-http-cmd-4246296512-40lfv up (v2)</div><div class="line">example-dockerfile-http-cmd-4246296512-fx3w3 up (v2)</div></pre></td></tr></table></figure>
+<p>也可以配置自动扩展</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">deis autoscale:<span class="built_in">set</span> example-dockerfile-http --min=3 --max=8 --cpu-percent=75</div></pre></td></tr></table></figure>
+<p>这样，就可以通过Kubernetes的DNS来访问应用了（配置了外网负载均衡后，还可以通过负载均衡来访问服务）：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ curl example-dockerfile-http.example-dockerfile-http.svc.cluster.local</div><div class="line">Powered by Deis</div></pre></td></tr></table></figure>
+<h3 id="域名和路由"><a href="#域名和路由" class="headerlink" title="域名和路由"></a>域名和路由</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 注意设置CNMAE记录到原来的地址</span></div><div class="line">deis domains:add hello.bacongobbler.com</div><div class="line"></div><div class="line">dig hello.deisapp.com</div><div class="line">deis routing:<span class="built_in">enable</span></div></pre></td></tr></table></figure>
+<p>这实际上是在deis-router的nginx配置中增加了 virtual hosts ：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span> <span class="number">8080</span>;</div><div class="line">    <span class="attribute">server_name</span> ~^example-dockerfile-http\.(?&lt;domain&gt;.+)$;</div><div class="line">    <span class="attribute">server_name_in_redirect</span> <span class="literal">off</span>;</div><div class="line">    <span class="attribute">port_in_redirect</span> <span class="literal">off</span>;</div><div class="line">    <span class="attribute">set</span> <span class="variable">$app_name</span> <span class="string">"example-dockerfile-http"</span>;</div><div class="line">    <span class="attribute">vhost_traffic_status_filter_by_set_key</span> example-dockerfile-http application::*;</div><div class="line"></div><div class="line">    <span class="attribute">location</span> / &#123;</div><div class="line">        <span class="attribute">proxy_buffering</span> <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$remote_addr</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$access_scheme</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Port <span class="variable">$forwarded_port</span>;</div><div class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">30s</span>;</div><div class="line">        <span class="attribute">proxy_send_timeout</span> <span class="number">1300s</span>;</div><div class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">1300s</span>;</div><div class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</div><div class="line"></div><div class="line">        <span class="attribute">proxy_pass</span> http://10.0.0.224:80;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span> <span class="number">8080</span>;</div><div class="line">    <span class="attribute">server_name</span> hello.bacongobbler.com;</div><div class="line">    <span class="attribute">server_name_in_redirect</span> <span class="literal">off</span>;</div><div class="line">    <span class="attribute">port_in_redirect</span> <span class="literal">off</span>;</div><div class="line">    <span class="attribute">set</span> <span class="variable">$app_name</span> <span class="string">"example-dockerfile-http"</span>;</div><div class="line">    <span class="attribute">vhost_traffic_status_filter_by_set_key</span> example-dockerfile-http application::*;</div><div class="line"></div><div class="line">    <span class="attribute">location</span> / &#123;</div><div class="line">        <span class="attribute">proxy_buffering</span> <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$remote_addr</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$access_scheme</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Port <span class="variable">$forwarded_port</span>;</div><div class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">30s</span>;</div><div class="line">        <span class="attribute">proxy_send_timeout</span> <span class="number">1300s</span>;</div><div class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">1300s</span>;</div><div class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> http://10.0.0.224:80;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
+<li><a href="https://github.com/deis/workflow" target="_blank" rel="external">https://github.com/deis/workflow</a></li>
+<li><a href="https://deis.com/workflow/" target="_blank" rel="external">https://deis.com/workflow/</a></li>
 </ul>
-</li>
-</ul>
-<p>With Hypernetes, you are ready to offer your users an easy and straightforward way to deploy their Containers in the Cloud, with a maximum level of security, efficiency, and compatibility, but without the complexity introduced by nesting the Linux containers in full-blown VMs. Indeed, Hypernetes leverages the same old secure, reliable, battle tested, robust hypervisor virtualization to natively run all of your new Container applications, maximizing the ROI of your virtual infrastructure.</p>
-<p>You can check it out and try Hypernetes today as a <a href="http://github.com/hyperhq/hypernetes" target="_blank" rel="external">open-source project</a>. Please, don’t hesitate to join our <a href="http://slack.hyper.sh/" target="_blank" rel="external">Slack community</a>, <a href="https://groups.google.com/forum/#!forum/hyper-user" target="_blank" rel="external">users</a> and <a href="https://groups.google.com/forum/#!forum/hyper-dev" target="_blank" rel="external">developers</a> mailing lists if you would like to discuss about Hyper or Hypernetes with us.</p>
-<p>Also, as an open-source project, we warmly welcome PR contributions and issues, directly on our <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Github</a>.</p>
-<p>As a last word, we are presenting Hypernetes this week at the <a href="https://www.openstack.org/summit/tokyo-2015/" target="_blank" rel="external">OpenStack Tokyo Summit</a> and <a href="http://europe-2015.dockercon.com/" target="_blank" rel="external">DockerCon Europe</a> next month. If you’re around, please come by our booth ;-)</p>
-<p>From <a href="https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html" target="_blank" rel="external">https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html</a></p>
 
       
     </div>
@@ -484,31 +475,7 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Kubernetes/" rel="tag">#Kubernetes</a>
-          
-        </div>
-      
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/09/22/something-about-kubernetes-authentication/" rel="next" title="Something about kubernetes authentication">
-                <i class="fa fa-chevron-left"></i> Something about kubernetes authentication
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" rel="prev" title="Use kubectl to connect kubernetes cluster">
-                Use kubectl to connect kubernetes cluster <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
 
       
@@ -671,7 +638,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Deis架构"><span class="nav-number">1.</span> <span class="nav-text">Deis架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deis安装部署"><span class="nav-number">2.</span> <span class="nav-text">Deis安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deis基本使用"><span class="nav-number">3.</span> <span class="nav-text">Deis基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册用户并登录"><span class="nav-number">3.1.</span> <span class="nav-text">注册用户并登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署应用"><span class="nav-number">3.2.</span> <span class="nav-text">部署应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#域名和路由"><span class="nav-number">3.3.</span> <span class="nav-text">域名和路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文档"><span class="nav-number">3.4.</span> <span class="nav-text">参考文档</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -798,9 +765,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
-      var disqus_identifier = '2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/';
-      var disqus_title = "Hypernetes   The multi tenant Kubernetes distribution";
-      var disqus_url = 'http://feisky.xyz/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/';
+      var disqus_identifier = 'k8s/apps/deis.html';
+      var disqus_title = "Deis workflow";
+      var disqus_url = 'http://feisky.xyz/k8s/apps/deis.html';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
