@@ -373,6 +373,267 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/18/Hypernetes简介-feisky/" itemprop="url">
+                  Hypernetes简介 - feisky
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-18T17:12:00+08:00" content="2015-11-18">
+              2015-11-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/18/Hypernetes简介-feisky/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/18/Hypernetes简介-feisky/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>【摘要】好久没有更新博客了，今天给大家介绍下最近在Hypernetes上做的工作，这个也是之前在微信群里的一个分享。Hypernetes是一个真正多租户的Kubernetes Distro。Hypernetes在Kubernetes基础上增加了多租户认证授权、容器SDN网络、基于Hyper的容器执行引擎以及… <a href="http://www.cnblogs.com/feisky/p/4975173.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4975173" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/11/hypernetes-wechat-share/" itemprop="url">
+                  Hypernetes wechat share
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-12T00:00:00+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">Kubernetes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/11/hypernetes-wechat-share/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/11/hypernetes-wechat-share/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天给大家介绍下最近在Hypernetes上做的工作。</p>
+<p>Hypernetes是一个真正多租户的Kubernetes Distro。</p>
+<p>Hypernetes在Kubernetes基础上增加了多租户认证授权、容器SDN网络、基于Hyper的容器执行引擎以及基于Cinder的持久化存储等。</p>
+<p>基本上<code>Hypernetes = Bare-metal + Hyper + Kubernetes + Cinder(Ceph) + Neutron + Keystone</code></p>
+<p>在介绍Hypernetes细节之前先首先提一下相关背景，也就是Kubernetes的多租户支持情况。</p>
+<p>群里之前已经很多人介绍过Kubernetes了，就不再重复介绍。</p>
+<p>这儿主要说一下它在多租户方面的问题。</p>
+<p>Kubernetes在多租户方面的支持还是比较少的，没有“租户”这一概念，也只有namespace提供了一个逻辑的资源池（可以给这个namespace设定一些资源的配额），并且它在认证授权、网络、Container Runtime等方面离真正的多租户还都比较远。</p>
+<ol>
+<li><p>认证方面，虽然支持client certificates，tokens，http basic auth等，但没有用户管理的功能。如果想要新建用户，需要手动修改配置文件并重启服务。最新版本增加了Keystone的认证，可以借助Keystone来管理用户。</p>
+</li>
+<li><p>授权方面，目前只有AlwaysDeny ，AlwaysAllow以及ABAC模式。ABAC模式根据一个策略文件来配置不同用户的权限，比如限定用户只能访问特定的namespace等，但对于新创建的namespace等资源需要重复修改策略文件。</p>
+</li>
+<li><p>Kubernetes要求cluster内部所有的容器之间是全通的，而多租户情况下需要不同租户之前网络是隔离的。</p>
+</li>
+<li><p>Docker的安全性问题，跟虚拟化还是有不少距离。</p>
+</li>
+</ol>
+<p>正是由于上面这些原因，很多公司都在虚拟机里面来跑Kubernetes，比如Google Container Engine、OpenStack Magnum等。</p>
+<p>在虚拟机内部跑容器虽然提升了安全性，但也引入了一些问题，比如容器的网络不能通过IaaS层来统一管理，容器无法直接使用IaaS层的持久化存储，无法集中调度所有容器的资源等。所以我们就做了Hypernetes.</p>
+<p>先来看一下Hypernetes的架构图</p>
+<p><img width="660" alt="2015-11-10 9 23 14" src="https://cloud.githubusercontent.com/assets/676637/11051781/fac21258-878c-11e5-8545-a2b374ee5d70.png"></p>
+<p>Hypernetes在Kubernetes基础上增加了一些组件</p>
+<p>①增加了Tenant的概念，不同Tenant之间的网络和资源(ns, pod, svc, rc等)是隔离的。这些租户通过keystone管理，并提供认证和授权；<br>②通过Neutron给不同租户提供二层隔离的网络，并支持Neutron的各种插件（目前主要是ovs）；<br>③通过Hyper提供基于虚拟化的容器执行引擎，保证容器的隔离；<br>④还有通过Cinder给容器引入各种持久化存储（目前主要是ceph）</p>
+<p>关于OpenStack的各个组件以及Hyper这儿就不再介绍了，群里很多大牛已经介绍过。</p>
+<p>具体到Hypernetes内部，详细的架构是这样的</p>
+<p><img src="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true" alt=""></p>
+<p>为了支持多租户，Hypernetes基于Kubernetes增加了很多组件，这些组件都是以Plugin的形式提供的。</p>
+<p>这样非常方便扩展，也很容易将Hypernetes与现有的IaaS在同一个基础架构上运行起来</p>
+<p>比如，如果你不喜欢Neutron，可以把它替换成odl等。</p>
+<p>Hypernetes是完全开源的，代码见<a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">https://github.com/hyperhq/hypernetes</a></p>
+<p>当然，我们也会把Hypernetes做的工作contribute到Kubernetes社区，Brendan Burns大神表示很支持。</p>
+<p>嗯，今天的分享就这么多。谢谢大家。</p>
+<h3 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h3><ol>
+<li><p>请教一下，网络呢？kuber自带那套vip全没用？</p>
+<p> Kubernetes自带的功能我们都完整保留了：<br> 1⃣️ kube-proxy做的这部分功能，Hypernetes通过在每个Pod里面的Haproxy实现<br> 2⃣️service对外暴露的公网负载均衡，Hypernetes通过Neutron的Lbaas实现</p>
+</li>
+<li><p>Hyper是什么</p>
+<p> Hyper是一个基于Hypervisor的容器执行引擎。Hyper跟Docker相比，基于Hypervisor提供了更好的隔离性，同时还保持了Docker创建容器速度快、镜像管理方面等优点。官方网站为<a href="https://hyper.sh。" target="_blank" rel="external">https://hyper.sh。</a></p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="url">
                   Use kubectl to connect kubernetes cluster
                 </a>
@@ -772,495 +1033,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/24/stateless-floating-ips/" itemprop="url">
-                  Stateless Floating IPs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-25T00:00:00+08:00" content="2015-06-25">
-              2015-06-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Networking/" itemprop="url" rel="index">
-                    <span itemprop="name">Networking</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/06/24/stateless-floating-ips/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/24/stateless-floating-ips/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Neutron里面的Floating IPs目前是基于iptables NAT来实现的，它使用ip_conntrack来跟踪所有连接（五元组），而ip_conntrack会大大降低NAT的性能，并且也有一些安全问题（比如<a href="https://review.openstack.org/#/c/124375/" target="_blank" rel="external">conntrack未释放问题</a>）。从Floating IPs的作用来看，它只需要完成源目的IP地址的转换即可，完全可以不需要conntrack，因而就有了一个<a href="https://blueprints.launchpad.net/neutron/+spec/stateless-floatingips" target="_blank" rel="external">Stateless Floating IPs</a>的BP, </p>
-<p>Stateless Floating IPs的大致实现方法是使用iptables将特定的包跳过conntrack，然后再用tc执行源目的地址的转换：</p>
-<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">iptables -t raw -A PREROUTING -d <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> -j NOTRACK</div><div class="line">iptables -t raw -A PREROUTING -s <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.25</span>/<span class="number">32</span> -j NOTRACK</div><div class="line"></div><div class="line">###### ingress</div><div class="line"># to <span class="built_in">do</span> once</div><div class="line">tc qdisc <span class="keyword">add</span> dev qg-xxxx ingress handle ffff:</div><div class="line"># to <span class="built_in">do</span> for <span class="number">each</span> floating-<span class="built_in">ip</span>,fixed-<span class="built_in">ip</span> tuple</div><div class="line">tc filter <span class="keyword">add</span> dev qg-xxxx parent ffff: protocol <span class="built_in">ip</span> prio <span class="number">10</span> u32 match <span class="built_in">ip</span> dst <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> action nat ingress <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span>/<span class="number">32</span> <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.250</span></div><div class="line"></div><div class="line">###### egress</div><div class="line"># to <span class="built_in">do</span> once</div><div class="line">tc qdisc <span class="keyword">add</span> dev qg-xxxx root handle <span class="number">10</span>: htb</div><div class="line"># to <span class="built_in">do</span> for <span class="number">each</span> floating-<span class="built_in">ip</span>,fixed-<span class="built_in">ip</span> tuple</div><div class="line">tc filter <span class="keyword">add</span> dev qg-xxxx parent <span class="number">10</span>: protocol <span class="built_in">ip</span> prio <span class="number">10</span> u32 match <span class="built_in">ip</span> src <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.25</span>/<span class="number">32</span> action nat egress <span class="number">199.181</span><span class="meta">.132</span><span class="meta">.250</span>/<span class="number">32</span> <span class="number">212.201</span><span class="meta">.100</span><span class="meta">.135</span></div></pre></td></tr></table></figure>
-<p>当然，这种方法也还是有很多限制的：</p>
-<blockquote>
-<p>stateless NAT always rewrites egress packets;<br>an external machine sending packets to the fixed-ip of a natted vm/port will<br>receive packets with the floating-ip as source ip.  So external machines must<br>use floating-ips of natted vms/ports.</p>
-<p>There is a shared SNAT feature of neutron routers for ports which do not have<br>an associated floating ip.  This shared SNAT will still use conntrack (i.e. it<br>will still use the iptables nat table with SNAT and DNAT targets).  It is<br>necessary to demultiplex return traffic back to the various ports using it.</p>
-</blockquote>
-<p>对于较老的内核，还可以使用下面的方法来实现stateless nat：</p>
-<p>The kernel once had stateless nat built in to the routing rules feature [#]_.<br>This was removed (or deprecated) long ago and so it is not viable::</p>
-<pre><code>--&gt; ip rule add nat 205.254.211.17 from 192.168.100.17
-     Warning: route NAT is deprecated
-
---&gt; ip route add nat 205.254.211.17 via 192.168.100.17
-    RTNETLINK answers: Invalid argument
-</code></pre><p><a href="http://linux-ip.net/html/nat-stateless.html" target="_blank" rel="external">http://linux-ip.net/html/nat-stateless.html</a></p>
-<p>The Xtables-addons project [#]_ had an implementation for performing stateless<br>NAT in the iptables raw table::</p>
-<pre><code>-t raw -A PREROUTING -i lan0 -d 212.201.100.135 -j RAWDNAT --to-destination 199.181.132.250
--t rawpost -A POSTROUTING -o lan0 -s 199.181.132.250 -j RAWSNAT --to-source 212.201.100.135
-</code></pre><p>But RAWSNAT/RAWDNAT were removed in recent xtable-addons (for kernel &gt;= 3.13)<br>because the feature was unmaintained.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/23/sysdig/" itemprop="url">
-                  sysdig
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
-              2015-06-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/06/23/sysdig/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/23/sysdig/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Sysdig captures system calls and other system level events using a linux kernel facility called tracepoints, providing a rich set of real-time, system-level information.</p>
-<p>Sysdig “packetizes” this information, so that you can do things like save it into trace files and easily filter it, a bit like you would do with tcpdump. This makes it very flexible to explore what processes are doing.</p>
-<p>Sysdig instruments your physical and virtual machines at the OS level by installing into the Linux kernel and capturing system calls and other OS events. Then, using sysdig’s command line interface, you can filter and decode these events in order to extract useful information. Sysdig can be used to inspect systems live in real-time, or to generate trace files that can be analyzed at a later stage.</p>
-<h4 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h4><ul>
-<li><p>See the top processes in terms of network bandwidth usage</p>
-<blockquote>
-<p>sysdig -c topprocs_net</p>
-</blockquote>
-</li>
-<li><p>Show the network data exchanged with the host 192.168.0.1  </p>
-<blockquote>
-<p>as binary:<br>sysdig -s2000 -X -c echo_fds fd.cip=192.168.0.1<br>as ASCII:<br>sysdig -s2000 -A -c echo_fds fd.cip=192.168.0.1</p>
-</blockquote>
-</li>
-<li><p>See the top local server ports  </p>
-<blockquote>
-<p>in terms of established connections:<br>sysdig -c fdcount_by fd.sport “evt.type=accept”<br>in terms of total bytes:<br>sysdig -c fdbytes_by fd.sport</p>
-</blockquote>
-</li>
-<li><p>See the top client IPs  </p>
-<blockquote>
-<p>in terms of established connections<br>sysdig -c fdcount_by fd.cip “evt.type=accept”<br>in terms of total bytes<br>sysdig -c fdbytes_by fd.cip</p>
-</blockquote>
-</li>
-<li><p>List all the incoming connections that are not served by apache.</p>
-<blockquote>
-<p>sysdig -p”%proc.name %fd.name” “evt.type=accept and proc.name!=httpd”</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Containers"><a href="#Containers" class="headerlink" title="Containers"></a>Containers</h4><ul>
-<li><p>View the CPU usage of the processes running inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topprocs_cpu container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the network bandwidth usage of the processes running inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the processes using most network bandwidth inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the top files in terms of I/O bytes inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topfiles_bytes container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the top network connections inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topconns container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>Show all the interactive commands executed inside the wordpress1 container</p>
-<blockquote>
-<p>sudo sysdig -pc -c spy_users container.name=wordpress1</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h4><ul>
-<li><p>See all the GET HTTP requests made by the machine</p>
-<blockquote>
-<p>sudo sysdig -s 2000 -A -c echo_fds fd.port=80 and evt.buffer contains GET</p>
-</blockquote>
-</li>
-<li><p>See all the SQL select queries made by the machine</p>
-<blockquote>
-<p>sudo sysdig -s 2000 -A -c echo_fds evt.buffer contains SELECT </p>
-</blockquote>
-</li>
-<li><p>See queries made via apache to an external MySQL server happening in real time</p>
-<blockquote>
-<p>sysdig -s 2000 -A -c echo_fds fd.sip=192.168.30.5 and proc.name=apache2 and evt.buffer contains SELECT</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Disk-I-O"><a href="#Disk-I-O" class="headerlink" title="Disk I/O"></a>Disk I/O</h4><ul>
-<li><p>See the top processes in terms of disk bandwidth usage</p>
-<blockquote>
-<p>sysdig -c topprocs_file</p>
-</blockquote>
-</li>
-<li><p>List the processes that are using a high number of files</p>
-<blockquote>
-<p>sysdig -c fdcount_by proc.name “fd.type=file”</p>
-</blockquote>
-</li>
-<li><p>See the top files in terms of read+write bytes</p>
-<blockquote>
-<p>sysdig -c topfiles_bytes</p>
-</blockquote>
-</li>
-<li><p>Print the top files that apache has been reading from or writing to</p>
-<blockquote>
-<p>sysdig -c topfiles_bytes proc.name=httpd</p>
-</blockquote>
-</li>
-<li><p>Basic opensnoop: snoop file opens as they occur</p>
-<blockquote>
-<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open</p>
-</blockquote>
-</li>
-<li><p>See the top directories in terms of R+W disk activity</p>
-<blockquote>
-<p>sysdig -c fdbytes_by fd.directory “fd.type=file”</p>
-</blockquote>
-</li>
-<li><p>See the top files in terms of R+W disk activity in the /tmp directory</p>
-<blockquote>
-<p>sysdig -c fdbytes_by fd.filename “fd.directory=/tmp/“</p>
-</blockquote>
-</li>
-<li><p>Observe the I/O activity on all the files named ‘passwd’</p>
-<blockquote>
-<p>sysdig -A -c echo_fds “fd.filename=passwd”</p>
-</blockquote>
-</li>
-<li><p>Display I/O activity by FD type  </p>
-<blockquote>
-<p>sysdig -c fdbytes_by fd.type</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Processes-and-CPU-usage"><a href="#Processes-and-CPU-usage" class="headerlink" title="Processes and CPU usage"></a>Processes and CPU usage</h4><ul>
-<li><p>See the top processes in terms of CPU usage</p>
-<blockquote>
-<p>sysdig -c topprocs_cpu</p>
-</blockquote>
-</li>
-<li><p>See the top processes for CPU 0</p>
-<blockquote>
-<p>sysdig -c topprocs_cpu evt.cpu=0</p>
-</blockquote>
-</li>
-<li><p>Observe the standard output of a process</p>
-<blockquote>
-<p>sysdig -s4096 -A -c stdout proc.name=cat</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Performance-and-Errors"><a href="#Performance-and-Errors" class="headerlink" title="Performance and Errors"></a>Performance and Errors</h4><ul>
-<li><p>See the files where most time has been spent</p>
-<blockquote>
-<p>sysdig -c topfiles_time</p>
-</blockquote>
-</li>
-<li><p>See the files where apache spent most time</p>
-<blockquote>
-<p>sysdig -c topfiles_time proc.name=httpd</p>
-</blockquote>
-</li>
-<li><p>See the top processes in terms of I/O errors</p>
-<blockquote>
-<p>sysdig -c topprocs_errors</p>
-</blockquote>
-</li>
-<li><p>See the top files in terms of I/O errors</p>
-<blockquote>
-<p>sysdig -c topfiles_errors</p>
-</blockquote>
-</li>
-<li><p>See all the failed disk I/O calls</p>
-<blockquote>
-<p>sysdig fd.type=file and evt.failed=true</p>
-</blockquote>
-</li>
-<li><p>See all the failed file opens by httpd</p>
-<blockquote>
-<p>sysdig “proc.name=httpd and evt.type=open and evt.failed=true”</p>
-</blockquote>
-</li>
-<li><p>See the system calls where most time has been spent</p>
-<blockquote>
-<p>sysdig -c topscalls_time</p>
-</blockquote>
-</li>
-<li><p>See the top system calls returning errors</p>
-<blockquote>
-<p>sysdig -c topscalls “evt.failed=true”</p>
-</blockquote>
-</li>
-<li><p>snoop failed file opens as they occur</p>
-<blockquote>
-<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open and evt.failed=true</p>
-</blockquote>
-</li>
-<li><p>Print the file I/O calls that have a latency greater than 1ms:</p>
-<blockquote>
-<p>sysdig -c fileslower 1</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><ul>
-<li><p>Show the directories that the user “root” visits</p>
-<blockquote>
-<p>sysdig -p”%evt.arg.path” “evt.type=chdir and user.name=root”</p>
-</blockquote>
-</li>
-<li><p>Observe ssh activity</p>
-<blockquote>
-<p>sysdig -A -c echo_fds fd.name=/dev/ptmx and proc.name=sshd</p>
-</blockquote>
-</li>
-<li><p>Show every file open that happens in /etc</p>
-<blockquote>
-<p>sysdig evt.type=open and fd.name contains /etc</p>
-</blockquote>
-</li>
-<li><p>Show the ID of all the login shells that have launched the “tar” command</p>
-<blockquote>
-<p>sysdig -r file.scap -c list_login_shells tar</p>
-</blockquote>
-</li>
-<li><p>Show all the commands executed by the login shell with the given ID</p>
-<blockquote>
-<p>sysdig -r trace.scap.gz -c spy_users proc.loginshellid=5459</p>
-</blockquote>
-</li>
-<li><p>Applied use of sysdig for forensics analysis:</p>
-<ul>
-<li><a href="http://draios.com/fishing-for-hackers/" target="_blank" rel="external">Fishing for Hackers: Analysis of a Linux Server Attack</a></li>
-<li><a href="http://draios.com/fishing-for-hackers-part-2/" target="_blank" rel="external">Fishing for Hackers (Part 2): Quickly Identify Suspicious Activity With Sysdig</a></li>
-</ul>
-</li>
-</ul>
-<p>User Guide: <a href="https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide" target="_blank" rel="external">https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide</a></p>
-<p>Source code: <a href="https://github.com/draios/sysdig" target="_blank" rel="external">https://github.com/draios/sysdig</a></p>
-<p>Support website: <a href="http://www.sysdig.org/" target="_blank" rel="external">http://www.sysdig.org/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1306,7 +1078,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

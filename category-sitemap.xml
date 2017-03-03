@@ -8,98 +8,98 @@
 
     <url>
         <loc>http://feisky.xyz/categories/vagrant/</loc>
-        <lastmod>2017-03-02T13:01:40.479Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.523Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/mesos/</loc>
-        <lastmod>2017-03-02T13:01:40.479Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.523Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/linux/</loc>
-        <lastmod>2017-03-02T13:01:40.479Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/Docker/</loc>
-        <lastmod>2017-03-02T13:01:40.483Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/Linux/</loc>
-        <lastmod>2017-03-02T13:01:40.483Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/OpenStack/</loc>
-        <lastmod>2017-03-02T13:01:40.483Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/SDN/</loc>
-        <lastmod>2017-03-02T13:01:40.483Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://feisky.xyz/categories/Networking/</loc>
-        <lastmod>2017-03-02T13:01:40.483Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.523Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Book/</loc>
-        <lastmod>2017-03-02T13:01:40.483Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.527Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/docker/</loc>
-        <lastmod>2017-03-02T13:01:40.487Z</lastmod>
+        <loc>http://feisky.xyz/categories/Docker/</loc>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Readings/</loc>
-        <lastmod>2017-03-02T13:01:40.487Z</lastmod>
+        <loc>http://feisky.xyz/categories/Linux/</loc>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/OpenStack/</loc>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/SDN/</loc>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/Networking/</loc>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/kubernetes/</loc>
-        <lastmod>2017-03-02T13:01:40.487Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/Kubernetes/</loc>
-        <lastmod>2017-03-02T13:01:40.487Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.531Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/docker/</loc>
+        <lastmod>2017-03-03T14:34:01.535Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://feisky.xyz/categories/Readings/</loc>
+        <lastmod>2017-03-03T14:34:01.535Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://feisky.xyz/categories/cluster/</loc>
-        <lastmod>2017-03-02T13:01:40.487Z</lastmod>
+        <lastmod>2017-03-03T14:34:01.535Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

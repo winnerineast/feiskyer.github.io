@@ -373,6 +373,276 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/24/Kubernetes-container-runtime-interface/" itemprop="url">
+                  Kubernetes container runtime interface
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T06:59:31+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/Kubernetes-container-runtime-interface/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/24/Kubernetes-container-runtime-interface/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
+<h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
+<ul>
+<li>Runtime接口的抽象度太高，导致一些原本该在Kubelet控制的逻辑被放到了Runtime实现里面。比如在当前的实现中，rkt和docker的<code>SyncPod</code>（负责Pod创建的接口）存在大量重复的逻辑，每次修改docker部分的时，都有可能需要同时修改rkt部分。这样，如果再加入新的容器引擎的话，同时修改多个Runtime部分的代码是没法维护的。</li>
+<li>Runtime接口是集成在Kubelet内部的，集成容器引擎相关的代码需要放到Kubernetes代码库里面，这同样带来了维护的问题：代码维护麻烦，任何一个容器引擎修改了代码都需要发布新的kubelet；集成测试麻烦，要为每个不同的容器引擎部署不同的集成测试环境。</li>
+<li>没有提供容器创建的接口，无法直接在Kubelet里面做到对容器的精细控制。</li>
+<li>耦合了镜像和容器管理，而它们的生命周期本来就是独立的。</li>
+</ul>
+<p>既然Runtime接口有很多问题，并且有很多容器引擎想要集成到Kubernetes中，所以有必要重新定义CRI，并且提供一种插件机制，允许容器引擎以外部独立进程的方式接入。所以，Brendan Burns在<a href="http://hypercontainer.io" target="_blank" rel="external">Hyper</a>集成的时候就提供了一种以客户端/服务器方式接入外部容器引擎的思路。在大量的社区讨论后，Node team重新抽象了容器引擎接口（也就是CRI），并决定以gRPC的方式接入外部容器引擎。</p>
+<h2 id="CRI是如何工作的"><a href="#CRI是如何工作的" class="headerlink" title="CRI是如何工作的"></a>CRI是如何工作的</h2><p>CRI比Runtime接口提供了更细粒度的抽象，解耦了镜像管理和容器管理，并为Pod和Container提供了独立的操作接口。CRI以gRPC的方式接入，Kubelet是gPRC API的客户端，而容器引擎则是gRPC API的服务端。gRPC已经自动实现了它们之间交互的细节，容器引擎只需要实现每个具体的API。</p>
+<p>一个典型的启动Pod的流程为</p>
+<p><img src="/images/createpod.png" alt="createpod"></p>
+<p>而停止Pod的流程为</p>
+<p><img src="/images/killpod.png" alt="killpod"></p>
+<h2 id="CRI带了什么"><a href="#CRI带了什么" class="headerlink" title="CRI带了什么"></a>CRI带了什么</h2><p>CRI解决了上述提到的Runtime接口的问题，使得新的容器引擎可以更方便的集成到Kubernetes中来，这必将给Kubernetes社区带来新一轮的变革，并促进Kubernetes走入更多的应用场景中。比如，Redhat借助OCI容器引擎runc摆脱对docker依赖，Hyper以虚拟化的方式解决多租户场景下的容器隔离问题，甚至Mirantis直接用Kubernetes来管理原生的虚拟机。</p>
+<p>CRI也解耦了容器和镜像的管理，可以方便的扩展其他镜像格式，比如ACI等。</p>
+<p>CRI还在着力解决一些很有挑战的问题，比如</p>
+<ul>
+<li>容器日志的管理，包括日志格式化规范、日志文件rotate、日志文件磁盘IO控制以及日志的统一收集处理等。</li>
+<li>解除streaming API（exec、attach、logs等）对kubelet的网络压力。当前所有的streaming API都是从<code>apiserver-&gt;kubelet-&gt;runtime</code>，apiserver是无状态的，可以水平扩展，但kubelet和runtime则是每台机器只能有一个，streaming API有可能会给他们带来处理的瓶颈。所以在CRI中，将会考虑使用一个独立进程（需要对apiserver开放端口）来单独处理这些请求<code>apiserver-&gt;newStreamProcess</code>，释放kubelet来做更核心的事情。</li>
+<li>更灵活的网络配置，将Pod网络的配置完全交给容器引擎，而Kubernetes只需要最终的网络状态。</li>
+</ul>
+<h2 id="CRI的未来"><a href="#CRI的未来" class="headerlink" title="CRI的未来"></a>CRI的未来</h2><p>虽然CRI还在持续开发中（目前还没有任何release），但已经有很多厂商已经开始了引入新容器引擎的进程：</p>
+<ul>
+<li>Frakti：为解决多租户场景下的容器隔离问题，Hyper以虚拟化的方式运行容器。关于frakti的更多细节见<a href="https://github.com/kubernetes/frakti。" target="_blank" rel="external">https://github.com/kubernetes/frakti。</a></li>
+<li>OCI-O：为解耦对docker的依赖，Redhat提供对OCI容器引擎的支持（目前主要是runc）。关于oci-o的更多细节见<a href="https://github.com/kubernetes-incubator/oci-o。" target="_blank" rel="external">https://github.com/kubernetes-incubator/oci-o。</a></li>
+<li>Rktlet：为了加速rkt容器引擎的开发维护，CoreOS提议将rkt集成的代码独立出Kubelet（vendor到kubelet，同集成到kubelet内部便于发布），并重构rkt以适应CRI的变化。关于rktlet的更多细节见<a href="https://github.com/kubernetes-incubator/rktlet。" target="_blank" rel="external">https://github.com/kubernetes-incubator/rktlet。</a></li>
+<li>Virtlet：为了支持原生的虚拟机管理，Mirantis提议直接用Kubernetes来管理原生的虚拟机（需要将docker镜像替换成qcow2镜像）。关于virtlet的更多细节见<a href="https://github.com/Mirantis/virtlet。" target="_blank" rel="external">https://github.com/Mirantis/virtlet。</a></li>
+<li>当然，docker相关的代码还会继续保留在kubelet内部，只不过要重构到CRI上面来。</li>
+</ul>
+<p>CRI预计在Kubernetes v1.5发布第一个alpha版。届时，上面各个容器引擎的实现也将会发布第一个release。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/11/Kubernetes中的服务发现与负载均衡/" itemprop="url">
+                  Kubernetes中的服务发现与负载均衡
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-11T09:48:09+08:00" content="2016-09-11">
+              2016-09-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/11/Kubernetes中的服务发现与负载均衡/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/11/Kubernetes中的服务发现与负载均衡/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
+<ul>
+<li>Service：直接用Service提供cluster内部的负载均衡，并借助cloud provider提供的LB提供外部访问</li>
+<li>Ingress Controller：还是用Service提供cluster内部的负载均衡，但是通过自定义LB提供外部访问</li>
+<li>Service Load Balancer：把load balancer直接跑在容器中，实现Bare Metal的Service Load Balancer</li>
+<li>Custom Load Balancer：自定义负载均衡，并替代kube-proxy，一般在物理部署Kubernetes时使用，方便接入公司已有的外部服务</li>
+</ul>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p><img src="/images/k8s-service.png" alt=""></p>
+<p>Service是对一组提供相同功能的Pods的抽象，并为它们提供一个统一的入口。借助Service，应用可以方便的实现服务发现与负载均衡，并实现应用的零宕机升级。Service通过标签来选取服务后端，一般配合Replication Controller或者Deployment来保证后端容器的正常运行。</p>
+<p>Service有三种类型：</p>
+<ul>
+<li>ClusterIP：默认类型，自动分配一个仅cluster内部可以访问的虚拟IP</li>
+<li>NodePort：在ClusterIP基础上为Service在每台机器上绑定一个端口，这样就可以通过<code>&lt;NodeIP&gt;:NodePort</code>来访问改服务</li>
+<li>LoadBalancer：在NodePort的基础上，借助cloud provider创建一个外部的负载均衡器，并将请求转发到<code>&lt;NodeIP&gt;:NodePort</code></li>
+</ul>
+<p>另外，也可以讲已有的服务以Service的形式加入到Kubernetes集群中来，只需要在创建Service的时候不指定Label selector，而是在Service创建好后手动为其添加endpoint。</p>
+<h2 id="Ingress-Controller"><a href="#Ingress-Controller" class="headerlink" title="Ingress Controller"></a>Ingress Controller</h2><p>Service虽然解决了服务发现和负载均衡的问题，但它在使用上还是有一些限制，比如</p>
+<p>－ 只支持4层负载均衡，没有7层功能<br>－ 对外访问的时候，NodePort类型需要在外部搭建额外的负载均衡，而LoadBalancer要求kubernetes必须跑在支持的cloud provider上面</p>
+<p>Ingress就是为了解决这些限制而引入的新资源，主要用来将服务暴露到cluster外面，并且可以自定义服务的访问策略。比如想要通过负载均衡器实现不同子域名到不同服务的访问：</p>
+<figure class="highlight gherkin"><table><tr><td class="code"><pre><div class="line">foo.bar.com --|<span class="string">                 </span>|<span class="string">-&gt; foo.bar.com s1:80</span></div><div class="line">              |<span class="string"> 178.91.123.132  </span>|</div><div class="line">bar.foo.com --|<span class="string">                 </span>|<span class="string">-&gt; bar.foo.com s2:80</span></div></pre></td></tr></table></figure>
+<p>可以这样来定义Ingress：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> extensions/v1beta1</div><div class="line"><span class="attr">kind:</span> Ingress</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> test</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  rules:</span></div><div class="line"><span class="attr">  - host:</span> foo.bar.com</div><div class="line"><span class="attr">    http:</span></div><div class="line"><span class="attr">      paths:</span></div><div class="line"><span class="attr">      - backend:</span></div><div class="line"><span class="attr">          serviceName:</span> s1</div><div class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></div><div class="line"><span class="attr">  - host:</span> bar.foo.com</div><div class="line"><span class="attr">    http:</span></div><div class="line"><span class="attr">      paths:</span></div><div class="line"><span class="attr">      - backend:</span></div><div class="line"><span class="attr">          serviceName:</span> s2</div><div class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></div></pre></td></tr></table></figure>
+<p>注意Ingress本身并不会自动创建负载均衡器，cluster中需要运行一个ingress controller来根据Ingress的定义来管理负载均衡器。目前社区提供了nginx和gce的参考实现。</p>
+<h2 id="Service-Load-Balancer"><a href="#Service-Load-Balancer" class="headerlink" title="Service Load Balancer"></a>Service Load Balancer</h2><p>在Ingress出现以前，Service Load Balancer是推荐的解决Service局限性的方式。Service Load Balancer将haproxy跑在容器中，并监控service和endpoint的变化，通过容器IP对外提供4层和7层负载均衡服务。</p>
+<p>社区提供的Service Load Balancer支持四种负载均衡协议：TCP、HTTP、HTTPS和SSL TERMINATION，并支持ACL访问控制。</p>
+<h2 id="Custom-Load-Balancer"><a href="#Custom-Load-Balancer" class="headerlink" title="Custom Load Balancer"></a>Custom Load Balancer</h2><p>虽然Kubernetes提供了丰富的负载均衡机制，但在实际使用的时候，还是会碰到一些复杂的场景是它不能支持的，比如</p>
+<ul>
+<li>接入已有的负载均衡设备</li>
+<li>多租户网络情况下，容器网络和主机网络是隔离的，这样<code>kube-proxy</code>就不能正常工作</li>
+</ul>
+<p>这个时候就可以自定义组件，并代替kube-proxy来做负载均衡。基本的思路是监控kubernetes中service和endpoints的变化，并根据这些变化来配置负载均衡器。比如weave flux、nginx plus、kube2haproxy等</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://kubernetes.io/docs/user-guide/services/" target="_blank" rel="external">http://kubernetes.io/docs/user-guide/services/</a></li>
+<li><a href="http://kubernetes.io/docs/user-guide/ingress/" target="_blank" rel="external">http://kubernetes.io/docs/user-guide/ingress/</a></li>
+<li><a href="https://github.com/kubernetes/contrib/tree/master/service-loadbalancer" target="_blank" rel="external">https://github.com/kubernetes/contrib/tree/master/service-loadbalancer</a></li>
+<li><a href="https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/" target="_blank" rel="external">https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/</a></li>
+<li><a href="https://github.com/weaveworks/flux" target="_blank" rel="external">https://github.com/weaveworks/flux</a></li>
+<li><a href="https://github.com/AdoHe/kube2haproxy" target="_blank" rel="external">https://github.com/AdoHe/kube2haproxy</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/24/如何快速启动一个Kubernetes集群/" itemprop="url">
                   如何快速启动一个Kubernetes集群
                 </a>
@@ -767,231 +1037,6 @@ Available Commands:
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/" itemprop="url">
-                  Playing docker with hypervisor container runtime runV
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-17T17:12:38+08:00" content="2016-06-17">
-              2016-06-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Table of contents:</p>
-<p>[TOC]</p>
-<hr>
-<p>The latest master branch of <a href="https://github.com/hyperhq/runv" target="_blank" rel="external">runV</a> has already supported running as an runtime in docker. Since v1.11, docker introduced OCI contain runtime (runc) integration via containerd. Since runc and runV are both <a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">recommended implementation of OCI</a>, it is natural to make runV working with containerd. </p>
-<p>Now let’s have a try.</p>
-<h3 id="Install-runv-and-docker"><a href="#Install-runv-and-docker" class="headerlink" title="Install runv and docker"></a>Install runv and docker</h3><p>Docker could be installed via <a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">https://docs.docker.com/engine/installation/</a>.</p>
-<p>Since only master branch of runV supports running integrated with docker, we should compile runV by source.</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo apt-get install -y autoconf automake pkg-config libdevmapper-dev libsqlite3-dev libvirt-dev qemu libvirt-bin</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-<h3 id="Start-docker-with-runV-runtime"><a href="#Start-docker-with-runV-runtime" class="headerlink" title="Start docker with runV runtime"></a>Start docker with runV runtime</h3><p>Stop docker first since it is running with runc by default.</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">systemctl stop docker</div></pre></td></tr></table></figure>
-<p>Now start docker with runV:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># start containerd</span></div><div class="line">systemd-run --unit=containerd-runv docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --runtime /usr/<span class="built_in">local</span>/bin/runv --runtime-args --debug --runtime-args --driver=libvirt --runtime-args --kernel=/var/lib/hyper/kernel --runtime-args --initrd=/var/lib/hyper/hyper-initrd.img --start-timeout 2m</div><div class="line"></div><div class="line"><span class="comment"># start docker</span></div><div class="line">systemd-run --unit=docker-runv docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line"></div><div class="line"><span class="comment"># check status</span></div><div class="line">[root@linux ~]<span class="comment"># systemctl status containerd-runv</span></div><div class="line">● containerd-runv.service - /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --runtime /usr/<span class="built_in">local</span>/bin/runv --runtime-args --debug --runtime-args --driver=libvirt --runtime-args --kernel=/var/lib/hyper/kernel --runtime-args --initrd=/var/lib/hyper/hyper-initrd.img --start-timeout 2m</div><div class="line">   Loaded: loaded (/run/systemd/system/containerd-runv.service; static; vendor preset: disabled)</div><div class="line">  Drop-In: /run/systemd/system/containerd-runv.service.d</div><div class="line">           └─50-Description.conf, 50-ExecStart.conf</div><div class="line">   Active: active (running) since 五 2016-06-17 09:47:57 UTC; 10s ago</div><div class="line"> Main PID: 12650 (docker-containe)</div><div class="line">   Memory: 1.8M</div><div class="line">   CGroup: /system.slice/containerd-runv.service</div><div class="line">           └─12650 /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --run...</div><div class="line"></div><div class="line">6月 17 09:47:57 linux systemd[1]: Started /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker...</div><div class="line">6月 17 09:47:57 linux systemd[1]: Starting /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docke...</div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=warning msg=<span class="string">"containerd: low ...=4096</span></div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time="2016-06-17T09:47:57Z<span class="string">" level=debug msg="</span>containerd: <span class="built_in">read</span> p...unt=0</div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=debug msg=<span class="string">"containerd: superv...nerd"</span></div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=debug msg=<span class="string">"containerd: grpc a...sock"</span></div><div class="line">Hint: Some lines were ellipsized, use <span class="_">-l</span> to show <span class="keyword">in</span> full.</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># systemctl status docker-runv</span></div><div class="line">● docker-runv.service - /usr/bin/docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line">   Loaded: loaded (/run/systemd/system/docker-runv.service; static; vendor preset: disabled)</div><div class="line">  Drop-In: /run/systemd/system/docker-runv.service.d</div><div class="line">           └─50-Description.conf, 50-ExecStart.conf</div><div class="line">   Active: active (running) since 五 2016-06-17 09:34:11 UTC; 25s ago</div><div class="line"> Main PID: 11120 (docker)</div><div class="line">   Memory: 20.8M</div><div class="line">   CGroup: /system.slice/docker-runv.service</div><div class="line">           └─11120 /usr/bin/docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line"></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019309548Z"</span> level=debug msg=<span class="string">"Registering POST, /volumes/create"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019448115Z"</span> level=debug msg=<span class="string">"Registering DELETE, /volumes/&#123;name:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019551244Z"</span> level=debug msg=<span class="string">"Registering POST, /build"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019607895Z"</span> level=debug msg=<span class="string">"Registering GET, /networks"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019675700Z"</span> level=debug msg=<span class="string">"Registering GET, /networks/&#123;id:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019771551Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/create"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020256142Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/&#123;id:.*&#125;/connect"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020369131Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/&#123;id:.*&#125;/disconnect"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020463042Z"</span> level=debug msg=<span class="string">"Registering DELETE, /networks/&#123;id:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.021491071Z"</span> level=info msg=<span class="string">"API listen on /var/run/docker.sock"</span></div></pre></td></tr></table></figure>
-<h3 id="Create-container"><a href="#Create-container" class="headerlink" title="Create container"></a>Create container</h3><p>Let’s create a nginx container.</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[root@linux ~]<span class="comment"># docker run -i -d  nginx</span></div><div class="line">6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c</div><div class="line">[root@linux ~]<span class="comment"># docker ps</span></div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</div><div class="line">6a34a0513ebb        nginx               <span class="string">"nginx -g 'daemon off"</span>   9 seconds ago       Up 3 seconds        80/tcp, 443/tcp     berserk_mcnulty</div><div class="line"></div><div class="line"><span class="comment"># Is it working</span></div><div class="line">[root@linux ~]<span class="comment"># docker inspect --format '&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;' 6a34a0513ebb</span></div><div class="line">172.17.0.2</div><div class="line">[root@linux ~]<span class="comment"># curl -I 172.17.0.2</span></div><div class="line">HTTP/1.1 200 OK</div><div class="line">Server: nginx/1.11.1</div><div class="line">Date: Fri, 17 Jun 2016 09:52:37 GMT</div><div class="line">Content-Type: text/html</div><div class="line">Content-Length: 612</div><div class="line">Last-Modified: Tue, 31 May 2016 14:40:22 GMT</div><div class="line">Connection: keep-alive</div><div class="line">ETag: <span class="string">"574da256-264"</span></div><div class="line">Accept-Ranges: bytes</div></pre></td></tr></table></figure>
-<p>Is the container really running in runV with hypervisor?</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">root@linux ~]<span class="comment"># runv list</span></div><div class="line">ID                                                                 PID         STATUS      BUNDLE                                                                                           CREATED</div><div class="line">6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c   12756       running     /var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c   2016-06-17T09:48:38.324839156Z</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># runv state 6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"ociVersion"</span>: <span class="string">"0.6.0-dev"</span>,</div><div class="line">  <span class="string">"id"</span>: <span class="string">"6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c"</span>,</div><div class="line">  <span class="string">"pid"</span>: 12756,</div><div class="line">  <span class="string">"bundlePath"</span>: <span class="string">"/var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c"</span>,</div><div class="line">  <span class="string">"rootfsPath"</span>: <span class="string">"/var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c/rootfs"</span>,</div><div class="line">  <span class="string">"status"</span>: <span class="string">"running"</span>,</div><div class="line">  <span class="string">"created"</span>: <span class="string">"2016-06-17T09:48:38.324839156Z"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># virsh list</span></div><div class="line"> Id    名称                         状态</div><div class="line">----------------------------------------------------</div><div class="line"> 919   vm-CeaKLvbPEg                  running</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># ps -ef | grep vm-CeaKLvbPEg | grep -v grep</span></div><div class="line">root     12743     1  1 09:48 ?        00:00:06 /usr/bin/qemu-system-x86_64 -name vm-CeaKLvbPEg -S -machine pc-i440fx-2.0,accel=tcg,usb=off -cpu Haswell-noTSX,+abm,+hypervisor,+rdrand,+f16c,+osxsave,+ht,+vme -m 128 -realtime mlock=off -smp 1,sockets=1,cores=1,threads=1 -uuid 4f158103-bd5e-4fd1<span class="_">-a</span>62f-9e18093ceaf4 -nographic -no-user-config -nodefaults -chardev socket,id=charmonitor,path=/var/lib/libvirt/qemu/domain-vm-CeaKLvbPEg/monitor.sock,server,nowait -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc -no-reboot -boot strict=on -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append console=ttyS0 panic=1 no_timer_check -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -fsdev <span class="built_in">local</span>,security_model=none,id=fsdev-fs0,path=/var/run/hyper/vm-CeaKLvbPEg/share_dir -device virtio-9p-pci,id=fs0,fsdev=fsdev-fs0,mount_tag=share_dir,bus=pci.0,addr=0x4 -chardev socket,id=charserial0,path=/var/run/hyper/vm-CeaKLvbPEg/console.sock,server,nowait -device isa-serial,chardev=charserial0,id=serial0 -chardev socket,id=charchannel0,path=/var/run/hyper/vm-CeaKLvbPEg/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charchannel1,path=/var/run/hyper/vm-CeaKLvbPEg/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charchannel1,id=channel1,name=sh.hyper.channel.1 -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x5 -msg timestamp=on</div></pre></td></tr></table></figure>
-<h3 id="Is-it-stable"><a href="#Is-it-stable" class="headerlink" title="Is it stable?"></a>Is it stable?</h3><p>Of course not, runV is still under quick development and features are not complete now. For example, there are a lot of commands not supported now:</p>
-<ul>
-<li><code>docker stop</code></li>
-<li><code>docker stats</code></li>
-<li><code>docker exec</code></li>
-</ul>
-<p>Although there are still problems, I’m exited by what runV has done. Looking forward to its release.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/07/Kubernetes-mesos-architecture/" itemprop="url">
-                  Kubernetes-mesos architecture
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-07T13:21:07+08:00" content="2016-06-07">
-              2016-06-07
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/07/Kubernetes-mesos-architecture/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/07/Kubernetes-mesos-architecture/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
-<p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1037,7 +1082,7 @@ Available Commands:
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -373,6 +373,280 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/03/AWS-S3故障回顾和总结/" itemprop="url">
+                  AWS S3故障回顾和总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-03T22:27:50+08:00" content="2017-03-03">
+              2017-03-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/03/AWS-S3故障回顾和总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/03/AWS-S3故障回顾和总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="S3故障回顾"><a href="#S3故障回顾" class="headerlink" title="S3故障回顾"></a>S3故障回顾</h2><p>2月28日，AWS工程师在排查Northern Virginia (US-EAST-1) Region的一个S3计费问题时，因敲错了一条playbook的参数而误删了大量的s3控制服务引发了4小时的故障。这个误操作影响了两个S3的核心系统：</p>
+<ul>
+<li>Index系统，管理S3对象的元数据和位置，主要处理GET、LIST、PUT、DELETE请求</li>
+<li>Placement系统，管理新存储的分配和，主要处理PUT请求</li>
+</ul>
+<p>由于S3的故障，一大批依赖于S3的AWS服务也发生故障（如EC2、EBS和Lambda等），进而也影响了近半的北美互联网服务。不过，这次故障只是影响了用户的访问，并没有丢失数据（可靠性还是保障的，S3有7个9的可靠性和4个9的可用性）。</p>
+<p>虽然aws s3具有优秀的故障设计，在故障发生时一般会自动恢复。但是，由于s3极好的稳定性，Index和Placement系统已经多年未重启过了，这次重启重建index的时间超过预期，并且placement依赖于index系统，导致系统恢复花费了较长的时间。</p>
+<h2 id="改进措施"><a href="#改进措施" class="headerlink" title="改进措施"></a>改进措施</h2><ul>
+<li>完善工具，保证即便有人操作错误也不会引发故障（对事不对人）</li>
+<li>让删除操作缓慢些（以便有时间反悔）</li>
+<li>加上一个最小资源数限制的SafeGuard</li>
+<li>拆分现有的服务为更小单元（factoring services into cells），减小服务故障影响面，缩短服务的恢复时间</li>
+</ul>
+<h2 id="教训"><a href="#教训" class="headerlink" title="教训"></a>教训</h2><ul>
+<li>高可用很难，不仅包括系统架构的高可用，更包括运维的高可用</li>
+<li>跨Region和跨Availability Zone的重要性（比如Amazon和Netflix的服务并未受影响，因为它们在设计之初就处理了Region失效的问题），可以考虑的方案包括<ul>
+<li>跨Region的数据备份和恢复</li>
+<li>跨Region的主从服务，包括Warm standby和Hot standby</li>
+<li>跨Region的主主服务</li>
+</ul>
+</li>
+<li>故障恢复的重要性，充分保证Recovery Time Objective (RTO) and Recovery Point Objective (RPO)</li>
+<li>自动化，人总是会犯错的，应该用技术而不是管理来解决问题（敏感操作放慢进程，以便有时间反悔）</li>
+<li>故障和恢复演练，比如Google SRE指出他们有一个定期的服务停机计划，以验证系统是否真的符合预期</li>
+</ul>
+<p><img src="/images/pinterest-ha.jpg" alt=""></p>
+<p><em>一个高可用系统的参考架构，图片来自<a href="https://learningawsblog.com/2017/03/02/how-should-we-think-about-the-aws-outage/" target="_blank" rel="external">The Learning AWS Blog</a></em></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://aws.amazon.com/cn/message/41926/" target="_blank" rel="external">Summary of the Amazon S3 Service Disruption in the Northern Virginia (US-EAST-1) Region</a></li>
+<li><a href="https://learningawsblog.com/2017/03/02/how-should-we-think-about-the-aws-outage/" target="_blank" rel="external">How should we think about the aws outage</a></li>
+<li><a href="https://news.ycombinator.com/item?id=13775667" target="_blank" rel="external">Hacker News讨论</a></li>
+<li><a href="http://coolshell.cn/articles/17737.html" target="_blank" rel="external">AWS 的 S3 故障回顾和思考</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/03/Gitlab故障回顾和总结/" itemprop="url">
+                  Gitlab故障回顾和总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-03T22:27:37+08:00" content="2017-03-03">
+              2017-03-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/03/Gitlab故障回顾和总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/03/Gitlab故障回顾和总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Gitlab故障回顾"><a href="#Gitlab故障回顾" class="headerlink" title="Gitlab故障回顾"></a>Gitlab故障回顾</h2><p>1月31日，Giblab在修复一个PostgreSQL数据同步问题（DB Replication lagged too far behind）时，误将生产环境的数据删除（本来是计划删除db1上的数据，结果发现在错误的db2上操作了）。进而寻求从备份数据恢复，结果发现没有实时备份：</p>
+<ul>
+<li>LVM Snapshot每24小时备份一次，最新数据是6小时前的</li>
+<li>常规备份由于pg_dump客户端版本问题失效</li>
+<li>Azure Disk snapshot未启用</li>
+<li>数据库同步会导致webhook删除，所以webhook只能从备份中恢复</li>
+<li>S3 备份未生效，bucket为空</li>
+<li>糟糕的备份流程，并且没有明确的文档</li>
+</ul>
+<p>最后，Gitlab只能从LVM snapshot上恢复6小时前的数据。由于备份机器性能极差，并且数据拷贝极慢，整个恢复过程也比较慢（18个小时）。</p>
+<h2 id="改进措施"><a href="#改进措施" class="headerlink" title="改进措施"></a>改进措施</h2><p>故障发生后，Gitlab列出了一系列的改进措施，包括</p>
+<ol>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1094" target="_blank" rel="external">Update PS1 across all hosts to more clearly differentiate between hosts and environments (#1094)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1095" target="_blank" rel="external">Prometheus monitoring for backups (#1095)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1096" target="_blank" rel="external">Set PostgreSQL’s max_connections to a sane value (#1096)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1097" target="_blank" rel="external">Investigate Point in time recovery &amp; continuous archiving for PostgreSQL (#1097)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1098" target="_blank" rel="external">Hourly LVM snapshots of the production databases (#1098)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1099" target="_blank" rel="external">Azure disk snapshots of production databases (#1099)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1100" target="_blank" rel="external">Move staging to the ARM environment (#1100)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1101" target="_blank" rel="external">Recover production replica(s) (#1101)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1102" target="_blank" rel="external">Automated testing of recovering PostgreSQL database backups (#1102)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1103" target="_blank" rel="external">Improve PostgreSQL replication documentation/runbooks (#1103)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1105" target="_blank" rel="external">Investigate pgbarman for creating PostgreSQL backups (#1105)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/494" target="_blank" rel="external">Investigate using WAL-E as a means of Database Backup and Realtime Replication (#494)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1152" target="_blank" rel="external">Build Streaming Database Restore</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1163" target="_blank" rel="external">Assign an owner for data durability</a></li>
+<li><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/merge_requests/1251" target="_blank" rel="external">Bundle pgpool-II 3.6.1 (!1251)</a></li>
+<li><a href="https://gitlab.com/gitlab-com/infrastructure/issues/259" target="_blank" rel="external">Connection pooling/load balancing for PostgreSQL (#259)</a></li>
+</ol>
+<h2 id="教训"><a href="#教训" class="headerlink" title="教训"></a>教训</h2><ul>
+<li>PostgreSQL配置和使用错误，参见<a href="https://blog.2ndquadrant.com/dataloss-at-gitlab/" target="_blank" rel="external">Dataloss at Gitlab</a></li>
+<li>自动化的必要性，人总是会犯错的，应该用技术而不是管理来解决问题（设计更合理的高可用系统而不是靠权限控制人肉操作）</li>
+<li>备份和故障恢复系统需要定期演练，否则即便像Gitlab拥有这么多的备份系统依然会丢失数据</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/" target="_blank" rel="external">Postmortem of database outage of January 31</a></li>
+<li><a href="https://docs.google.com/document/d/1GCK53YDcBWQveod9kfzW-VCxIABGiryG7_z_6jHdVik/pub" target="_blank" rel="external">GitLab.com Database Incident - 2017/01/31</a></li>
+<li><a href="https://about.gitlab.com/2017/02/01/gitlab-dot-com-database-incident/" target="_blank" rel="external">GitLab.com Database Incident</a></li>
+<li><a href="https://news.ycombinator.com/item?id=13537052" target="_blank" rel="external">Hacker News讨论</a></li>
+<li><a href="http://coolshell.cn/articles/17680.html" target="_blank" rel="external">从GITLAB误删除数据库想到的</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/14/Debugging-application-in-containers/" itemprop="url">
                   Debugging application in containers
                 </a>
@@ -808,375 +1082,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="url">
-                  Grumpy: 使用Go来运行Python程序
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-05T17:11:09+08:00" content="2017-01-05">
-              2017-01-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/05/Grumpy-使用Go来运行Python程序/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/05/Grumpy-使用Go来运行Python程序/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy" target="_blank" rel="external">https://github.com/google/grumpy</a>）的把Python程序编译成Go程序的工具，主要是为了解决Python GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
-<p>Grumpy还在开发中，也还没有在Google的生产环境中使用，很多系统库还没有完成翻译，并且也不支持各种外部库和C扩展。虽然如此，Grumpy仍然是一个值得关注的有趣项目（Github已经有2700+的star）。</p>
-<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/google/grumpy.git</div><div class="line">$ <span class="built_in">cd</span> grumpy</div><div class="line">$ <span class="built_in">echo</span> <span class="string">"print 'hello, world'"</span> | make run</div><div class="line">hello, world</div></pre></td></tr></table></figure>
-<p>当然，也可以把程序翻译成Go再运行:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'print "hello, world"'</span> &gt; hello.py</div><div class="line">make</div><div class="line"><span class="built_in">export</span> GOPATH=<span class="variable">$PWD</span>/build</div><div class="line"><span class="built_in">export</span> PYTHONPATH=<span class="variable">$PWD</span>/build/lib/python2.7/site-packages</div><div class="line"></div><div class="line">tools/grumpc hello.py &gt; hello.go</div><div class="line">go build -o hello hello.go</div><div class="line">./hello</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/13/Kubernetes-v1-5-0-release/" itemprop="url">
-                  Kubernetes v1.5.0 release
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-13T11:51:29+08:00" content="2016-12-13">
-              2016-12-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/13/Kubernetes-v1-5-0-release/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/13/Kubernetes-v1-5-0-release/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>Update on 2016.12.14:</strong></p>
-<p>Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.</p>
-<blockquote>
-<p>The <code>--anonymous-auth=</code> flag in v1.5.0 is true by default (which may result in any users being able to access kubernetes API), but v1.5.1 turns it to false.</p>
-</blockquote>
-<h2 id="Kubernetes-v1-5-0"><a href="#Kubernetes-v1-5-0" class="headerlink" title="Kubernetes v1.5.0"></a>Kubernetes v1.5.0</h2><ul>
-<li>StatefulSets (ex-PetSets)<ul>
-<li>StatefulSets are beta now (fixes and stabilization)</li>
-</ul>
-</li>
-<li>Improved Federation Support<ul>
-<li>New command: <code>kubefed</code></li>
-<li>DaemonSets</li>
-<li>Deployments</li>
-<li>ConfigMaps</li>
-</ul>
-</li>
-<li>Simplified Cluster Deployment<ul>
-<li>Improvements to <code>kubeadm</code></li>
-<li>HA Setup for Master</li>
-</ul>
-</li>
-<li>Node Robustness and Extensibility<ul>
-<li>Windows Server Container support</li>
-<li>CRI for pluggable container runtimes</li>
-<li><code>kubelet</code> API supports authentication and authorization</li>
-</ul>
-</li>
-</ul>
-<h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><p>Features for this release were tracked via the use of the <a href="https://github.com/kubernetes/features" target="_blank" rel="external">kubernetes/features</a> issues repo.  Each Feature issue is owned by a Special Interest Group from <a href="https://github.com/kubernetes/community" target="_blank" rel="external">kubernetes/community</a></p>
-<ul>
-<li><strong>API Machinery</strong><ul>
-<li>[beta] <code>kube-apiserver</code> support for the OpenAPI spec is moving from alpha to beta. The first <a href="https://github.com/kubernetes-incubator/client-python" target="_blank" rel="external">non-go client</a> is based on it (<a href="https://github.com/kubernetes/features/issues/53" target="_blank" rel="external">kubernetes/features#53</a>)</li>
-</ul>
-</li>
-<li><strong>Apps</strong><ul>
-<li>[stable] When replica sets cannot create pods, they will now report detail via the API about the underlying reason (<a href="https://github.com/kubernetes/features/issues/120" target="_blank" rel="external">kubernetes/features#120</a>)</li>
-<li>[stable] <code>kubectl apply</code> is now able to delete resources you no longer need with <code>--prune</code> (<a href="https://github.com/kubernetes/features/issues/128" target="_blank" rel="external">kubernetes/features#128</a>)</li>
-<li>[beta] Deployments that cannot make progress in rolling out the newest version will now indicate via the API they are blocked (<a href="http://kubernetes.io/docs/user-guide/deployments/#failed-deployment" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/122" target="_blank" rel="external">kubernetes/features#122</a>)</li>
-<li>[beta] StatefulSets allow workloads that require persistent identity or per-instance storage to be created and managed on Kubernetes. (<a href="http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/137" target="_blank" rel="external">kubernetes/features#137</a>)</li>
-<li>[beta] In order to preserve safety guarantees the cluster no longer force deletes pods on un-responsive nodes and users are now warned if they try to force delete pods via the CLI. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/scale-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/119" target="_blank" rel="external">kubernetes/features#119</a>)</li>
-</ul>
-</li>
-<li><strong>Auth</strong><ul>
-<li>[alpha] Further polishing of the Role-based access control alpha API including a default set of cluster roles. (<a href="http://kubernetes.io/docs/admin/authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/2" target="_blank" rel="external">kubernetes/features#2</a>)</li>
-<li>[beta] Added ability to authenticate/authorize access to the Kubelet API (<a href="http://kubernetes.io/docs/admin/kubelet-authentication-authorization/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/89" target="_blank" rel="external">kubernetes/features#89</a>)</li>
-</ul>
-</li>
-<li><strong>AWS</strong><ul>
-<li>[stable] Roles should appear in kubectl get nodes (<a href="https://github.com/kubernetes/features/issues/113" target="_blank" rel="external">kubernetes/features#113</a>)</li>
-</ul>
-</li>
-<li><strong>Cluster Lifecycle</strong><ul>
-<li>[alpha] Improved UX and usability for the kubeadm binary that makes it easy to get a new cluster running. (<a href="http://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/11" target="_blank" rel="external">kubernetes/features#11</a>)</li>
-</ul>
-</li>
-<li><strong>Cluster Ops</strong><ul>
-<li>[alpha] Added ability to create/remove clusters w/highly available (replicated) masters on GCE using kube-up/kube-down scripts. (<a href="http://kubernetes.io/docs/admin/ha-master-gce/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/48" target="_blank" rel="external">kubernetes/features#48</a>)</li>
-</ul>
-</li>
-<li><strong>Federation</strong><ul>
-<li>[alpha] Support for ConfigMaps in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/configmap/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/105" target="_blank" rel="external">kubernetes/features#105</a>)</li>
-<li>[alpha] Alpha level support for DaemonSets in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/daemonsets/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/101" target="_blank" rel="external">kubernetes/features#101</a>)</li>
-<li>[alpha] Alpha level support for Deployments in federation. (<a href="http://kubernetes.io/docs/user-guide/federation/deployment/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/100" target="_blank" rel="external">kubernetes/features#100</a>)</li>
-<li>[alpha] Cluster federation: Added support for DeleteOptions.OrphanDependents for federation resources. (<a href="http://kubernetes.io/docs/user-guide/federation/#cascading-deletion" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/99" target="_blank" rel="external">kubernetes/features#99</a>)</li>
-<li>[alpha] Introducing <code>kubefed</code>, a new command line tool to simplify federation control plane kubernetes.io/docs/admin/federation/kubefed/)) (<a href="https://github.com/kubernetes/features/issues/97" target="_blank" rel="external">kubernetes/features#97</a>)</li>
-</ul>
-</li>
-<li><strong>Network</strong><ul>
-<li>[stable] Services can reference another service by DNS name, rather than being hosted in pods (<a href="https://github.com/kubernetes/features/issues/33" target="_blank" rel="external">kubernetes/features#33</a>)</li>
-<li>[beta] Opt in source ip preservation for Services with Type NodePort or LoadBalancer (<a href="http://kubernetes.io/docs/tutorials/services/source-ip/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/27" target="_blank" rel="external">kubernetes/features#27</a>)</li>
-<li>[stable] Enable DNS Horizontal Autoscaling with beta ConfigMap parameters support (<a href="http://kubernetes.io/docs/tasks/administer-cluster/dns-horizontal-autoscaling/" target="_blank" rel="external">docs</a>)</li>
-</ul>
-</li>
-<li><strong>Node</strong><ul>
-<li>[alpha] Added ability to preserve access to host userns when userns remapping is enabled in container runtime (<a href="https://github.com/kubernetes/features/issues/127" target="_blank" rel="external">kubernetes/features#127</a>)</li>
-<li>[alpha] Introducing the v1alpha1 CRI API to allow pluggable container runtimes; an experimental docker-CRI integration is ready for testing and feedback. (<a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/54" target="_blank" rel="external">kubernetes/features#54</a>)</li>
-<li>[alpha] Kubelet launches container in a per pod cgroup hiearchy based on quality of service tier (<a href="https://github.com/kubernetes/features/issues/126" target="_blank" rel="external">kubernetes/features#126</a>)</li>
-<li>[beta] Kubelet integrates with memcg notification API to detect when a hard eviction threshold is crossed (<a href="https://github.com/kubernetes/features/issues/125" target="_blank" rel="external">kubernetes/features#125</a>)</li>
-<li>[beta] Introducing the beta version containerized node conformance test gcr.io/google_containers/node-test:0.2 for users to verify node setup. (<a href="http://kubernetes.io/docs/admin/node-conformance/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/84" target="_blank" rel="external">kubernetes/features#84</a>)</li>
-</ul>
-</li>
-<li><strong>Scheduling</strong><ul>
-<li>[alpha] Added support for accounting opaque integer resources. (<a href="http://kubernetes.io/docs/user-guide/compute-resources/#opaque-integer-resources-alpha-feature" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/76" target="_blank" rel="external">kubernetes/features#76</a>)</li>
-<li>[beta] PodDisruptionBudget has been promoted to beta, can be used to safely drain nodes while respecting application SLO’s (<a href="http://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/85" target="_blank" rel="external">kubernetes/features#85</a>)</li>
-</ul>
-</li>
-<li><strong>UI</strong><ul>
-<li>[stable] Dashboard UI now shows all user facing objects and their resource usage. (<a href="http://kubernetes.io/docs/user-guide/ui/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/136" target="_blank" rel="external">kubernetes/features#136</a>)</li>
-</ul>
-</li>
-<li><strong>Windows</strong><ul>
-<li>[alpha] Added support for Windows Server 2016 nodes and scheduling Windows Server Containers (<a href="http://kubernetes.io/docs/getting-started-guides/windows/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/features/issues/116" target="_blank" rel="external">kubernetes/features#116</a>)</li>
-</ul>
-</li>
-</ul>
-<h2 id="Known-Issues"><a href="#Known-Issues" class="headerlink" title="Known Issues"></a>Known Issues</h2><p>Populated via <a href="https://github.com/kubernetes/kubernetes/issues/37134" target="_blank" rel="external">v1.5.0 known issues / FAQ accumulator</a></p>
-<ul>
-<li>CRI <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md#kubernetes-v15-release-cri-v1alpha1" target="_blank" rel="external">known issues and<br>limitations</a></li>
-<li>getDeviceNameFromMount() function doesn’t return the volume path correctly when the volume path contains spaces <a href="https://github.com/kubernetes/kubernetes/issues/37712" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37712" target="_blank" rel="external">#37712</a></a></li>
-<li>Federation alpha features do not have feature gates defined and<br>are hence enabled by default. This will be fixed in a future release.<br><a href="https://github.com/kubernetes/kubernetes/issues/38593" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/38593" target="_blank" rel="external">#38593</a></a></li>
-<li>Federation control plane can be upgraded by updating the image<br>fields in the <code>Deployment</code> specs of the control plane components.<br>However, federation control plane upgrades were not tested in this<br>release <a href="https://github.com/kubernetes/kubernetes/issues/38537" target="_blank" rel="external">38537</a></li>
-</ul>
-<h2 id="Notable-Changes-to-Existing-Behavior"><a href="#Notable-Changes-to-Existing-Behavior" class="headerlink" title="Notable Changes to Existing Behavior"></a>Notable Changes to Existing Behavior</h2><ul>
-<li>Node controller no longer force-deletes pods from the api-server. (<a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35235" target="_blank" rel="external">#35235</a></a>, <a href="https://github.com/foxish" target="_blank" rel="external"><a href="https://github.com/foxish" target="_blank" rel="external">@foxish</a></a>)<ul>
-<li>For StatefulSet (previously PetSet), this change means creation of<br>replacement pods is blocked until old pods are definitely not running<br>(indicated either by the kubelet returning from partitioned state,<br>deletion of the Node object, deletion of the instance in the cloud provider,<br>or force deletion of the pod from the api-server).<br>This helps prevent “split brain” scenarios in clustered applications by<br>ensuring that unreachable pods will not be presumed dead unless some<br>“fencing” operation has provided one of the above indications.</li>
-<li>For all other existing controllers except StatefulSet, this has no effect on<br>the ability of the controller to replace pods because the controllers do not<br>reuse pod names (they use generate-name).</li>
-<li>User-written controllers that reuse names of pod objects should evaluate this change.</li>
-<li>When deleting an object with <code>kubectl delete ... --grace-period=0</code>, the client will<br>begin a graceful deletion and wait until the resource is fully deleted.  To force<br>deletion immediately, use the <code>--force</code> flag. This prevents users from accidentally<br>allowing two Stateful Set pods to share the same persistent volume which could lead to data<br>corruption <a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37263" target="_blank" rel="external">#37263</a></a></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>Allow anonymous API server access, decorate authenticated users with system:authenticated group (<a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/32386" target="_blank" rel="external">#32386</a></a>, <a href="https://github.com/liggitt" target="_blank" rel="external"><a href="https://github.com/liggitt" target="_blank" rel="external">@liggitt</a></a>)</p>
-<ul>
-<li>kube-apiserver learned the ‘—anonymous-auth’ flag, which defaults to true. When enabled, requests to the secure port that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of ‘system:anonymous’ and a group of ‘system:unauthenticated’.</li>
-<li>Authenticated users are decorated with a ‘system:authenticated’ group.</li>
-<li>NOTE: anonymous access is enabled by default. If you rely on authentication alone to authorize access, change to use an authorization mode other than AlwaysAllow, or or set ‘—anonymous-auth=false’.</li>
-</ul>
-</li>
-<li><p>kubectl get -o jsonpath=… will now throw an error if the path is to a field not present in the json, even if the path is for a field valid for the type.  This is a change from the pre-1.5 behavior, which would return the default value for some fields even if they were not present in the json. (<a href="https://github.com/kubernetes/kubernetes/issues/37991" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/37991" target="_blank" rel="external">#37991</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
-</li>
-<li><p>The strategicmerge patchMergeKey for VolumeMounts was changed from “name” to “mountPath”.  This was necessary because the name field refers to the name of the Volume, and is not a unique key for the VolumeMount.  Multiple VolumeMounts will have the same Volume name if mounting the same volume more than once.  The “mountPath” is verified to be unique and can act as the mergekey.  (<a href="https://github.coma/kubernetes/kubernetes/pull/35071" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35071" target="_blank" rel="external">#35071</a></a>, <a href="http://github.com/pwittrock" target="_blank" rel="external"><a href="https://github.com/pwittrock" target="_blank" rel="external">@pwittrock</a></a>)</p>
-</li>
-</ul>
-<h2 id="Deprecations"><a href="#Deprecations" class="headerlink" title="Deprecations"></a>Deprecations</h2><ul>
-<li>extensions/v1beta1.Jobs is deprecated, use batch/v1.Job instead (<a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36355" target="_blank" rel="external">#36355</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
-<li>The kubelet —reconcile-cdir flag is deprecated because it has no function anymore. (<a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35523" target="_blank" rel="external">#35523</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
-<li>Notice of deprecation for recycler <a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36760" target="_blank" rel="external">#36760</a></a></li>
-</ul>
-<h2 id="Action-Required-Before-Upgrading"><a href="#Action-Required-Before-Upgrading" class="headerlink" title="Action Required Before Upgrading"></a>Action Required Before Upgrading</h2><ul>
-<li>batch/v2alpha1.ScheduledJob has been renamed, use batch/v2alpha1.CronJob instead (<a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/36021" target="_blank" rel="external">#36021</a></a>, <a href="https://github.com/soltysh" target="_blank" rel="external"><a href="https://github.com/soltysh" target="_blank" rel="external">@soltysh</a></a>)</li>
-<li>PetSet has been renamed to StatefulSet.<br>If you have existing PetSets, <strong>you must perform extra migration steps</strong> both<br>before and after upgrading to convert them to StatefulSets. (<a href="http://kubernetes.io/docs/tasks/manage-stateful-set/upgrade-pet-set-to-stateful-set/" target="_blank" rel="external">docs</a>) (<a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/35663" target="_blank" rel="external">#35663</a></a>, <a href="https://github.com/janetkuo" target="_blank" rel="external"><a href="https://github.com/janetkuo" target="_blank" rel="external">@janetkuo</a></a>)</li>
-<li>If you are upgrading your Cluster Federation components from v1.4.x, please update your <code>federation-apiserver</code> and <code>federation-controller-manager</code> manifests to the new version (<a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/30601" target="_blank" rel="external">#30601</a></a>, <a href="https://github.com/madhusudancs" target="_blank" rel="external"><a href="https://github.com/madhusudancs" target="_blank" rel="external">@madhusudancs</a></a>)</li>
-<li>The deprecated kubelet —configure-cbr0 flag has been removed, and with that the “classic” networking mode as well.  If you depend on this mode, please investigate whether the other network plugins <code>kubenet</code> or <code>cni</code> meet your needs. (<a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34906" target="_blank" rel="external">#34906</a></a>, <a href="https://github.com/luxas" target="_blank" rel="external"><a href="https://github.com/luxas" target="_blank" rel="external">@luxas</a></a>)</li>
-<li>New client-go structure, refer to kubernetes/client-go for versioning policy (<a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34989" target="_blank" rel="external">#34989</a></a>, <a href="https://github.com/caesarxuchao" target="_blank" rel="external"><a href="https://github.com/caesarxuchao" target="_blank" rel="external">@caesarxuchao</a></a>)</li>
-<li>The deprecated kube-scheduler —bind-pods-qps and —bind-pods burst flags have been removed, use —kube-api-qps and —kube-api-burst instead (<a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/34471" target="_blank" rel="external">#34471</a></a>, <a href="https://github.com/timothysc" target="_blank" rel="external"><a href="https://github.com/timothysc" target="_blank" rel="external">@timothysc</a></a>)</li>
-<li>If you used the <a href="http://kubernetes.io/docs/admin/disruptions/" target="_blank" rel="external">PodDisruptionBudget</a> feature in 1.4 (i.e. created <code>PodDisruptionBudget</code> objects), then <strong>BEFORE</strong>  upgrading from 1.4 to 1.5, you must delete all <code>PodDisruptionBudget</code> objects (<code>policy/v1alpha1/PodDisruptionBudget</code>) that you have created. It is not possible to delete these objects after you upgrade, and their presence will prevent you from using the beta PodDisruptionBudget feature in 1.5 (which uses <code>policy/v1beta1/PodDisruptionBudget</code>). If you have already upgraded, you will need to downgrade the master to 1.4 to delete the <code>policy/v1alpha1/PodDisruptionBudget</code> objects.</li>
-</ul>
-<h2 id="External-Dependency-Version-Information"><a href="#External-Dependency-Version-Information" class="headerlink" title="External Dependency Version Information"></a>External Dependency Version Information</h2><p>Continuous integration builds have used the following versions of external dependencies, however, this is not a strong recommendation and users should consult an appropriate installation or upgrade guide before deciding what versions of etcd, docker or rkt to use.</p>
-<ul>
-<li>Docker versions 1.10.3 - 1.12.3<ul>
-<li>Docker version 1.11.2 known issues<ul>
-<li>Kernel crash with Aufs storage driver on Debian Jessie (<a href="https://github.com/kubernetes/kubernetes/issues/27885" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/27885" target="_blank" rel="external">#27885</a></a>)<br>which can be identified by the <a href="http://kubernetes.io/docs/admin/node-problem/" target="_blank" rel="external">node problem detector</a></li>
-<li>Leaked File descriptors (<a href="https://github.com/docker/containerd/issues/275" target="_blank" rel="external">#275</a>)</li>
-<li>Additional memory overhead per container (<a href="https://github.com/docker/docker/issues/21737" target="_blank" rel="external"><a href="https://github.com/kubernetes/kubernetes/pull/21737" target="_blank" rel="external">#21737</a></a>)</li>
-</ul>
-</li>
-<li>Docker version 1.12.1 <a href="https://github.com/kubernetes/kubernetes/issues/28698" target="_blank" rel="external">has been validated</a> through the Kubernetes docker automated validation framework as has Docker version 1.12.3</li>
-<li>Docker 1.10.3 contains <a href="https://github.com/docker/docker/compare/v1.10.3...runcom:docker-1.10.3-stable" target="_blank" rel="external">backports provided by RedHat</a> for known issues</li>
-<li>Docker versions as old as may 1.9.1 work with <a href="CHANGELOG.md#191">known issues</a> but this is not guaranteed</li>
-</ul>
-</li>
-<li>rkt version 1.21.0<ul>
-<li>known issues with the rkt runtime are <a href="http://kubernetes.io/docs/getting-started-guides/rkt/notes/" target="_blank" rel="external">listed here</a></li>
-</ul>
-</li>
-<li><p>etcd version 2.2.1</p>
-<ul>
-<li>etcd version 3.0.14 <a href="https://k8s-gubernator.appspot.com/builds/kubernetes-jenkins/logs/ci-kubernetes-e2e-gce-etcd3/" target="_blank" rel="external">has also been validated</a> but does require <a href="https://coreos.com/blog/migrating-applications-etcd-v3.html" target="_blank" rel="external">specific configuration steps</a></li>
-</ul>
-<p><a href="https://docs.k8s.io" target="_blank" rel="external">Documentation</a> &amp; <a href="https://releases.k8s.io/release-1.5/examples" target="_blank" rel="external">Examples</a></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1222,7 +1127,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

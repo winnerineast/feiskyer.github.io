@@ -373,6 +373,231 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/" itemprop="url">
+                  Playing docker with hypervisor container runtime runV
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-17T17:12:38+08:00" content="2016-06-17">
+              2016-06-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Table of contents:</p>
+<p>[TOC]</p>
+<hr>
+<p>The latest master branch of <a href="https://github.com/hyperhq/runv" target="_blank" rel="external">runV</a> has already supported running as an runtime in docker. Since v1.11, docker introduced OCI contain runtime (runc) integration via containerd. Since runc and runV are both <a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">recommended implementation of OCI</a>, it is natural to make runV working with containerd. </p>
+<p>Now let’s have a try.</p>
+<h3 id="Install-runv-and-docker"><a href="#Install-runv-and-docker" class="headerlink" title="Install runv and docker"></a>Install runv and docker</h3><p>Docker could be installed via <a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">https://docs.docker.com/engine/installation/</a>.</p>
+<p>Since only master branch of runV supports running integrated with docker, we should compile runV by source.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sudo apt-get install -y autoconf automake pkg-config libdevmapper-dev libsqlite3-dev libvirt-dev qemu libvirt-bin</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h3 id="Start-docker-with-runV-runtime"><a href="#Start-docker-with-runV-runtime" class="headerlink" title="Start docker with runV runtime"></a>Start docker with runV runtime</h3><p>Stop docker first since it is running with runc by default.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">systemctl stop docker</div></pre></td></tr></table></figure>
+<p>Now start docker with runV:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># start containerd</span></div><div class="line">systemd-run --unit=containerd-runv docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --runtime /usr/<span class="built_in">local</span>/bin/runv --runtime-args --debug --runtime-args --driver=libvirt --runtime-args --kernel=/var/lib/hyper/kernel --runtime-args --initrd=/var/lib/hyper/hyper-initrd.img --start-timeout 2m</div><div class="line"></div><div class="line"><span class="comment"># start docker</span></div><div class="line">systemd-run --unit=docker-runv docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line"></div><div class="line"><span class="comment"># check status</span></div><div class="line">[root@linux ~]<span class="comment"># systemctl status containerd-runv</span></div><div class="line">● containerd-runv.service - /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --runtime /usr/<span class="built_in">local</span>/bin/runv --runtime-args --debug --runtime-args --driver=libvirt --runtime-args --kernel=/var/lib/hyper/kernel --runtime-args --initrd=/var/lib/hyper/hyper-initrd.img --start-timeout 2m</div><div class="line">   Loaded: loaded (/run/systemd/system/containerd-runv.service; static; vendor preset: disabled)</div><div class="line">  Drop-In: /run/systemd/system/containerd-runv.service.d</div><div class="line">           └─50-Description.conf, 50-ExecStart.conf</div><div class="line">   Active: active (running) since 五 2016-06-17 09:47:57 UTC; 10s ago</div><div class="line"> Main PID: 12650 (docker-containe)</div><div class="line">   Memory: 1.8M</div><div class="line">   CGroup: /system.slice/containerd-runv.service</div><div class="line">           └─12650 /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker-containerd.sock --run...</div><div class="line"></div><div class="line">6月 17 09:47:57 linux systemd[1]: Started /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docker...</div><div class="line">6月 17 09:47:57 linux systemd[1]: Starting /usr/bin/docker-containerd --debug <span class="_">-l</span> /var/run/docker/libcontainerd/docke...</div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=warning msg=<span class="string">"containerd: low ...=4096</span></div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time="2016-06-17T09:47:57Z<span class="string">" level=debug msg="</span>containerd: <span class="built_in">read</span> p...unt=0</div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=debug msg=<span class="string">"containerd: superv...nerd"</span></div><div class="line">6月 17 09:47:57 linux docker-containerd[12650]: time=<span class="string">"2016-06-17T09:47:57Z"</span> level=debug msg=<span class="string">"containerd: grpc a...sock"</span></div><div class="line">Hint: Some lines were ellipsized, use <span class="_">-l</span> to show <span class="keyword">in</span> full.</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># systemctl status docker-runv</span></div><div class="line">● docker-runv.service - /usr/bin/docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line">   Loaded: loaded (/run/systemd/system/docker-runv.service; static; vendor preset: disabled)</div><div class="line">  Drop-In: /run/systemd/system/docker-runv.service.d</div><div class="line">           └─50-Description.conf, 50-ExecStart.conf</div><div class="line">   Active: active (running) since 五 2016-06-17 09:34:11 UTC; 25s ago</div><div class="line"> Main PID: 11120 (docker)</div><div class="line">   Memory: 20.8M</div><div class="line">   CGroup: /system.slice/docker-runv.service</div><div class="line">           └─11120 /usr/bin/docker daemon -D <span class="_">-l</span> debug --containerd=/var/run/docker/libcontainerd/docker-containerd.sock</div><div class="line"></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019309548Z"</span> level=debug msg=<span class="string">"Registering POST, /volumes/create"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019448115Z"</span> level=debug msg=<span class="string">"Registering DELETE, /volumes/&#123;name:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019551244Z"</span> level=debug msg=<span class="string">"Registering POST, /build"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019607895Z"</span> level=debug msg=<span class="string">"Registering GET, /networks"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019675700Z"</span> level=debug msg=<span class="string">"Registering GET, /networks/&#123;id:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.019771551Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/create"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020256142Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/&#123;id:.*&#125;/connect"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020369131Z"</span> level=debug msg=<span class="string">"Registering POST, /networks/&#123;id:.*&#125;/disconnect"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.020463042Z"</span> level=debug msg=<span class="string">"Registering DELETE, /networks/&#123;id:.*&#125;"</span></div><div class="line">6月 17 09:34:13 linux docker[11120]: time=<span class="string">"2016-06-17T09:34:13.021491071Z"</span> level=info msg=<span class="string">"API listen on /var/run/docker.sock"</span></div></pre></td></tr></table></figure>
+<h3 id="Create-container"><a href="#Create-container" class="headerlink" title="Create container"></a>Create container</h3><p>Let’s create a nginx container.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[root@linux ~]<span class="comment"># docker run -i -d  nginx</span></div><div class="line">6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c</div><div class="line">[root@linux ~]<span class="comment"># docker ps</span></div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</div><div class="line">6a34a0513ebb        nginx               <span class="string">"nginx -g 'daemon off"</span>   9 seconds ago       Up 3 seconds        80/tcp, 443/tcp     berserk_mcnulty</div><div class="line"></div><div class="line"><span class="comment"># Is it working</span></div><div class="line">[root@linux ~]<span class="comment"># docker inspect --format '&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;' 6a34a0513ebb</span></div><div class="line">172.17.0.2</div><div class="line">[root@linux ~]<span class="comment"># curl -I 172.17.0.2</span></div><div class="line">HTTP/1.1 200 OK</div><div class="line">Server: nginx/1.11.1</div><div class="line">Date: Fri, 17 Jun 2016 09:52:37 GMT</div><div class="line">Content-Type: text/html</div><div class="line">Content-Length: 612</div><div class="line">Last-Modified: Tue, 31 May 2016 14:40:22 GMT</div><div class="line">Connection: keep-alive</div><div class="line">ETag: <span class="string">"574da256-264"</span></div><div class="line">Accept-Ranges: bytes</div></pre></td></tr></table></figure>
+<p>Is the container really running in runV with hypervisor?</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">root@linux ~]<span class="comment"># runv list</span></div><div class="line">ID                                                                 PID         STATUS      BUNDLE                                                                                           CREATED</div><div class="line">6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c   12756       running     /var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c   2016-06-17T09:48:38.324839156Z</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># runv state 6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"ociVersion"</span>: <span class="string">"0.6.0-dev"</span>,</div><div class="line">  <span class="string">"id"</span>: <span class="string">"6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c"</span>,</div><div class="line">  <span class="string">"pid"</span>: 12756,</div><div class="line">  <span class="string">"bundlePath"</span>: <span class="string">"/var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c"</span>,</div><div class="line">  <span class="string">"rootfsPath"</span>: <span class="string">"/var/run/docker/libcontainerd/6a34a0513ebbdb2c57d828bf4e814773c8a5cf6af8c35e4376f2028769a7c35c/rootfs"</span>,</div><div class="line">  <span class="string">"status"</span>: <span class="string">"running"</span>,</div><div class="line">  <span class="string">"created"</span>: <span class="string">"2016-06-17T09:48:38.324839156Z"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># virsh list</span></div><div class="line"> Id    名称                         状态</div><div class="line">----------------------------------------------------</div><div class="line"> 919   vm-CeaKLvbPEg                  running</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># ps -ef | grep vm-CeaKLvbPEg | grep -v grep</span></div><div class="line">root     12743     1  1 09:48 ?        00:00:06 /usr/bin/qemu-system-x86_64 -name vm-CeaKLvbPEg -S -machine pc-i440fx-2.0,accel=tcg,usb=off -cpu Haswell-noTSX,+abm,+hypervisor,+rdrand,+f16c,+osxsave,+ht,+vme -m 128 -realtime mlock=off -smp 1,sockets=1,cores=1,threads=1 -uuid 4f158103-bd5e-4fd1<span class="_">-a</span>62f-9e18093ceaf4 -nographic -no-user-config -nodefaults -chardev socket,id=charmonitor,path=/var/lib/libvirt/qemu/domain-vm-CeaKLvbPEg/monitor.sock,server,nowait -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc -no-reboot -boot strict=on -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append console=ttyS0 panic=1 no_timer_check -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -fsdev <span class="built_in">local</span>,security_model=none,id=fsdev-fs0,path=/var/run/hyper/vm-CeaKLvbPEg/share_dir -device virtio-9p-pci,id=fs0,fsdev=fsdev-fs0,mount_tag=share_dir,bus=pci.0,addr=0x4 -chardev socket,id=charserial0,path=/var/run/hyper/vm-CeaKLvbPEg/console.sock,server,nowait -device isa-serial,chardev=charserial0,id=serial0 -chardev socket,id=charchannel0,path=/var/run/hyper/vm-CeaKLvbPEg/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charchannel1,path=/var/run/hyper/vm-CeaKLvbPEg/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charchannel1,id=channel1,name=sh.hyper.channel.1 -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x5 -msg timestamp=on</div></pre></td></tr></table></figure>
+<h3 id="Is-it-stable"><a href="#Is-it-stable" class="headerlink" title="Is it stable?"></a>Is it stable?</h3><p>Of course not, runV is still under quick development and features are not complete now. For example, there are a lot of commands not supported now:</p>
+<ul>
+<li><code>docker stop</code></li>
+<li><code>docker stats</code></li>
+<li><code>docker exec</code></li>
+</ul>
+<p>Although there are still problems, I’m exited by what runV has done. Looking forward to its release.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/07/Kubernetes-mesos-architecture/" itemprop="url">
+                  Kubernetes-mesos architecture
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-07T13:21:07+08:00" content="2016-06-07">
+              2016-06-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/07/Kubernetes-mesos-architecture/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/07/Kubernetes-mesos-architecture/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
+<p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/" itemprop="url">
                   Hypernetes: Bringing Security and Multi-tenancy to Kubernetes
                 </a>
@@ -755,252 +980,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/" itemprop="url">
-                  The Rise of Cloud Computing Systems - Jeff Dean
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-05T17:16:46+08:00" content="2016-05-05">
-              2016-05-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/05/The-Rise-of-Cloud-Computing-Systems-Jeff-Dean/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-
-	<div class="row">
-    <embed src="http://feiskyer.github.io/assets/ccs.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/29/Reading-notes-of-week-17/" itemprop="url">
-                  Reading notes of week 17
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-29T16:50:14+08:00" content="2016-04-29">
-              2016-04-29
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/29/Reading-notes-of-week-17/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/29/Reading-notes-of-week-17/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong><a href="http://blog.kubernetes.io/2016/04/Kubernetes-Network-Policy-APIs.html" target="_blank" rel="external">SIG-Networking: Kubernetes Network Policy APIs Coming in 1.3</a></strong></p>
-<blockquote>
-<p>One problem many users have is that the open access network policy of Kubernetes is not suitable for applications that need more precise control over the traffic that accesses a pod or service. Today, this could be a multi-tier application where traffic is only allowed from a tier’s neighbor. But as new Cloud Native applications are built by composing microservices, the ability to control traffic as it flows among these services becomes even more critical.</p>
-<p>From these scenarios several possible approaches were considered and a minimal policy specification was defined. The basic idea is that if isolation were enabled on a per namespace basis, then specific pods would be selected where specific traffic types would be allowed.</p>
-</blockquote>
-<p>Network isolation is enabled by defining the network-isolation annotation on namespaces as shown below:</p>
-<pre><code>    net.alpha.kubernetes.io/network-isolation: [ on | off ]
-</code></pre><p>Once network isolation is enabled, explicit network policies must be applied to enable pod communication.</p>
-<p>A policy specification can be applied to a namespace to define the details of the policy as shown below:</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><div class="line">POST /apis/net.alpha.kubernetes.io/v1alpha1/namespaces/tenant-a/networkpolicys/</div><div class="line"></div><div class="line">&#123;</div><div class="line"><span class="string">"kind"</span>: <span class="string">"NetworkPolicy"</span>,</div><div class="line"><span class="string">"metadata"</span>: &#123;</div><div class="line"><span class="string">"name"</span>: <span class="string">"pol1"</span></div><div class="line">&#125;,</div><div class="line"><span class="string">"spec"</span>: &#123;</div><div class="line"><span class="string">"allowIncoming"</span>: &#123;</div><div class="line"><span class="string">"from"</span>: [</div><div class="line">&#123; <span class="string">"pods"</span>: &#123; <span class="string">"segment"</span>: <span class="string">"frontend"</span> &#125; &#125;</div><div class="line">],</div><div class="line"><span class="string">"toPorts"</span>: [</div><div class="line">&#123; <span class="string">"port"</span>: <span class="number">80</span>, <span class="string">"protocol"</span>: <span class="string">"TCP"</span> &#125;</div><div class="line">]</div><div class="line">&#125;,</div><div class="line"><span class="string">"podSelector"</span>: &#123; <span class="string">"segment"</span>: <span class="string">"backend"</span> &#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="https://lh5.googleusercontent.com/zMEpLMYmask-B-rYWnbMyGb0M7YusPQFPS6EfpNOSLbkf-cM49V7rTDBpA6k9-Zdh2soMul39rz9rHFJfL-jnEn_mHbpg0E1WlM-wjU-qvQu9KDTQqQ9uBmdaeWynDDNhcT3UjX5" alt=""></p>
-<p><a href="https://docs.google.com/document/d/1qAm-_oSap-f1d6a-xRTj6xaH1sYQBfK36VyjB5XOZug/edit" target="_blank" rel="external">https://docs.google.com/document/d/1qAm-_oSap-f1d6a-xRTj6xaH1sYQBfK36VyjB5XOZug/edit</a></p>
-<p>**<a href="http://www.infoq.com/articles/build-a-container-golang?utm_source=golangweekly&amp;utm_medium=email" target="_blank" rel="external">Build Your Own Container Using Less than 100 Lines of Go</a></p>
-<blockquote>
-<p>a super super simple container, in (way) less than 100 lines of go</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"os"</span></div><div class="line">    <span class="string">"os/exec"</span></div><div class="line">    <span class="string">"syscall"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">switch</span> os.Args[<span class="number">1</span>] &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">"run"</span>:</div><div class="line">        parent()</div><div class="line">    <span class="keyword">case</span> <span class="string">"child"</span>:</div><div class="line">        child()</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="built_in">panic</span>(<span class="string">"wat should I do"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">parent</span><span class="params">()</span></span> &#123;</div><div class="line">    cmd := exec.Command(<span class="string">"/proc/self/exe"</span>, <span class="built_in">append</span>([]<span class="keyword">string</span>&#123;<span class="string">"child"</span>&#125;, os.Args[<span class="number">2</span>:]...)...)</div><div class="line">    cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</div><div class="line">        Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,</div><div class="line">    &#125;</div><div class="line">    cmd.Stdin = os.Stdin</div><div class="line">    cmd.Stdout = os.Stdout</div><div class="line">    cmd.Stderr = os.Stderr</div><div class="line"></div><div class="line">    <span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</div><div class="line">        fmt.Println(<span class="string">"ERROR"</span>, err)</div><div class="line">        os.Exit(<span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">child</span><span class="params">()</span></span> &#123;</div><div class="line">    must(syscall.Mount(<span class="string">"rootfs"</span>, <span class="string">"rootfs"</span>, <span class="string">""</span>, syscall.MS_BIND, <span class="string">""</span>))</div><div class="line">    must(os.MkdirAll(<span class="string">"rootfs/oldrootfs"</span>, <span class="number">0700</span>))</div><div class="line">    must(syscall.PivotRoot(<span class="string">"rootfs"</span>, <span class="string">"rootfs/oldrootfs"</span>))</div><div class="line">    must(os.Chdir(<span class="string">"/"</span>))</div><div class="line"></div><div class="line">    cmd := exec.Command(os.Args[<span class="number">2</span>], os.Args[<span class="number">3</span>:]...)</div><div class="line">    cmd.Stdin = os.Stdin</div><div class="line">    cmd.Stdout = os.Stdout</div><div class="line">    cmd.Stderr = os.Stderr</div><div class="line"></div><div class="line">    <span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</div><div class="line">        fmt.Println(<span class="string">"ERROR"</span>, err)</div><div class="line">        os.Exit(<span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">must</span><span class="params">(err error)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">        <span class="built_in">panic</span>(err)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><em>*[Go性能优化技巧(By 雨痕)](<a href="http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud" target="_blank" rel="external">http://mp.weixin.qq.com/s?src=3&amp;timestamp=1461920086&amp;ver=1&amp;signature=dvsw--b6KnMYdRt43I2g4kMRIN37-tbcl2AnwpG58mxVaoZpqG24Aou2amIcFH1aIgXelirKZ0iSYJnPud</a></em>qh3uzFrbmeM<em>bcDNCVC0t</em>m4oEblW1GOp0FHTsG-lSzRzE67RaskRf7u4<em>B5NZlkmYhTbWJNF44Bvwz9D58</em>D-54=)</p>
-<ol>
-<li>字符串（string）作为一种不可变类型，在与字节数组（slice, [ ]byte）转换时需付出 “沉重” 代价，根本原因是对底层字节数组的复制。</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">str2bytes</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</div><div class="line">    ptr := (*[<span class="number">2</span>]<span class="keyword">uintptr</span>)(unsafe.Pointer(&amp;s))</div><div class="line">    btr := [<span class="number">3</span>]<span class="keyword">uintptr</span>&#123;ptr[<span class="number">0</span>], ptr[<span class="number">1</span>], ptr[<span class="number">1</span>]&#125;</div><div class="line">    <span class="keyword">return</span> *(*[]<span class="keyword">byte</span>)(unsafe.Pointer(&amp;btr))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">bytes2str</span><span class="params">(b []<span class="keyword">byte</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> *(*<span class="keyword">string</span>)(unsafe.Pointer(&amp;b))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s := <span class="string">"abcdefghi"</span></div><div class="line">    b := str2bytes(s)</div><div class="line">    s2 := bytes2str(b)</div><div class="line"></div><div class="line">    fmt.Println(s, b, s2)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li><p>Go Proverbs: A little copying is better than a little dependency. 对于一些短小的对象，复制成本远小于在堆上分配和回收操作。</p>
-</li>
-<li><p>map预设容量：map 会按需扩张，但须付出数据拷贝和重新哈希成本。如有可能，应尽可能预设足够容量空间，避免此类行为发生。</p>
-</li>
-<li><p>map直接存储，对于小对象，直接将数据交由 map 保存，远比用指针高效。这不但减少了堆内存分配，关键还在于垃圾回收器不会扫描非指针类型 key/value 对象。</p>
-</li>
-<li><p>defer的代价:编译器通过 runtime.deferproc “注册” 延迟调用，除目标函数地址外，还会复制相关参数（包括 receiver）。在函数返回前，执行 runtime.deferreturn 提取相关信息执行延迟调用。这其中的代价自然不是普通函数调用一条 CALL 指令所能比拟的。可以考虑将内层处理逻辑转换为匿名函数.</p>
-</li>
-<li><p>不合理的闭包会造成性能问题，比如闭包引用原环境变量会导致Data Race并变量逃逸到堆上，增加GC扫描和回收的负担.</p>
-</li>
-</ol>
-<p><strong><a href="http://www.sdnlab.com/16646.html" target="_blank" rel="external">基于组的策略（GBP）开启新型网络设计时代</a></strong></p>
-<p>很早就玩过GBP，当时还是基于思科ACI的。GBP这个东西从概念上完全照搬了ACI的那套理论，将原有网络的概念转换成了面向应用的网络策策略。对大部分做网络的人来说，有一定的接受难度；但对应用开发人员挺友好的。不过ACI需要增加路由器的控制，才能算是一个完整的方案。</p>
-<p>现在GBP也集成了ODL，终于有更多的玩家进来。</p>
-<p>顺便说下，Kubernetes Network Policy跟GBP的概念很像，都是面向应用的接口.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1046,7 +1025,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
