@@ -96,7 +96,7 @@
 <meta property="og:description" content="Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：
 
 首先patch NODE，将其改为不可调度状态： kubectl patch nodes $NODENAME -p &amp;#39;{&amp;quot;spec&amp;quot;: {&amp;quot;unschedul">
-<meta property="og:updated_time" content="2017-03-10T00:52:25.153Z">
+<meta property="og:updated_time" content="2017-03-10T11:43:17.645Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes drain">
 <meta name="twitter:description" content="Kubernetes v1.2以前，如果想要对某个NODE（也就是Kubelet和Docker所在的机器）进行维护（比如升级Docker或者内核等）又不想影响运行中的Pod的话，需要手动做很多的步骤：
@@ -210,19 +210,29 @@
         <li class="menu-item menu-item-sre">
           <a href="/SRE" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-linux"></i> <br />
             
             SRE
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-docker">
-          <a href="/docker" rel="section">
+        <li class="menu-item menu-item-container">
+          <a href="/container" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
             
-            Docker
+            容器
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cloud"></i> <br />
+            
+            云计算
           </a>
         </li>
       
@@ -230,7 +240,7 @@
         <li class="menu-item menu-item-ml">
           <a href="/machine-learning" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-suitcase"></i> <br />
             
             机器学习
           </a>
@@ -240,7 +250,7 @@
         <li class="menu-item menu-item-sdn">
           <a href="/sdn/index.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-firefox"></i> <br />
             
             SDN网络
           </a>
@@ -260,7 +270,7 @@
         <li class="menu-item menu-item-dis">
           <a href="/distributed" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-database"></i> <br />
             
             分布式系统
           </a>
@@ -270,7 +280,7 @@
         <li class="menu-item menu-item-k8s">
           <a href="/kubernetes" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cube"></i> <br />
             
             Kubernetes
           </a>

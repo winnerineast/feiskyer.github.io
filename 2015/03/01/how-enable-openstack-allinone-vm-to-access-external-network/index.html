@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？
 #添加FAKE公网网关ovs-vsctl add-port br-ex gwp -- set interface gwp type=internali">
-<meta property="og:updated_time" content="2017-03-10T00:52:25.149Z">
+<meta property="og:updated_time" content="2017-03-10T11:43:17.637Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How enable OpenStack allinone vm to access external network">
 <meta name="twitter:description" content="首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？
@@ -207,19 +207,29 @@
         <li class="menu-item menu-item-sre">
           <a href="/SRE" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-linux"></i> <br />
             
             SRE
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-docker">
-          <a href="/docker" rel="section">
+        <li class="menu-item menu-item-container">
+          <a href="/container" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
             
-            Docker
+            容器
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cloud"></i> <br />
+            
+            云计算
           </a>
         </li>
       
@@ -227,7 +237,7 @@
         <li class="menu-item menu-item-ml">
           <a href="/machine-learning" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-suitcase"></i> <br />
             
             机器学习
           </a>
@@ -237,7 +247,7 @@
         <li class="menu-item menu-item-sdn">
           <a href="/sdn/index.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-firefox"></i> <br />
             
             SDN网络
           </a>
@@ -257,7 +267,7 @@
         <li class="menu-item menu-item-dis">
           <a href="/distributed" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-database"></i> <br />
             
             分布式系统
           </a>
@@ -267,7 +277,7 @@
         <li class="menu-item menu-item-k8s">
           <a href="/kubernetes" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cube"></i> <br />
             
             Kubernetes
           </a>
@@ -456,16 +466,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/01/setting-up-gre-for-kubernetes/" rel="next" title="Setting up GRE for Kubernetes">
-                <i class="fa fa-chevron-left"></i> Setting up GRE for Kubernetes
+              <a href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" rel="next" title="Open vSwitch over DPDK on Ubuntu">
+                <i class="fa fa-chevron-left"></i> Open vSwitch over DPDK on Ubuntu
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" rel="prev" title="Open vSwitch over DPDK on Ubuntu">
-                Open vSwitch over DPDK on Ubuntu <i class="fa fa-chevron-right"></i>
+              <a href="/2015/03/02/dive-in-linux-capabilites/" rel="prev" title="Dive in Linux capabilites">
+                Dive in Linux capabilites <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

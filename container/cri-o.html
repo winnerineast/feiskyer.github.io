@@ -87,18 +87,40 @@
 
 
 <meta name="description" content="cri-ocri-o基于Kubelet容器运行时接口（CRI）为Kubernetes带来了原生的OCI运行时(目前仅支持runc)。cri-o还在紧张有序的开发中，预计与Kubernetes v1.5一起发布第一个alpha版本。
-编译安装# CentOS/Fedora# yum install -y glib2-devel glibc-static# Ubuntu 16.04 LTS Xenia">
+cri-o原理主要组成
+
+Pod结构
+
+conmon
+
+编译安装# CentOS/Fedora# yum install -y btrfs-progs-devel de">
 <meta property="og:type" content="website">
 <meta property="og:title" content="cri-o (ocid)">
 <meta property="og:url" content="http://feisky.xyz/container/cri-o.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="cri-ocri-o基于Kubelet容器运行时接口（CRI）为Kubernetes带来了原生的OCI运行时(目前仅支持runc)。cri-o还在紧张有序的开发中，预计与Kubernetes v1.5一起发布第一个alpha版本。
-编译安装# CentOS/Fedora# yum install -y glib2-devel glibc-static# Ubuntu 16.04 LTS Xenia">
-<meta property="og:updated_time" content="2017-03-10T00:52:25.185Z">
+cri-o原理主要组成
+
+Pod结构
+
+conmon
+
+编译安装# CentOS/Fedora# yum install -y btrfs-progs-devel de">
+<meta property="og:image" content="http://feisky.xyz/ocid1.png">
+<meta property="og:image" content="http://feisky.xyz/ocid2.png">
+<meta property="og:image" content="http://feisky.xyz/conmon.png">
+<meta property="og:updated_time" content="2017-03-10T11:43:17.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cri-o (ocid)">
 <meta name="twitter:description" content="cri-ocri-o基于Kubelet容器运行时接口（CRI）为Kubernetes带来了原生的OCI运行时(目前仅支持runc)。cri-o还在紧张有序的开发中，预计与Kubernetes v1.5一起发布第一个alpha版本。
-编译安装# CentOS/Fedora# yum install -y glib2-devel glibc-static# Ubuntu 16.04 LTS Xenia">
+cri-o原理主要组成
+
+Pod结构
+
+conmon
+
+编译安装# CentOS/Fedora# yum install -y btrfs-progs-devel de">
+<meta name="twitter:image" content="http://feisky.xyz/ocid1.png">
 
 
 
@@ -213,19 +235,29 @@
         <li class="menu-item menu-item-sre">
           <a href="/SRE" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-linux"></i> <br />
             
             SRE
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-docker">
-          <a href="/docker" rel="section">
+        <li class="menu-item menu-item-container">
+          <a href="/container" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
             
-            Docker
+            容器
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cloud"></i> <br />
+            
+            云计算
           </a>
         </li>
       
@@ -233,7 +265,7 @@
         <li class="menu-item menu-item-ml">
           <a href="/machine-learning" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-suitcase"></i> <br />
             
             机器学习
           </a>
@@ -243,7 +275,7 @@
         <li class="menu-item menu-item-sdn">
           <a href="/sdn/index.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-firefox"></i> <br />
             
             SDN网络
           </a>
@@ -263,7 +295,7 @@
         <li class="menu-item menu-item-dis">
           <a href="/distributed" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-database"></i> <br />
             
             分布式系统
           </a>
@@ -273,7 +305,7 @@
         <li class="menu-item menu-item-k8s">
           <a href="/kubernetes" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cube"></i> <br />
             
             Kubernetes
           </a>
@@ -363,12 +395,20 @@
     
     
       <h1 id="cri-o"><a href="#cri-o" class="headerlink" title="cri-o"></a>cri-o</h1><p>cri-o基于Kubelet容器运行时接口（CRI）为Kubernetes带来了原生的OCI运行时(目前仅支持runc)。cri-o还在紧张有序的开发中，预计与Kubernetes v1.5一起发布第一个alpha版本。</p>
-<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># CentOS/Fedora</span></div><div class="line"><span class="comment"># yum install -y glib2-devel glibc-static</span></div><div class="line"><span class="comment"># Ubuntu 16.04 LTS Xenial</span></div><div class="line">apt-get install -y linux-headers-$(uname -r) build-essential golang libglib2.0-dev</div><div class="line">apt-get install -y runc</div><div class="line"></div><div class="line"><span class="comment"># install docker</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"deb https://apt.dockerproject.org/repo ubuntu-xenial main"</span> &gt; /etc/apt/sources.list.d/docker.list</div><div class="line">apt-get install -y apt-transport-https ca-certificates</div><div class="line">apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D</div><div class="line">apt-get update &amp;&amp; apt-get install -y docker-engine</div><div class="line"></div><div class="line"><span class="comment"># get and build cri-o</span></div><div class="line"><span class="built_in">export</span> GOPATH=/gopath</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$GOPATH</span>/bin:<span class="variable">$PATH</span></div><div class="line">mkdir -p <span class="variable">$GOPATH</span></div><div class="line">go get <span class="_">-d</span> github.com/kubernetes-incubator/cri-o</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/kubernetes-incubator/cri-o</div><div class="line">make install.tools</div><div class="line">make binaries</div><div class="line">make docs</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h2 id="cri-o原理"><a href="#cri-o原理" class="headerlink" title="cri-o原理"></a>cri-o原理</h2><p>主要组成</p>
+<p><img src="ocid1.png" alt=""></p>
+<p>Pod结构</p>
+<p><img src="ocid2.png" alt=""></p>
+<p>conmon</p>
+<p><img src="conmon.png" alt=""></p>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># CentOS/Fedora</span></div><div class="line"><span class="comment"># yum install -y btrfs-progs-devel device-mapper-devel glib2-devel glibc-devel glibc-static gpgme-devel libassuan-devel libgpg-error-devel pkgconfig libseccomp-devel</span></div><div class="line"><span class="comment"># Ubuntu</span></div><div class="line">apt-get install -y linux-headers-$(uname -r) build-essential</div><div class="line">apt-get install -y btrfs-tools libassuan-dev libc6-dev libdevmapper-dev  libglib2.0-dev libgpg-error-dev libgpgme11-dev pkg-config libapparmor-dev libseccomp-dev</div><div class="line"></div><div class="line"><span class="comment"># get and build runc</span></div><div class="line">github.com/opencontainers/runc</div><div class="line"></div><div class="line"><span class="comment"># get and build cri-o</span></div><div class="line">go get <span class="_">-d</span> github.com/kubernetes-incubator/cri-o</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/kubernetes-incubator/cri-o</div><div class="line">make install.tools</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p>安装CNI：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">go get <span class="_">-d</span> github.com/containernetworking/cni</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/containernetworking/cni</div><div class="line">sudo mkdir -p /etc/cni/net.d</div><div class="line">sudo sh -c <span class="string">'cat &gt;/etc/cni/net.d/10-mynet.conf &lt;&lt;-EOF</span></div><div class="line">&#123;</div><div class="line">    "cniVersion": "0.2.0",</div><div class="line">    "name": "mynet",</div><div class="line">    "type": "bridge",</div><div class="line">    "bridge": "cni0",</div><div class="line">    "isGateway": true,</div><div class="line">    "ipMasq": true,</div><div class="line">    "ipam": &#123;</div><div class="line">        "type": "host-local",</div><div class="line">        "subnet": "10.88.0.0/16",</div><div class="line">        "routes": [</div><div class="line">            &#123; "dst": "0.0.0.0/0"  &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">EOF'</div><div class="line">sudo sh -c <span class="string">'cat &gt;/etc/cni/net.d/99-loopback.conf &lt;&lt;-EOF</span></div><div class="line">&#123;</div><div class="line">    "cniVersion": "0.2.0",</div><div class="line">    "type": "loopback"</div><div class="line">&#125;</div><div class="line">EOF'</div><div class="line">./build</div><div class="line">sudo mkdir -p /opt/cni/bin &amp;&amp; sudo cp bin/* /opt/cni/bin/</div></pre></td></tr></table></figure>
 <h2 id="cri-o单独使用"><a href="#cri-o单独使用" class="headerlink" title="cri-o单独使用"></a>cri-o单独使用</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Start ocid</span></div><div class="line">ocid --runtime $(<span class="built_in">which</span> runc) --debug</div><div class="line"></div><div class="line"><span class="comment"># Play with ocid</span></div><div class="line">ocic pod create --config <span class="built_in">test</span>/testdata/sandbox_config.json</div><div class="line">ocic pod list</div><div class="line">ocic ctr create --pod 31885791dfa4c112ef1a61bad89b347aa37a7d35177578451c5c512c19b6396a --config <span class="built_in">test</span>/testdata/container_redis.json</div><div class="line">ocic ctr start --id e28b037b26690075456f4e51318314544d6e226a85c103080e5dd818e936341a</div></pre></td></tr></table></figure>
 <p>启动一个redis容器后的进程关系：</p>
 <figure class="highlight gradle"><table><tr><td class="code"><pre><div class="line">├─ocid ExecReload=<span class="regexp">/bin/</span>kill -s HUP</div><div class="line"> │   ├─conmon -c <span class="keyword">default</span>-podsandbox1-<span class="number">0</span>-infra -r <span class="regexp">/usr/</span>local<span class="regexp">/sbin/</span>runc</div><div class="line"> │   │   └─pause</div><div class="line"> │   ├─conmon -c <span class="keyword">default</span>-podsandbox1-<span class="number">0</span>-podsandbox1-redis-<span class="number">0</span> -r <span class="regexp">/usr/</span>local<span class="regexp">/sbin/</span>runc</div><div class="line"> │   │   └─redis-server</div><div class="line"> │   │       └─<span class="number">2</span>*[&#123;redis-server&#125;]</div><div class="line"> │   └─<span class="number">9</span>*[&#123;ocid&#125;]</div></pre></td></tr></table></figure>
 <figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">├─<span class="number">13009</span> ocid --runtime <span class="regexp">/usr/</span>sbin/runc --debug</div><div class="line">├─<span class="number">13049</span> <span class="regexp">/usr/</span>libexec<span class="regexp">/ocid/</span>conmon -c <span class="keyword">default</span>-podsandbox1<span class="number">-0</span>-infra -r <span class="regexp">/usr/</span>sbin/runc</div><div class="line">├─<span class="number">16081</span> <span class="regexp">/usr/</span>libexec<span class="regexp">/ocid/</span>conmon -c <span class="keyword">default</span>-podsandbox1<span class="number">-0</span>-podsandbox1-redis<span class="number">-0</span> -r <span class="regexp">/usr/</span>sbin/runc</div><div class="line">├─podsandbox1.<span class="string">slice:</span><span class="string">container:</span>infra</div><div class="line">│ └─<span class="number">13058</span> /pause</div><div class="line">└─<span class="keyword">default</span>-podsandbox1<span class="number">-0</span>-podsandbox1-redis<span class="number">-0</span></div><div class="line">  └─<span class="number">16090</span> redis-server *:<span class="number">6379</span></div></pre></td></tr></table></figure>
-<h2 id="Kubernetes-cri-o"><a href="#Kubernetes-cri-o" class="headerlink" title="Kubernetes cri-o"></a>Kubernetes cri-o</h2><p><em>to be continued</em></p>
+<h2 id="Kubernetes-cri-o"><a href="#Kubernetes-cri-o" class="headerlink" title="Kubernetes cri-o"></a>Kubernetes cri-o</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">CONTAINER_RUNTIME=remote CONTAINER_RUNTIME_ENDPOINT=<span class="string">'/var/run/ocid.sock --runtime-request-timeout=15m'</span> ./hack/<span class="built_in">local</span>-up-cluster.sh</div></pre></td></tr></table></figure>
 
     
   </div>
@@ -521,7 +561,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cri-o"><span class="nav-number">1.</span> <span class="nav-text">cri-o</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译安装"><span class="nav-number">1.1.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cri-o单独使用"><span class="nav-number">1.2.</span> <span class="nav-text">cri-o单独使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-cri-o"><span class="nav-number">1.3.</span> <span class="nav-text">Kubernetes cri-o</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cri-o"><span class="nav-number">1.</span> <span class="nav-text">cri-o</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cri-o原理"><span class="nav-number">1.1.</span> <span class="nav-text">cri-o原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译安装"><span class="nav-number">1.2.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cri-o单独使用"><span class="nav-number">1.3.</span> <span class="nav-text">cri-o单独使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-cri-o"><span class="nav-number">1.4.</span> <span class="nav-text">Kubernetes cri-o</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

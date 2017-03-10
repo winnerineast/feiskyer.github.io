@@ -86,27 +86,39 @@
 
 
 
-<meta name="description" content="Container World
-Kubernetes
-Kubernetes develop guide
+<meta name="description" content="Linux容器是一种便携式系统级虚拟化技术（Operating-system-level virtualization），因Docker的发明而被大家广泛使用。
+
+Kubernetes笔记
 CRI-O
+
+
+Kubernetes开发配置
+Docker笔记
 SELinux">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Container World">
+<meta property="og:title" content="Linux容器">
 <meta property="og:url" content="http://feisky.xyz/container/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Container World
-Kubernetes
-Kubernetes develop guide
+<meta property="og:description" content="Linux容器是一种便携式系统级虚拟化技术（Operating-system-level virtualization），因Docker的发明而被大家广泛使用。
+
+Kubernetes笔记
 CRI-O
+
+
+Kubernetes开发配置
+Docker笔记
 SELinux">
-<meta property="og:updated_time" content="2017-03-10T00:52:25.193Z">
+<meta property="og:updated_time" content="2017-03-10T11:43:17.709Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Container World">
-<meta name="twitter:description" content="Container World
-Kubernetes
-Kubernetes develop guide
+<meta name="twitter:title" content="Linux容器">
+<meta name="twitter:description" content="Linux容器是一种便携式系统级虚拟化技术（Operating-system-level virtualization），因Docker的发明而被大家广泛使用。
+
+Kubernetes笔记
 CRI-O
+
+
+Kubernetes开发配置
+Docker笔记
 SELinux">
 
 
@@ -131,13 +143,7 @@ SELinux">
   <link rel="canonical" href="http://feisky.xyz/container/"/>
 
 
-  <title>
-  
-
-  
-    Container World | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Linux容器 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -167,7 +173,7 @@ SELinux">
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -222,19 +228,29 @@ SELinux">
         <li class="menu-item menu-item-sre">
           <a href="/SRE" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-linux"></i> <br />
             
             SRE
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-docker">
-          <a href="/docker" rel="section">
+        <li class="menu-item menu-item-container">
+          <a href="/container" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
             
-            Docker
+            容器
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cloud"></i> <br />
+            
+            云计算
           </a>
         </li>
       
@@ -242,7 +258,7 @@ SELinux">
         <li class="menu-item menu-item-ml">
           <a href="/machine-learning" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-suitcase"></i> <br />
             
             机器学习
           </a>
@@ -252,7 +268,7 @@ SELinux">
         <li class="menu-item menu-item-sdn">
           <a href="/sdn/index.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-firefox"></i> <br />
             
             SDN网络
           </a>
@@ -272,7 +288,7 @@ SELinux">
         <li class="menu-item menu-item-dis">
           <a href="/distributed" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-database"></i> <br />
             
             分布式系统
           </a>
@@ -282,7 +298,7 @@ SELinux">
         <li class="menu-item menu-item-k8s">
           <a href="/kubernetes" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-cube"></i> <br />
             
             Kubernetes
           </a>
@@ -370,15 +386,117 @@ SELinux">
 
   <div id="posts" class="posts-expand">
     
-    
-      <h1 id="Container-World"><a href="#Container-World" class="headerlink" title="Container World"></a>Container World</h1><ul>
-<li><a href="../kubernetes/">Kubernetes</a></li>
-<li><a href="../kubernetes-dev/">Kubernetes develop guide</a></li>
-<li><a href="cri-o.html">CRI-O</a></li>
-<li><a href="selinux">SELinux</a></li>
-</ul>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux容器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-10T11:43:17+00:00" content="2017-03-10">
+              2017-03-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/container/index.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="container/index.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux容器是一种便携式系统级虚拟化技术（Operating-system-level virtualization），因Docker的发明而被大家广泛使用。</p>
+<ul>
+<li><a href="/kubernetes/">Kubernetes笔记</a><ul>
+<li><a href="cri-o.html">CRI-O</a></li>
+</ul>
+</li>
+<li><a href="/kubernetes-dev/">Kubernetes开发配置</a></li>
+<li><a href="/docker/">Docker笔记</a><ul>
+<li><a href="selinux/">SELinux</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -529,7 +647,7 @@ SELinux">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Container-World"><span class="nav-number">1.</span> <span class="nav-text">Container World</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
@@ -636,6 +754,10 @@ SELinux">
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
@@ -653,7 +775,7 @@ SELinux">
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
       var disqus_identifier = 'container/index.html';
-      var disqus_title = "Container World";
+      var disqus_title = "Linux容器";
       var disqus_url = 'http://feisky.xyz/container/index.html';
 
       function run_disqus_script(disqus_script){
