@@ -108,7 +108,7 @@ apiVersion: exten">
 
 比如一个简单的nginx应用可以定义为
 apiVersion: exten">
-<meta property="og:updated_time" content="2017-03-08T06:25:08.747Z">
+<meta property="og:updated_time" content="2017-03-10T00:52:25.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Deployment">
 <meta name="twitter:description" content="Deployment为Pod和ReplicaSet提供了一个声明式定义(declarative)方法，用来替代以前的ReplicationController来方便的管理应用。典型的应用场景包括：
@@ -391,7 +391,7 @@ apiVersion: exten">
 <li>暂停和继续Deployment</li>
 </ul>
 <p>比如一个简单的nginx应用可以定义为</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> extensions/v1beta1</div><div class="line"><span class="attr">kind:</span> Deployment</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> nginx-deployment</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  replicas:</span> <span class="number">3</span></div><div class="line"><span class="attr">  template:</span></div><div class="line"><span class="attr">    metadata:</span></div><div class="line"><span class="attr">      labels:</span></div><div class="line"><span class="attr">        app:</span> nginx</div><div class="line"><span class="attr">    spec:</span></div><div class="line"><span class="attr">      containers:</span></div><div class="line"><span class="attr">      - name:</span> nginx</div><div class="line"><span class="attr">        image:</span> nginx:<span class="number">1.7</span><span class="number">.9</span></div><div class="line"><span class="attr">        ports:</span></div><div class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">nginx-deployment</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  replicas:</span> <span class="number">3</span></div><div class="line"><span class="attr">  template:</span></div><div class="line"><span class="attr">    metadata:</span></div><div class="line"><span class="attr">      labels:</span></div><div class="line"><span class="attr">        app:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">    spec:</span></div><div class="line"><span class="attr">      containers:</span></div><div class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">        image:</span> <span class="attr">nginx:1.7.9</span></div><div class="line"><span class="attr">        ports:</span></div><div class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></div></pre></td></tr></table></figure>
 <p>扩容：</p>
 <figure class="highlight ada"><table><tr><td class="code"><pre><div class="line">kubectl scale deployment nginx-deployment <span class="comment">--replicas 10</span></div></pre></td></tr></table></figure>
 <p>如果集群支持 horizontal pod autoscaling 的话，还可以为Deployment设置自动扩展：</p>

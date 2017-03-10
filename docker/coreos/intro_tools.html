@@ -100,7 +100,7 @@
 如果你使用默认的样例cloud-config文件，那么etcd会在启动时自动运行。
 例如：
 #cloud-confighostname: coreos0ssh_authorized_keys:  - ssh-rsa AAAA">
-<meta property="og:updated_time" content="2017-03-08T06:25:08.491Z">
+<meta property="og:updated_time" content="2017-03-10T00:52:25.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="CoreOS工具介绍CoreOS提供了三大工具，它们分别是：服务发现，容器管理和进程管理。
@@ -375,7 +375,7 @@
 <h2 id="使用etcd服务发现"><a href="#使用etcd服务发现" class="headerlink" title="使用etcd服务发现"></a>使用etcd服务发现</h2><p>CoreOS的第一个重要组件就是使用etcd来实现的服务发现。</p>
 <p>如果你使用默认的样例cloud-config文件，那么etcd会在启动时自动运行。</p>
 <p>例如：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="comment">#cloud-config</span></div><div class="line"></div><div class="line"><span class="attr">hostname:</span> coreos0</div><div class="line"><span class="attr">ssh_authorized_keys:</span></div><div class="line"><span class="bullet">  -</span> ssh-rsa AAAA...</div><div class="line"><span class="attr">coreos:</span></div><div class="line"><span class="attr">  units:</span></div><div class="line"><span class="attr">    - name:</span> etcd.service</div><div class="line"><span class="attr">      command:</span> start</div><div class="line"><span class="attr">    - name:</span> fleet.service</div><div class="line"><span class="attr">      command:</span> start</div><div class="line"><span class="attr">  etcd:</span></div><div class="line"><span class="attr">    name:</span> coreos0</div><div class="line"><span class="attr">    discovery:</span> https://discovery.etcd.io/&lt;token<span class="string">&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="comment">#cloud-config</span></div><div class="line"></div><div class="line"><span class="attr">hostname:</span> <span class="string">coreos0</span></div><div class="line"><span class="attr">ssh_authorized_keys:</span></div><div class="line"><span class="bullet">  -</span> <span class="string">ssh-rsa</span> <span class="string">AAAA...</span></div><div class="line"><span class="attr">coreos:</span></div><div class="line"><span class="attr">  units:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">etcd.service</span></div><div class="line"><span class="attr">      command:</span> <span class="string">start</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">fleet.service</span></div><div class="line"><span class="attr">      command:</span> <span class="string">start</span></div><div class="line"><span class="attr">  etcd:</span></div><div class="line"><span class="attr">    name:</span> <span class="string">coreos0</span></div><div class="line"><span class="attr">    discovery:</span> <span class="attr">https://discovery.etcd.io/&lt;token&gt;</span></div></pre></td></tr></table></figure>
 <p>配置文件里有一个token，获取它可以通过如下方式：</p>
 <p>访问地址</p>
 <p><a href="https://discovery.etcd.io/new" target="_blank" rel="external">https://discovery.etcd.io/new</a></p>

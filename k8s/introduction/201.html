@@ -103,7 +103,7 @@ $ kubectl scale --replicas=3 deployment/nginx-app$ kubectl get deployNAME       
 <meta property="og:image" content="http://feisky.xyz/media/update2.png">
 <meta property="og:image" content="http://feisky.xyz/media/update3.png">
 <meta property="og:image" content="http://feisky.xyz/media/update4.png">
-<meta property="og:updated_time" content="2017-03-08T06:25:08.755Z">
+<meta property="og:updated_time" content="2017-03-10T00:52:25.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="Kubernetes 201扩展应用通过修改Deployment中副本的数量（replicas），可以动态扩展或收缩应用：
@@ -398,8 +398,8 @@ $ kubectl scale --replicas=3 deployment/nginx-app$ kubectl get deployNAME       
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-08T06:25:08+00:00" content="2017-03-08">
-              2017-03-08
+            <time itemprop="dateCreated" datetime="2017-03-10T00:52:25+00:00" content="2017-03-10">
+              2017-03-10
             </time>
           </span>
 
@@ -446,7 +446,7 @@ $ kubectl scale --replicas=3 deployment/nginx-app$ kubectl get deployNAME       
 <p>在滚动升级的过程中，如果发现了失败或者配置错误，还可以随时会滚回来：</p>
 <figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line"><span class="symbol">kubectl</span> rolling-update frontend-<span class="built_in">v1</span> frontend-<span class="built_in">v2</span> --rollback</div></pre></td></tr></table></figure>
 <p>需要注意的是，rolling-update只针对ReplicationController，不能直接用在deployment上。Deployment可以在spec中设置更新策略为RollingUpdate（默认就是RollingUpdate）：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  replicas:</span> <span class="number">3</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line"><span class="attr">    matchLabels:</span></div><div class="line"><span class="attr">      run:</span> nginx-app</div><div class="line"><span class="attr">  strategy:</span></div><div class="line"><span class="attr">    rollingUpdate:</span></div><div class="line"><span class="attr">      maxSurge:</span> <span class="number">1</span></div><div class="line"><span class="attr">      maxUnavailable:</span> <span class="number">1</span></div><div class="line"><span class="attr">    type:</span> RollingUpdate</div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  replicas:</span> <span class="number">3</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line"><span class="attr">    matchLabels:</span></div><div class="line"><span class="attr">      run:</span> <span class="string">nginx-app</span></div><div class="line"><span class="attr">  strategy:</span></div><div class="line"><span class="attr">    rollingUpdate:</span></div><div class="line"><span class="attr">      maxSurge:</span> <span class="number">1</span></div><div class="line"><span class="attr">      maxUnavailable:</span> <span class="number">1</span></div><div class="line"><span class="attr">    type:</span> <span class="string">RollingUpdate</span></div></pre></td></tr></table></figure>
 <p>而更新应用的话，就可以直接用<code>kubectl set</code>命令：</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl <span class="built_in">set</span> image deployment/nginx-app nginx-app=nginx:1.9.1</div></pre></td></tr></table></figure>
 <p>滚动升级的过程可以用<code>rollout</code>命令查看:</p>
