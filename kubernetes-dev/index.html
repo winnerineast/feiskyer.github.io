@@ -86,34 +86,16 @@
 
 
 
-<meta name="description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
-
-/hack/cgroupfs-mount
-/hack/fetch-pr.sh
-/hack/run-e2e-test.sh
-/hac">
+<meta name="description" content="Tips for kubernetes developmentDev in container# There are some useful scripts in the images /hack/docker run -it feisky/kubernetes-dev bash# start hyperd and frakti/hack/start-hyperd.sh/hack/start-fr">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Kubernetes Development">
 <meta property="og:url" content="http://feisky.xyz/kubernetes-dev/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
-
-/hack/cgroupfs-mount
-/hack/fetch-pr.sh
-/hack/run-e2e-test.sh
-/hac">
-<meta property="og:updated_time" content="2017-03-14T00:55:37.839Z">
+<meta property="og:description" content="Tips for kubernetes developmentDev in container# There are some useful scripts in the images /hack/docker run -it feisky/kubernetes-dev bash# start hyperd and frakti/hack/start-hyperd.sh/hack/start-fr">
+<meta property="og:updated_time" content="2017-03-15T11:20:40.514Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes Development">
-<meta name="twitter:description" content="Tips for kubernetes developmentDev in containerdocker run -it feisky/kubernetes-dev bash
-There are some useful scripts in the images:
-
-/hack/cgroupfs-mount
-/hack/fetch-pr.sh
-/hack/run-e2e-test.sh
-/hac">
+<meta name="twitter:description" content="Tips for kubernetes developmentDev in container# There are some useful scripts in the images /hack/docker run -it feisky/kubernetes-dev bash# start hyperd and frakti/hack/start-hyperd.sh/hack/start-fr">
 
 
 
@@ -137,13 +119,7 @@ There are some useful scripts in the images:
   <link rel="canonical" href="http://feisky.xyz/kubernetes-dev/"/>
 
 
-  <title>
-  
-
-  
-    Kubernetes Development | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Kubernetes Development | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -173,7 +149,7 @@ There are some useful scripts in the images:
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -386,25 +362,74 @@ There are some useful scripts in the images:
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <h1 id="Tips-for-kubernetes-development"><a href="#Tips-for-kubernetes-development" class="headerlink" title="Tips for kubernetes development"></a>Tips for kubernetes development</h1><h2 id="Dev-in-container"><a href="#Dev-in-container" class="headerlink" title="Dev in container"></a>Dev in container</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">docker <span class="built_in">run</span> -<span class="keyword">it</span> feisky/kubernetes-dev bash</div></pre></td></tr></table></figure>
-<p>There are some useful scripts in the images:</p>
-<ol>
-<li>/hack/cgroupfs-mount</li>
-<li>/hack/fetch-pr.sh</li>
-<li>/hack/run-e2e-test.sh</li>
-<li>/hack/run-unit-tests.sh</li>
-<li>/hack/run-node-e2e-test.sh</li>
-<li>/hack/setup-kubectl.sh</li>
-<li>/hack/start-frakti.sh</li>
-<li>/hack/start-docker.sh</li>
-<li>/hack/start-hyperd.sh</li>
-<li>/hack/start-ocid.sh</li>
-<li>/hack/start-kubernetes.sh</li>
-<li>/hack/start-kubernetes-cri.sh</li>
-<li>/hack/start-kubernetes-frakti.sh</li>
-</ol>
-<h2 id="Setup-development-virtual-machine"><a href="#Setup-development-virtual-machine" class="headerlink" title="Setup development virtual machine"></a>Setup development virtual machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install -y gcc make socat git</div><div class="line"></div><div class="line"><span class="comment"># install docker</span></div><div class="line">curl -fsSL https://get.docker.com/ | sh</div><div class="line"></div><div class="line"><span class="comment"># install etcd</span></div><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.10/etcd-v3.0.10-linux-amd64.tar.gz -o etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; tar xzvf etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; /bin/cp <span class="_">-f</span> etcd-v3.0.10-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin &amp;&amp; rm -rf etcd-v3.0.10-linux-amd64*</div><div class="line"></div><div class="line"><span class="comment"># install golang</span></div><div class="line">curl <span class="_">-s</span>L https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz | tar -C /usr/<span class="built_in">local</span> -zxf -</div><div class="line"><span class="built_in">export</span> GOPATH=/gopath</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOPATH</span>/bin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/go/bin/</div><div class="line"></div><div class="line"><span class="comment"># Get kubernetes code</span></div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/k8s.io</div><div class="line">git <span class="built_in">clone</span> https://github.com/kubernetes/kubernetes <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"></div><div class="line"><span class="comment"># Start a local cluster</span></div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line"><span class="comment"># export ALLOW_SECURITY_CONTEXT=yes</span></div><div class="line"><span class="comment"># set dockerd --selinux-enabled</span></div><div class="line"><span class="comment"># export NET_PLUGIN=kubenet</span></div><div class="line">hack/<span class="built_in">local</span>-up-cluster.sh</div></pre></td></tr></table></figure>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Kubernetes Development
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T08:11:07+00:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/kubernetes-dev/index.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="kubernetes-dev/index.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Tips-for-kubernetes-development"><a href="#Tips-for-kubernetes-development" class="headerlink" title="Tips for kubernetes development"></a>Tips for kubernetes development</h1><h2 id="Dev-in-container"><a href="#Dev-in-container" class="headerlink" title="Dev in container"></a>Dev in container</h2><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="comment"># There are some useful scripts in the images /hack/</span></div><div class="line">docker run -it feisky/kubernetes-dev bash</div><div class="line"></div><div class="line"><span class="comment"># start hyperd and frakti</span></div><div class="line">/hack/start-hyperd.sh</div><div class="line">/hack/start-frakti.sh</div><div class="line"></div><div class="line"><span class="comment"># start kubernetes with frakti</span></div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line"><span class="built_in">export</span> KUBE_ENABLE_CLUSTER_DNS=<span class="literal">true</span></div><div class="line"><span class="built_in">export</span> CONTAINER_RUNTIME=remote</div><div class="line"><span class="built_in">export</span> CONTAINER_RUNTIME_ENDPOINT=/var/run/frakti.sock</div><div class="line"><span class="built_in">export</span> EXPERIMENTAL_CGROUPS_PER_QOS=<span class="literal">true</span></div><div class="line"><span class="built_in">export</span> CGROUP_ROOT=/</div><div class="line"><span class="built_in">export</span> KUBE_ENABLE_CLUSTER_DNS=<span class="literal">true</span></div><div class="line"></div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line">kubernetes hack/<span class="built_in">local</span>-up-cluster.sh</div></pre></td></tr></table></figure>
+<h2 id="Setup-development-virtual-machine"><a href="#Setup-development-virtual-machine" class="headerlink" title="Setup development virtual machine"></a>Setup development virtual machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install -y gcc make socat git</div><div class="line"></div><div class="line"><span class="comment"># install docker</span></div><div class="line">curl -fsSL https://get.docker.com/ | sh</div><div class="line"></div><div class="line"><span class="comment"># install etcd</span></div><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.10/etcd-v3.0.10-linux-amd64.tar.gz -o etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; tar xzvf etcd-v3.0.10-linux-amd64.tar.gz &amp;&amp; /bin/cp <span class="_">-f</span> etcd-v3.0.10-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin &amp;&amp; rm -rf etcd-v3.0.10-linux-amd64*</div><div class="line"></div><div class="line"><span class="comment"># install golang</span></div><div class="line">curl <span class="_">-s</span>L https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz | tar -C /usr/<span class="built_in">local</span> -zxf -</div><div class="line"><span class="built_in">export</span> GOPATH=/gopath</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOPATH</span>/bin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/go/bin/</div><div class="line"></div><div class="line"><span class="comment"># Get kubernetes code</span></div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/k8s.io</div><div class="line">git <span class="built_in">clone</span> https://github.com/kubernetes/kubernetes <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/k8s.io/kubernetes</div><div class="line"></div><div class="line"><span class="comment"># Start a local cluster</span></div><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">hack/<span class="built_in">local</span>-up-cluster.sh</div></pre></td></tr></table></figure>
 <p>Setup kubectl in another shell:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBERNETES_PROVIDER=<span class="built_in">local</span></div><div class="line">cluster/kubectl.sh config <span class="built_in">set</span>-cluster <span class="built_in">local</span> --server=http://127.0.0.1:8080 --insecure-skip-tls-verify=<span class="literal">true</span></div><div class="line">cluster/kubectl.sh config <span class="built_in">set</span>-context <span class="built_in">local</span> --cluster=<span class="built_in">local</span></div><div class="line">cluster/kubectl.sh config use-context <span class="built_in">local</span></div></pre></td></tr></table></figure>
 <h2 id="Unit-tests"><a href="#Unit-tests" class="headerlink" title="Unit tests"></a>Unit tests</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># unit test a special package</span></div><div class="line">go <span class="built_in">test</span> -v k8s.io/kubernetes/pkg/kubelet/kuberuntime</div></pre></td></tr></table></figure>
@@ -441,9 +466,40 @@ There are some useful scripts in the images:
 <p>Or add following config to <code>.git/config</code> and run <code>git fetch</code> for all pull requests:</p>
 <figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">fetch = +refs/pull/*<span class="symbol">:refs/remotes/origin/pull/*</span></div></pre></td></tr></table></figure>
 <h2 id="Start-a-VM-on-GCE-via-docker-machine"><a href="#Start-a-VM-on-GCE-via-docker-machine" class="headerlink" title="Start a VM on GCE via docker-machine"></a>Start a VM on GCE via docker-machine</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker-machine create --driver google --google-project xxxx --google-machine-type n1-standard-2 --google-disk-size 30 kubernetes</div></pre></td></tr></table></figure>
-<h2 id="Minikube-for-starting-local-cluster"><a href="#Minikube-for-starting-local-cluster" class="headerlink" title="Minikube for starting local cluster"></a>Minikube for starting local cluster</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ minikube get-k8s-versions</div><div class="line">The following Kubernetes versions are available:</div><div class="line">    - v1.5.1</div><div class="line">    - v1.4.3</div><div class="line">    ...</div><div class="line"></div><div class="line"><span class="comment"># http proxy is required in China</span></div><div class="line">$ minikube start --docker-env HTTP_PROXY=http://proxy-ip:port --docker-env HTTPS_PROXY=http://proxy-ip:port --vm-driver=xhyve --kubernetes-version=<span class="string">"v1.4.3"</span></div></pre></td></tr></table></figure>
+<h2 id="Minikube-for-starting-local-cluster"><a href="#Minikube-for-starting-local-cluster" class="headerlink" title="Minikube for starting local cluster"></a>Minikube for starting local cluster</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ minikube get-k8s-versions</div><div class="line">The following Kubernetes versions are available:</div><div class="line">    - v1.5.1</div><div class="line">    - v1.4.3</div><div class="line">    ...</div><div class="line"></div><div class="line"><span class="comment"># http proxy is required in China</span></div><div class="line">$ minikube start --docker-env HTTP_PROXY=http://proxy-ip:port --docker-env HTTPS_PROXY=http://proxy-ip:port --vm-driver=xhyve</div></pre></td></tr></table></figure>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -503,7 +559,7 @@ There are some useful scripts in the images:
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-count">100</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -701,6 +757,10 @@ There are some useful scripts in the images:
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 

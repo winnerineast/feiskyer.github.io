@@ -383,6 +383,118 @@
             
               
                 
+                <a class="post-title-link" href="/2016/02/29/Carina-by-Rackspace/" itemprop="url">
+                  Carina by Rackspace
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-29T19:20:27+08:00" content="2016-02-29">
+              2016-02-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/29/Carina-by-Rackspace/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/29/Carina-by-Rackspace/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="What-is-Carina"><a href="#What-is-Carina" class="headerlink" title="What is Carina?"></a>What is Carina?</h2><p>Carina is a container runtime environment (currently in Beta) that offers performance, container-native tools, and portability without sacrificing ease of use. You can get started in minutes by using open-source software on managed infrastructure to run your containerized applications.</p>
+<p>Your containers run in a bare-metal environment, which avoids the “hypervisor tax” on performance. Applications in this environment launch as much as 20 percent faster and run as much as 60 percent faster. This environment builds on the standard restrictions set out by libcontainer by using an AppArmor profile as an additional security layer to keep your resources isolated.</p>
+<p>Carina is built on the open-source Docker Swarm project. It exposes the Docker API, which gives you maximum portability for easily moving applications from development to test and production environments, thus reducing errors and saving time. In the future, other container orchestration environments will be available to you.</p>
+<p>You also have access to an intuitive user interface (UI), a command-line interface (CLI), and Carina specific developer tooling, in addition to the ecosystem of tools already compatible with the Docker API. You also have access to a wealth of documentation, from getting started guides to detailed tutorials and best practices. If you need help, you can access community support directly from other developers.</p>
+<p>The path from creating a free account (no credit card required) to running a containerized application on a cluster takes under two minutes. You will use open-source software like Docker to compose your applications. And because the infrastructure is managed by Carina, you can take advantage of features like autoscaling. Now you can focus on what is important to you, your business, and your applications.</p>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">brew <span class="keyword">install</span> carina</div><div class="line"><span class="keyword">export</span> CARINA_USERNAME=&lt;email&gt;</div><div class="line"><span class="keyword">export</span> CARINA_APIKEY=&lt;api_key&gt;</div><div class="line"></div><div class="line">carina <span class="keyword">create</span> cluster <span class="comment">--wait --segments=2 --autoscale</span></div><div class="line">carina <span class="keyword">list</span></div><div class="line">eval $(carina env cluster)</div><div class="line"></div><div class="line"># <span class="keyword">Now</span> play <span class="keyword">with</span> docker images</div><div class="line">$ docker run -itd -P nginx</div><div class="line">ebca8aff4badb001912cc119fb58a93d6d2209622ec74404c0643ecbbf31a50a</div><div class="line"># Grab <span class="keyword">public</span> ip <span class="keyword">and</span> ports</div><div class="line">$ docker inspect -f &#123;&#123;.NetworkSettings.Ports&#125;&#125; ebca8aff</div><div class="line"><span class="keyword">map</span>[<span class="number">443</span>/tcp:[&#123;<span class="number">104.130</span><span class="number">.0</span><span class="number">.24</span> <span class="number">32768</span>&#125;] <span class="number">80</span>/tcp:[&#123;<span class="number">104.130</span><span class="number">.0</span><span class="number">.24</span> <span class="number">32769</span>&#125;]]</div></pre></td></tr></table></figure>
+<h2 id="Limitations"><a href="#Limitations" class="headerlink" title="Limitations"></a>Limitations</h2><p>For a public container service, Carina of course should only allow containers to run non-privileged processes. For example:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="string">$</span> <span class="string">docker</span> <span class="string">run</span> <span class="bullet">--rm</span> <span class="bullet">--privileged</span> <span class="string">busybox</span></div><div class="line"><span class="attr">Timestamp:</span> <span class="number">2016</span><span class="bullet">-02</span><span class="bullet">-29</span> <span class="number">02</span><span class="string">:21:29.151360105</span> <span class="string">+0000</span> <span class="string">UTC</span></div><div class="line"><span class="attr">Code:</span> <span class="string">System</span> <span class="string">error</span></div><div class="line"></div><div class="line"><span class="attr">Message:</span> <span class="string">permission</span> <span class="string">denied</span></div><div class="line"></div><div class="line"><span class="attr">Frames:</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">0</span><span class="string">:</span> <span class="string">setupRootfs</span></div><div class="line"><span class="attr">Package:</span> <span class="string">github.com/opencontainers/runc/libcontainer</span></div><div class="line"><span class="attr">File:</span> <span class="string">rootfs_linux.go@40</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">1</span><span class="string">:</span> <span class="string">Init</span></div><div class="line"><span class="attr">Package:</span> <span class="string">github.com/opencontainers/runc/libcontainer.(*linuxStandardInit)</span></div><div class="line"><span class="attr">File:</span> <span class="string">standard_init_linux.go@57</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">2</span><span class="string">:</span> <span class="string">StartInitialization</span></div><div class="line"><span class="attr">Package:</span> <span class="string">github.com/opencontainers/runc/libcontainer.(*LinuxFactory)</span></div><div class="line"><span class="attr">File:</span> <span class="string">factory_linux.go@240</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">3</span><span class="string">:</span> <span class="string">initializer</span></div><div class="line"><span class="attr">Package:</span> <span class="string">github.com/docker/docker/daemon/execdriver/native</span></div><div class="line"><span class="attr">File:</span> <span class="string">init.go@35</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">4</span><span class="string">:</span> <span class="string">Init</span></div><div class="line"><span class="attr">Package:</span> <span class="string">github.com/docker/docker/pkg/reexec</span></div><div class="line"><span class="attr">File:</span> <span class="string">reexec.go@26</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">5</span><span class="string">:</span> <span class="string">main</span></div><div class="line"><span class="attr">Package:</span> <span class="string">main</span></div><div class="line"><span class="attr">File:</span> <span class="string">docker.go@18</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">6</span><span class="string">:</span> <span class="string">main</span></div><div class="line"><span class="attr">Package:</span> <span class="string">runtime</span></div><div class="line"><span class="attr">File:</span> <span class="string">proc.go@111</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="number">7</span><span class="string">:</span> <span class="string">goexit</span></div><div class="line"><span class="attr">Package:</span> <span class="string">runtime</span></div><div class="line"><span class="attr">File:</span> <span class="string">asm_amd64.s@1721</span></div><div class="line"><span class="attr">docker:</span> <span class="string">Error</span> <span class="string">response</span> <span class="string">from</span> <span class="attr">daemon:</span> <span class="number">500</span> <span class="string">Internal</span> <span class="string">Server</span> <span class="attr">Error:</span> <span class="string">Container</span> <span class="string">command</span> <span class="string">could</span> <span class="string">not</span> <span class="string">be</span> <span class="string">invoked..</span></div></pre></td></tr></table></figure>
+<p>What interests me is Carina allows your container bind to host network, which means processes in container could monitoring all networks the underlying physical machine:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -it --rm --net=host  busybox sh</div><div class="line">/ <span class="comment"># hostname</span></div><div class="line">a0b7f5c6<span class="_">-a</span>069-4ed0-b681-adc9ad8<span class="built_in">cd</span>8de-n1</div><div class="line">/ <span class="comment"># ifconfig</span></div><div class="line">docker0   Link encap:Ethernet  HWaddr 02:42:83:02:E7:0C</div><div class="line">          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0</div><div class="line">          inet6 addr: fe80::42:83ff:fe02:e70c/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1211 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1260 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:0</div><div class="line">          RX bytes:579745 (566.1 KiB)  TX bytes:596826 (582.8 KiB)</div><div class="line"></div><div class="line">eth0      Link encap:Ethernet  HWaddr BC:76:4E:20:ED:26</div><div class="line">          inet addr:104.130.0.23  Bcast:104.130.0.255  Mask:255.255.255.0</div><div class="line">          inet6 addr: fe80::be76:4eff:fe20:ed26/64 Scope:Link</div><div class="line">          inet6 addr: 2001:4802:7800:103:be76:4eff:fe20:ed26/64 Scope:Global</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:105014 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:74924 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:195922683 (186.8 MiB)  TX bytes:10895679 (10.3 MiB)</div><div class="line"></div><div class="line">eth1      Link encap:Ethernet  HWaddr BC:76:4E:20:F5:C3</div><div class="line">          inet addr:10.176.224.183  Bcast:10.176.255.255  Mask:255.255.224.0</div><div class="line">          inet6 addr: fe80::be76:4eff:fe20:f5c3/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:7 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:570 (570.0 B)  TX bytes:648 (648.0 B)</div><div class="line"></div><div class="line">lo        Link encap:Local Loopback</div><div class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</div><div class="line">          inet6 addr: ::1/128 Scope:Host</div><div class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</div><div class="line">          RX packets:509058 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:509058 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:0</div><div class="line">          RX bytes:142964399 (136.3 MiB)  TX bytes:142964399 (136.3 MiB)</div><div class="line"></div><div class="line">veth1a257f6 Link encap:Ethernet  HWaddr DE:DC:7D:59:A4:DE</div><div class="line">          inet6 addr: fe80::dcdc:7dff:fe59:a4de/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1161 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1270 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:0</div><div class="line">          RX bytes:590651 (576.8 KiB)  TX bytes:597163 (583.1 KiB)</div><div class="line">/ <span class="comment"># brctl show</span></div><div class="line">bridge name bridge id       STP enabled interfaces</div><div class="line">docker0     8000.02428302e70c   no      veth1a257f6</div><div class="line">/ <span class="comment"># netstat -anp</span></div><div class="line">Active Internet connections (servers and established)</div><div class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</div><div class="line">tcp        0      0 127.0.0.1:12000         0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:12001    0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:12002    0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:7946     0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 10.176.224.183:8300     0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 127.0.0.1:8400          0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 127.0.0.1:8600          0.0.0.0:*               LISTEN      -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:57711         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:57808         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:54332         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:57808         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:57832         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:54335         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:43695      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:54335         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:54328         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:54332         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:43692      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:57832         ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:12000         127.0.0.1:54328         ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:43694      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 104.130.0.23:47207      104.130.0.23:42376      ESTABLISHED -</div><div class="line">tcp        0      0 127.0.0.1:57711         127.0.0.1:12000         ESTABLISHED -</div><div class="line">tcp        0      0 :::32770                :::*                    LISTEN      -</div><div class="line">tcp        0      0 :::2376                 :::*                    LISTEN      -</div><div class="line">tcp        0      0 :::42376                :::*                    LISTEN      -</div><div class="line">tcp        0      0 :::22                   :::*                    LISTEN      -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:47207 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:43694 ESTABLISHED -</div><div class="line">tcp        0   2500 ::ffff:104.130.0.23:2376 ::ffff:139.227.1.228:50333 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:43695 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:42376 ::ffff:104.130.0.23:43692 ESTABLISHED -</div><div class="line">tcp        0      0 ::ffff:104.130.0.23:2376 ::ffff:139.227.1.228:50332 ESTABLISHED -</div><div class="line">udp        0      0 10.176.224.183:7946     0.0.0.0:*                           -</div><div class="line">udp        0      0 127.0.0.1:8600          0.0.0.0:*                           -</div><div class="line">udp        0      0 10.176.224.183:12001    0.0.0.0:*                           -</div><div class="line">udp        0      0 10.176.224.183:12002    0.0.0.0:*                           -</div><div class="line">Active UNIX domain sockets (servers and established)</div><div class="line">Proto RefCnt Flags       Type       State         I-Node PID/Program name    Path</div><div class="line">unix  2      [ ACC ]     STREAM     LISTENING     1015753155 -                   /var/lib/docker/network/files/33d3542ddd4b10c0411b8c50997cceb8272475bc7a63caeb666e772b57c48a8a.sock</div><div class="line">unix  2      [ ACC ]     STREAM     LISTENING     1015755212 -                   /var/run/docker.sock</div><div class="line">/ <span class="comment"># brctl addbr br0</span></div><div class="line">brctl: bridge br0: Operation not permitted</div></pre></td></tr></table></figure>
+<p>Although you couldn’t manage networks (Operation not permitted), but as you see above, containers could obtain many sensitive machine informations. Actually I don’t understand why Rackspace would like to take this risk for public services, or this is just because they are making mistakes. </p>
+<p>Though Rackspace makes a different way of CaaS (Run docker bare-metally), Docker itself without hypervisor is still not of security for pulic container services. So all of pulic container services, including AWS ECS, Google GKE, Docker Cloud and so on, are running Docker on virtual machines provided by IaaS.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/02/26/Docker-Datacenter/" itemprop="url">
                   Docker Datacenter
                 </a>
@@ -1005,152 +1117,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/17/Kubernetes-network-policy/" itemprop="url">
-                  Kubernetes network policy
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-17T18:53:00+08:00" content="2016-02-17">
-              2016-02-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/17/Kubernetes-network-policy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/17/Kubernetes-network-policy/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Kubernetes network policy</p>
-<p>Kubernetes社区（确切的说是Kubernetes Network SIG [1]）正在讨论Network Policy Proposal，以实现SDN、网络隔离、IP Overlapping等[2]复杂的网络需求。</p>
-<p>目前，正在讨论的Proposals有多个：</p>
-<ul>
-<li><strong>Consolidated Casey/RH Proposal</strong> <a href="https://docs.google.com/document/d/1blfqiH4L_fpn33ZrnQ11v7LcYP0lmpiJ_RaapAPBbNU/edit" target="_blank" rel="external">https://docs.google.com/document/d/1blfqiH4L_fpn33ZrnQ11v7LcYP0lmpiJ_RaapAPBbNU/edit</a></li>
-<li>Casey Davenport <a href="https://docs.google.com/document/d/16fg7Dc7K5m4bM2vGwyvkhPG_lcBKeOjaUSYBMwZlR_o/edit?usp=sharing" target="_blank" rel="external">https://docs.google.com/document/d/16fg7Dc7K5m4bM2vGwyvkhPG_lcBKeOjaUSYBMwZlR_o/edit?usp=sharing</a></li>
-<li>Vipin Jain <a href="https://docs.google.com/a/insiemenetworks.com/document/d/1KKMOJSXKKQOzlblAzwYV72KGUlAuAaUuFqCWO8h4gd0/edit?usp=sharing" target="_blank" rel="external">https://docs.google.com/a/insiemenetworks.com/document/d/1KKMOJSXKKQOzlblAzwYV72KGUlAuAaUuFqCWO8h4gd0/edit?usp=sharing</a></li>
-<li>Tim Hockin <a href="https://docs.google.com/document/d/1bXUO-Lp6smmLm7SMGwrwuvK23wgsaWvx6Mkt-Y0AtZ0/edit#" target="_blank" rel="external">https://docs.google.com/document/d/1bXUO-Lp6smmLm7SMGwrwuvK23wgsaWvx6Mkt-Y0AtZ0/edit#</a></li>
-</ul>
-<p>这几个Proposal都大同小异，主要的思想都是一致的：</p>
-<ul>
-<li>默认情况下网络模型跟现在保持一致，只有定义了Network Policy并且实现了相应的Network Plugin的时候，这个Proposal才有意义</li>
-<li>Network Policy: 管理网络连通性策略，这些策略与具体的网络实现（如libnetwork等）无关</li>
-<li>Network Policy通过Label作用到Pod/Service上</li>
-<li>需要Network Plugin配合实现Network Policy</li>
-</ul>
-<p>下面就以<strong>Consolidated Casey/RH Proposal</strong>为例看看具体的Proposal都有啥。</p>
-<h4 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h4><ul>
-<li>不影响现有的网络架构，即未定义Network Policy时，保持Kubernetes现有的网络架构</li>
-<li>基于ThirdPartyResource实现NetworkPolicy资源的管理</li>
-</ul>
-<h4 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h4><p>Namespace spec中增加<code>isolation</code>，默认关闭。当<code>isolation</code>打开后</p>
-<ul>
-<li>所有访问该Namespace内部Pods的请求都被拒绝(也包括该Namespace内部的Pods访问内部的其他Pods）</li>
-<li>例外：为了不影响Health Check，从Node上访问Pods均允许</li>
-</ul>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Namespace</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">IsolatedApp</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr"> isolation:</span> <span class="string">[</span> <span class="literal">yes</span> <span class="string">| no ]</span></div></pre></td></tr></table></figure>
-<h4 id="NetworkPolicy-Objects"><a href="#NetworkPolicy-Objects" class="headerlink" title="NetworkPolicy Objects"></a><strong>NetworkPolicy Objects</strong></h4><p>当Namespace的isolation打开的时候，需要NetworkPolicy来控制访问策略。访问策略的规则为：</p>
-<ul>
-<li>访问策略<code>allowFrom</code>仅对进入的请求有效，当策略满足的时候放行</li>
-<li>所有不匹配Policy的入请求均拒绝</li>
-<li>所有从Pods向外部发出的请求均放行（当然以后也有可能增加<code>allowTo</code>）</li>
-<li>定义Namespace和Pod时需要添加<code>tier</code>标签</li>
-</ul>
-<p>一个简单的NetworkPolicy示例为</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">kind:</span> <span class="string">NetworkPolicy</span></div><div class="line"><span class="attr"> metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">database-policy</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line">	 <span class="attr">tier:</span> <span class="string">database</span></div><div class="line"><span class="attr">  allowFrom:</span></div><div class="line">  <span class="string">*</span> <span class="attr">namespaces:</span></div><div class="line">	  <span class="attr">foo:</span> <span class="string">bar</span>  <span class="string">[</span> <span class="string">allows</span> <span class="string">from</span> <span class="string">namespaces</span> <span class="string">with</span> <span class="string">label</span> <span class="string">“foo:bar”</span> <span class="string">]</span></div><div class="line">  <span class="string">*</span> <span class="attr">pods:</span></div><div class="line">	  <span class="attr">tier:</span> <span class="string">database</span>   <span class="string">[</span> <span class="string">allows</span> <span class="string">east-west</span> <span class="string">traffic</span> <span class="string">on</span> <span class="string">TCP</span> <span class="number">4001</span> <span class="string">]</span></div><div class="line">	<span class="attr">protocol:</span> <span class="string">TCP</span> <span class="string">[</span> <span class="string">One</span> <span class="attr">of:</span> <span class="string">TCP,</span> <span class="string">UDP,</span> <span class="string">ICMP</span> <span class="string">]</span></div><div class="line">	<span class="attr">ports:</span> <span class="string">[4001]</span></div></pre></td></tr></table></figure>
-<h3 id="简单的示例"><a href="#简单的示例" class="headerlink" title="简单的示例"></a>简单的示例</h3><p>现在就看一下如何通过ThirdPartyResource来管理NetworkPolicy资源。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[root@linux kubernetes]<span class="comment"># # start k8s with thirdpartyresources enabled</span></div><div class="line">[root@linux kubernetes]<span class="comment"># cd $GOPATH/src/k8s.io/kubernetes</span></div><div class="line">[root@linux kubernetes]<span class="comment"># export RUNTIME_CONFIG="extensions/v1beta1=true,extensions/v1beta1/thirdpartyresources=true"</span></div><div class="line">[root@linux kubernetes]<span class="comment"># hack/local-up-cluster.sh</span></div><div class="line"></div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># # create a ThirdPartyResource whose type is NetworkPolicy</span></div><div class="line">[root@linux ~]<span class="comment"># cat network-policy.yaml</span></div><div class="line">metadata:</div><div class="line">  name: <span class="string">"network-policy.experimental.kubernetes.io"</span></div><div class="line">apiVersion: <span class="string">"extensions/v1beta1"</span></div><div class="line">kind: <span class="string">"ThirdPartyResource"</span></div><div class="line">description: <span class="string">"An experimental specification of network policy"</span></div><div class="line">versions:</div><div class="line">  * name: v1</div><div class="line">[root@linux ~]<span class="comment"># kubectl create -f network-policy.yaml</span></div><div class="line">thirdpartyresource <span class="string">"network-policy.experimental.kubernetes.io"</span> created</div><div class="line">[root@linux ~]<span class="comment"># kubectl get thirdpartyresource</span></div><div class="line">NAME                                        DESCRIPTION                                       VERSION(S)</div><div class="line">network-policy.experimental.kubernetes.io   An experimental specification of network policy   extensions/v1</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># # new experimental.kubernetes.io and networkpolicys APIs is visitable</span></div><div class="line">[root@linux ~]<span class="comment"># curl http://localhost:8080/apis/experimental.kubernetes.io/</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"kind"</span>: <span class="string">"APIGroup"</span>,</div><div class="line">  <span class="string">"apiVersion"</span>: <span class="string">"v1"</span>,</div><div class="line">  <span class="string">"name"</span>: <span class="string">"experimental.kubernetes.io"</span>,</div><div class="line">  <span class="string">"versions"</span>: [</div><div class="line">	&#123;</div><div class="line">	  <span class="string">"groupVersion"</span>: <span class="string">"experimental.kubernetes.io/v1"</span>,</div><div class="line">	  <span class="string">"version"</span>: <span class="string">"v1"</span></div><div class="line">	&#125;</div><div class="line">  ],</div><div class="line">  <span class="string">"preferredVersion"</span>: &#123;</div><div class="line">	<span class="string">"groupVersion"</span>: <span class="string">""</span>,</div><div class="line">	<span class="string">"version"</span>: <span class="string">""</span></div><div class="line">  &#125;</div><div class="line">&#125;[root@linux ~]<span class="comment"># curl http://localhost:8080/apis/experimental.kubernetes.io/v1/namespaces/default/networkpolicys/</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"kind"</span>: <span class="string">"NetworkPolicyList"</span>,</div><div class="line">  <span class="string">"items"</span>: [  ]</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># # create a new network policy</span></div><div class="line">[root@linux ~]<span class="comment"># cat network-policy.json</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"kind"</span>: <span class="string">"NetworkPolicy"</span>,</div><div class="line">  <span class="string">"metadata"</span>: &#123;</div><div class="line">	<span class="string">"name"</span>: <span class="string">"awesome-policy"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">"allowIncoming"</span>: &#123;</div><div class="line">	<span class="string">"pods"</span>: [</div><div class="line">	  &#123;</div><div class="line">		<span class="string">"tier"</span>: <span class="string">"database"</span></div><div class="line">	  &#125;</div><div class="line">	],</div><div class="line">	<span class="string">"ports"</span>: [</div><div class="line">	  &#123;</div><div class="line">		<span class="string">"protocol"</span>: <span class="string">"TCP"</span>,</div><div class="line">		<span class="string">"port"</span>: 4001</div><div class="line">	  &#125;</div><div class="line">	],</div><div class="line">	<span class="string">"namespaces"</span>: [</div><div class="line">	  &#123;</div><div class="line">		<span class="string">"foo"</span>: <span class="string">"bar"</span></div><div class="line">	  &#125;</div><div class="line">	]</div><div class="line">  &#125;,</div><div class="line">  <span class="string">"apiVersion"</span>: <span class="string">"experimental.kubernetes.io/v1"</span>,</div><div class="line">  <span class="string">"selector"</span>: &#123;</div><div class="line">	<span class="string">"tier"</span>: <span class="string">"database"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">[root@linux ~]<span class="comment"># # kubectl supporting with 3rd party objects is on reviewing at https://github.com/kubernetes/kubernetes/pull/18835</span></div><div class="line">[root@linux ~]<span class="comment"># # so just post directly here</span></div><div class="line">[root@linux ~]<span class="comment"># curl -X POST -H "Content-Type: application/json" -d @network-policy.json http://localhost:8080/apis/experimental.kubernetes.io/v1/namespaces/default/networkpolicys</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"allowIncoming"</span>: &#123;</div><div class="line">	<span class="string">"namespaces"</span>: [</div><div class="line">	  &#123;</div><div class="line">		<span class="string">"foo"</span>: <span class="string">"bar"</span></div><div class="line">	  &#125;</div><div class="line">	],</div><div class="line">	<span class="string">"pods"</span>: [</div><div class="line">	  &#123;</div><div class="line">		<span class="string">"tier"</span>: <span class="string">"database"</span></div><div class="line">	  &#125;</div><div class="line">	],</div><div class="line">	<span class="string">"ports"</span>: [</div><div class="line">	  &#123;</div><div class="line">		<span class="string">"port"</span>: 4001,</div><div class="line">		<span class="string">"protocol"</span>: <span class="string">"TCP"</span></div><div class="line">	  &#125;</div><div class="line">	]</div><div class="line">  &#125;,</div><div class="line">  <span class="string">"apiVersion"</span>: <span class="string">"experimental.kubernetes.io/v1"</span>,</div><div class="line">  <span class="string">"kind"</span>: <span class="string">"NetworkPolicy"</span>,</div><div class="line">  <span class="string">"metadata"</span>: &#123;</div><div class="line">	<span class="string">"name"</span>: <span class="string">"awesome-policy"</span>,</div><div class="line">	<span class="string">"namespace"</span>: <span class="string">"default"</span>,</div><div class="line">	<span class="string">"selfLink"</span>: <span class="string">"/apis/experimental.kubernetes.io/v1/namespaces/default/networkpolicys/awesome-policy"</span>,</div><div class="line">	<span class="string">"uid"</span>: <span class="string">"63d53b48-d248-11e5-85b1-064a4ed57913"</span>,</div><div class="line">	<span class="string">"resourceVersion"</span>: <span class="string">"29"</span>,</div><div class="line">	<span class="string">"creationTimestamp"</span>: <span class="string">"2016-02-13T11:53:25Z"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">"selector"</span>: &#123;</div><div class="line">	<span class="string">"tier"</span>: <span class="string">"database"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">[root@linux ~]<span class="comment"># curl http://localhost:8080/apis/experimental.kubernetes.io/v1/namespaces/default/networkpolicys/</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"kind"</span>: <span class="string">"NetworkPolicyList"</span>,</div><div class="line">  <span class="string">"items"</span>: [</div><div class="line">	&#123;</div><div class="line">	  <span class="string">"allowIncoming"</span>: &#123;</div><div class="line">		<span class="string">"namespaces"</span>: [</div><div class="line">		  &#123;</div><div class="line">			<span class="string">"foo"</span>: <span class="string">"bar"</span></div><div class="line">		  &#125;</div><div class="line">		],</div><div class="line">		<span class="string">"pods"</span>: [</div><div class="line">		  &#123;</div><div class="line">			<span class="string">"tier"</span>: <span class="string">"database"</span></div><div class="line">		  &#125;</div><div class="line">		],</div><div class="line">		<span class="string">"ports"</span>: [</div><div class="line">		  &#123;</div><div class="line">			<span class="string">"port"</span>: 4001,</div><div class="line">			<span class="string">"protocol"</span>: <span class="string">"TCP"</span></div><div class="line">		  &#125;</div><div class="line">		]</div><div class="line">	  &#125;,</div><div class="line">	  <span class="string">"apiVersion"</span>: <span class="string">"experimental.kubernetes.io/v1"</span>,</div><div class="line">	  <span class="string">"kind"</span>: <span class="string">"NetworkPolicy"</span>,</div><div class="line">	  <span class="string">"metadata"</span>: &#123;</div><div class="line">		<span class="string">"name"</span>: <span class="string">"awesome-policy"</span>,</div><div class="line">		<span class="string">"namespace"</span>: <span class="string">"default"</span>,</div><div class="line">		<span class="string">"selfLink"</span>: <span class="string">"/apis/experimental.kubernetes.io/v1/namespaces/default/networkpolicys/awesome-policy"</span>,</div><div class="line">		<span class="string">"uid"</span>: <span class="string">"63d53b48-d248-11e5-85b1-064a4ed57913"</span>,</div><div class="line">		<span class="string">"resourceVersion"</span>: <span class="string">"29"</span>,</div><div class="line">		<span class="string">"creationTimestamp"</span>: <span class="string">"2016-02-13T11:53:25Z"</span></div><div class="line">	  &#125;,</div><div class="line">	  <span class="string">"selector"</span>: &#123;</div><div class="line">		<span class="string">"tier"</span>: <span class="string">"database"</span></div><div class="line">	  &#125;</div><div class="line">	&#125;</div><div class="line">  ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">[root@linux ~]<span class="comment"># # clear</span></div><div class="line">[root@linux ~]<span class="comment"># kubectl delete thirdpartyresource network-policy.experimental.kubernetes.io</span></div><div class="line">thirdpartyresource <span class="string">"network-policy.experimental.kubernetes.io"</span> deleted</div></pre></td></tr></table></figure>
-<p>当然了，上面只是API部分的demo，具体的网络Plugin还需要做很多工作实现这些策略。Kubernetes Meetup [3] 上Romana有一个关于Network Policy的演示，[4] 这里有更多的说明。</p>
-<p><strong>Consolidated Casey/RH Proposal</strong>还有一些未解决的问题还在讨论中，如</p>
-<ul>
-<li>Service的访问策略怎么定义，如何处理跟Pod访问策略冲突的问题</li>
-<li>如何定义Kubernetes外部服务的访问策略，是不是要在<code>allowFrom</code>中增加<code>CIDR</code>等</li>
-</ul>
-<p>当然，这些Proposal都还在讨论中，虽然最终的Design和实现还没有确定，但大致的思想肯定不会有太大的变化了。</p>
-<p>[1] <a href="https://docs.google.com/document/d/1_w77-zG_Xj0zYvEMfQZTQ-wPP4kXkpGD8smVtW_qqWM" target="_blank" rel="external">https://docs.google.com/document/d/1_w77-zG_Xj0zYvEMfQZTQ-wPP4kXkpGD8smVtW_qqWM</a><br>[2] <a href="https://docs.google.com/document/d/1ZCz_MZILzKCbFwF9gjU1YNA1YbNaw0NDsESh1P6Vcnc" target="_blank" rel="external">https://docs.google.com/document/d/1ZCz_MZILzKCbFwF9gjU1YNA1YbNaw0NDsESh1P6Vcnc</a><br>[3] <a href="https://www.youtube.com/watch?v=ab7mXAddaX8" target="_blank" rel="external">https://www.youtube.com/watch?v=ab7mXAddaX8</a><br>[4] <a href="https://docs.google.com/document/d/1qAm-_oSap-f1d6a-xRTj6xaH1sYQBfK36VyjB5XOZug" target="_blank" rel="external">https://docs.google.com/document/d/1qAm-_oSap-f1d6a-xRTj6xaH1sYQBfK36VyjB5XOZug</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1196,7 +1162,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-count">100</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

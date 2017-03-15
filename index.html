@@ -383,6 +383,140 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/15/Kubernetes-HA/" itemprop="url">
+                  Kubernetes HA
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-15T18:12:47+08:00" content="2017-03-15">
+              2017-03-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/15/Kubernetes-HA/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/15/Kubernetes-HA/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kubernetes从1.5开始，通过<code>kops</code>或者<code>kube-up.sh</code>部署的集群会自动部署一个高可用的系统，包括</p>
+<ul>
+<li>etcd集群模式</li>
+<li>apiserver负载均衡</li>
+<li>controller manager、scheduler和cluster autoscaler自动选主（有且仅有一个运行实例）</li>
+</ul>
+<p>如下图所示</p>
+<p><img src="../kubernetes/ha/ha.png" alt=""></p>
+<h2 id="etcd集群"><a href="#etcd集群" class="headerlink" title="etcd集群"></a>etcd集群</h2><p>从<code>https://discovery.etcd.io/new?size=3</code>获取token后，把<a href="https://kubernetes.io/docs/admin/high-availability/etcd.yaml" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/etcd.yaml</a>放到每台机器的<code>/etc/kubernetes/manifests/etcd.yaml</code>，并替换掉<code>${DISCOVERY_TOKEN}</code>, <code>${NODE_NAME}</code>和<code>${NODE_IP}</code>，既可以由kubelet来启动一个etcd集群。</p>
+<p>对于运行在kubelet外部的etcd，可以参考<a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md" target="_blank" rel="external">etcd clustering guide</a>来手动配置集群模式。</p>
+<h2 id="apiserver"><a href="#apiserver" class="headerlink" title="apiserver"></a>apiserver</h2><p>把<a href="https://kubernetes.io/docs/admin/high-availability/kube-apiserver.yaml" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/kube-apiserver.yaml</a>放到每台Master节点的<code>/etc/kubernetes/manifests/</code>，并把相关的配置放到<code>/srv/kubernetes/</code>，即可由kubelet自动创建并启动apiserver:</p>
+<ul>
+<li>basic_auth.csv - basic auth user and password</li>
+<li>ca.crt - Certificate Authority cert</li>
+<li>known_tokens.csv - tokens that entities (e.g. the kubelet) can use to talk to the apiserver</li>
+<li>kubecfg.crt - Client certificate, public key</li>
+<li>kubecfg.key - Client certificate, private key</li>
+<li>server.cert - Server certificate, public key</li>
+<li>server.key - Server certificate, private key</li>
+</ul>
+<p>apiserver启动后，还需要为它们做负载均衡，可以使用云平台的弹性负载均衡服务或者使用haproxy/lvs等为master节点配置负载均衡。</p>
+<h2 id="controller-manager和scheduler"><a href="#controller-manager和scheduler" class="headerlink" title="controller manager和scheduler"></a>controller manager和scheduler</h2><p>controller manager和scheduler需要保证任何时刻都只有一个实例运行，需要一个选主的过程，所以在启动时要设置<code>--leader-elect=true</code>，比如</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><div class="line"><span class="comment">kube</span><span class="literal">-</span><span class="comment">scheduler</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">master=127</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">1:8080</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">v=2</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">leader</span><span class="literal">-</span><span class="comment">elect=true</span></div><div class="line"><span class="comment">kube</span><span class="literal">-</span><span class="comment">controller</span><span class="literal">-</span><span class="comment">manager</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">master=127</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">1:8080</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">cluster</span><span class="literal">-</span><span class="comment">cidr=10</span><span class="string">.</span><span class="comment">245</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0/16</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">allocate</span><span class="literal">-</span><span class="comment">node</span><span class="literal">-</span><span class="comment">cidrs=true</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">service</span><span class="literal">-</span><span class="comment">account</span><span class="literal">-</span><span class="comment">private</span><span class="literal">-</span><span class="comment">key</span><span class="literal">-</span><span class="comment">file=/srv/kubernetes/server</span><span class="string">.</span><span class="comment">key</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">v=2</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">leader</span><span class="literal">-</span><span class="comment">elect=true</span></div></pre></td></tr></table></figure>
+<p>把<a href="https://kubernetes.io/docs/admin/high-availability/kube-scheduler.yaml" target="_blank" rel="external">kube-scheduler.yaml</a>和<a href="https://kubernetes.io/docs/admin/high-availability/kube-controller-manager.yaml" target="_blank" rel="external">kube-controller-manager.yaml</a>(非GCE平台需要适当修改) 放到每台master节点的<code>/etc/kubernetes/manifests/</code>即可。</p>
+<h2 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h2><p>除了上面提到的这些配置，持久化存储也是高可用Kubernetes集群所必须的。</p>
+<ul>
+<li>对于公有云上部署的集群，可以考虑使用云平台提供的持久化存储，比如aws ebs或者gce persistent disk</li>
+<li>对于物理机部署的集群，可以考虑使用iSCSI、NFS、Gluster或者Ceph等网络存储，也可以使用RAID</li>
+</ul>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a href="https://kubernetes.io/docs/admin/high-availability/" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/</a></li>
+<li><a href="http://kubecloud.io/setup-ha-k8s-kops/" target="_blank" rel="external">http://kubecloud.io/setup-ha-k8s-kops/</a></li>
+<li><a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md" target="_blank" rel="external">https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/03/AWS-S3故障回顾和总结/" itemprop="url">
                   AWS S3故障回顾和总结
                 </a>
@@ -984,114 +1118,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/09/使用docker-dind创建swarm集群/" itemprop="url">
-                  使用docker dind创建swarm集群
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-09T21:01:18+08:00" content="2017-01-09">
-              2017-01-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/09/使用docker-dind创建swarm集群/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/09/使用docker-dind创建swarm集群/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在OS X系统上，由于Docker for Mac只能创建一台虚拟机，所以要创建多节点swarm集群的话，就需要额外启动其他的虚拟机，并手动安装和配置docker。不过借助dind (docker in docker)，不需要创建额外的虚拟机也可以启动一个swarm集群。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker swarm init</div><div class="line">SWARM_TOKEN=$(docker swarm join-token -q worker)</div><div class="line">NUM_WORKERS=3 </div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq <span class="string">"<span class="variable">$&#123;NUM_WORKERS&#125;</span>"</span>); <span class="keyword">do</span></div><div class="line">    docker run <span class="_">-d</span> --privileged --name worker-<span class="variable">$&#123;i&#125;</span> --hostname=worker-<span class="variable">$&#123;i&#125;</span> --restart=always -p <span class="variable">$&#123;i&#125;</span>2375:2375 docker:1.12-dind</div><div class="line">    docker --host=localhost:<span class="variable">$&#123;i&#125;</span>2375 swarm join --token <span class="variable">$&#123;SWARM_TOKEN&#125;</span> <span class="variable">$&#123;SWARM_MASTER&#125;</span>:2377</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
-<p>这时，查询系统的node列表为:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker node ls</div><div class="line">ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS</div><div class="line">82rg1gpkhm5fajnexre6p0v34 *  moby      Ready   Active        Leader</div><div class="line">a0hhwgtqsxosx9gg6h6wqmx68    worker-3  Ready   Active</div><div class="line">bn93fte7yflatee3y88qq7ff0    worker-1  Ready   Active</div><div class="line">emy5y7qr2y26hk3dtqgkvnak3    worker-2  Ready   Active</div></pre></td></tr></table></figure>
-<p>当然，也可以启动一个游Mano Marks创建的swarm集群可视化容器，更直观的查看集群的状态：</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">docker run -it -d -<span class="selector-tag">p</span> <span class="number">8000</span>:<span class="number">8080</span> -v /var/run/docker<span class="selector-class">.sock</span>:/var/run/docker<span class="selector-class">.sock</span> manomarks/visualizer</div></pre></td></tr></table></figure>
-<p><img src="/images/docker_visualizer.png" alt=""></p>
-<p>参考文档<a href="http://blog.terranillius.com/post/swarm_dind/" target="_blank" rel="external">http://blog.terranillius.com/post/swarm_dind/</a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1137,7 +1163,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-count">100</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
