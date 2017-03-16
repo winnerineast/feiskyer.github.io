@@ -86,25 +86,19 @@
 
 
 
-<meta name="description" content="集群联邦
-
-https://tectonic.com/blog/kubernetes-cluster-federation.html">
+<meta name="description" content="初始化系统所有机器都需要初始化docker和kubelet。
+ubuntu# for ubuntu 16.04+apt-get update &amp;amp;&amp;amp; apt-get install -y apt-transport-httpscurl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -cat">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
-<meta property="og:url" content="http://feisky.xyz/k8s/cluster-federation/index.html">
+<meta property="og:title" content="kubeadm">
+<meta property="og:url" content="http://feisky.xyz/kubernetes/deploy/kubeadm.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="集群联邦
-
-https://tectonic.com/blog/kubernetes-cluster-federation.html">
-<meta property="og:image" content="http://feisky.xyz/media/federation.png">
-<meta property="og:image" content="http://feisky.xyz/media/federation-service.png">
-<meta property="og:updated_time" content="2017-03-16T15:57:15.679Z">
+<meta property="og:description" content="初始化系统所有机器都需要初始化docker和kubelet。
+ubuntu# for ubuntu 16.04+apt-get update &amp;amp;&amp;amp; apt-get install -y apt-transport-httpscurl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -cat">
+<meta property="og:updated_time" content="2017-03-16T15:57:15.683Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
-<meta name="twitter:description" content="集群联邦
-
-https://tectonic.com/blog/kubernetes-cluster-federation.html">
-<meta name="twitter:image" content="http://feisky.xyz/media/federation.png">
+<meta name="twitter:title" content="kubeadm">
+<meta name="twitter:description" content="初始化系统所有机器都需要初始化docker和kubelet。
+ubuntu# for ubuntu 16.04+apt-get update &amp;amp;&amp;amp; apt-get install -y apt-transport-httpscurl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -cat">
 
 
 
@@ -125,10 +119,10 @@ https://tectonic.com/blog/kubernetes-cluster-federation.html">
 
 
 
-  <link rel="canonical" href="http://feisky.xyz/k8s/cluster-federation/"/>
+  <link rel="canonical" href="http://feisky.xyz/kubernetes/deploy/kubeadm.html"/>
 
 
-  <title>  | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> kubeadm | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -390,7 +384,7 @@ https://tectonic.com/blog/kubernetes-cluster-federation.html">
             
             
               
-                
+                kubeadm
               
             
           </h1>
@@ -413,8 +407,8 @@ https://tectonic.com/blog/kubernetes-cluster-federation.html">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/k8s/cluster-federation/index.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="k8s/cluster-federation/index.html" itemprop="commentsCount"></span>
+                <a href="/kubernetes/deploy/kubeadm.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="kubernetes/deploy/kubeadm.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -437,9 +431,16 @@ https://tectonic.com/blog/kubernetes-cluster-federation.html">
       
 
       
-        <h1 id="集群联邦"><a href="#集群联邦" class="headerlink" title="集群联邦"></a>集群联邦</h1><p><img src="media/federation.png" alt="federation"></p>
-<p><img src="media/federation-service.png" alt="federation-service"></p>
-<p><a href="https://tectonic.com/blog/kubernetes-cluster-federation.html" target="_blank" rel="external">https://tectonic.com/blog/kubernetes-cluster-federation.html</a></p>
+        <h2 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h2><p>所有机器都需要初始化docker和kubelet。</p>
+<h3 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># for ubuntu 16.04+</span></div><div class="line">apt-get update &amp;&amp; apt-get install -y apt-transport-https</div><div class="line">curl <span class="_">-s</span> https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -</div><div class="line">cat &lt;&lt;EOF &gt; /etc/apt/sources.list.d/kubernetes.list</div><div class="line">deb http://apt.kubernetes.io/ kubernetes-xenial main</div><div class="line">EOF</div><div class="line">apt-get update</div><div class="line"><span class="comment"># Install docker if you don't have it already.</span></div><div class="line">apt-get install -y docker.io</div><div class="line">apt-get install -y kubelet kubeadm kubectl kubernetes-cni</div><div class="line">systemctl <span class="built_in">enable</span> docker &amp;&amp; systemctl start docker</div><div class="line"></div><div class="line">systemctl <span class="built_in">enable</span> kubelet &amp;&amp; systemctl start kubelet</div></pre></td></tr></table></figure>
+<h3 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</div><div class="line">[kubernetes]</div><div class="line">name=Kubernetes</div><div class="line">baseurl=http://yum.kubernetes.io/repos/kubernetes-el7-x86_64</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">repo_gpgcheck=1</div><div class="line">gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg</div><div class="line">       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg</div><div class="line">EOF</div><div class="line">setenforce 0</div><div class="line">yum install -y docker kubelet kubeadm kubectl kubernetes-cni</div><div class="line">systemctl <span class="built_in">enable</span> docker &amp;&amp; systemctl start docker</div><div class="line"></div><div class="line">systemctl <span class="built_in">enable</span> kubelet &amp;&amp; systemctl start kubelet</div></pre></td></tr></table></figure>
+<h2 id="安装master"><a href="#安装master" class="headerlink" title="安装master"></a>安装master</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># --api-advertise-addresses &lt;ip-address&gt;</span></div><div class="line"><span class="comment"># for flannel, setup --pod-network-cidr 10.244.0.0/16</span></div><div class="line">kubeadm init kubeadm init --pod-network-cidr 10.244.0.0/16 --kubernetes-version latest</div><div class="line"></div><div class="line"><span class="comment"># eanable schedule pods on the master</span></div><div class="line"><span class="built_in">export</span> KUBECONFIG=/etc/kubernetes/admin.conf</div><div class="line"><span class="comment"># for v1.5-, use kubectl taint nodes --all dedicated-</span></div><div class="line">kubectl taint nodes --all node-role.kubernetes.io/master:NoSchedule-</div></pre></td></tr></table></figure>
+<h2 id="配置Network-plugin"><a href="#配置Network-plugin" class="headerlink" title="配置Network plugin"></a>配置Network plugin</h2><h3 id="CNI-bridge"><a href="#CNI-bridge" class="headerlink" title="CNI bridge"></a>CNI bridge</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p /etc/cni/net.d</div><div class="line">cat &gt;/etc/cni/net.d/10-mynet.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"mynet"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"bridge"</span>,</div><div class="line">    <span class="string">"bridge"</span>: <span class="string">"cni0"</span>,</div><div class="line">    <span class="string">"isGateway"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipMasq"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipam"</span>: &#123;</div><div class="line">        <span class="string">"type"</span>: <span class="string">"host-local"</span>,</div><div class="line">        <span class="string">"subnet"</span>: <span class="string">"10.244.0.0/16"</span>,</div><div class="line">        <span class="string">"routes"</span>: [</div><div class="line">            &#123; <span class="string">"dst"</span>: <span class="string">"0.0.0.0/0"</span>  &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">EOF</div><div class="line">cat &gt;/etc/cni/net.d/99-loopback.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"loopback"</span></div><div class="line">&#125;</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h3 id="flannel"><a href="#flannel" class="headerlink" title="flannel"></a>flannel</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubectl apply <span class="_">-f</span> https://gist.githubusercontent.com/feiskyer/1e7a95f27c391a35af47881eb20131d7/raw/4266f05355590fa185bc8e50c0f50d2841993d20/flannel.yaml</div></pre></td></tr></table></figure>
+<h3 id="weave"><a href="#weave" class="headerlink" title="weave"></a>weave</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># kubectl apply -f https://git.io/weave-kube</span></div><div class="line">kubectl apply <span class="_">-f</span> https://gist.githubusercontent.com/feiskyer/0b00688584cc7ed9bd9a993adddae5e3/raw/67f3558e32d5c76be38e36ef713cc46deb2a74ca/weave.yaml</div></pre></td></tr></table></figure>
+<h3 id="calico"><a href="#calico" class="headerlink" title="calico"></a>calico</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># kubectl apply -f http://docs.projectcalico.org/v2.0/getting-started/kubernetes/installation/hosted/kubeadm/calico.yaml</span></div><div class="line">kubectl apply <span class="_">-f</span> https://gist.githubusercontent.com/feiskyer/0f952c7dadbfcefd2ce81ba7ea24a8ca/raw/92addea398bbc4d4a1dcff8a98c1ac334c8acb26/calico.yaml</div></pre></td></tr></table></figure>
+<h2 id="添加Node"><a href="#添加Node" class="headerlink" title="添加Node"></a>添加Node</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">token=$(kubeadm token list | grep authentication,signing | awk <span class="string">'&#123;print $1&#125;'</span>)</div><div class="line">kubeadm join --token <span class="variable">$token</span> <span class="variable">$&#123;master_ip&#125;</span></div></pre></td></tr></table></figure>
+<h2 id="删除安装"><a href="#删除安装" class="headerlink" title="删除安装"></a>删除安装</h2><figure class="highlight ebnf"><table><tr><td class="code"><pre><div class="line"><span class="attribute">kubeadm reset</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -623,7 +624,7 @@ https://tectonic.com/blog/kubernetes-cluster-federation.html">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集群联邦"><span class="nav-number">1.</span> <span class="nav-text">集群联邦</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化系统"><span class="nav-number">1.</span> <span class="nav-text">初始化系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu"><span class="nav-number">1.1.</span> <span class="nav-text">ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#centos"><span class="nav-number">1.2.</span> <span class="nav-text">centos</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装master"><span class="nav-number">2.</span> <span class="nav-text">安装master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Network-plugin"><span class="nav-number">3.</span> <span class="nav-text">配置Network plugin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CNI-bridge"><span class="nav-number">3.1.</span> <span class="nav-text">CNI bridge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flannel"><span class="nav-number">3.2.</span> <span class="nav-text">flannel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#weave"><span class="nav-number">3.3.</span> <span class="nav-text">weave</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#calico"><span class="nav-number">3.4.</span> <span class="nav-text">calico</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加Node"><span class="nav-number">4.</span> <span class="nav-text">添加Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除安装"><span class="nav-number">5.</span> <span class="nav-text">删除安装</span></a></li></ol></div>
             
           </div>
         </section>
@@ -750,9 +751,9 @@ https://tectonic.com/blog/kubernetes-cluster-federation.html">
 
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
-      var disqus_identifier = 'k8s/cluster-federation/index.html';
-      var disqus_title = "";
-      var disqus_url = 'http://feisky.xyz/k8s/cluster-federation/index.html';
+      var disqus_identifier = 'kubernetes/deploy/kubeadm.html';
+      var disqus_title = "kubeadm";
+      var disqus_url = 'http://feisky.xyz/kubernetes/deploy/kubeadm.html';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
