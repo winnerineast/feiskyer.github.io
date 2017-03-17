@@ -441,7 +441,7 @@
 <li>controller manager、scheduler和cluster autoscaler自动选主（有且仅有一个运行实例）</li>
 </ul>
 <p>如下图所示</p>
-<p><img src="../kubernetes/ha/ha.png" alt=""></p>
+<p><img src="/kubernetes/ha/ha.png" alt=""></p>
 <h2 id="etcd集群"><a href="#etcd集群" class="headerlink" title="etcd集群"></a>etcd集群</h2><p>从<code>https://discovery.etcd.io/new?size=3</code>获取token后，把<a href="https://kubernetes.io/docs/admin/high-availability/etcd.yaml" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/etcd.yaml</a>放到每台机器的<code>/etc/kubernetes/manifests/etcd.yaml</code>，并替换掉<code>${DISCOVERY_TOKEN}</code>, <code>${NODE_NAME}</code>和<code>${NODE_IP}</code>，既可以由kubelet来启动一个etcd集群。</p>
 <p>对于运行在kubelet外部的etcd，可以参考<a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md" target="_blank" rel="external">etcd clustering guide</a>来手动配置集群模式。</p>
 <h2 id="apiserver"><a href="#apiserver" class="headerlink" title="apiserver"></a>apiserver</h2><p>把<a href="https://kubernetes.io/docs/admin/high-availability/kube-apiserver.yaml" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/kube-apiserver.yaml</a>放到每台Master节点的<code>/etc/kubernetes/manifests/</code>，并把相关的配置放到<code>/srv/kubernetes/</code>，即可由kubelet自动创建并启动apiserver:</p>
