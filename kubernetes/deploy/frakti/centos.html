@@ -1,0 +1,910 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Feisky's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Cluster deploying of frakti On UbuntuThis document shows how to easily install a kubernetes cluster with frakti runtime.
+Frakti is a hypervisor-based container runtime, it depends on a few packages be">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feisky's Blog">
+<meta property="og:url" content="http://feisky.xyz/kubernetes/deploy/frakti/centos.html">
+<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:description" content="Cluster deploying of frakti On UbuntuThis document shows how to easily install a kubernetes cluster with frakti runtime.
+Frakti is a hypervisor-based container runtime, it depends on a few packages be">
+<meta property="og:updated_time" content="2017-03-23T03:48:46.324Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:description" content="Cluster deploying of frakti On UbuntuThis document shows how to easily install a kubernetes cluster with frakti runtime.
+Frakti is a hypervisor-based container runtime, it depends on a few packages be">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://feisky.xyz/kubernetes/deploy/frakti/centos.html"/>
+
+
+  <title>
+  
+
+  
+     | Feisky's Blog
+  
+</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69699206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Feisky's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Notes about anything.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sre">
+          <a href="/SRE" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-linux"></i> <br />
+            
+            SRE
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-container">
+          <a href="/container" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
+            
+            容器
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cloud"></i> <br />
+            
+            云计算
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-ml">
+          <a href="/machine-learning" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-suitcase"></i> <br />
+            
+            机器学习
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sdn">
+          <a href="/sdn/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-firefox"></i> <br />
+            
+            SDN网络
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pages">
+          <a href="/pages" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            读书笔记
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-dis">
+          <a href="/distributed" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-database"></i> <br />
+            
+            分布式系统
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-k8s">
+          <a href="/kubernetes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cube"></i> <br />
+            
+            Kubernetes
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+      <h1 id="Cluster-deploying-of-frakti-On-Ubuntu"><a href="#Cluster-deploying-of-frakti-On-Ubuntu" class="headerlink" title="Cluster deploying of frakti On Ubuntu"></a>Cluster deploying of frakti On Ubuntu</h1><p>This document shows how to easily install a kubernetes cluster with frakti runtime.</p>
+<p>Frakti is a hypervisor-based container runtime, it depends on a few packages besides kubernetes:</p>
+<ul>
+<li>hyperd: the hyper container engine (main container runtime)</li>
+<li>docker: the docker container engine (auxiliary container runtime)</li>
+<li>cni: the network plugin</li>
+</ul>
+<h2 id="Optional-create-instances-on-GCE"><a href="#Optional-create-instances-on-GCE" class="headerlink" title="Optional: create instances on GCE"></a>Optional: create instances on GCE</h2><p>It is recommended to run frakti-enabled kubernetes on baremetal, but you could still have a try of frakti on public clouds.</p>
+<p><strong>Do not forget to enable ip_forward on GCE.</strong></p>
+<h2 id="Initialize-all-nodes"><a href="#Initialize-all-nodes" class="headerlink" title="Initialize all nodes"></a>Initialize all nodes</h2><h3 id="Install-hyperd"><a href="#Install-hyperd" class="headerlink" title="Install hyperd"></a>Install hyperd</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># install from https://docs.hypercontainer.io/get_started/install/linux.html</span></div><div class="line">curl <span class="_">-s</span>SL https://hypercontainer.io/install | bash</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"Hypervisor=libvirt\n\</span></div><div class="line">Kernel=/var/lib/hyper/kernel\n\</div><div class="line">Initrd=/var/lib/hyper/hyper-initrd.img\n\</div><div class="line">Hypervisor=qemu\n\</div><div class="line">StorageDriver=overlay\n\</div><div class="line">gRPCHost=127.0.0.1:22318" &gt; /etc/hyper/config</div><div class="line">systemctl <span class="built_in">enable</span> hyperd</div><div class="line">systemctl restart hyperd</div></pre></td></tr></table></figure>
+<h3 id="Install-docker"><a href="#Install-docker" class="headerlink" title="Install docker"></a>Install docker</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y docker</div><div class="line">sed -i <span class="string">'s/native.cgroupdriver=systemd/native.cgroupdriver=cgroupfs/g'</span> /usr/lib/systemd/system/docker.service</div><div class="line">systemctl daemon-reload</div><div class="line"></div><div class="line">systemctl <span class="built_in">enable</span> docker</div><div class="line">systemctl start docker</div></pre></td></tr></table></figure>
+<h3 id="Install-frakti"><a href="#Install-frakti" class="headerlink" title="Install frakti"></a>Install frakti</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># <span class="doctag">TODO:</span> get frakti from releases</span></div><div class="line">curl <span class="_">-s</span>SL https://storage.googleapis.com/frakti/frakti -o /usr/bin/frakti</div><div class="line">chmod +x /usr/bin/frakti</div><div class="line">cat &lt;&lt;EOF &gt; /lib/systemd/system/frakti.service</div><div class="line">[Unit]</div><div class="line">Description=Hypervisor-based container runtime <span class="keyword">for</span> Kubernetes</div><div class="line">Documentation=https://github.com/kubernetes/frakti</div><div class="line">After=network.target</div><div class="line"></div><div class="line">[Service]</div><div class="line">ExecStart=/usr/bin/frakti --v=3 \</div><div class="line">          --log-dir=/var/<span class="built_in">log</span>/frakti \</div><div class="line">          --logtostderr=<span class="literal">false</span> \</div><div class="line">          --listen=/var/run/frakti.sock \</div><div class="line">          --streaming-server-addr=%H \</div><div class="line">          --hyper-endpoint=127.0.0.1:22318</div><div class="line">MountFlags=shared</div><div class="line">TasksMax=8192</div><div class="line">LimitNOFILE=1048576</div><div class="line">LimitNPROC=1048576</div><div class="line">LimitCORE=infinity</div><div class="line">TimeoutStartSec=0</div><div class="line">Restart=on-abnormal</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h3 id="Install-CNI"><a href="#Install-CNI" class="headerlink" title="Install CNI"></a>Install CNI</h3><p>Frakti requires cni network for starting.</p>
+<p>Note:</p>
+<ul>
+<li>Configure different subnet for different hosts, e.g.<ul>
+<li>10.244.1.0/24</li>
+<li>10.244.2.0/24</li>
+<li>10.244.3.0/24</li>
+</ul>
+</li>
+<li>Configure host routes on GCE<ul>
+<li>gcloud compute routes create “instance-1” —description “instance-1” —destination-range “10.244.1.0/24” —network “default” —next-hop-instance “instance-1” —next-hop-instance-zone “asia-east1-a” —priority “100”</li>
+<li>gcloud compute routes create “instance-2” —description “instance-2” —destination-range “10.244.2.0/24” —network “default” —next-hop-instance “instance-2” —next-hop-instance-zone “asia-east1-a” —priority “100”</li>
+<li>gcloud compute routes create “instance-3” —description “instance-3” —destination-range “10.244.3.0/24” —network “default” —next-hop-instance “instance-3” —next-hop-instance-zone “asia-east1-a” —priority “100”</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</div><div class="line">[kubernetes]</div><div class="line">name=Kubernetes</div><div class="line">baseurl=http://yum.kubernetes.io/repos/kubernetes-el7-x86_64-unstable</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">repo_gpgcheck=1</div><div class="line">gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg</div><div class="line">       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg</div><div class="line">EOF</div><div class="line">setenforce 0</div><div class="line">yum install -y kubernetes-cni bridge-utils</div></pre></td></tr></table></figure>
+<p>Configure cni network</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p /etc/cni/net.d</div><div class="line">cat &gt;/etc/cni/net.d/10-mynet.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"mynet"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"bridge"</span>,</div><div class="line">    <span class="string">"bridge"</span>: <span class="string">"cni0"</span>,</div><div class="line">    <span class="string">"isGateway"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipMasq"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipam"</span>: &#123;</div><div class="line">        <span class="string">"type"</span>: <span class="string">"host-local"</span>,</div><div class="line">        <span class="string">"subnet"</span>: <span class="string">"10.244.1.0/24"</span>,</div><div class="line">        <span class="string">"routes"</span>: [</div><div class="line">            &#123; <span class="string">"dst"</span>: <span class="string">"0.0.0.0/0"</span>  &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">EOF</div><div class="line">cat &gt;/etc/cni/net.d/99-loopback.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"loopback"</span></div><div class="line">&#125;</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h3 id="Install-kubelet"><a href="#Install-kubelet" class="headerlink" title="Install kubelet"></a>Install kubelet</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y kubelet kubeadm kubectl </div><div class="line"><span class="comment"># Note that there are no kubernete v1.6 rpms on `yum.kubernetes.io`, so it needs to be fetched from `dl.k8s.io`:</span></div><div class="line"><span class="comment"># Download latest release of kubelet and kubectl</span></div><div class="line"><span class="comment"># <span class="doctag">TODO:</span> remove this after the stable v1.6 release</span></div><div class="line"><span class="built_in">cd</span> /tmp/</div><div class="line">curl -SL https://dl.k8s.io/v1.6.0-beta.4/kubernetes-server-linux-amd64.tar.gz -o kubernetes-server-linux-amd64.tar.gz</div><div class="line">tar zxvf kubernetes-server-linux-amd64.tar.gz</div><div class="line">/bin/cp <span class="_">-f</span> kubernetes/server/bin/&#123;kubelet,kubeadm,kubectl&#125; /usr/bin/</div><div class="line">rm -rf kubernetes-server-linux-amd64.tar.gz kubernetes</div></pre></td></tr></table></figure>
+<p>Configure kubelet with frakti runtime</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sed -i <span class="string">'2 i\Environment="KUBELET_EXTRA_ARGS=--container-runtime=remote --container-runtime-endpoint=/var/run/frakti.sock --feature-gates=AllAlpha=true"'</span> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf</div></pre></td></tr></table></figure>
+<h2 id="Setting-up-the-master-node"><a href="#Setting-up-the-master-node" class="headerlink" title="Setting up the master node"></a>Setting up the master node</h2><p>hyperkube image could be customized via <code>KUBE_HYPERKUBE_IMAGE</code>:</p>
+<ul>
+<li><code>VERSION=v1.6.0 make -C cluster/images/hyperkube build</code></li>
+<li><code>export KUBE_HYPERKUBE_IMAGE=xxxx</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">kubeadm init kubeadm init --pod-network-cidr 10.244.0.0/16 --kubernetes-version latest</div></pre></td></tr></table></figure>
+<p>Optional: enable schedule pods on the master</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBECONFIG=/etc/kubernetes/admin.conf</div><div class="line">kubectl taint nodes --all node-role.kubernetes.io/master:NoSchedule-</div></pre></td></tr></table></figure>
+<h2 id="Setting-up-the-worker-nodes"><a href="#Setting-up-the-worker-nodes" class="headerlink" title="Setting up the worker nodes"></a>Setting up the worker nodes</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># get token on master node</span></div><div class="line">token=$(kubeadm token list | grep authentication,signing | awk <span class="string">'&#123;print $1&#125;'</span>)</div><div class="line"><span class="comment"># join master on worker nodes</span></div><div class="line">kubeadm join --token <span class="variable">$token</span> <span class="variable">$&#123;master_ip&#125;</span>:6443</div></pre></td></tr></table></figure>
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/qrcode.jpg"
+               alt="Feisky" />
+          <p class="site-author-name" itemprop="name">Feisky</p>
+          <p class="site-description motion-element" itemprop="description">Notes about anything.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/feiskyer" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/feisky" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/371069890" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/feisky/" target="_blank" title="博客园">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客园
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cluster-deploying-of-frakti-On-Ubuntu"><span class="nav-number">1.</span> <span class="nav-text">Cluster deploying of frakti On Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Optional-create-instances-on-GCE"><span class="nav-number">1.1.</span> <span class="nav-text">Optional: create instances on GCE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Initialize-all-nodes"><span class="nav-number">1.2.</span> <span class="nav-text">Initialize all nodes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-hyperd"><span class="nav-number">1.2.1.</span> <span class="nav-text">Install hyperd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-docker"><span class="nav-number">1.2.2.</span> <span class="nav-text">Install docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-frakti"><span class="nav-number">1.2.3.</span> <span class="nav-text">Install frakti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-CNI"><span class="nav-number">1.2.4.</span> <span class="nav-text">Install CNI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-kubelet"><span class="nav-number">1.2.5.</span> <span class="nav-text">Install kubelet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-the-master-node"><span class="nav-number">1.3.</span> <span class="nav-text">Setting up the master node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-the-worker-nodes"><span class="nav-number">1.4.</span> <span class="nav-text">Setting up the worker nodes</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feisky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'feiskyblog';
+      var disqus_identifier = 'kubernetes/deploy/frakti/centos.html';
+      var disqus_title = "";
+      var disqus_url = 'http://feisky.xyz/kubernetes/deploy/frakti/centos.html';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
