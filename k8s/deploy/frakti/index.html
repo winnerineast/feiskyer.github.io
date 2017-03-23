@@ -100,7 +100,7 @@ Install kubelet
 Setting up the master node
 Setting u">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
+<meta property="og:title" content="Cluster deploying of frakti">
 <meta property="og:url" content="http://feisky.xyz/k8s/deploy/frakti/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Cluster deploying of fraktiUpdated: 3/21/2017
@@ -116,9 +116,9 @@ Install kubelet
 
 Setting up the master node
 Setting u">
-<meta property="og:updated_time" content="2017-03-23T03:48:46.324Z">
+<meta property="og:updated_time" content="2017-03-23T03:55:49.099Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
+<meta name="twitter:title" content="Cluster deploying of frakti">
 <meta name="twitter:description" content="Cluster deploying of fraktiUpdated: 3/21/2017
 
 Cluster deploying of frakti
@@ -155,13 +155,7 @@ Setting u">
   <link rel="canonical" href="http://feisky.xyz/k8s/deploy/frakti/"/>
 
 
-  <title>
-  
-
-  
-     | Feisky's Blog
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Cluster deploying of frakti | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -191,7 +185,7 @@ Setting u">
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -404,8 +398,73 @@ Setting u">
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <h1 id="Cluster-deploying-of-frakti"><a href="#Cluster-deploying-of-frakti" class="headerlink" title="Cluster deploying of frakti"></a>Cluster deploying of frakti</h1><p>Updated: 3/21/2017</p>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Cluster deploying of frakti
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-23T03:55:49+00:00" content="2017-03-23">
+              2017-03-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/k8s/deploy/frakti/index.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="k8s/deploy/frakti/index.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Cluster-deploying-of-frakti"><a href="#Cluster-deploying-of-frakti" class="headerlink" title="Cluster deploying of frakti"></a>Cluster deploying of frakti</h1><p>Updated: 3/21/2017</p>
 <ul>
 <li><a href="#cluster-deploying-of-frakti">Cluster deploying of frakti</a><ul>
 <li><a href="#overview">Overview</a></li>
@@ -457,7 +516,39 @@ Setting u">
 <p>Optional: enable schedule pods on the master</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> KUBECONFIG=/etc/kubernetes/admin.conf</div><div class="line">kubectl taint nodes --all node-role.kubernetes.io/master:NoSchedule-</div></pre></td></tr></table></figure>
 <h2 id="Setting-up-the-worker-nodes"><a href="#Setting-up-the-worker-nodes" class="headerlink" title="Setting up the worker nodes"></a>Setting up the worker nodes</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># get token on master node</span></div><div class="line">token=$(kubeadm token list | grep authentication,signing | awk <span class="string">'&#123;print $1&#125;'</span>)</div><div class="line"></div><div class="line"><span class="comment"># join master on worker nodes</span></div><div class="line">kubeadm join --token <span class="variable">$token</span> <span class="variable">$&#123;master_ip&#125;</span></div></pre></td></tr></table></figure>
-    
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -715,6 +806,10 @@ Setting u">
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
@@ -732,7 +827,7 @@ Setting u">
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
       var disqus_identifier = 'k8s/deploy/frakti/index.html';
-      var disqus_title = "";
+      var disqus_title = "Cluster deploying of frakti";
       var disqus_url = 'http://feisky.xyz/k8s/deploy/frakti/index.html';
 
       function run_disqus_script(disqus_script){
