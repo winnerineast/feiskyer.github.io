@@ -94,11 +94,11 @@ Install packages
 Install hyperd
 Install docker
 Install frakti
+Install CNI
 Install kubelet
 
 
-Setting up the master node
-Setting u">
+Setting up the master no">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cluster deploying of frakti">
 <meta property="og:url" content="http://feisky.xyz/k8s/deploy/frakti/index.html">
@@ -111,12 +111,12 @@ Install packages
 Install hyperd
 Install docker
 Install frakti
+Install CNI
 Install kubelet
 
 
-Setting up the master node
-Setting u">
-<meta property="og:updated_time" content="2017-03-23T03:55:49.099Z">
+Setting up the master no">
+<meta property="og:updated_time" content="2017-03-24T01:39:26.752Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cluster deploying of frakti">
 <meta name="twitter:description" content="Cluster deploying of fraktiUpdated: 3/21/2017
@@ -127,11 +127,11 @@ Install packages
 Install hyperd
 Install docker
 Install frakti
+Install CNI
 Install kubelet
 
 
-Setting up the master node
-Setting u">
+Setting up the master no">
 
 
 
@@ -429,8 +429,8 @@ Setting u">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-23T03:55:49+00:00" content="2017-03-23">
-              2017-03-23
+            <time itemprop="dateCreated" datetime="2017-03-24T01:39:26+00:00" content="2017-03-24">
+              2017-03-24
             </time>
           </span>
 
@@ -472,6 +472,7 @@ Setting u">
 <li><a href="#install-hyperd">Install hyperd</a></li>
 <li><a href="#install-docker">Install docker</a></li>
 <li><a href="#install-frakti">Install frakti</a></li>
+<li><a href="#install-cni">Install CNI</a></li>
 <li><a href="#install-kubelet">Install kubelet</a></li>
 </ul>
 </li>
@@ -499,17 +500,22 @@ Setting u">
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y docker</div><div class="line">sed -i <span class="string">'s/native.cgroupdriver=systemd/native.cgroupdriver=cgroupfs/g'</span> /usr/lib/systemd/system/docker.service</div><div class="line">systemctl daemon-reload</div></pre></td></tr></table></figure>
 <p>Configure and start docker:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">systemctl <span class="built_in">enable</span> docker</div><div class="line">systemctl start docker</div></pre></td></tr></table></figure>
-<h3 id="Install-frakti"><a href="#Install-frakti" class="headerlink" title="Install frakti"></a>Install frakti</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># <span class="doctag">TODO:</span> get frakti from releases</span></div><div class="line">curl <span class="_">-s</span>SL https://storage.googleapis.com/frakti/frakti -o /usr/bin/frakti</div><div class="line">chmod +x /usr/bin/frakti</div><div class="line">cat &lt;&lt;EOF &gt; /lib/systemd/system/frakti.service</div><div class="line">[Unit]</div><div class="line">Description=Hypervisor-based container runtime <span class="keyword">for</span> Kubernetes</div><div class="line">Documentation=https://github.com/kubernetes/frakti</div><div class="line">After=network.target</div><div class="line"></div><div class="line">[Service]</div><div class="line">ExecStart=/usr/bin/frakti --v=3 \</div><div class="line">          --log-dir=/var/<span class="built_in">log</span>/frakti \</div><div class="line">          --logtostderr=<span class="literal">false</span> \</div><div class="line">          --listen=/var/run/frakti.sock \</div><div class="line">          --streaming-server-addr=%H \</div><div class="line">          --hyper-endpoint=127.0.0.1:22318</div><div class="line">MountFlags=shared</div><div class="line">TasksMax=8192</div><div class="line">LimitNOFILE=1048576</div><div class="line">LimitNPROC=1048576</div><div class="line">LimitCORE=infinity</div><div class="line">TimeoutStartSec=0</div><div class="line">Restart=on-abnormal</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div><div class="line">EOF</div><div class="line"></div><div class="line">systemctl <span class="built_in">enable</span> frakti</div><div class="line">systemctl start frakti</div></pre></td></tr></table></figure>
-<h3 id="Install-kubelet"><a href="#Install-kubelet" class="headerlink" title="Install kubelet"></a>Install kubelet</h3><p>On Ubuntu 16.04+:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get update &amp;&amp; apt-get install -y apt-transport-https</div><div class="line">curl <span class="_">-s</span> https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -</div><div class="line">cat &lt;&lt;EOF &gt; /etc/apt/sources.list.d/kubernetes.list</div><div class="line">deb http://apt.kubernetes.io/ kubernetes-xenial-unstable main</div><div class="line">EOF</div><div class="line">apt-get update</div><div class="line">apt-get install -y kubelet kubeadm kubectl kubernetes-cni</div></pre></td></tr></table></figure>
+<h3 id="Install-frakti"><a href="#Install-frakti" class="headerlink" title="Install frakti"></a>Install frakti</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl <span class="_">-s</span>SL https://github.com/kubernetes/frakti/releases/download/v0.1/frakti -o /usr/bin/frakti</div><div class="line">chmod +x /usr/bin/frakti</div><div class="line">cat &lt;&lt;EOF &gt; /lib/systemd/system/frakti.service</div><div class="line">[Unit]</div><div class="line">Description=Hypervisor-based container runtime <span class="keyword">for</span> Kubernetes</div><div class="line">Documentation=https://github.com/kubernetes/frakti</div><div class="line">After=network.target</div><div class="line"></div><div class="line">[Service]</div><div class="line">ExecStart=/usr/bin/frakti --v=3 \</div><div class="line">          --log-dir=/var/<span class="built_in">log</span>/frakti \</div><div class="line">          --logtostderr=<span class="literal">false</span> \</div><div class="line">          --listen=/var/run/frakti.sock \</div><div class="line">          --streaming-server-addr=%H \</div><div class="line">          --hyper-endpoint=127.0.0.1:22318</div><div class="line">MountFlags=shared</div><div class="line">TasksMax=8192</div><div class="line">LimitNOFILE=1048576</div><div class="line">LimitNPROC=1048576</div><div class="line">LimitCORE=infinity</div><div class="line">TimeoutStartSec=0</div><div class="line">Restart=on-abnormal</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h3 id="Install-CNI"><a href="#Install-CNI" class="headerlink" title="Install CNI"></a>Install CNI</h3><p>On Ubuntu 16.04+:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get update &amp;&amp; apt-get install -y apt-transport-https</div><div class="line">curl <span class="_">-s</span> https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -</div><div class="line">cat &lt;&lt;EOF &gt; /etc/apt/sources.list.d/kubernetes.list</div><div class="line">deb http://apt.kubernetes.io/ kubernetes-xenial-unstable main</div><div class="line">EOF</div><div class="line">apt-get update</div><div class="line">apt-get install -y kubernetes-cni</div></pre></td></tr></table></figure>
 <p>On CentOS 7:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</div><div class="line">[kubernetes]</div><div class="line">name=Kubernetes</div><div class="line">baseurl=http://yum.kubernetes.io/repos/kubernetes-el7-x86_64-unstable</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">repo_gpgcheck=1</div><div class="line">gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg</div><div class="line">       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg</div><div class="line">EOF</div><div class="line">setenforce 0</div><div class="line">yum install -y kubelet kubeadm kubectl kubernetes-cni</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</div><div class="line">[kubernetes]</div><div class="line">name=Kubernetes</div><div class="line">baseurl=http://yum.kubernetes.io/repos/kubernetes-el7-x86_64-unstable</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">repo_gpgcheck=1</div><div class="line">gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg</div><div class="line">       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg</div><div class="line">EOF</div><div class="line">setenforce 0</div><div class="line">yum install -y kubernetes-cni</div></pre></td></tr></table></figure>
+<p>Configure CNI networks:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p /etc/cni/net.d</div><div class="line">cat &gt;/etc/cni/net.d/10-mynet.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"mynet"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"bridge"</span>,</div><div class="line">    <span class="string">"bridge"</span>: <span class="string">"cni0"</span>,</div><div class="line">    <span class="string">"isGateway"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipMasq"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipam"</span>: &#123;</div><div class="line">        <span class="string">"type"</span>: <span class="string">"host-local"</span>,</div><div class="line">        <span class="string">"subnet"</span>: <span class="string">"10.244.0.0/16"</span>,</div><div class="line">        <span class="string">"routes"</span>: [</div><div class="line">            &#123; <span class="string">"dst"</span>: <span class="string">"0.0.0.0/0"</span>  &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">EOF</div><div class="line">cat &gt;/etc/cni/net.d/99-loopback.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"loopback"</span></div><div class="line">&#125;</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h3 id="Start-frakti"><a href="#Start-frakti" class="headerlink" title="Start frakti"></a>Start frakti</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">systemctl <span class="built_in">enable</span> frakti</div><div class="line">systemctl start frakti</div></pre></td></tr></table></figure>
+<h3 id="Install-kubelet"><a href="#Install-kubelet" class="headerlink" title="Install kubelet"></a>Install kubelet</h3><p>On Ubuntu 16.04+:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install -y kubelet kubeadm kubectl</div></pre></td></tr></table></figure>
+<p>On CentOS 7:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y kubelet kubeadm kubectl</div></pre></td></tr></table></figure>
 <blockquote>
 <p>Note that there are no kubernete v1.6 rpms on <code>yum.kubernetes.io</code>, so it needs to be fetched from <code>dl.k8s.io</code>:</p>
 </blockquote>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Download latest release of kubelet and kubectl</span></div><div class="line"><span class="comment"># <span class="doctag">TODO:</span> remove this after the stable v1.6 release</span></div><div class="line">curl -SL https://dl.k8s.io/v1.6.0-beta.4/kubernetes-server-linux-amd64.tar.gz -o kubernetes-server-linux-amd64.tar.gz</div><div class="line">tar zxvf kubernetes-server-linux-amd64.tar.gz</div><div class="line">/bin/cp <span class="_">-f</span> kubernetes/server/bin/&#123;kubelet,kubeadm,kubectl&#125; /usr/bin/</div><div class="line">rm -rf kubernetes-server-linux-amd64.tar.gz</div></pre></td></tr></table></figure>
-<p>Configure cni network:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p /etc/cni/net.d</div><div class="line">cat &gt;/etc/cni/net.d/10-mynet.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"mynet"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"bridge"</span>,</div><div class="line">    <span class="string">"bridge"</span>: <span class="string">"cni0"</span>,</div><div class="line">    <span class="string">"isGateway"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipMasq"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"ipam"</span>: &#123;</div><div class="line">        <span class="string">"type"</span>: <span class="string">"host-local"</span>,</div><div class="line">        <span class="string">"subnet"</span>: <span class="string">"10.244.0.0/16"</span>,</div><div class="line">        <span class="string">"routes"</span>: [</div><div class="line">            &#123; <span class="string">"dst"</span>: <span class="string">"0.0.0.0/0"</span>  &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">EOF</div><div class="line">cat &gt;/etc/cni/net.d/99-loopback.conf &lt;&lt;-EOF</div><div class="line">&#123;</div><div class="line">    <span class="string">"cniVersion"</span>: <span class="string">"0.3.0"</span>,</div><div class="line">    <span class="string">"type"</span>: <span class="string">"loopback"</span></div><div class="line">&#125;</div><div class="line">EOF</div></pre></td></tr></table></figure>
 <p>Configure kubelet with frakti runtime:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">sed -i <span class="string">'2 i\Environment="KUBELET_EXTRA_ARGS=--container-runtime=remote --container-runtime-endpoint=/var/run/frakti.sock --feature-gates=AllAlpha=true"'</span> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf</div></pre></td></tr></table></figure>
 <h2 id="Setting-up-the-master-node"><a href="#Setting-up-the-master-node" class="headerlink" title="Setting up the master node"></a>Setting up the master node</h2><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># export KUBE_HYPERKUBE_IMAGE=</span></div><div class="line">kubeadm init kubeadm init --pod-network-cidr 10.244.0.0/16 --kubernetes-version latest</div></pre></td></tr></table></figure>
@@ -699,7 +705,7 @@ Setting u">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cluster-deploying-of-frakti"><span class="nav-number">1.</span> <span class="nav-text">Cluster deploying of frakti</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-packages"><span class="nav-number">1.2.</span> <span class="nav-text">Install packages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-hyperd"><span class="nav-number">1.2.1.</span> <span class="nav-text">Install hyperd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-docker"><span class="nav-number">1.2.2.</span> <span class="nav-text">Install docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-frakti"><span class="nav-number">1.2.3.</span> <span class="nav-text">Install frakti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-kubelet"><span class="nav-number">1.2.4.</span> <span class="nav-text">Install kubelet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-the-master-node"><span class="nav-number">1.3.</span> <span class="nav-text">Setting up the master node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-the-worker-nodes"><span class="nav-number">1.4.</span> <span class="nav-text">Setting up the worker nodes</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cluster-deploying-of-frakti"><span class="nav-number">1.</span> <span class="nav-text">Cluster deploying of frakti</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-packages"><span class="nav-number">1.2.</span> <span class="nav-text">Install packages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-hyperd"><span class="nav-number">1.2.1.</span> <span class="nav-text">Install hyperd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-docker"><span class="nav-number">1.2.2.</span> <span class="nav-text">Install docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-frakti"><span class="nav-number">1.2.3.</span> <span class="nav-text">Install frakti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-CNI"><span class="nav-number">1.2.4.</span> <span class="nav-text">Install CNI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Start-frakti"><span class="nav-number">1.2.5.</span> <span class="nav-text">Start frakti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-kubelet"><span class="nav-number">1.2.6.</span> <span class="nav-text">Install kubelet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-the-master-node"><span class="nav-number">1.3.</span> <span class="nav-text">Setting up the master node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-the-worker-nodes"><span class="nav-number">1.4.</span> <span class="nav-text">Setting up the worker nodes</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
