@@ -86,21 +86,19 @@
 
 
 
-<meta name="description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。
-什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
+<meta name="description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。 什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
+<meta name="keywords" content="kubernetes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes container runtime interface">
 <meta property="og:url" content="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。
-什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
+<meta property="og:description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。 什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
 <meta property="og:image" content="http://feisky.xyz/images/createpod.png">
 <meta property="og:image" content="http://feisky.xyz/images/killpod.png">
-<meta property="og:updated_time" content="2017-04-03T01:05:34.771Z">
+<meta property="og:updated_time" content="2017-04-05T01:06:30.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes container runtime interface">
-<meta name="twitter:description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。
-什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
+<meta name="twitter:description" content="题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。 什么是CRICRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker">
 <meta name="twitter:image" content="http://feisky.xyz/images/createpod.png">
 
 
@@ -496,16 +494,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/11/Kubernetes中的服务发现与负载均衡/" rel="next" title="Kubernetes中的服务发现与负载均衡">
-                <i class="fa fa-chevron-left"></i> Kubernetes中的服务发现与负载均衡
+              <a href="/2016/11/14/KubeCon-2016见闻/" rel="next" title="KubeCon/CloudNativeCon 2016见闻">
+                <i class="fa fa-chevron-left"></i> KubeCon/CloudNativeCon 2016见闻
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/14/KubeCon-2016见闻/" rel="prev" title="KubeCon/CloudNativeCon 2016见闻">
-                KubeCon/CloudNativeCon 2016见闻 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/11/Kubernetes中的服务发现与负载均衡/" rel="prev" title="Kubernetes中的服务发现与负载均衡">
+                Kubernetes中的服务发现与负载均衡 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
