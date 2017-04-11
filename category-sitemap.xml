@@ -1,105 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://feisky.xyz</loc>
+        <loc>https://feiskyer.github.io</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/vagrant/</loc>
-        <lastmod>2017-04-10T11:26:33.470Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/vagrant/</loc>
+        <lastmod>2017-04-11T14:00:52.663Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/mesos/</loc>
-        <lastmod>2017-04-10T11:26:33.470Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/mesos/</loc>
+        <lastmod>2017-04-11T14:00:52.663Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/linux/</loc>
-        <lastmod>2017-04-10T11:26:33.470Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/linux/</loc>
+        <lastmod>2017-04-11T14:00:52.667Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Docker/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/Docker/</loc>
+        <lastmod>2017-04-11T14:00:52.667Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Linux/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/SDN/</loc>
+        <lastmod>2017-04-11T14:00:52.667Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/OpenStack/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/Book/</loc>
+        <lastmod>2017-04-11T14:00:52.667Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/SDN/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/docker/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Networking/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/Linux/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/kubernetes/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/OpenStack/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Kubernetes/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/Readings/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Book/</loc>
-        <lastmod>2017-04-10T11:26:33.474Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/Networking/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/docker/</loc>
-        <lastmod>2017-04-10T11:26:33.478Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/kubernetes/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/Readings/</loc>
-        <lastmod>2017-04-10T11:26:33.478Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/Kubernetes/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://feisky.xyz/categories/cluster/</loc>
-        <lastmod>2017-04-10T11:26:33.478Z</lastmod>
+        <loc>https://feiskyer.github.io/categories/cluster/</loc>
+        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
