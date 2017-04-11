@@ -2,23 +2,23 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <sitemap>
-        <loc>https://feiskyer.github.io/post-sitemap.xml</loc>
-        <lastmod>2017-04-11T14:00:52.671Z</lastmod>
+        <loc>http://feisky.xyz/post-sitemap.xml</loc>
+        <lastmod>2017-04-11T14:18:33.036Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://feiskyer.github.io/page-sitemap.xml</loc>
-        <lastmod>2017-04-11T14:00:53.171Z</lastmod>
+        <loc>http://feisky.xyz/page-sitemap.xml</loc>
+        <lastmod>2017-04-11T14:18:33.532Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://feiskyer.github.io/category-sitemap.xml</loc>
-        <lastmod>2017-04-11T14:00:52.663Z</lastmod>
+        <loc>http://feisky.xyz/category-sitemap.xml</loc>
+        <lastmod>2017-04-11T14:18:33.028Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://feiskyer.github.io/tag-sitemap.xml</loc>
-        <lastmod>2017-04-11T14:00:52.663Z</lastmod>
+        <loc>http://feisky.xyz/tag-sitemap.xml</loc>
+        <lastmod>2017-04-11T14:18:33.028Z</lastmod>
     </sitemap>
 
 </sitemapindex>
