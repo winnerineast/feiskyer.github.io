@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="systemtapUseful systemtap scripts.  Documentation: https://sourceware.org/systemtap/documentation.html Examples: https://sourceware.org/systemtap/wiki  setup for ubuntu: 1.install systemtap  $sudo apt">
+<meta name="description" content="systemtapSystemTap是DTrace的Linux实现，它把用户提供的脚本转换为内核模块来执行，用来监测和跟踪内核事件。 安装注意，较新的内核不支持systemtap。 Ubuntusudo apt-get install -y systemtap-runtime systemtap  echo &amp;quot;deb http://ddebs.ubuntu.com $(lsb_relea">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Feisky's Blog">
 <meta property="og:url" content="http://feisky.xyz/tracing/systemtap/index.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="systemtapUseful systemtap scripts.  Documentation: https://sourceware.org/systemtap/documentation.html Examples: https://sourceware.org/systemtap/wiki  setup for ubuntu: 1.install systemtap  $sudo apt">
-<meta property="og:updated_time" content="2017-04-18T04:59:26.887Z">
+<meta property="og:description" content="systemtapSystemTap是DTrace的Linux实现，它把用户提供的脚本转换为内核模块来执行，用来监测和跟踪内核事件。 安装注意，较新的内核不支持systemtap。 Ubuntusudo apt-get install -y systemtap-runtime systemtap  echo &amp;quot;deb http://ddebs.ubuntu.com $(lsb_relea">
+<meta property="og:updated_time" content="2017-04-19T04:41:30.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
-<meta name="twitter:description" content="systemtapUseful systemtap scripts.  Documentation: https://sourceware.org/systemtap/documentation.html Examples: https://sourceware.org/systemtap/wiki  setup for ubuntu: 1.install systemtap  $sudo apt">
+<meta name="twitter:description" content="systemtapSystemTap是DTrace的Linux实现，它把用户提供的脚本转换为内核模块来执行，用来监测和跟踪内核事件。 安装注意，较新的内核不支持systemtap。 Ubuntusudo apt-get install -y systemtap-runtime systemtap  echo &amp;quot;deb http://ddebs.ubuntu.com $(lsb_relea">
 
 
 
@@ -369,18 +369,9 @@
   <div id="posts" class="posts-expand">
     
     
-      <h1 id="systemtap"><a href="#systemtap" class="headerlink" title="systemtap"></a>systemtap</h1><p>Useful systemtap scripts.</p>
-<ul>
-<li>Documentation: <a href="https://sourceware.org/systemtap/documentation.html" target="_blank" rel="external">https://sourceware.org/systemtap/documentation.html</a></li>
-<li>Examples: <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">https://sourceware.org/systemtap/wiki</a></li>
-</ul>
-<p>setup for ubuntu:</p>
-<pre><code>1.install systemtap
-
-$sudo apt-get install systemtap
-$sudo apt-get install systemtap-runtime
-
-2.install kernel-debug-info
+      <h1 id="systemtap"><a href="#systemtap" class="headerlink" title="systemtap"></a>systemtap</h1><p>SystemTap是DTrace的Linux实现，它把用户提供的脚本转换为内核模块来执行，用来监测和跟踪内核事件。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>注意，较新的内核不支持systemtap。</p>
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><pre><code>sudo apt-get install -y systemtap-runtime systemtap
 
 echo &quot;deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse&quot; | \
 sudo tee -a /etc/apt/sources.list.d/ddebs.list
@@ -391,10 +382,14 @@ sudo tee -a /etc/apt/sources.list.d/ddebs.list
 
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 428D7C01
 sudo apt-get update
-sudo apt-get install linux-image-$(uname -r)-dbgsym
-</code></pre><p>setup for fedora:</p>
-<pre><code>yum install systemtap kernel-devel debuginfo-install kernel
-</code></pre>
+sudo apt-get install linux-image-$(uname -r)-dbgsym -y
+</code></pre><h3 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h3><pre><code>yum install systemtap kernel-devel debuginfo-install kernel
+</code></pre><h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li>Documentation: <a href="https://sourceware.org/systemtap/documentation.html" target="_blank" rel="external">https://sourceware.org/systemtap/documentation.html</a></li>
+<li>Examples: <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">https://sourceware.org/systemtap/wiki</a></li>
+<li><a href="https://taozj.org/201703/systemtap-intro.html" target="_blank" rel="external">https://taozj.org/201703/systemtap-intro.html</a></li>
+</ul>
+
     
   </div>
 
@@ -455,7 +450,7 @@ sudo apt-get install linux-image-$(uname -r)-dbgsym
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">101</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -546,7 +541,7 @@ sudo apt-get install linux-image-$(uname -r)-dbgsym
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#systemtap"><span class="nav-number">1.</span> <span class="nav-text">systemtap</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#systemtap"><span class="nav-number">1.</span> <span class="nav-text">systemtap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu"><span class="nav-number">1.1.1.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CentOS"><span class="nav-number">1.1.2.</span> <span class="nav-text">CentOS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">1.2.</span> <span class="nav-text">参考文档</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

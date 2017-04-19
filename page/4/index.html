@@ -383,6 +383,126 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/19/Setup-hyperd-with-flannel-network/" itemprop="url">
+                  Setup hyperd with flannel network
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-19T15:58:26+08:00" content="2016-07-19">
+              2016-07-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/19/Setup-hyperd-with-flannel-network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/19/Setup-hyperd-with-flannel-network/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
+<p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
+<p>flannel runs an agent, flanneld, on each host and is responsible for allocating a subnet lease out of a preconfigured address space. flannel uses etcd to store the network configuration, allocated subnets, and auxiliary data (such as host’s IP). The forwarding of packets is achieved using one of several strategies that are known as backends. The simplest backend is udp and uses a TUN device to encapsulate every IP fragment in a UDP packet, forming an overlay network. The following diagram demonstrates the path a packet takes as it traverses the overlay network:</p>
+<p><img src="/images/14689151388980.jpg" alt=""></p>
+<h1 id="Flannel-install"><a href="#Flannel-install" class="headerlink" title="Flannel install"></a>Flannel install</h1><p>First install etcd:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.3/etcd-v3.0.3-linux-amd64.tar.gz -o etcd-v3.0.3-linux-amd64.tar.gz</div><div class="line">tar xzvf etcd-v3.0.3-linux-amd64.tar.gz</div><div class="line">cp etcd-v3.0.3-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin</div><div class="line">rm -rf etcd-v3.0.3-linux-amd64 etcd-v3.0.3-linux-amd64.tar.gz</div></pre></td></tr></table></figure>
+<p>Then, install flannel:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl -L https://github.com/coreos/flannel/releases/download/v0.5.5/flannel-0.5.5-linux-amd64.tar.gz -o flannel-0.5.5-linux-amd64.tar.gz</div><div class="line">tar zxvf flannel-0.5.5-linux-amd64.tar.gz</div><div class="line">cp flannel-0.5.5/flanneld /usr/bin</div><div class="line">rm -rf flannel-0.5.5*</div></pre></td></tr></table></figure>
+<p>Start etcd and setup default network:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">nohup etcd --advertise-client-urls <span class="string">'http://192.168.33.10:2379'</span> --listen-client-urls <span class="string">'http://192.168.33.10:2379'</span> &amp;</div><div class="line">etcdctl --endpoints=192.168.33.10:2379 <span class="built_in">set</span> /coreos.com/network/config  <span class="string">'&#123; "Network": "172.168.0.0/16", "Backend": &#123; "Type": "vxlan", "VNI": 2000 &#125; &#125;'</span></div></pre></td></tr></table></figure>
+<p>Start flanneld on all nodes:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">nohup flanneld -etcd-endpoints=http://192.168.33.10:2379 -iface=eth1 &amp;</div></pre></td></tr></table></figure>
+<h1 id="Hyperd-install"><a href="#Hyperd-install" class="headerlink" title="Hyperd install"></a>Hyperd install</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install qemu-system-x86 -y</div><div class="line">curl <span class="_">-s</span>SL http://hypercontainer.io/install | bash</div></pre></td></tr></table></figure>
+<p>Configure hyperd to use subnet provided by flannel：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">source</span> /run/flannel/subnet.env</div><div class="line">brctl addbr docker0</div><div class="line">ip addr add dev docker0 <span class="variable">$&#123;FLANNEL_SUBNET&#125;</span></div><div class="line">ip link <span class="built_in">set</span> docker0 up</div><div class="line"></div><div class="line">cat &gt;/etc/hyper/config &lt;&lt;EOF</div><div class="line">Kernel=/var/lib/hyper/kernel</div><div class="line">Initrd=/var/lib/hyper/hyper-initrd.img</div><div class="line">Hypervisor=qemu</div><div class="line">StorageDriver=devicemapper</div><div class="line">Bridge=docker0</div><div class="line">BridgeIP=<span class="variable">$&#123;FLANNEL_SUBNET&#125;</span></div><div class="line">EOF</div><div class="line"></div><div class="line">nohup hyperd --nondaemon --v=3 &amp;</div></pre></td></tr></table></figure>
+<h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">root@s2:~<span class="comment"># hyper run -d busybox</span></div><div class="line">POD id is pod-hZviZLulsb</div><div class="line">Time to run a POD is 3648 ms</div><div class="line">root@s2:~<span class="comment"># hyper exec pod-hZviZLulsb ip addr</span></div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</div><div class="line">    link/ether 52:54:51:e5:db:2f brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.168.12.3/24 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::5054:51ff:fee5:db2f/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line"></div><div class="line">root@s1:~<span class="comment"># hyper run -d busybox</span></div><div class="line">POD id is pod-GbccOdYKjK</div><div class="line">Time to run a POD is 3631 ms</div><div class="line">root@s1:~<span class="comment"># hyper exec pod-GbccOdYKjK ip addr</span></div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</div><div class="line">    link/ether 52:54:da:0c:b6:<span class="built_in">cd</span> brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.168.95.3/24 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::5054:daff:fe0c:b6<span class="built_in">cd</span>/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@s1:~<span class="comment"># hyper exec pod-GbccOdYKjK ping -c3 172.168.12.3</span></div><div class="line">PING 172.168.12.3 (172.168.12.3): 56 data bytes</div><div class="line">64 bytes from 172.168.12.3: seq=0 ttl=62 time=57.400 ms</div><div class="line">64 bytes from 172.168.12.3: seq=1 ttl=62 time=6.563 ms</div><div class="line">64 bytes from 172.168.12.3: seq=2 ttl=62 time=1.580 ms</div><div class="line"></div><div class="line">--- 172.168.12.3 ping statistics ---</div><div class="line">3 packets transmitted, 3 packets received, 0% packet loss</div><div class="line">round-trip min/avg/max = 1.580/21.847/57.400 ms</div></pre></td></tr></table></figure>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://github.com/coreos/flannel" target="_blank" rel="external">https://github.com/coreos/flannel</a></li>
+<li><a href="http://docs.hypercontainer.io/get_started/install/linux.html" target="_blank" rel="external">http://docs.hypercontainer.io/get_started/install/linux.html</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/24/Play-with-docker-v1-12/" itemprop="url">
                   Play with docker v1.12
                 </a>
@@ -898,123 +1018,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/11/How-docker-1-11-share-network-accross-containers/" itemprop="url">
-                  How docker 1.11 share network accross containers
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-11T10:25:06+08:00" content="2016-05-11">
-              2016-05-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/11/How-docker-1-11-share-network-accross-containers/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/11/How-docker-1-11-share-network-accross-containers/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
-<p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -itd --net=container:75599a6f387b alpine sh</div></pre></td></tr></table></figure>
-<p>This will generate a runc <code>config.json</code> as follows:</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"ociVersion"</span>: <span class="string">"0.6.0-dev"</span>,</div><div class="line">    <span class="attr">"platform"</span>: &#123;</div><div class="line">        <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">        <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"process"</span>: &#123;</div><div class="line">        <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">"user"</span>: &#123;</div><div class="line">            <span class="attr">"additionalGids"</span>: [</div><div class="line">                <span class="number">0</span>,</div><div class="line">                <span class="number">1</span>,</div><div class="line">                <span class="number">2</span>,</div><div class="line">                <span class="number">3</span>,</div><div class="line">                <span class="number">4</span>,</div><div class="line">                <span class="number">6</span>,</div><div class="line">                <span class="number">10</span>,</div><div class="line">                <span class="number">11</span>,</div><div class="line">                <span class="number">20</span>,</div><div class="line">                <span class="number">26</span>,</div><div class="line">                <span class="number">27</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"args"</span>: [</div><div class="line">            <span class="string">"sh"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"env"</span>: [</div><div class="line">            <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">            <span class="string">"HOSTNAME=75599a6f387b"</span>,</div><div class="line">            <span class="string">"TERM=xterm"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"cwd"</span>: <span class="string">"/"</span>,</div><div class="line">        <span class="attr">"capabilities"</span>: [</div><div class="line">            <span class="string">"CAP_CHOWN"</span>,</div><div class="line">            <span class="string">"CAP_DAC_OVERRIDE"</span>,</div><div class="line">            <span class="string">"CAP_FSETID"</span>,</div><div class="line">            <span class="string">"CAP_FOWNER"</span>,</div><div class="line">            <span class="string">"CAP_MKNOD"</span>,</div><div class="line">            <span class="string">"CAP_NET_RAW"</span>,</div><div class="line">            <span class="string">"CAP_SETGID"</span>,</div><div class="line">            <span class="string">"CAP_SETUID"</span>,</div><div class="line">            <span class="string">"CAP_SETFCAP"</span>,</div><div class="line">            <span class="string">"CAP_SETPCAP"</span>,</div><div class="line">            <span class="string">"CAP_NET_BIND_SERVICE"</span>,</div><div class="line">            <span class="string">"CAP_SYS_CHROOT"</span>,</div><div class="line">            <span class="string">"CAP_KILL"</span>,</div><div class="line">            <span class="string">"CAP_AUDIT_WRITE"</span></div><div class="line">        ]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"root"</span>: &#123;</div><div class="line">        <span class="attr">"path"</span>: <span class="string">"/var/lib/docker/devicemapper/mnt/d33c7932917e64bde482b437fc3ccaad9a00a04e0cf49e39f9d3be5d71991db6/rootfs"</span>,</div><div class="line">        <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"hostname"</span>: <span class="string">"75599a6f387b"</span>,</div><div class="line">    <span class="attr">"mounts"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"proc"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"strictatime"</span>,</div><div class="line">                <span class="string">"mode=755"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"newinstance"</span>,</div><div class="line">                <span class="string">"ptmxmode=0666"</span>,</div><div class="line">                <span class="string">"mode=0620"</span>,</div><div class="line">                <span class="string">"gid=5"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span>,</div><div class="line">                <span class="string">"ro"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"ro"</span>,</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/resolv.conf"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/resolv.conf"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/hostname"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/hostname"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/hosts"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/hosts"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/d8230e57e88d15515a94138ef512a4271e31d03bb6fb257b3d57a847e70b5c68/shm"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"linux"</span>: &#123;</div><div class="line">        <span class="attr">"resources"</span>: &#123;</div><div class="line">            <span class="attr">"devices"</span>: [</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">3</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">9</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">8</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">0</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">10</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">229</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;</div><div class="line">            ],</div><div class="line">            <span class="attr">"disableOOMKiller"</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">"oomScoreAdj"</span>: <span class="number">0</span>,</div><div class="line">            <span class="attr">"memory"</span>: &#123;</div><div class="line">                <span class="attr">"kernelTCP"</span>: <span class="literal">null</span>,</div><div class="line">                <span class="attr">"swappiness"</span>: <span class="number">18446744073709551615</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">"cpu"</span>: &#123;&#125;,</div><div class="line">            <span class="attr">"pids"</span>: &#123;</div><div class="line">                <span class="attr">"limit"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">"blockIO"</span>: &#123;</div><div class="line">                <span class="attr">"blkioWeight"</span>: <span class="number">0</span></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"cgroupsPath"</span>: <span class="string">"/docker/d8230e57e88d15515a94138ef512a4271e31d03bb6fb257b3d57a847e70b5c68"</span>,</div><div class="line">        <span class="attr">"namespaces"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"network"</span>,</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/proc/14702/ns/net"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"devices"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/zero"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">5</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/null"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">3</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/urandom"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">9</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/random"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">8</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/fuse"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">10</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">229</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"maskedPaths"</span>: [</div><div class="line">            <span class="string">"/proc/kcore"</span>,</div><div class="line">            <span class="string">"/proc/latency_stats"</span>,</div><div class="line">            <span class="string">"/proc/timer_stats"</span>,</div><div class="line">            <span class="string">"/proc/sched_debug"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"readonlyPaths"</span>: [</div><div class="line">            <span class="string">"/proc/asound"</span>,</div><div class="line">            <span class="string">"/proc/bus"</span>,</div><div class="line">            <span class="string">"/proc/fs"</span>,</div><div class="line">            <span class="string">"/proc/irq"</span>,</div><div class="line">            <span class="string">"/proc/sys"</span>,</div><div class="line">            <span class="string">"/proc/sysrq-trigger"</span></div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>So, it is very clear how it works:</p>
-<ul>
-<li>New container mounts same network namespace <code>/proc/14702/ns/net</code></li>
-<li>New container mounts same network related configs, such as <code>/etc/resolv.conf</code>, <code>/etc/hosts</code> and <code>/etc/hostname</code></li>
-</ul>
-<p>There is still a little problem when first container is deleted: it could be deleted without any warning, but after delete operation, the second container will become not functional:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[~]<span class="comment"># docker ps</span></div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div><div class="line">d8230e57e88d        alpine              <span class="string">"sh"</span>                14 minutes ago      Up 14 minutes                           focused_spence</div><div class="line">[~]<span class="comment"># docker exec d8230e57e88d echo aaa</span></div><div class="line">rpc error: code = 2 desc = <span class="string">"oci runtime error: exec failed: lstat /proc/14702/ns/net: no such file or directory"</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1055,7 +1063,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">101</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

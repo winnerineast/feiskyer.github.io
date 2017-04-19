@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://feisky.xyz/"/>
-  <updated>2017-04-18T04:59:26.391Z</updated>
+  <updated>2017-04-19T04:41:29.656Z</updated>
   <id>http://feisky.xyz/</id>
   
   <author>
@@ -16,11 +16,72 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>LinuxKit</title>
+    <link href="http://feisky.xyz/2017/04/19/LinuxKit/"/>
+    <id>http://feisky.xyz/2017/04/19/LinuxKit/</id>
+    <published>2017-04-19T03:09:53.000Z</published>
+    <updated>2017-04-19T04:41:29.656Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://github.com/linuxkit/linuxkit" target="_blank" rel="external">LinuxKit</a>是Docker最新发布的一个用于为容器构建安全、便携、可移植操作系统的工具包。它根据用户编写的yaml（指定kernel和基于docker image的一些列服务）自动构建一个常见虚拟化平台或云平台的虚拟机镜像，并自动运行起来。主要特性包括</p>
+<ul>
+<li>增强安全性<ul>
+<li>系统安全，基于MirageOS unikernel</li>
+<li>紧跟最新kernel并精简不必要的模块</li>
+<li>Immutable，只读根文件系统，根文件系统只能在构建的时候生成</li>
+<li>社区合作，比如<a href="https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project" target="_blank" rel="external">Kernel Self Protection Project (KSPP)</a>、<a href="https://www.wireguard.io/" target="_blank" rel="external">Wireguard</a>、<a href="https://lwn.net/Articles/698226/" target="_blank" rel="external">Landlock</a>、<a href="https://mirage.io/" target="_blank" rel="external">Mirage</a>、<a href="https://github.com/docker/linuxkit/tree/master/projects/okernel" target="_blank" rel="external">oKernel</a>、Clear Containers等</li>
+</ul>
+</li>
+<li>易用、可扩展<ul>
+<li>所有服务均可定制，且用户服务和系统服务都是基于docker image</li>
+<li>构建过程基于docker</li>
+<li>基于Infrakit方便部署生成的镜像</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/linuxkit/</span>linuxkit <span class="variable">$GOPATH</span><span class="regexp">/src/gi</span>thub.com<span class="regexp">/linuxkit/</span>linuxkit</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h4 id="编写yaml"><a href="#编写yaml" class="headerlink" title="编写yaml"></a>编写yaml</h4><p>LinuxKit需要编写一个yaml文件，来配置所需要的服务。可选的配置包括</p>
+<ul>
+<li>kernel：指定内核镜像，镜像里面需要包含bzImage和kernel.tar</li>
+<li>init：指定根系统的docker镜像（ base init process Docker images），比如init、runc、containerd等。在运行时，这些都是只读的</li>
+<li>onboot：启动过程中执行的系统服务，按顺序逐个运行</li>
+<li>services：基于docker镜像的系统服务，这些服务在build的时候会由docker将其转换为OCI格式，以便后续runc来启动</li>
+<li>files：指定额外的文件</li>
+<li>outputs：构建完成后的输出</li>
+</ul>
+<p>比如一个简单的nginx服务为</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">kernel:</span></div><div class="line"><span class="attr">  image:</span> <span class="string">"mobylinux/kernel:4.9.x"</span></div><div class="line"><span class="attr">  cmdline:</span> <span class="string">"console=ttyS0 console=tty0 page_poison=1"</span></div><div class="line"><span class="attr">init:</span></div><div class="line"><span class="bullet">  -</span> <span class="string">linuxkit/init:42fe8cb1508b3afed39eb89821906e3cc7a70551</span></div><div class="line"><span class="bullet">  -</span> <span class="string">mobylinux/runc:b0fb122e10dbb7e4e45115177a61a3f8d68c19a9</span></div><div class="line"><span class="bullet">  -</span> <span class="string">linuxkit/containerd:60e2486a74c665ba4df57e561729aec20758daed</span></div><div class="line"><span class="bullet">  -</span> <span class="string">mobylinux/ca-certificates:eabc5a6e59f05aa91529d80e9a595b85b046f935</span></div><div class="line"><span class="attr">onboot:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">sysctl</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"mobylinux/sysctl:2cf2f9d5b4d314ba1bfc22b2fe931924af666d8c"</span></div><div class="line"><span class="attr">    net:</span> <span class="string">host</span></div><div class="line"><span class="attr">    pid:</span> <span class="string">host</span></div><div class="line"><span class="attr">    ipc:</span> <span class="string">host</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SYS_ADMIN</span></div><div class="line"><span class="attr">    readonly:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">binfmt</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"linuxkit/binfmt:8881283ac627be1542811bd25c85e7782aebc692"</span></div><div class="line"><span class="attr">    binds:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">/proc/sys/fs/binfmt_misc:/binfmt_misc</span></div><div class="line"><span class="attr">    readonly:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">dhcpcd</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"linuxkit/dhcpcd:48e249ebef6a521eed886b3bce032db69fbb4afa"</span></div><div class="line"><span class="attr">    binds:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">/var:/var</span></div><div class="line"><span class="bullet">     -</span> <span class="string">/tmp/etc:/etc</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_ADMIN</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_BIND_SERVICE</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_RAW</span></div><div class="line"><span class="attr">    net:</span> <span class="string">host</span></div><div class="line"><span class="attr">    command:</span> <span class="string">["/sbin/dhcpcd",</span> <span class="string">"--nobackground"</span><span class="string">,</span> <span class="string">"-f"</span><span class="string">,</span> <span class="string">"/dhcpcd.conf"</span><span class="string">,</span> <span class="string">"-1"</span><span class="string">]</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">rngd</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"mobylinux/rngd:3dad6dd43270fa632ac031e99d1947f20b22eec9"</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SYS_ADMIN</span></div><div class="line"><span class="attr">    oomScoreAdj:</span> <span class="bullet">-800</span></div><div class="line"><span class="attr">    readonly:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"nginx:alpine"</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_BIND_SERVICE</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_CHOWN</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SETUID</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SETGID</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_DAC_OVERRIDE</span></div><div class="line"><span class="attr">    net:</span> <span class="string">host</span></div><div class="line"><span class="attr">files:</span></div><div class="line"><span class="attr">  - path:</span> <span class="string">etc/docker/daemon.json</span></div><div class="line"><span class="attr">    contents:</span> <span class="string">'&#123;"debug": true&#125;'</span></div><div class="line"><span class="attr">trust:</span></div><div class="line"><span class="attr">  image:</span></div><div class="line"><span class="bullet">    -</span> <span class="string">mobylinux/kernel</span></div><div class="line"><span class="attr">outputs:</span></div><div class="line"><span class="attr">  - format:</span> <span class="string">kernel+initrd</span></div><div class="line"><span class="attr">  - format:</span> <span class="string">iso-bios</span></div><div class="line"><span class="attr">  - format:</span> <span class="string">iso-efi</span></div></pre></td></tr></table></figure>
+<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ moby build linuxkit.yml</div><div class="line">Extract kernel image: mobylinux/kernel:4.9.x</div><div class="line">Add init containers:</div><div class="line">Process init image: linuxkit/init:42fe8cb1508b3afed39eb89821906e3cc7a70551</div><div class="line">Process init image: mobylinux/runc:b0fb122e10dbb7e4e45115177a61a3f8d68c19a9</div><div class="line">Process init image: linuxkit/containerd:60e2486a74c665ba4df57e561729aec20758daed</div><div class="line">Process init image: mobylinux/ca-certificates:eabc5a6e59f05aa91529d80e9a595b85b046f935</div><div class="line">Add onboot containers:</div><div class="line">  Create OCI config <span class="keyword">for</span> mobylinux/sysctl:2cf2f9d5b4d314ba1bfc22b2fe931924af666d8c</div><div class="line">  Create OCI config <span class="keyword">for</span> linuxkit/binfmt:8881283ac627be1542811bd25c85e7782aebc692</div><div class="line">  Create OCI config <span class="keyword">for</span> linuxkit/dhcpcd:48e249ebef6a521eed886b3bce032db69fbb4afa</div><div class="line">Add service containers:</div><div class="line">  Create OCI config <span class="keyword">for</span> mobylinux/rngd:3dad6dd43270fa632ac031e99d1947f20b22eec9</div><div class="line">  Create OCI config <span class="keyword">for</span> nginx:alpine</div><div class="line">Add files:</div><div class="line">  etc/docker/daemon.json</div><div class="line">Create outputs:</div><div class="line">  linuxkit-bzImage linuxkit-initrd.img linuxkit-cmdline</div><div class="line">  linuxkit.iso</div><div class="line">  linuxkit-efi.iso</div></pre></td></tr></table></figure>
+<p>编译完成后的文件大约58M。</p>
+<figure class="highlight tap"><table><tr><td class="code"><pre><div class="line">$ ls -lh linuxkit*</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root 6.7M Apr<span class="number"> 19 </span>02:39 linuxkit-bzImage</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  <span class="number"> 40 </span>Apr<span class="number"> 19 </span>02:39 linuxkit-cmdline</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  58M Apr<span class="number"> 19 </span>02:40 linuxkit-efi.iso</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  50M Apr<span class="number"> 19 </span>02:39 linuxkit-initrd.img</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  57M Apr<span class="number"> 19 </span>02:39 linuxkit.iso</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root 1.6K Apr<span class="number"> 19 </span>02:19 linuxkit.yml</div></pre></td></tr></table></figure>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>LinuxKit目前支持在gcp/hyperkit/qemu/vmware/packet/Hyper-V等多个平台上运行。比如用qemu的方式运行：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ moby run qemu linuxkit</div><div class="line">....</div></pre></td></tr></table></figure>
+<p>默认运行后会自动进入VM的console：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">/ <span class="comment"># pstree</span></div><div class="line">init-+-containerd---containerd-shim---nginx---nginx</div><div class="line">     |-containers---ctr</div><div class="line">     |-sh---pstree</div><div class="line">     `-sh</div></pre></td></tr></table></figure>
+<p>参考文档</p>
+<ul>
+<li><a href="https://github.com/linuxkit/linuxkit" target="_blank" rel="external">https://github.com/linuxkit/linuxkit</a></li>
+<li><a href="https://blog.docker.com/2017/04/introducing-linuxkit-container-os-toolkit/" target="_blank" rel="external">ANNOUNCING LINUXKIT: A TOOLKIT FOR BUILDING SECURE, LEAN AND PORTABLE LINUX SUBSYSTEMS</a></li>
+<li><a href="https://gianarb.it/blog/linuxkit-operating-system-build-for-containers" target="_blank" rel="external">LinuxKit operating system built for container</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://github.com/linuxkit/linuxkit&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;LinuxKit&lt;/a&gt;是Docker最新发布的一个用于为容器构建安全、便携、可移植操作系统的工具包。它根据用户编写的
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://feisky.xyz/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Kubernetes HA</title>
     <link href="http://feisky.xyz/2017/03/15/Kubernetes-HA/"/>
     <id>http://feisky.xyz/2017/03/15/Kubernetes-HA/</id>
     <published>2017-03-15T10:12:47.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes从1.5开始，通过<code>kops</code>或者<code>kube-up.sh</code>部署的集群会自动部署一个高可用的系统，包括</p>
 <ul>
@@ -78,7 +139,7 @@
     <link href="http://feisky.xyz/2017/03/03/AWS-S3%E6%95%85%E9%9A%9C%E5%9B%9E%E9%A1%BE%E5%92%8C%E6%80%BB%E7%BB%93/"/>
     <id>http://feisky.xyz/2017/03/03/AWS-S3故障回顾和总结/</id>
     <published>2017-03-03T14:27:50.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<h2 id="S3故障回顾"><a href="#S3故障回顾" class="headerlink" title="S3故障回顾"></a>S3故障回顾</h2><p>2月28日，AWS工程师在排查Northern Virginia (US-EAST-1) Region的一个S3计费问题时，因敲错了一条playbook的参数而误删了大量的s3控制服务引发了4小时的故障。这个误操作影响了两个S3的核心系统：</p>
 <ul>
@@ -129,7 +190,7 @@
     <link href="http://feisky.xyz/2017/03/03/Gitlab%E6%95%85%E9%9A%9C%E5%9B%9E%E9%A1%BE%E5%92%8C%E6%80%BB%E7%BB%93/"/>
     <id>http://feisky.xyz/2017/03/03/Gitlab故障回顾和总结/</id>
     <published>2017-03-03T14:27:37.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Gitlab故障回顾"><a href="#Gitlab故障回顾" class="headerlink" title="Gitlab故障回顾"></a>Gitlab故障回顾</h2><p>1月31日，Giblab在修复一个PostgreSQL数据同步问题（DB Replication lagged too far behind）时，误将生产环境的数据删除（本来是计划删除db1上的数据，结果发现在错误的db2上操作了）。进而寻求从备份数据恢复，结果发现没有实时备份：</p>
 <ul>
@@ -188,7 +249,7 @@
     <link href="http://feisky.xyz/2017/02/14/Debugging-application-in-containers/"/>
     <id>http://feisky.xyz/2017/02/14/Debugging-application-in-containers/</id>
     <published>2017-02-14T13:24:48.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>对于普通的服务器进程，我们可以很方便的使用宿主机上的各种工具来调试；但容器经常是仅包含必要的应用程序，一般不包含常用的调试工具，那如何在线调试容器中的进程呢？最简单的方法是再起一个新的包含了调试工具的容器。</p>
 <p>来看一个最简单的web容器如何调试。</p>
@@ -232,7 +293,7 @@
     <link href="http://feisky.xyz/2017/02/13/Software-Engineering-at-Google/"/>
     <id>http://feisky.xyz/2017/02/13/Software-Engineering-at-Google/</id>
     <published>2017-02-13T11:36:09.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>Google的Fergus Henderson在<a href="https://arxiv.org/pdf/1702.01715.pdf" target="_blank" rel="external">Software Engineering at Google</a>中介绍了Google的软件工程实践。</p>
 <h2 id="软件开发"><a href="#软件开发" class="headerlink" title="软件开发"></a>软件开发</h2><p>源码仓库</p>
@@ -376,7 +437,7 @@
     <link href="http://feisky.xyz/2017/01/09/%E4%BD%BF%E7%94%A8docker-dind%E5%88%9B%E5%BB%BAswarm%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2017/01/09/使用docker-dind创建swarm集群/</id>
     <published>2017-01-09T13:01:18.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>在OS X系统上，由于Docker for Mac只能创建一台虚拟机，所以要创建多节点swarm集群的话，就需要额外启动其他的虚拟机，并手动安装和配置docker。不过借助dind (docker in docker)，不需要创建额外的虚拟机也可以启动一个swarm集群。</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker swarm init</div><div class="line">SWARM_TOKEN=$(docker swarm join-token -q worker)</div><div class="line">NUM_WORKERS=3 </div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq <span class="string">"<span class="variable">$&#123;NUM_WORKERS&#125;</span>"</span>); <span class="keyword">do</span></div><div class="line">    docker run <span class="_">-d</span> --privileged --name worker-<span class="variable">$&#123;i&#125;</span> --hostname=worker-<span class="variable">$&#123;i&#125;</span> --restart=always -p <span class="variable">$&#123;i&#125;</span>2375:2375 docker:1.12-dind</div><div class="line">    docker --host=localhost:<span class="variable">$&#123;i&#125;</span>2375 swarm join --token <span class="variable">$&#123;SWARM_TOKEN&#125;</span> <span class="variable">$&#123;SWARM_MASTER&#125;</span>:2377</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
@@ -404,7 +465,7 @@
     <link href="http://feisky.xyz/2017/01/05/Grumpy-%E4%BD%BF%E7%94%A8Go%E6%9D%A5%E8%BF%90%E8%A1%8CPython%E7%A8%8B%E5%BA%8F/"/>
     <id>http://feisky.xyz/2017/01/05/Grumpy-使用Go来运行Python程序/</id>
     <published>2017-01-05T09:11:09.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy" target="_blank" rel="external">https://github.com/google/grumpy</a>）的把Python程序编译成Go程序的工具，主要是为了解决Python GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
 <p>Grumpy还在开发中，也还没有在Google的生产环境中使用，很多系统库还没有完成翻译，并且也不支持各种外部库和C扩展。虽然如此，Grumpy仍然是一个值得关注的有趣项目（Github已经有2700+的star）。</p>
@@ -427,7 +488,7 @@
     <link href="http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/"/>
     <id>http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/</id>
     <published>2016-12-13T03:51:29.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p><strong>Update on 2016.12.14:</strong></p>
 <p>Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.</p>
@@ -612,7 +673,7 @@
     <link href="http://feisky.xyz/2016/12/08/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/08/Weekly-reading-list/</id>
     <published>2016-12-08T06:00:22.000Z</published>
-    <updated>2017-04-18T04:59:26.391Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker收购Infinit-PDF"><a href="#Docker收购Infinit-PDF" class="headerlink" title="Docker收购Infinit PDF"></a><a href="https://blog.docker.com/2016/12/docker-acquires-infinit/" target="_blank" rel="external">Docker收购Infinit</a> <a href="/assets/infinit.pdf">PDF</a></h1><p><a href="https://infinit.sh/" target="_blank" rel="external">Infinit</a>为容器提供了分布式存储，其特点包括</p>
 <ul>
@@ -739,7 +800,7 @@
     <link href="http://feisky.xyz/2016/12/04/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/04/Weekly-reading-list/</id>
     <published>2016-12-04T23:59:01.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
 <p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
@@ -812,7 +873,7 @@
     <link href="http://feisky.xyz/2016/11/14/KubeCon-2016%E8%A7%81%E9%97%BB/"/>
     <id>http://feisky.xyz/2016/11/14/KubeCon-2016见闻/</id>
     <published>2016-11-14T01:49:52.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>题记：上周去西雅图参加了<a href="http://events.linuxfoundation.org/events/kubecon" target="_blank" rel="external">KubeCon&amp;CloudNativeCon 2016</a>，不仅见到Dawn、Brendan、Tim以及Sig Node的各路大神，还参加了不少有趣的session。</p>
 <h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
@@ -956,7 +1017,7 @@
     <link href="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/"/>
     <id>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</id>
     <published>2016-09-24T22:59:31.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.656Z</updated>
     
     <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
@@ -1008,7 +1069,7 @@
     <link href="http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     <id>http://feisky.xyz/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
     <published>2016-09-11T01:48:09.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -1067,7 +1128,7 @@
     <link href="http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/</id>
     <published>2016-08-24T06:48:44.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
@@ -1128,7 +1189,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/"/>
     <id>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</id>
     <published>2016-07-19T07:58:26.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
@@ -1172,7 +1233,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/"/>
     <id>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</id>
     <published>2016-06-24T04:39:49.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
@@ -1251,7 +1312,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
     <id>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
     <published>2016-06-17T09:12:38.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
@@ -1299,7 +1360,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/"/>
     <id>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</id>
     <published>2016-06-07T05:21:07.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
@@ -1324,7 +1385,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
     <id>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
     <published>2016-06-06T08:10:25.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
+    <updated>2017-04-19T04:41:29.652Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
@@ -1392,39 +1453,6 @@ Available Commands:
     
     
       <category term="Kubernetes" scheme="http://feisky.xyz/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>How docker 1.11 share network accross containers</title>
-    <link href="http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/"/>
-    <id>http://feisky.xyz/2016/05/11/How-docker-1-11-share-network-accross-containers/</id>
-    <published>2016-05-11T02:25:06.000Z</published>
-    <updated>2017-04-18T04:59:26.387Z</updated>
-    
-    <content type="html"><![CDATA[<p>Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.</p>
-<p>For example, I have already running a container 75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706. A new container within same netns can be created with cmd:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker run -itd --net=container:75599a6f387b alpine sh</div></pre></td></tr></table></figure>
-<p>This will generate a runc <code>config.json</code> as follows:</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"ociVersion"</span>: <span class="string">"0.6.0-dev"</span>,</div><div class="line">    <span class="attr">"platform"</span>: &#123;</div><div class="line">        <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">        <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"process"</span>: &#123;</div><div class="line">        <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">"user"</span>: &#123;</div><div class="line">            <span class="attr">"additionalGids"</span>: [</div><div class="line">                <span class="number">0</span>,</div><div class="line">                <span class="number">1</span>,</div><div class="line">                <span class="number">2</span>,</div><div class="line">                <span class="number">3</span>,</div><div class="line">                <span class="number">4</span>,</div><div class="line">                <span class="number">6</span>,</div><div class="line">                <span class="number">10</span>,</div><div class="line">                <span class="number">11</span>,</div><div class="line">                <span class="number">20</span>,</div><div class="line">                <span class="number">26</span>,</div><div class="line">                <span class="number">27</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"args"</span>: [</div><div class="line">            <span class="string">"sh"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"env"</span>: [</div><div class="line">            <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">            <span class="string">"HOSTNAME=75599a6f387b"</span>,</div><div class="line">            <span class="string">"TERM=xterm"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"cwd"</span>: <span class="string">"/"</span>,</div><div class="line">        <span class="attr">"capabilities"</span>: [</div><div class="line">            <span class="string">"CAP_CHOWN"</span>,</div><div class="line">            <span class="string">"CAP_DAC_OVERRIDE"</span>,</div><div class="line">            <span class="string">"CAP_FSETID"</span>,</div><div class="line">            <span class="string">"CAP_FOWNER"</span>,</div><div class="line">            <span class="string">"CAP_MKNOD"</span>,</div><div class="line">            <span class="string">"CAP_NET_RAW"</span>,</div><div class="line">            <span class="string">"CAP_SETGID"</span>,</div><div class="line">            <span class="string">"CAP_SETUID"</span>,</div><div class="line">            <span class="string">"CAP_SETFCAP"</span>,</div><div class="line">            <span class="string">"CAP_SETPCAP"</span>,</div><div class="line">            <span class="string">"CAP_NET_BIND_SERVICE"</span>,</div><div class="line">            <span class="string">"CAP_SYS_CHROOT"</span>,</div><div class="line">            <span class="string">"CAP_KILL"</span>,</div><div class="line">            <span class="string">"CAP_AUDIT_WRITE"</span></div><div class="line">        ]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"root"</span>: &#123;</div><div class="line">        <span class="attr">"path"</span>: <span class="string">"/var/lib/docker/devicemapper/mnt/d33c7932917e64bde482b437fc3ccaad9a00a04e0cf49e39f9d3be5d71991db6/rootfs"</span>,</div><div class="line">        <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"hostname"</span>: <span class="string">"75599a6f387b"</span>,</div><div class="line">    <span class="attr">"mounts"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"proc"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"strictatime"</span>,</div><div class="line">                <span class="string">"mode=755"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"newinstance"</span>,</div><div class="line">                <span class="string">"ptmxmode=0666"</span>,</div><div class="line">                <span class="string">"mode=0620"</span>,</div><div class="line">                <span class="string">"gid=5"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span>,</div><div class="line">                <span class="string">"ro"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"ro"</span>,</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"nosuid"</span>,</div><div class="line">                <span class="string">"noexec"</span>,</div><div class="line">                <span class="string">"nodev"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/resolv.conf"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/resolv.conf"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/hostname"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/hostname"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/etc/hosts"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/75599a6f387b7842c6da57efd38f9742b2ca621782f891402f83852c66dbd706/hosts"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"bind"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"/var/lib/docker/containers/d8230e57e88d15515a94138ef512a4271e31d03bb6fb257b3d57a847e70b5c68/shm"</span>,</div><div class="line">            <span class="attr">"options"</span>: [</div><div class="line">                <span class="string">"rbind"</span>,</div><div class="line">                <span class="string">"rprivate"</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"linux"</span>: &#123;</div><div class="line">        <span class="attr">"resources"</span>: &#123;</div><div class="line">            <span class="attr">"devices"</span>: [</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">3</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">9</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">8</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">0</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">5</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">1</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                    <span class="attr">"major"</span>: <span class="number">10</span>,</div><div class="line">                    <span class="attr">"minor"</span>: <span class="number">229</span>,</div><div class="line">                    <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">                &#125;</div><div class="line">            ],</div><div class="line">            <span class="attr">"disableOOMKiller"</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">"oomScoreAdj"</span>: <span class="number">0</span>,</div><div class="line">            <span class="attr">"memory"</span>: &#123;</div><div class="line">                <span class="attr">"kernelTCP"</span>: <span class="literal">null</span>,</div><div class="line">                <span class="attr">"swappiness"</span>: <span class="number">18446744073709551615</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">"cpu"</span>: &#123;&#125;,</div><div class="line">            <span class="attr">"pids"</span>: &#123;</div><div class="line">                <span class="attr">"limit"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">"blockIO"</span>: &#123;</div><div class="line">                <span class="attr">"blkioWeight"</span>: <span class="number">0</span></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"cgroupsPath"</span>: <span class="string">"/docker/d8230e57e88d15515a94138ef512a4271e31d03bb6fb257b3d57a847e70b5c68"</span>,</div><div class="line">        <span class="attr">"namespaces"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"network"</span>,</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/proc/14702/ns/net"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"devices"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/zero"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">5</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/null"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">3</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/urandom"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">9</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/random"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">1</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">8</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"path"</span>: <span class="string">"/dev/fuse"</span>,</div><div class="line">                <span class="attr">"type"</span>: <span class="string">"c"</span>,</div><div class="line">                <span class="attr">"major"</span>: <span class="number">10</span>,</div><div class="line">                <span class="attr">"minor"</span>: <span class="number">229</span>,</div><div class="line">                <span class="attr">"fileMode"</span>: <span class="number">438</span>,</div><div class="line">                <span class="attr">"uid"</span>: <span class="number">0</span>,</div><div class="line">                <span class="attr">"gid"</span>: <span class="number">0</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"maskedPaths"</span>: [</div><div class="line">            <span class="string">"/proc/kcore"</span>,</div><div class="line">            <span class="string">"/proc/latency_stats"</span>,</div><div class="line">            <span class="string">"/proc/timer_stats"</span>,</div><div class="line">            <span class="string">"/proc/sched_debug"</span></div><div class="line">        ],</div><div class="line">        <span class="attr">"readonlyPaths"</span>: [</div><div class="line">            <span class="string">"/proc/asound"</span>,</div><div class="line">            <span class="string">"/proc/bus"</span>,</div><div class="line">            <span class="string">"/proc/fs"</span>,</div><div class="line">            <span class="string">"/proc/irq"</span>,</div><div class="line">            <span class="string">"/proc/sys"</span>,</div><div class="line">            <span class="string">"/proc/sysrq-trigger"</span></div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>So, it is very clear how it works:</p>
-<ul>
-<li>New container mounts same network namespace <code>/proc/14702/ns/net</code></li>
-<li>New container mounts same network related configs, such as <code>/etc/resolv.conf</code>, <code>/etc/hosts</code> and <code>/etc/hostname</code></li>
-</ul>
-<p>There is still a little problem when first container is deleted: it could be deleted without any warning, but after delete operation, the second container will become not functional:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">[~]<span class="comment"># docker ps</span></div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div><div class="line">d8230e57e88d        alpine              <span class="string">"sh"</span>                14 minutes ago      Up 14 minutes                           focused_spence</div><div class="line">[~]<span class="comment"># docker exec d8230e57e88d echo aaa</span></div><div class="line">rpc error: code = 2 desc = <span class="string">"oci runtime error: exec failed: lstat /proc/14702/ns/net: no such file or directory"</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Docker 1.11 has moved to runc with containerd, I am interested in how it processing shared netns accross containers.&lt;/p&gt;
-&lt;p&gt;For example, 
-    
-    </summary>
-    
-    
-      <category term="docker" scheme="http://feisky.xyz/tags/docker/"/>
     
   </entry>
   

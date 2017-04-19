@@ -383,6 +383,178 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/04/Weekly-reading-list/" itemprop="url">
+                  Weekly reading list
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-05T07:59:01+08:00" content="2016-12-05">
+              2016-12-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Readings/" itemprop="url" rel="index">
+                    <span itemprop="name">Readings</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/04/Weekly-reading-list/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/04/Weekly-reading-list/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
+<p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
+</blockquote>
+<p><img src="/images/14809236732969.jpg" alt=""></p>
+<p><img src="/images/14809236897310.jpg" alt=""></p>
+<ul>
+<li>服务发现与负载均衡<ul>
+<li>集中管理每个服务（包括异构服务）的IP地址</li>
+<li>服务之间RPC调用：服务名+接口名</li>
+<li>路由的同时统计过去一段时间的成功率和时延</li>
+</ul>
+</li>
+<li>支持多种编程语言（通过Protocol buffer生成不同语言的接口），如C/C++、Java、PHP等</li>
+<li>Web化的管理界面(Tomcat)</li>
+<li>存储：Redis cluster</li>
+<li>官方网站：<a href="http://haomiao.qq.com" target="_blank" rel="external">http://haomiao.qq.com</a></li>
+<li>Github：<a href="https://github.com/Tencent/MSEC" target="_blank" rel="external">https://github.com/Tencent/MSEC</a></li>
+</ul>
+<h2 id="Understanding-SELinux-Roles"><a href="#Understanding-SELinux-Roles" class="headerlink" title="Understanding SELinux Roles"></a><a href="http://danwalsh.livejournal.com/75683.html" target="_blank" rel="external">Understanding SELinux Roles</a></h2><p>SELinux label包含4个部分<code>user_u:role_r:type_t:level</code>，每个用户可以访问的角色：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><div class="line"><span class="symbol">semanage</span> user -l</div><div class="line"></div><div class="line">         Labeling   <span class="keyword">MLS/ </span>      <span class="keyword">MLS/ </span>                       </div><div class="line"><span class="keyword">SELinux </span>User    Prefix     MCS Level  MCS Range       <span class="keyword">SELinux </span>Roles</div><div class="line"></div><div class="line"><span class="symbol">guest_u</span>             user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             guest_r</div><div class="line"><span class="symbol">root</span>                    user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        staff_r sysadm_r system_r unconfined_r</div><div class="line"><span class="symbol">staff_u</span>               user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        staff_r sysadm_r system_r unconfined_r</div><div class="line"><span class="symbol">sysadm_u</span>         user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        sysadm_r</div><div class="line"><span class="symbol">system_u</span>          user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        system_r unconfined_r</div><div class="line"><span class="symbol">unconfined_u</span>    user       <span class="built_in">s0</span>         <span class="built_in">s0</span>-<span class="built_in">s0</span>:<span class="built_in">c0</span>.c1023        system_r unconfined_r</div><div class="line"><span class="symbol">user_u</span>               user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             user_r</div><div class="line"><span class="symbol">xguest_u</span>           user       <span class="built_in">s0</span>         <span class="built_in">s0</span>                             xguest_r</div></pre></td></tr></table></figure>
+<ul>
+<li>system_r role is the default role for all processes started at boot</li>
+<li>You can not assign an SELinux user a role that is not listed</li>
+<li>object_r is not really a role, but more of a place holder.  Roles only make sense for processes, not for files</li>
+<li>on the file system.  But the SELinux label requires a role for all labels.  object_r is the role that we use to fill the objects on disks role.  Changing a process to run as object_r or trying to assign a different role to a file will always be denied by the kernel.</li>
+</ul>
+<h2 id="Kompose-a-tool-to-go-from-Docker-compose-to-Kubernetes"><a href="#Kompose-a-tool-to-go-from-Docker-compose-to-Kubernetes" class="headerlink" title="Kompose: a tool to go from Docker-compose to Kubernetes"></a><a href="http://blog.kubernetes.io/2016/11/kompose-tool-go-from-docker-compose-to-kubernetes.html" target="_blank" rel="external">Kompose: a tool to go from Docker-compose to Kubernetes</a></h2><ul>
+<li>把docker-compose.yml或dab转换为kubernetes service+deployment</li>
+<li>Github: <a href="https://github.com/kubernetes-incubator/kompose" target="_blank" rel="external">https://github.com/kubernetes-incubator/kompose</a></li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ kompose <span class="comment">--bundle docker-compose-bundle.dab convert</span></div><div class="line">WARN[<span class="number">0000</span>]: Unsupported key networks - <span class="keyword">ignoring</span></div><div class="line"><span class="built_in">file</span> <span class="string">"redis-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-deployment.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"redis-deployment.json"</span> created</div><div class="line"></div><div class="line">$ kompose -f docker-compose.yml convert</div><div class="line">WARN[<span class="number">0000</span>]: Unsupported key networks - <span class="keyword">ignoring</span></div><div class="line"><span class="built_in">file</span> <span class="string">"redis-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-svc.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"web-deployment.json"</span> created</div><div class="line"><span class="built_in">file</span> <span class="string">"redis-deployment.json"</span> created</div></pre></td></tr></table></figure>
+<h2 id="2016年网络虚拟化趋势"><a href="#2016年网络虚拟化趋势" class="headerlink" title="2016年网络虚拟化趋势"></a><a href="http://www.sdnlab.com/18153.html" target="_blank" rel="external">2016年网络虚拟化趋势</a></h2><ul>
+<li>市场持续升温：NV的市场已经是一个数十亿美元的市场，Cisco、Juniper、Nuage、VMware是NV市场的四大巨头，他们占据了NV市场的绝大多数收入</li>
+<li>思科和VMware公布的数据显示其与NV相关的投资组合在2016年将近30亿美元</li>
+<li>容器化：思科收购ContainerX，VMWare推出vSphere集成容器（VIC）</li>
+</ul>
+<p><img src="/images/14809260496846.jpg" alt=""></p>
+<h2 id="Amazon发布一大波新产品"><a href="#Amazon发布一大波新产品" class="headerlink" title="Amazon发布一大波新产品"></a>Amazon发布一大波新产品</h2><ul>
+<li><a href="https://amazonlightsail.com/" target="_blank" rel="external">Amazon Lightsail</a>：廉价VPS，价格跟LightSale, DO, VULTR, Linode相同。</li>
+<li><a href="https://aws.amazon.com/cn/blogs/aws/developer-preview-ec2-instances-f1-with-programmable-hardware/" target="_blank" rel="external">F1 instance with FPGA</a>：VHDL和Verilog终于有出路了</li>
+<li>今年是机器学习大火的一年，Amazon也随大流（微软、Google）推出了AI服务：<ul>
+<li>Amazon Rekognition图像处理和分析</li>
+<li>Amazon Lex自然语言处理</li>
+<li>Amazon Polly文本到语音的转换</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/cn/snowmobile/" target="_blank" rel="external">AWS Snowmobile</a>：带宽从来都不是问题<br>  <img src="/images/14809265679834.jpg" alt=""></li>
+</ul>
+<h2 id="Linux-bcc-BPF-tcplife"><a href="#Linux-bcc-BPF-tcplife" class="headerlink" title="Linux bcc/BPF tcplife"></a><a href="http://www.brendangregg.com/blog/2016-11-30/linux-bcc-tcplife.html" target="_blank" rel="external">Linux bcc/BPF tcplife</a></h2><figure class="highlight tap"><table><tr><td class="code"><pre><div class="line"><span class="comment"># ./tcplife -D 80</span></div><div class="line">PID   COMM       LADDR           LPORT RADDR           RPORT TX_KB RX_KB MS</div><div class="line">27448 curl       100.66.11.247  <span class="number"> 54146 </span>54.154.224.174 <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>263.85</div><div class="line">27450 curl       100.66.11.247  <span class="number"> 20618 </span>54.154.164.22  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>243.62</div><div class="line">27452 curl       100.66.11.247  <span class="number"> 11480 </span>54.154.43.103  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>231.16</div><div class="line">27454 curl       100.66.11.247  <span class="number"> 31382 </span>54.154.15.7    <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>249.95</div><div class="line">27456 curl       100.66.11.247  <span class="number"> 33416 </span>52.210.59.223  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>545.72</div><div class="line">27458 curl       100.66.11.247  <span class="number"> 16406 </span>52.30.140.35   <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>222.29</div><div class="line">27460 curl       100.66.11.247  <span class="number"> 11634 </span>52.30.133.135  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>217.52</div><div class="line">27462 curl       100.66.11.247  <span class="number"> 25660 </span>52.30.126.182  <span class="number"> 80 </span>      <span class="number"> 0 </span>   <span class="number"> 1 </span>250.81</div><div class="line">[...]</div><div class="line"></div><div class="line"><span class="comment"># ./tcplife -h</span></div><div class="line">usage: tcplife [-h] [-T] [-t] [-w] [-s] [-p PID] [-L LOCALPORT]</div><div class="line">               [-D REMOTEPORT]</div><div class="line"></div><div class="line">Trace the lifespan of TCP sessions and summarize</div><div class="line"></div><div class="line">optional arguments:</div><div class="line">  -h, --help            show this help message and exit</div><div class="line">  -T, --time            include time column on output (HH:MM:SS)</div><div class="line">  -t, --timestamp       include timestamp on output (seconds)</div><div class="line">  -w, --wide            wide column output (fits IPv6 addresses)</div><div class="line">  -s, --csv             comma seperated values output</div><div class="line">  -p PID, --pid PID     trace this PID only</div><div class="line">  -L LOCALPORT, --localport LOCALPORT</div><div class="line">                        comma-separated list of local ports to trace.</div><div class="line">  -D REMOTEPORT, --remoteport REMOTEPORT</div><div class="line">                        comma-separated list of remote ports to trace.</div><div class="line"></div><div class="line">examples:</div><div class="line">    ./tcplife           <span class="comment"># trace all TCP connect()s</span></div><div class="line">    ./tcplife -t        <span class="comment"># include time column (HH:MM:SS)</span></div><div class="line">    ./tcplife -w        <span class="comment"># wider colums (fit IPv6)</span></div><div class="line">    ./tcplife -stT      <span class="comment"># csv output, with times &amp; timestamps</span></div><div class="line">    ./tcplife -p<span class="number"> 181 </span>   <span class="comment"># only trace PID 181</span></div><div class="line">    ./tcplife -L<span class="number"> 80 </span>    <span class="comment"># only trace local port 80</span></div><div class="line">    ./tcplife -L 80,81  <span class="comment"># only trace local ports 80 and 81</span></div><div class="line">    ./tcplife -D<span class="number"> 80 </span>    <span class="comment"># only trace remote port 80</span></div></pre></td></tr></table></figure>
+<h2 id="cgroup-namespace"><a href="#cgroup-namespace" class="headerlink" title="cgroup namespace"></a><a href="http://hustcat.github.io/cgroup-namespace/" target="_blank" rel="external">cgroup namespace</a></h2><p>之前，在一个容器查看/proc/$PID/cgroup，或者在容器挂载cgroup时，会看到整个系统的cgroup信息；在内核从4.6开始，支持cgroup namespace （<a href="https://lwn.net/Articles/618873/" target="_blank" rel="external">https://lwn.net/Articles/618873/</a>）。</p>
+<blockquote>
+<p>(1)可以限制容器的cgroup filesytem视图，使得在容器中也可以安全的使用cgroup；<br>(2)此外，会使容器迁移更加容易；在迁移时，/proc/self/cgroup需要复制到目标机器，这要求容器的cgroup路径是唯一的，否则可能会与目标机器冲突。有了cgroupns，每个容器都有自己的cgroup filesystem视图，不用担心这种冲突。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/14/KubeCon-2016见闻/" itemprop="url">
                   KubeCon/CloudNativeCon 2016见闻
                 </a>
@@ -993,131 +1165,11 @@ Available Commands:
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/19/Setup-hyperd-with-flannel-network/" itemprop="url">
-                  Setup hyperd with flannel network
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-19T15:58:26+08:00" content="2016-07-19">
-              2016-07-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/19/Setup-hyperd-with-flannel-network/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/19/Setup-hyperd-with-flannel-network/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
-<p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
-<p>flannel runs an agent, flanneld, on each host and is responsible for allocating a subnet lease out of a preconfigured address space. flannel uses etcd to store the network configuration, allocated subnets, and auxiliary data (such as host’s IP). The forwarding of packets is achieved using one of several strategies that are known as backends. The simplest backend is udp and uses a TUN device to encapsulate every IP fragment in a UDP packet, forming an overlay network. The following diagram demonstrates the path a packet takes as it traverses the overlay network:</p>
-<p><img src="/images/14689151388980.jpg" alt=""></p>
-<h1 id="Flannel-install"><a href="#Flannel-install" class="headerlink" title="Flannel install"></a>Flannel install</h1><p>First install etcd:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl -L https://github.com/coreos/etcd/releases/download/v3.0.3/etcd-v3.0.3-linux-amd64.tar.gz -o etcd-v3.0.3-linux-amd64.tar.gz</div><div class="line">tar xzvf etcd-v3.0.3-linux-amd64.tar.gz</div><div class="line">cp etcd-v3.0.3-linux-amd64/&#123;etcd,etcdctl&#125; /usr/bin</div><div class="line">rm -rf etcd-v3.0.3-linux-amd64 etcd-v3.0.3-linux-amd64.tar.gz</div></pre></td></tr></table></figure>
-<p>Then, install flannel:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">curl -L https://github.com/coreos/flannel/releases/download/v0.5.5/flannel-0.5.5-linux-amd64.tar.gz -o flannel-0.5.5-linux-amd64.tar.gz</div><div class="line">tar zxvf flannel-0.5.5-linux-amd64.tar.gz</div><div class="line">cp flannel-0.5.5/flanneld /usr/bin</div><div class="line">rm -rf flannel-0.5.5*</div></pre></td></tr></table></figure>
-<p>Start etcd and setup default network:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">nohup etcd --advertise-client-urls <span class="string">'http://192.168.33.10:2379'</span> --listen-client-urls <span class="string">'http://192.168.33.10:2379'</span> &amp;</div><div class="line">etcdctl --endpoints=192.168.33.10:2379 <span class="built_in">set</span> /coreos.com/network/config  <span class="string">'&#123; "Network": "172.168.0.0/16", "Backend": &#123; "Type": "vxlan", "VNI": 2000 &#125; &#125;'</span></div></pre></td></tr></table></figure>
-<p>Start flanneld on all nodes:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">nohup flanneld -etcd-endpoints=http://192.168.33.10:2379 -iface=eth1 &amp;</div></pre></td></tr></table></figure>
-<h1 id="Hyperd-install"><a href="#Hyperd-install" class="headerlink" title="Hyperd install"></a>Hyperd install</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">apt-get install qemu-system-x86 -y</div><div class="line">curl <span class="_">-s</span>SL http://hypercontainer.io/install | bash</div></pre></td></tr></table></figure>
-<p>Configure hyperd to use subnet provided by flannel：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">source</span> /run/flannel/subnet.env</div><div class="line">brctl addbr docker0</div><div class="line">ip addr add dev docker0 <span class="variable">$&#123;FLANNEL_SUBNET&#125;</span></div><div class="line">ip link <span class="built_in">set</span> docker0 up</div><div class="line"></div><div class="line">cat &gt;/etc/hyper/config &lt;&lt;EOF</div><div class="line">Kernel=/var/lib/hyper/kernel</div><div class="line">Initrd=/var/lib/hyper/hyper-initrd.img</div><div class="line">Hypervisor=qemu</div><div class="line">StorageDriver=devicemapper</div><div class="line">Bridge=docker0</div><div class="line">BridgeIP=<span class="variable">$&#123;FLANNEL_SUBNET&#125;</span></div><div class="line">EOF</div><div class="line"></div><div class="line">nohup hyperd --nondaemon --v=3 &amp;</div></pre></td></tr></table></figure>
-<h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">root@s2:~<span class="comment"># hyper run -d busybox</span></div><div class="line">POD id is pod-hZviZLulsb</div><div class="line">Time to run a POD is 3648 ms</div><div class="line">root@s2:~<span class="comment"># hyper exec pod-hZviZLulsb ip addr</span></div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</div><div class="line">    link/ether 52:54:51:e5:db:2f brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.168.12.3/24 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::5054:51ff:fee5:db2f/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line"></div><div class="line">root@s1:~<span class="comment"># hyper run -d busybox</span></div><div class="line">POD id is pod-GbccOdYKjK</div><div class="line">Time to run a POD is 3631 ms</div><div class="line">root@s1:~<span class="comment"># hyper exec pod-GbccOdYKjK ip addr</span></div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</div><div class="line">    link/ether 52:54:da:0c:b6:<span class="built_in">cd</span> brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.168.95.3/24 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::5054:daff:fe0c:b6<span class="built_in">cd</span>/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@s1:~<span class="comment"># hyper exec pod-GbccOdYKjK ping -c3 172.168.12.3</span></div><div class="line">PING 172.168.12.3 (172.168.12.3): 56 data bytes</div><div class="line">64 bytes from 172.168.12.3: seq=0 ttl=62 time=57.400 ms</div><div class="line">64 bytes from 172.168.12.3: seq=1 ttl=62 time=6.563 ms</div><div class="line">64 bytes from 172.168.12.3: seq=2 ttl=62 time=1.580 ms</div><div class="line"></div><div class="line">--- 172.168.12.3 ping statistics ---</div><div class="line">3 packets transmitted, 3 packets received, 0% packet loss</div><div class="line">round-trip min/avg/max = 1.580/21.847/57.400 ms</div></pre></td></tr></table></figure>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://github.com/coreos/flannel" target="_blank" rel="external">https://github.com/coreos/flannel</a></li>
-<li><a href="http://docs.hypercontainer.io/get_started/install/linux.html" target="_blank" rel="external">http://docs.hypercontainer.io/get_started/install/linux.html</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1158,7 +1210,7 @@ Available Commands:
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">101</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -383,6 +383,147 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/19/LinuxKit/" itemprop="url">
+                  LinuxKit
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-04-19T11:09:53+08:00" content="2017-04-19">
+              2017-04-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/19/LinuxKit/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/19/LinuxKit/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/linuxkit/linuxkit" target="_blank" rel="external">LinuxKit</a>是Docker最新发布的一个用于为容器构建安全、便携、可移植操作系统的工具包。它根据用户编写的yaml（指定kernel和基于docker image的一些列服务）自动构建一个常见虚拟化平台或云平台的虚拟机镜像，并自动运行起来。主要特性包括</p>
+<ul>
+<li>增强安全性<ul>
+<li>系统安全，基于MirageOS unikernel</li>
+<li>紧跟最新kernel并精简不必要的模块</li>
+<li>Immutable，只读根文件系统，根文件系统只能在构建的时候生成</li>
+<li>社区合作，比如<a href="https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project" target="_blank" rel="external">Kernel Self Protection Project (KSPP)</a>、<a href="https://www.wireguard.io/" target="_blank" rel="external">Wireguard</a>、<a href="https://lwn.net/Articles/698226/" target="_blank" rel="external">Landlock</a>、<a href="https://mirage.io/" target="_blank" rel="external">Mirage</a>、<a href="https://github.com/docker/linuxkit/tree/master/projects/okernel" target="_blank" rel="external">oKernel</a>、Clear Containers等</li>
+</ul>
+</li>
+<li>易用、可扩展<ul>
+<li>所有服务均可定制，且用户服务和系统服务都是基于docker image</li>
+<li>构建过程基于docker</li>
+<li>基于Infrakit方便部署生成的镜像</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight awk"><table><tr><td class="code"><pre><div class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/linuxkit/</span>linuxkit <span class="variable">$GOPATH</span><span class="regexp">/src/gi</span>thub.com<span class="regexp">/linuxkit/</span>linuxkit</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h4 id="编写yaml"><a href="#编写yaml" class="headerlink" title="编写yaml"></a>编写yaml</h4><p>LinuxKit需要编写一个yaml文件，来配置所需要的服务。可选的配置包括</p>
+<ul>
+<li>kernel：指定内核镜像，镜像里面需要包含bzImage和kernel.tar</li>
+<li>init：指定根系统的docker镜像（ base init process Docker images），比如init、runc、containerd等。在运行时，这些都是只读的</li>
+<li>onboot：启动过程中执行的系统服务，按顺序逐个运行</li>
+<li>services：基于docker镜像的系统服务，这些服务在build的时候会由docker将其转换为OCI格式，以便后续runc来启动</li>
+<li>files：指定额外的文件</li>
+<li>outputs：构建完成后的输出</li>
+</ul>
+<p>比如一个简单的nginx服务为</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">kernel:</span></div><div class="line"><span class="attr">  image:</span> <span class="string">"mobylinux/kernel:4.9.x"</span></div><div class="line"><span class="attr">  cmdline:</span> <span class="string">"console=ttyS0 console=tty0 page_poison=1"</span></div><div class="line"><span class="attr">init:</span></div><div class="line"><span class="bullet">  -</span> <span class="string">linuxkit/init:42fe8cb1508b3afed39eb89821906e3cc7a70551</span></div><div class="line"><span class="bullet">  -</span> <span class="string">mobylinux/runc:b0fb122e10dbb7e4e45115177a61a3f8d68c19a9</span></div><div class="line"><span class="bullet">  -</span> <span class="string">linuxkit/containerd:60e2486a74c665ba4df57e561729aec20758daed</span></div><div class="line"><span class="bullet">  -</span> <span class="string">mobylinux/ca-certificates:eabc5a6e59f05aa91529d80e9a595b85b046f935</span></div><div class="line"><span class="attr">onboot:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">sysctl</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"mobylinux/sysctl:2cf2f9d5b4d314ba1bfc22b2fe931924af666d8c"</span></div><div class="line"><span class="attr">    net:</span> <span class="string">host</span></div><div class="line"><span class="attr">    pid:</span> <span class="string">host</span></div><div class="line"><span class="attr">    ipc:</span> <span class="string">host</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SYS_ADMIN</span></div><div class="line"><span class="attr">    readonly:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">binfmt</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"linuxkit/binfmt:8881283ac627be1542811bd25c85e7782aebc692"</span></div><div class="line"><span class="attr">    binds:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">/proc/sys/fs/binfmt_misc:/binfmt_misc</span></div><div class="line"><span class="attr">    readonly:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">dhcpcd</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"linuxkit/dhcpcd:48e249ebef6a521eed886b3bce032db69fbb4afa"</span></div><div class="line"><span class="attr">    binds:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">/var:/var</span></div><div class="line"><span class="bullet">     -</span> <span class="string">/tmp/etc:/etc</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_ADMIN</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_BIND_SERVICE</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_RAW</span></div><div class="line"><span class="attr">    net:</span> <span class="string">host</span></div><div class="line"><span class="attr">    command:</span> <span class="string">["/sbin/dhcpcd",</span> <span class="string">"--nobackground"</span><span class="string">,</span> <span class="string">"-f"</span><span class="string">,</span> <span class="string">"/dhcpcd.conf"</span><span class="string">,</span> <span class="string">"-1"</span><span class="string">]</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">rngd</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"mobylinux/rngd:3dad6dd43270fa632ac031e99d1947f20b22eec9"</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SYS_ADMIN</span></div><div class="line"><span class="attr">    oomScoreAdj:</span> <span class="bullet">-800</span></div><div class="line"><span class="attr">    readonly:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">    image:</span> <span class="string">"nginx:alpine"</span></div><div class="line"><span class="attr">    capabilities:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_NET_BIND_SERVICE</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_CHOWN</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SETUID</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_SETGID</span></div><div class="line"><span class="bullet">     -</span> <span class="string">CAP_DAC_OVERRIDE</span></div><div class="line"><span class="attr">    net:</span> <span class="string">host</span></div><div class="line"><span class="attr">files:</span></div><div class="line"><span class="attr">  - path:</span> <span class="string">etc/docker/daemon.json</span></div><div class="line"><span class="attr">    contents:</span> <span class="string">'&#123;"debug": true&#125;'</span></div><div class="line"><span class="attr">trust:</span></div><div class="line"><span class="attr">  image:</span></div><div class="line"><span class="bullet">    -</span> <span class="string">mobylinux/kernel</span></div><div class="line"><span class="attr">outputs:</span></div><div class="line"><span class="attr">  - format:</span> <span class="string">kernel+initrd</span></div><div class="line"><span class="attr">  - format:</span> <span class="string">iso-bios</span></div><div class="line"><span class="attr">  - format:</span> <span class="string">iso-efi</span></div></pre></td></tr></table></figure>
+<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ moby build linuxkit.yml</div><div class="line">Extract kernel image: mobylinux/kernel:4.9.x</div><div class="line">Add init containers:</div><div class="line">Process init image: linuxkit/init:42fe8cb1508b3afed39eb89821906e3cc7a70551</div><div class="line">Process init image: mobylinux/runc:b0fb122e10dbb7e4e45115177a61a3f8d68c19a9</div><div class="line">Process init image: linuxkit/containerd:60e2486a74c665ba4df57e561729aec20758daed</div><div class="line">Process init image: mobylinux/ca-certificates:eabc5a6e59f05aa91529d80e9a595b85b046f935</div><div class="line">Add onboot containers:</div><div class="line">  Create OCI config <span class="keyword">for</span> mobylinux/sysctl:2cf2f9d5b4d314ba1bfc22b2fe931924af666d8c</div><div class="line">  Create OCI config <span class="keyword">for</span> linuxkit/binfmt:8881283ac627be1542811bd25c85e7782aebc692</div><div class="line">  Create OCI config <span class="keyword">for</span> linuxkit/dhcpcd:48e249ebef6a521eed886b3bce032db69fbb4afa</div><div class="line">Add service containers:</div><div class="line">  Create OCI config <span class="keyword">for</span> mobylinux/rngd:3dad6dd43270fa632ac031e99d1947f20b22eec9</div><div class="line">  Create OCI config <span class="keyword">for</span> nginx:alpine</div><div class="line">Add files:</div><div class="line">  etc/docker/daemon.json</div><div class="line">Create outputs:</div><div class="line">  linuxkit-bzImage linuxkit-initrd.img linuxkit-cmdline</div><div class="line">  linuxkit.iso</div><div class="line">  linuxkit-efi.iso</div></pre></td></tr></table></figure>
+<p>编译完成后的文件大约58M。</p>
+<figure class="highlight tap"><table><tr><td class="code"><pre><div class="line">$ ls -lh linuxkit*</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root 6.7M Apr<span class="number"> 19 </span>02:39 linuxkit-bzImage</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  <span class="number"> 40 </span>Apr<span class="number"> 19 </span>02:39 linuxkit-cmdline</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  58M Apr<span class="number"> 19 </span>02:40 linuxkit-efi.iso</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  50M Apr<span class="number"> 19 </span>02:39 linuxkit-initrd.img</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root  57M Apr<span class="number"> 19 </span>02:39 linuxkit.iso</div><div class="line">-rw-r--r--<span class="number"> 1 </span>root root 1.6K Apr<span class="number"> 19 </span>02:19 linuxkit.yml</div></pre></td></tr></table></figure>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>LinuxKit目前支持在gcp/hyperkit/qemu/vmware/packet/Hyper-V等多个平台上运行。比如用qemu的方式运行：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ moby run qemu linuxkit</div><div class="line">....</div></pre></td></tr></table></figure>
+<p>默认运行后会自动进入VM的console：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">/ <span class="comment"># pstree</span></div><div class="line">init-+-containerd---containerd-shim---nginx---nginx</div><div class="line">     |-containers---ctr</div><div class="line">     |-sh---pstree</div><div class="line">     `-sh</div></pre></td></tr></table></figure>
+<p>参考文档</p>
+<ul>
+<li><a href="https://github.com/linuxkit/linuxkit" target="_blank" rel="external">https://github.com/linuxkit/linuxkit</a></li>
+<li><a href="https://blog.docker.com/2017/04/introducing-linuxkit-container-os-toolkit/" target="_blank" rel="external">ANNOUNCING LINUXKIT: A TOOLKIT FOR BUILDING SECURE, LEAN AND PORTABLE LINUX SUBSYSTEMS</a></li>
+<li><a href="https://gianarb.it/blog/linuxkit-operating-system-build-for-containers" target="_blank" rel="external">LinuxKit operating system built for container</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/15/Kubernetes-HA/" itemprop="url">
                   Kubernetes HA
                 </a>
@@ -892,237 +1033,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/13/Software-Engineering-at-Google/" itemprop="url">
-                  Software Engineering at Google
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-13T19:36:09+08:00" content="2017-02-13">
-              2017-02-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/13/Software-Engineering-at-Google/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/13/Software-Engineering-at-Google/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Google的Fergus Henderson在<a href="https://arxiv.org/pdf/1702.01715.pdf" target="_blank" rel="external">Software Engineering at Google</a>中介绍了Google的软件工程实践。</p>
-<h2 id="软件开发"><a href="#软件开发" class="headerlink" title="软件开发"></a>软件开发</h2><p>源码仓库</p>
-<ul>
-<li>单一源代码仓库，除了核心配置和安全相关代码，任何工程师都可以访问任何代码，并可以根据需要修改</li>
-<li>所有开发都基于master分支，发布的时候才创建发布分枝</li>
-<li>代码的每个子树都有owner，任何修改都需要owner批准</li>
-</ul>
-<p>Blaze分布式构建系统</p>
-<ul>
-<li>构建和测试存储库中的任何软件通常非常简单和快捷</li>
-<li>开发人员只需要编写BUILD文件，并且每个构建系统仅依赖BUILD文件所声明的文件</li>
-<li>构建系统的优化：可靠，自动跟踪依赖关系，增量构建，缓存构建结果以便复用</li>
-<li>自动代码检查和测试</li>
-</ul>
-<p>代码审查</p>
-<ul>
-<li>完善的代码审查工具，如可视化的Web界面、电子邮件集成、自动展示测试或静态分析的结果</li>
-<li>每个变更都必须由至少另外一人审查，并将审查结果自动复制到项目维护者的邮件列表</li>
-<li>鼓励小的变更，大的变更可以拆分为一系列较小的变更</li>
-</ul>
-<p>测试</p>
-<ul>
-<li>鼓励和广泛使用单元测试，Mocking非常普遍</li>
-<li>广泛使用集成测试和回归测试</li>
-<li>自动测量测试覆盖率</li>
-<li>部署之前进行负载测试，显示关键的metrics，比如延迟、错误率以及它们随请求速率的变化情况</li>
-</ul>
-<p>Bug跟踪</p>
-<ul>
-<li>Google使用名为Buganizer的Bug跟踪系统</li>
-<li>使用标签分类bug</li>
-<li>每个bug都有一个默认的assignee和抄送邮件列表</li>
-</ul>
-<p>编程语言</p>
-<ul>
-<li>鼓励使用C++、Java、Python或Go之一，最小化不同编程语言的数量</li>
-<li>每种语言都有Google风格指南，还有一个公司范围内的可读性培训</li>
-<li>不同语言之前使用基于Protocol Buffers的RPC通信</li>
-<li>为所有语言提供通用的开发工具，比如代码签出、编辑、构建、测试、审查、bug报告等</li>
-</ul>
-<p>调试和分析</p>
-<ul>
-<li>在通用框架中提供调试和代码跟踪工具</li>
-<li>提供用于调试的网络接口检查RPC调用的时间、错误率和频率限制以及资源消耗、性能分析数据等</li>
-</ul>
-<p>发布</p>
-<ul>
-<li>频繁发布（比如每周或每两周），自动化发布任务，提高工程师积极性，允许更多迭代以加快整体速度</li>
-<li>发布分支，将master的修改cherry-pick到发布分支</li>
-<li>发布到staging服务器，测试部分生产流量的副本</li>
-<li>发布到canary服务器，测试真实生产流量的一个子集</li>
-<li>最后逐步发布到所有服务器</li>
-</ul>
-<p>Launch approval</p>
-<ul>
-<li>任何用户可见的更改或重大的设计变更都需要工程团队之外的很多人员的审查和批准，以确保这些变更满足符合法律、隐私、安全、可靠性以及业务需求</li>
-<li>Google内部的Launch approval工具会跟踪这些审查和批准</li>
-</ul>
-<p>Post-mortems</p>
-<ul>
-<li>任何重大的生产故障都需要写一份事后的总结文档，描述事件的原因、影响以及如何解决</li>
-<li>重点关注如何避免它们再次发生（而不是追究人员责任）</li>
-</ul>
-<p>频繁重写</p>
-<ul>
-<li>大部分软件每隔几年都会重写一次</li>
-<li>减少了累计复杂性</li>
-<li>有助于适应当前的最佳实践，鼓励新的想法</li>
-<li>也是一种团队成员之间传递ownership的方式，</li>
-<li>这是Google保持敏捷和长期成功的关键</li>
-</ul>
-<h2 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h2><p>20%时间</p>
-<ul>
-<li>允许工程师可以将20%时间花在喜欢的任何项目上</li>
-<li>有助于新想法的原型开发和演示，提高员工积极性</li>
-<li>鼓励创新企业文化</li>
-</ul>
-<p>OKR（Objectives and Key Results）</p>
-<ul>
-<li>个人和团队要明确记录目标并评估这些目标的进展情况，团队设置季度和年度目标</li>
-<li>建立关键结果来量化OKR，用OKR score评估进展情况</li>
-<li>设置野心勃勃的OKR指标，即设置期望为目标的65%</li>
-<li>OKR是全公司透明的，是一种简化的沟通框架，使每个人都清晰了解公司的目标以及自己的位置</li>
-</ul>
-<p>项目审批</p>
-<ul>
-<li>Google没有明确的项目审批流程，一般通过自下而上的方式进行</li>
-</ul>
-<p>公司重组</p>
-<ul>
-<li>因项目取消而重组时工程师可以自由选择新的团队或角色</li>
-<li>在很大程度上，技术驱动公司应该进行频繁的重组以避免组织效率低下</li>
-</ul>
-<h2 id="人员管理"><a href="#人员管理" class="headerlink" title="人员管理"></a>人员管理</h2><p>角色，技术角色与管理角色分开，项目由技术主管领导和决策，而经理负责管理技术主管，指导职业发展，并负责绩效评估</p>
-<ul>
-<li>高标准的软件工程师</li>
-<li>研究科学家</li>
-<li>SRE</li>
-<li>产品经理</li>
-<li>项目经理</li>
-</ul>
-<p>工作环境（Facilities）</p>
-<ul>
-<li>Google提供丰富的娱乐、运动和餐饮设施</li>
-<li>开放式办公鼓励沟通</li>
-<li>先进的视频会议设施方便不同团队的沟通</li>
-</ul>
-<p>培训</p>
-<ul>
-<li>新员工培训，每个新员工都有导师和伙伴（Buddy）</li>
-<li>“Codelabs”和丰富的培训课程</li>
-<li>也支持外部机构学习</li>
-</ul>
-<p>换岗</p>
-<ul>
-<li>鼓励在不同部门换岗，帮助公司内传播知识</li>
-<li>允许12个月内表现良好的员工更换项目</li>
-<li>鼓励临时性的参与其他项目</li>
-</ul>
-<p>绩效考核和奖励</p>
-<ul>
-<li>鼓励“peer bonuses”和“kudos”</li>
-<li>明确详细的晋升过程，确保正确的人得到晋升</li>
-<li>匿名反馈调查评估经理的绩效</li>
-</ul>
-<p>更多内容请参考英文原文<a href="https://arxiv.org/pdf/1702.01715.pdf" target="_blank" rel="external">https://arxiv.org/pdf/1702.01715.pdf</a>。更多SRE的内容请参考<a href="http://landing.google.com/sre/book/index.html" target="_blank" rel="external">SRE</a>以及<a href="http://feisky.xyz/SRE/">SRE笔记</a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1163,7 +1078,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">101</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
