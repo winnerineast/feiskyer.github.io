@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/image/save_load.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="保存和加载镜像注意：docker v1.13+为docker image save/load 保存镜像如果要保存镜像到本地文件，可以使用 docker save 命令。$ sudo docker imagesREPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZEubun">
-<meta property="og:updated_time" content="2017-04-19T04:41:29.740Z">
+<meta property="og:updated_time" content="2017-04-21T01:12:46.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="保存和加载镜像注意：docker v1.13+为docker image save/load 保存镜像如果要保存镜像到本地文件，可以使用 docker save 命令。$ sudo docker imagesREPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZEubun">
@@ -370,9 +370,9 @@
     
     
       <h2 id="保存和加载镜像"><a href="#保存和加载镜像" class="headerlink" title="保存和加载镜像"></a>保存和加载镜像</h2><p><em>注意：docker v1.13+为docker image save/load</em></p>
-<h3 id="保存镜像"><a href="#保存镜像" class="headerlink" title="保存镜像"></a>保存镜像</h3><p>如果要保存镜像到本地文件，可以使用 <code>docker save</code> 命令。<br><figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">$ sudo docker images</div><div class="line">REPOSITORY          <span class="keyword">TAG</span>                 <span class="title">IMAGE</span> ID            CREATED             VIRTUAL SIZE</div><div class="line">ubuntu              <span class="number">14.04</span>               c4ff7513909d        <span class="number">5</span> weeks ago         <span class="number">225.4</span> MB</div><div class="line">...</div><div class="line">$sudo docker save -o ubuntu_14.<span class="number">04</span>.tar ubuntu:<span class="number">14.04</span></div></pre></td></tr></table></figure></p>
+<h3 id="保存镜像"><a href="#保存镜像" class="headerlink" title="保存镜像"></a>保存镜像</h3><p>如果要保存镜像到本地文件，可以使用 <code>docker save</code> 命令。<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo docker images</span></div><div class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</div><div class="line">ubuntu              14.04               c4ff7513909d        5 weeks ago         225.4 MB</div><div class="line">...</div><div class="line"><span class="meta">$</span><span class="bash">sudo docker save -o ubuntu_14.04.tar ubuntu:14.04</span></div></pre></td></tr></table></figure></p>
 <h3 id="加载镜像"><a href="#加载镜像" class="headerlink" title="加载镜像"></a>加载镜像</h3><p>可以使用 <code>docker load</code> 从导出的本地文件中再加载到本地镜像库，例如<br><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">load</span> <span class="comment">--input ubuntu_14.04.tar</span></div></pre></td></tr></table></figure></p>
-<p>或<br><figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo docker load &lt; ubuntu_14.<span class="number">04</span>.tar</div></pre></td></tr></table></figure></p>
+<p>或<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo docker load &lt; ubuntu_14.04.tar</span></div></pre></td></tr></table></figure></p>
 <p>这将加载镜像以及其相关的元数据信息（包括标签等）。</p>
 
     

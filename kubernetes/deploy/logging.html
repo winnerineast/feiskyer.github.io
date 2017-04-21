@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/kubernetes/deploy/logging.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="ELK可谓是容器日志收集、处理和搜索的黄金搭档:  Logstash（或者Fluentd）负责收集日志 Elasticsearch存储日志并提供搜索 Kibana负责日志查询和展示  注意：Kubernetes默认使用fluentd（以DaemonSet的方式启动）来收集日志，并将收集的日志发送给elasticsearch。 小提示 在使用cluster/kube-up.sh部署集群的时候，可以设">
-<meta property="og:updated_time" content="2017-04-19T04:41:30.140Z">
+<meta property="og:updated_time" content="2017-04-21T01:12:47.073Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes日志">
 <meta name="twitter:description" content="ELK可谓是容器日志收集、处理和搜索的黄金搭档:  Logstash（或者Fluentd）负责收集日志 Elasticsearch存储日志并提供搜索 Kibana负责日志查询和展示  注意：Kubernetes默认使用fluentd（以DaemonSet的方式启动）来收集日志，并将收集的日志发送给elasticsearch。 小提示 在使用cluster/kube-up.sh部署集群的时候，可以设">
@@ -393,8 +393,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-19T04:41:30+00:00" content="2017-04-19">
-              2017-04-19
+            <time itemprop="dateCreated" datetime="2017-04-21T01:12:47+00:00" content="2017-04-21">
+              2017-04-21
             </time>
           </span>
 
@@ -437,7 +437,7 @@
 <p>注意：Kubernetes默认使用fluentd（以DaemonSet的方式启动）来收集日志，并将收集的日志发送给elasticsearch。</p>
 <p><strong>小提示</strong></p>
 <p>在使用<code>cluster/kube-up.sh</code>部署集群的时候，可以设置<code>KUBE_LOGGING_DESTINATION</code>环境变量自动部署Elasticsearch和Kibana，并使用fluentd收集日志(配置参考<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch" target="_blank" rel="external">addons/fluentd-elasticsearch</a>)：</p>
-<figure class="highlight protobuf"><table><tr><td class="code"><pre><div class="line">KUBE_LOGGING_DESTINATION=elasticsearch</div><div class="line">KUBE_ENABLE_NODE_LOGGING=<span class="literal">true</span></div><div class="line">cluster/kube-up.sh</div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><div class="line">KUBE_LOGGING_DESTINATION=elasticsearch</div><div class="line">KUBE_ENABLE_NODE_LOGGING=true</div><div class="line">cluster/kube-up.sh</div></pre></td></tr></table></figure>
 <p>如果使用GCE或者GKE的话，还可以<a href="https://kubernetes.io/docs/user-guide/logging/stackdriver/" target="_blank" rel="external">将日志发送给Google Cloud Logging</a>，并可以集成Google Cloud Storage和BigQuery。</p>
 <p>如果需要集成其他的日志方案，还可以自定义docker的log driver，将日志发送到splunk或者awslogs等。</p>
 

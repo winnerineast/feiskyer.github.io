@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/data_management/management.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="利用数据卷容器来备份、恢复、迁移数据卷可以利用数据卷对其中的数据进行进行备份、恢复和迁移。 备份首先使用 --volumes-from 标记来创建一个加载 dbdata 容器卷的容器，并从主机挂载当前目录到容器的 /backup 目录。命令如下：$ sudo docker run --volumes-from dbdata -v $(pwd):/backup ubuntu tar cvf /bac">
-<meta property="og:updated_time" content="2017-04-19T04:41:29.740Z">
+<meta property="og:updated_time" content="2017-04-21T01:12:46.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="利用数据卷容器来备份、恢复、迁移数据卷可以利用数据卷对其中的数据进行进行备份、恢复和迁移。 备份首先使用 --volumes-from 标记来创建一个加载 dbdata 容器卷的容器，并从主机挂载当前目录到容器的 /backup 目录。命令如下：$ sudo docker run --volumes-from dbdata -v $(pwd):/backup ubuntu tar cvf /bac">
@@ -372,9 +372,9 @@
       <h2 id="利用数据卷容器来备份、恢复、迁移数据卷"><a href="#利用数据卷容器来备份、恢复、迁移数据卷" class="headerlink" title="利用数据卷容器来备份、恢复、迁移数据卷"></a>利用数据卷容器来备份、恢复、迁移数据卷</h2><p>可以利用数据卷对其中的数据进行进行备份、恢复和迁移。</p>
 <h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><p>首先使用 <code>--volumes-from</code> 标记来创建一个加载 dbdata 容器卷的容器，并从主机挂载当前目录到容器的 /backup 目录。命令如下：<br><figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo docker run --volumes-from dbdata -v <span class="variable">$(</span>pwd)<span class="symbol">:/backup</span> ubuntu tar cvf /backup/backup.tar /dbdata</div></pre></td></tr></table></figure></p>
 <p>容器启动后，使用了 <code>tar</code> 命令来将 dbdata 卷备份为容器中 /backup/backup.tar 文件，也就是主机当前目录下的名为 <code>backup.tar</code> 的文件。</p>
-<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>如果要恢复数据到一个容器，首先创建一个带有空数据卷的容器 dbdata2。<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> -v /dbdata <span class="comment">--name dbdata2 ubuntu /bin/bash</span></div></pre></td></tr></table></figure></p>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>如果要恢复数据到一个容器，首先创建一个带有空数据卷的容器 dbdata2。<br><figure class="highlight jboss-cli"><table><tr><td class="code"><pre><div class="line">$ sudo docker run -v <span class="string">/dbdata</span> <span class="params">--name</span> dbdata2 ubuntu <span class="string">/bin/bash</span></div></pre></td></tr></table></figure></p>
 <p>然后创建另一个容器，挂载 dbdata2 容器卷中的数据卷，并使用 <code>untar</code> 解压备份文件到挂载的容器卷中。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --volumes-from dbdata2 -v $(<span class="built_in">pwd</span>):/backup busybox tar xvf</span></div><div class="line">/backup/backup.tar</div></pre></td></tr></table></figure></p>
-<p>为了查看/验证恢复的数据，可以再启动一个容器挂载同样的容器卷来查看<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> <span class="comment">--volumes-from dbdata2 busybox /bin/ls /dbdata</span></div></pre></td></tr></table></figure></p>
+<p>为了查看/验证恢复的数据，可以再启动一个容器挂载同样的容器卷来查看<br><figure class="highlight jboss-cli"><table><tr><td class="code"><pre><div class="line">$ sudo docker run <span class="params">--volumes-from</span> dbdata2 busybox <span class="string">/bin/ls</span> <span class="string">/dbdata</span></div></pre></td></tr></table></figure></p>
 
     
   </div>

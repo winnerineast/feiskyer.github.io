@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="A while back, I wrote an article about taking consistent snapshots of your virtual machines in your OpenStack environment.    However this method was really intrusive since it required to be inside th">
 <meta property="og:image" content="http://feisky.xyz/assets/qemu-agent-freeze-thaw.png">
-<meta property="og:updated_time" content="2017-04-19T04:41:29.644Z">
+<meta property="og:updated_time" content="2017-04-21T01:12:46.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Perform Consistent Snapshots with qemu guest agent">
 <meta name="twitter:description" content="A while back, I wrote an article about taking consistent snapshots of your virtual machines in your OpenStack environment.    However this method was really intrusive since it required to be inside th">
@@ -439,7 +439,7 @@
 <p>A picture is always better:</p>
 <p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
 <h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo echo <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee -a /etc/apparmor.d/abstractions/libvirt-qemu</div><div class="line"><span class="variable">$ </span>sudo service libvirt-bin restart</div><div class="line"><span class="variable">$ </span>sudo service nova-compute restart</div><div class="line"><span class="variable">$ </span>sudo service apparmor reload</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo <span class="built_in">echo</span> <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee <span class="_">-a</span> /etc/apparmor.d/abstractions/libvirt-qemu</span></div><div class="line"><span class="meta">$</span><span class="bash"> sudo service libvirt-bin restart</span></div><div class="line"><span class="meta">$</span><span class="bash"> sudo service nova-compute restart</span></div><div class="line"><span class="meta">$</span><span class="bash"> sudo service apparmor reload</span></div></pre></td></tr></table></figure>
 <p>Configure your Glance image:</p>
 <figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
 <p>Boot your virtual machine: <code>nova boot ....</code></p>

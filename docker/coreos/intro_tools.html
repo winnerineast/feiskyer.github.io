@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/coreos/intro_tools.html">
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="CoreOS工具介绍CoreOS提供了三大工具，它们分别是：服务发现，容器管理和进程管理。 使用etcd服务发现CoreOS的第一个重要组件就是使用etcd来实现的服务发现。 如果你使用默认的样例cloud-config文件，那么etcd会在启动时自动运行。 例如： #cloud-confighostname: coreos0ssh_authorized_keys:  - ssh-rsa AAAA">
-<meta property="og:updated_time" content="2017-04-19T04:41:29.736Z">
+<meta property="og:updated_time" content="2017-04-21T01:12:46.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky's Blog">
 <meta name="twitter:description" content="CoreOS工具介绍CoreOS提供了三大工具，它们分别是：服务发现，容器管理和进程管理。 使用etcd服务发现CoreOS的第一个重要组件就是使用etcd来实现的服务发现。 如果你使用默认的样例cloud-config文件，那么etcd会在启动时自动运行。 例如： #cloud-confighostname: coreos0ssh_authorized_keys:  - ssh-rsa AAAA">
@@ -384,7 +384,7 @@
 <p>它是集群的分布式初始化系统。你应该使用fleet来管理你的docker容器的生命周期。</p>
 <p>Fleet通过接受systemd单元文件来工作，同时在你集群的机器上通过单元文件中编写的偏好来对它们进行调度。</p>
 <p>首先，让我们构建一个简单的可以运行docker容器的systemd单元。把这个文件保存在home目录并命名为hello.service：</p>
-<figure class="highlight abnf"><table><tr><td class="code"><pre><div class="line">hello.service</div><div class="line"></div><div class="line">[Unit]</div><div class="line"><span class="attribute">Description</span>=My Service</div><div class="line"><span class="attribute">After</span>=docker.service</div><div class="line"></div><div class="line">[Service]</div><div class="line"><span class="attribute">TimeoutStartSec</span>=<span class="number">0</span></div><div class="line"><span class="attribute">ExecStartPre</span>=-/usr/bin/docker kill hello</div><div class="line"><span class="attribute">ExecStartPre</span>=-/usr/bin/docker rm hello</div><div class="line"><span class="attribute">ExecStartPre</span>=/usr/bin/docker pull busybox</div><div class="line"><span class="attribute">ExecStart</span>=/usr/bin/docker run --name hello busybox /bin/sh -c <span class="string">"while true; do echo Hello World; sleep 1; done"</span></div><div class="line"><span class="attribute">ExecStop</span>=/usr/bin/docker stop hello</div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><div class="line">hello.service</div><div class="line"></div><div class="line">[Unit]</div><div class="line">Description=My Service</div><div class="line">After=docker.service</div><div class="line"></div><div class="line">[Service]</div><div class="line">TimeoutStartSec=0</div><div class="line">ExecStartPre=-/usr/bin/docker kill hello</div><div class="line">ExecStartPre=-/usr/bin/docker rm hello</div><div class="line">ExecStartPre=/usr/bin/docker pull busybox</div><div class="line">ExecStart=/usr/bin/docker run --name hello busybox /bin/sh -c <span class="string">"while true; do echo Hello World; sleep 1; done"</span></div><div class="line">ExecStop=/usr/bin/docker stop hello</div></pre></td></tr></table></figure>
 <p>然后，读取并启动这个单元：</p>
 <figure class="highlight excel"><table><tr><td class="code"><pre><div class="line">$ fleetctl load hello.service</div><div class="line">=&gt; Unit hello.service loaded on <span class="number">8145</span>ebb7.../<span class="number">172.17</span>.<span class="number">8.105</span></div><div class="line">$ fleetctl start hello.service</div><div class="line">=&gt; Unit hello.service launched on <span class="number">8145</span>ebb7.../<span class="number">172.17</span>.<span class="number">8.105</span></div></pre></td></tr></table></figure>
 <p>这样，你的容器将在集群里被启动。</p>

