@@ -383,8 +383,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="url">
-                  Use kubectl to connect kubernetes cluster
+                <a class="post-title-link" href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="url">
+                  Hypernetes   The multi tenant Kubernetes distribution
                 </a>
               
             
@@ -411,8 +411,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">kubernetes</span>
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">Kubernetes</span>
                   </a>
                 </span>
 
@@ -427,8 +427,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="commentsCount"></span>
+                <a href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -453,9 +453,31 @@
       
         
           
-            <p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
-<p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
+            <p>“<a href="https://hyper.sh/blog/post/2015/07/06/the-caas-revolution.html" target="_blank" rel="external">The Caas Revolution</a>“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) <a href="http://www.docker.com/" target="_blank" rel="external">Docker</a>, and embraced by Cloud providers like <a href="https://cloud.google.com/container-engine/" target="_blank" rel="external">Google</a> and <a href="https://aws.amazon.com/ecs/" target="_blank" rel="external">AWS</a>.</p>
+<p>However, most multi-tenant CaaS solutions today run on a public IaaS, and use fully isolated virtual machine clusters to schedule containers. This is in contrast to the solely container-based implementation provided in private CaaS deployments. The public “hybrid” VM/container isolation approach is a direct result from the shared kernel architecture in container technology.</p>
+<p>Which got us thinking… do users really need to configure a cluster of full-blown virtual machines to ship containers in a secure cloud? Isn’t there a native container approach to perform true isolation?</p>
+<p>When we introduced <a href="http://hyper.sh/" target="_blank" rel="external">Hyper</a>, we wanted to show that it is actually possible to run truly isolated containers applications without any guest OS configuration required. We claimed that Hyper unlocks the possibility to build app-centric secure and isolated public CaaS platform, and now want to show you its power with a real-world implementation.</p>
+<p>Today, we are happy to announce <strong><a href="http://hypernetes.com" target="_blank" rel="external">Hypernetes</a>*: the Secure, Multi-tenant Kubernetes distribution</strong>.</p>
+<p>Simply put:</p>
+<pre><code>   Hypernetes = Bare-metal + Hyper + Kubernetes + Cinder(Ceph) + Neutron + Keystone
+</code></pre><p><img src="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true" alt="Hypernetes"></p>
+<ul>
+<li>Hyper (Hyperd) runs directly on all your bare-metal machines to provision HyperVM (with Docker images) in milliseconds</li>
+<li>Within the VM, the “Hyperstart” init process is launched on top of the Hyper Kernel (or any compatible Linux kernel) to run Docker images as Pod</li>
+<li>Kubelet agent runs on each bare-metal host and manages HyperVM with Hyperd’s APIs</li>
+<li>The formed cluster of “Kubelets” is managed with the help of a “Kubernetes Master” server</li>
+<li>Hypernetes also makes uses of several OpenStack components<ul>
+<li><a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> for identities management and authentication</li>
+<li><a href="https://wiki.openstack.org/wiki/Neutron" target="_blank" rel="external">Neutron</a> for virtual networks management and isolation</li>
+<li><a href="https://wiki.openstack.org/wiki/Cinder" target="_blank" rel="external">Cinder</a> + <a href="http://ceph.com/" target="_blank" rel="external">Ceph</a> for persistent storage volume management</li>
+</ul>
+</li>
+</ul>
+<p>With Hypernetes, you are ready to offer your users an easy and straightforward way to deploy their Containers in the Cloud, with a maximum level of security, efficiency, and compatibility, but without the complexity introduced by nesting the Linux containers in full-blown VMs. Indeed, Hypernetes leverages the same old secure, reliable, battle tested, robust hypervisor virtualization to natively run all of your new Container applications, maximizing the ROI of your virtual infrastructure.</p>
+<p>You can check it out and try Hypernetes today as a <a href="http://github.com/hyperhq/hypernetes" target="_blank" rel="external">open-source project</a>. Please, don’t hesitate to join our <a href="http://slack.hyper.sh/" target="_blank" rel="external">Slack community</a>, <a href="https://groups.google.com/forum/#!forum/hyper-user" target="_blank" rel="external">users</a> and <a href="https://groups.google.com/forum/#!forum/hyper-dev" target="_blank" rel="external">developers</a> mailing lists if you would like to discuss about Hyper or Hypernetes with us.</p>
+<p>Also, as an open-source project, we warmly welcome PR contributions and issues, directly on our <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Github</a>.</p>
+<p>As a last word, we are presenting Hypernetes this week at the <a href="https://www.openstack.org/summit/tokyo-2015/" target="_blank" rel="external">OpenStack Tokyo Summit</a> and <a href="http://europe-2015.dockercon.com/" target="_blank" rel="external">DockerCon Europe</a> next month. If you’re around, please come by our booth ;-)</p>
+<p>From <a href="https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html" target="_blank" rel="external">https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html</a></p>
 
           
         
@@ -798,6 +820,129 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/23/openstack-magnum/" itemprop="url">
+                  OpenStack Magnum社区及项目介绍
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
+              2015-06-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OpenStack/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenStack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/23/openstack-magnum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/23/openstack-magnum/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/magnum.png" alt=""></p>
+<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
+<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
+<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/23/weekly-reading-list-20150626/" itemprop="url">
                   Weekly reading list (20150626)
                 </a>
@@ -974,129 +1119,6 @@
 </blockquote>
 <p><a href="http://blogs.vmware.com/cloudnative/introducing-project-bonneville" target="_blank" rel="external">http://blogs.vmware.com/cloudnative/introducing-project-bonneville</a></p>
 <p><a href="http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/23/openstack-magnum/" itemprop="url">
-                  OpenStack Magnum社区及项目介绍
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
-              2015-06-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OpenStack/" itemprop="url" rel="index">
-                    <span itemprop="name">OpenStack</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/06/23/openstack-magnum/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/23/openstack-magnum/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/images/magnum.png" alt=""></p>
-<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
-<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
-<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
 
           
         

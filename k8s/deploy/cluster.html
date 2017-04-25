@@ -86,16 +86,18 @@
 
 
 
-<meta name="description" content="集群部署GCE/Azure在GCE或者Azure上面可以利用cluster脚本方便的部署集群： # gce,aws,gke,azure-legacy,vsphere,openstack-heat,rackspace,libvirt-coreosexport KUBERNETES_PROVIDER=gcecurl -sS https://get.k8s.io | bashcd kubernetesc">
+<meta name="description" content="Kubernetes集群架构 etcd集群从https://discovery.etcd.io/new?size=3获取token后，把https://kubernetes.io/docs/admin/high-availability/etcd.yaml放到每台机器的/etc/kubernetes/manifests/etcd.yaml，并替换掉${DISCOVERY_TOKEN}, ${NOD">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Feisky's Blog">
+<meta property="og:title" content="集群部署">
 <meta property="og:url" content="http://feisky.xyz/k8s/deploy/cluster.html">
 <meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="集群部署GCE/Azure在GCE或者Azure上面可以利用cluster脚本方便的部署集群： # gce,aws,gke,azure-legacy,vsphere,openstack-heat,rackspace,libvirt-coreosexport KUBERNETES_PROVIDER=gcecurl -sS https://get.k8s.io | bashcd kubernetesc">
-<meta property="og:updated_time" content="2017-04-25T01:13:37.515Z">
+<meta property="og:description" content="Kubernetes集群架构 etcd集群从https://discovery.etcd.io/new?size=3获取token后，把https://kubernetes.io/docs/admin/high-availability/etcd.yaml放到每台机器的/etc/kubernetes/manifests/etcd.yaml，并替换掉${DISCOVERY_TOKEN}, ${NOD">
+<meta property="og:image" content="http://feisky.xyz/k8s/ha/ha.png">
+<meta property="og:updated_time" content="2017-04-25T09:45:09.537Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Feisky's Blog">
-<meta name="twitter:description" content="集群部署GCE/Azure在GCE或者Azure上面可以利用cluster脚本方便的部署集群： # gce,aws,gke,azure-legacy,vsphere,openstack-heat,rackspace,libvirt-coreosexport KUBERNETES_PROVIDER=gcecurl -sS https://get.k8s.io | bashcd kubernetesc">
+<meta name="twitter:title" content="集群部署">
+<meta name="twitter:description" content="Kubernetes集群架构 etcd集群从https://discovery.etcd.io/new?size=3获取token后，把https://kubernetes.io/docs/admin/high-availability/etcd.yaml放到每台机器的/etc/kubernetes/manifests/etcd.yaml，并替换掉${DISCOVERY_TOKEN}, ${NOD">
+<meta name="twitter:image" content="http://feisky.xyz/k8s/ha/ha.png">
 
 
 
@@ -119,7 +121,7 @@
   <link rel="canonical" href="http://feisky.xyz/k8s/deploy/cluster.html"/>
 
 
-  <title>  | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 集群部署 | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -381,7 +383,7 @@
             
             
               
-                
+                集群部署
               
             
           </h1>
@@ -393,7 +395,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-25T01:13:37+00:00" content="2017-04-25">
+            <time itemprop="dateCreated" datetime="2017-04-25T09:45:09+00:00" content="2017-04-25">
               2017-04-25
             </time>
           </span>
@@ -428,7 +430,38 @@
       
 
       
-        <h1 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h1><h2 id="GCE-Azure"><a href="#GCE-Azure" class="headerlink" title="GCE/Azure"></a>GCE/Azure</h2><p>在GCE或者Azure上面可以利用cluster脚本方便的部署集群：</p>
+        <h2 id="Kubernetes集群架构"><a href="#Kubernetes集群架构" class="headerlink" title="Kubernetes集群架构"></a>Kubernetes集群架构</h2><p><img src="../ha/ha.png" alt=""></p>
+<h3 id="etcd集群"><a href="#etcd集群" class="headerlink" title="etcd集群"></a>etcd集群</h3><p>从<code>https://discovery.etcd.io/new?size=3</code>获取token后，把<a href="https://kubernetes.io/docs/admin/high-availability/etcd.yaml" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/etcd.yaml</a>放到每台机器的<code>/etc/kubernetes/manifests/etcd.yaml</code>，并替换掉<code>${DISCOVERY_TOKEN}</code>, <code>${NODE_NAME}</code>和<code>${NODE_IP}</code>，既可以由kubelet来启动一个etcd集群。</p>
+<p>对于运行在kubelet外部的etcd，可以参考<a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md" target="_blank" rel="external">etcd clustering guide</a>来手动配置集群模式。</p>
+<h3 id="kube-apiserver"><a href="#kube-apiserver" class="headerlink" title="kube-apiserver"></a>kube-apiserver</h3><p>把<a href="https://kubernetes.io/docs/admin/high-availability/kube-apiserver.yaml" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/kube-apiserver.yaml</a>放到每台Master节点的<code>/etc/kubernetes/manifests/</code>，并把相关的配置放到<code>/srv/kubernetes/</code>，即可由kubelet自动创建并启动apiserver:</p>
+<ul>
+<li>basic_auth.csv - basic auth user and password</li>
+<li>ca.crt - Certificate Authority cert</li>
+<li>known_tokens.csv - tokens that entities (e.g. the kubelet) can use to talk to the apiserver</li>
+<li>kubecfg.crt - Client certificate, public key</li>
+<li>kubecfg.key - Client certificate, private key</li>
+<li>server.cert - Server certificate, public key</li>
+<li>server.key - Server certificate, private key</li>
+</ul>
+<p>apiserver启动后，还需要为它们做负载均衡，可以使用云平台的弹性负载均衡服务或者使用haproxy/lvs/nginx等为master节点配置负载均衡。</p>
+<p>另外，还可以借助Keepalived、OSPF、Pacemaker等来保证负载均衡节点的高可用。</p>
+<p>注意：</p>
+<ul>
+<li>大规模集群注意增加<code>--max-requests-inflight</code>（默认400）</li>
+<li>使用nginx时注意增加<code>proxy_timeout: 10m</code></li>
+</ul>
+<h3 id="controller-manager和scheduler"><a href="#controller-manager和scheduler" class="headerlink" title="controller manager和scheduler"></a>controller manager和scheduler</h3><p>controller manager和scheduler需要保证任何时刻都只有一个实例运行，需要一个选主的过程，所以在启动时要设置<code>--leader-elect=true</code>，比如</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><div class="line"><span class="comment">kube</span><span class="literal">-</span><span class="comment">scheduler</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">master=127</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">1:8080</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">v=2</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">leader</span><span class="literal">-</span><span class="comment">elect=true</span></div><div class="line"><span class="comment">kube</span><span class="literal">-</span><span class="comment">controller</span><span class="literal">-</span><span class="comment">manager</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">master=127</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">1:8080</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">cluster</span><span class="literal">-</span><span class="comment">cidr=10</span><span class="string">.</span><span class="comment">245</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0/16</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">allocate</span><span class="literal">-</span><span class="comment">node</span><span class="literal">-</span><span class="comment">cidrs=true</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">service</span><span class="literal">-</span><span class="comment">account</span><span class="literal">-</span><span class="comment">private</span><span class="literal">-</span><span class="comment">key</span><span class="literal">-</span><span class="comment">file=/srv/kubernetes/server</span><span class="string">.</span><span class="comment">key</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">v=2</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">leader</span><span class="literal">-</span><span class="comment">elect=true</span></div></pre></td></tr></table></figure>
+<p>把<a href="https://kubernetes.io/docs/admin/high-availability/kube-scheduler.yaml" target="_blank" rel="external">kube-scheduler.yaml</a>和<a href="https://kubernetes.io/docs/admin/high-availability/kube-controller-manager.yaml" target="_blank" rel="external">kube-controller-manager.yaml</a>(非GCE平台需要适当修改) 放到每台master节点的<code>/etc/kubernetes/manifests/</code>即可。</p>
+<h3 id="kube-dns"><a href="#kube-dns" class="headerlink" title="kube-dns"></a>kube-dns</h3><p>kube-dns可以通过Deployment的方式来部署，默认kubeadm会自动创建。但在大规模集群的时候，需要放宽资源限制，比如</p>
+<figure class="highlight ldif"><table><tr><td class="code"><pre><div class="line"><span class="attribute">dns_replicas</span>: 6</div><div class="line"><span class="attribute">dns_cpu_limit</span>: 100m</div><div class="line"><span class="attribute">dns_memory_limit</span>: 512Mi</div><div class="line"><span class="attribute">dns_cpu_requests 70m</span></div><div class="line">dns_memory_requests: 70Mi</div></pre></td></tr></table></figure>
+<p>另外，也需要给dnsmasq增加资源，比如增加缓存大小到10000，增加并发处理数量<code>--dns-forward-max=1000</code>等。</p>
+<h3 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h3><p>除了上面提到的这些配置，持久化存储也是高可用Kubernetes集群所必须的。</p>
+<ul>
+<li>对于公有云上部署的集群，可以考虑使用云平台提供的持久化存储，比如aws ebs或者gce persistent disk</li>
+<li>对于物理机部署的集群，可以考虑使用iSCSI、NFS、Gluster或者Ceph等网络存储，也可以使用RAID</li>
+</ul>
+<h2 id="GCE-Azure"><a href="#GCE-Azure" class="headerlink" title="GCE/Azure"></a>GCE/Azure</h2><p>在GCE或者Azure上面可以利用cluster脚本方便的部署集群：</p>
 <figure class="highlight vim"><table><tr><td class="code"><pre><div class="line"># gce,aws,gke,azure-legacy,vsphere,openstack-heat,rackspace,libvirt-coreos</div><div class="line">export KUBERNETES_PROVIDER=gce</div><div class="line">curl -sS http<span class="variable">s:</span>//<span class="built_in">get</span>.k8s.io | bash</div><div class="line"><span class="keyword">cd</span> kubernetes</div><div class="line">cluster/kube-<span class="keyword">up</span>.<span class="keyword">sh</span></div></pre></td></tr></table></figure>
 <h2 id="AWS"><a href="#AWS" class="headerlink" title="AWS"></a>AWS</h2><p>在aws上建议使用<a href="https://kubernetes.io/docs/getting-started-guides/kops/" target="_blank" rel="external">kops</a>来部署。</p>
 <h2 id="物理机或虚拟机"><a href="#物理机或虚拟机" class="headerlink" title="物理机或虚拟机"></a>物理机或虚拟机</h2><p>在Linux物理机或虚拟机中，建议使用<a href="https://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">kubeadm</a>来部署Kubernetes集群。</p>
@@ -620,7 +653,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集群部署"><span class="nav-number">1.</span> <span class="nav-text">集群部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GCE-Azure"><span class="nav-number">1.1.</span> <span class="nav-text">GCE/Azure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS"><span class="nav-number">1.2.</span> <span class="nav-text">AWS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#物理机或虚拟机"><span class="nav-number">1.3.</span> <span class="nav-text">物理机或虚拟机</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes集群架构"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes集群架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#etcd集群"><span class="nav-number">1.1.</span> <span class="nav-text">etcd集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kube-apiserver"><span class="nav-number">1.2.</span> <span class="nav-text">kube-apiserver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#controller-manager和scheduler"><span class="nav-number">1.3.</span> <span class="nav-text">controller manager和scheduler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kube-dns"><span class="nav-number">1.4.</span> <span class="nav-text">kube-dns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据持久化"><span class="nav-number">1.5.</span> <span class="nav-text">数据持久化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GCE-Azure"><span class="nav-number">2.</span> <span class="nav-text">GCE/Azure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS"><span class="nav-number">3.</span> <span class="nav-text">AWS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#物理机或虚拟机"><span class="nav-number">4.</span> <span class="nav-text">物理机或虚拟机</span></a></li></ol></div>
             
           </div>
         </section>
@@ -748,7 +781,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
       var disqus_identifier = 'k8s/deploy/cluster.html';
-      var disqus_title = "";
+      var disqus_title = "集群部署";
       var disqus_url = 'http://feisky.xyz/k8s/deploy/cluster.html';
 
       function run_disqus_script(disqus_script){

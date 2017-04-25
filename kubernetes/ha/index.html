@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="Feisky's Blog">
 <meta property="og:description" content="Kubernetes从1.5开始，通过kops或者kube-up.sh部署的集群会自动部署一个高可用的系统，包括  etcd集群模式 apiserver负载均衡 controller manager、scheduler和cluster autoscaler自动选主（有且仅有一个运行实例）  如下图所示  etcd集群从https://discovery.etcd.io/new?size=3获取to">
 <meta property="og:image" content="http://feisky.xyz/kubernetes/ha/ha.png">
-<meta property="og:updated_time" content="2017-04-25T01:13:37.515Z">
+<meta property="og:updated_time" content="2017-04-25T09:45:09.537Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes HA">
 <meta name="twitter:description" content="Kubernetes从1.5开始，通过kops或者kube-up.sh部署的集群会自动部署一个高可用的系统，包括  etcd集群模式 apiserver负载均衡 controller manager、scheduler和cluster autoscaler自动选主（有且仅有一个运行实例）  如下图所示  etcd集群从https://discovery.etcd.io/new?size=3获取to">
@@ -395,7 +395,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-25T01:13:37+00:00" content="2017-04-25">
+            <time itemprop="dateCreated" datetime="2017-04-25T09:45:09+00:00" content="2017-04-25">
               2017-04-25
             </time>
           </span>
@@ -454,6 +454,10 @@
 <h2 id="controller-manager和scheduler"><a href="#controller-manager和scheduler" class="headerlink" title="controller manager和scheduler"></a>controller manager和scheduler</h2><p>controller manager和scheduler需要保证任何时刻都只有一个实例运行，需要一个选主的过程，所以在启动时要设置<code>--leader-elect=true</code>，比如</p>
 <figure class="highlight brainfuck"><table><tr><td class="code"><pre><div class="line"><span class="comment">kube</span><span class="literal">-</span><span class="comment">scheduler</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">master=127</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">1:8080</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">v=2</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">leader</span><span class="literal">-</span><span class="comment">elect=true</span></div><div class="line"><span class="comment">kube</span><span class="literal">-</span><span class="comment">controller</span><span class="literal">-</span><span class="comment">manager</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">master=127</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">1:8080</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">cluster</span><span class="literal">-</span><span class="comment">cidr=10</span><span class="string">.</span><span class="comment">245</span><span class="string">.</span><span class="comment">0</span><span class="string">.</span><span class="comment">0/16</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">allocate</span><span class="literal">-</span><span class="comment">node</span><span class="literal">-</span><span class="comment">cidrs=true</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">service</span><span class="literal">-</span><span class="comment">account</span><span class="literal">-</span><span class="comment">private</span><span class="literal">-</span><span class="comment">key</span><span class="literal">-</span><span class="comment">file=/srv/kubernetes/server</span><span class="string">.</span><span class="comment">key</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">v=2</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">leader</span><span class="literal">-</span><span class="comment">elect=true</span></div></pre></td></tr></table></figure>
 <p>把<a href="https://kubernetes.io/docs/admin/high-availability/kube-scheduler.yaml" target="_blank" rel="external">kube-scheduler.yaml</a>和<a href="https://kubernetes.io/docs/admin/high-availability/kube-controller-manager.yaml" target="_blank" rel="external">kube-controller-manager.yaml</a>(非GCE平台需要适当修改) 放到每台master节点的<code>/etc/kubernetes/manifests/</code>即可。</p>
+<h2 id="kube-dns"><a href="#kube-dns" class="headerlink" title="kube-dns"></a>kube-dns</h2><p>kube-dns可以通过Deployment的方式来部署，默认kubeadm会自动创建。但在大规模集群的时候，需要放宽资源限制，比如</p>
+<figure class="highlight ldif"><table><tr><td class="code"><pre><div class="line"><span class="attribute">dns_replicas</span>: 6</div><div class="line"><span class="attribute">dns_cpu_limit</span>: 100m</div><div class="line"><span class="attribute">dns_memory_limit</span>: 512Mi</div><div class="line"><span class="attribute">dns_cpu_requests 70m</span></div><div class="line">dns_memory_requests: 70Mi</div></pre></td></tr></table></figure>
+<p>另外，也需要给dnsmasq增加资源，比如增加缓存大小到10000，增加并发处理数量<code>--dns-forward-max=1000</code>等。</p>
+<h2 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h2><p>默认kube-proxy使用iptables来为Service作负载均衡，这在大规模时会产生很大的Latency，可以考虑使用<a href="https://docs.google.com/presentation/d/1BaIAywY2qqeHtyGZtlyAp89JIZs59MZLKcFLxKE6LyM/edit#slide=id.p3" target="_blank" rel="external">IPVS</a>的替代方式（注意Kubernetes v1.6还不支持IPVS模式）。</p>
 <h2 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h2><p>除了上面提到的这些配置，持久化存储也是高可用Kubernetes集群所必须的。</p>
 <ul>
 <li>对于公有云上部署的集群，可以考虑使用云平台提供的持久化存储，比如aws ebs或者gce persistent disk</li>
@@ -463,6 +467,8 @@
 <li><a href="https://kubernetes.io/docs/admin/high-availability/" target="_blank" rel="external">https://kubernetes.io/docs/admin/high-availability/</a></li>
 <li><a href="http://kubecloud.io/setup-ha-k8s-kops/" target="_blank" rel="external">http://kubecloud.io/setup-ha-k8s-kops/</a></li>
 <li><a href="https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md" target="_blank" rel="external">https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md</a></li>
+<li><a href="http://fuel-ccp.readthedocs.io/en/latest/design/k8s_1000_nodes_architecture.html" target="_blank" rel="external">Kubernetes Master Tier For 1000 Nodes Scale</a></li>
+<li><a href="https://docs.google.com/presentation/d/1BaIAywY2qqeHtyGZtlyAp89JIZs59MZLKcFLxKE6LyM/edit#slide=id.p3" target="_blank" rel="external">Scaling Kubernetes to Support 50000 Services</a></li>
 </ul>
 
       
@@ -652,7 +658,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#etcd集群"><span class="nav-number">1.</span> <span class="nav-text">etcd集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apiserver"><span class="nav-number">2.</span> <span class="nav-text">apiserver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#controller-manager和scheduler"><span class="nav-number">3.</span> <span class="nav-text">controller manager和scheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据持久化"><span class="nav-number">4.</span> <span class="nav-text">数据持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">5.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#etcd集群"><span class="nav-number">1.</span> <span class="nav-text">etcd集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apiserver"><span class="nav-number">2.</span> <span class="nav-text">apiserver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#controller-manager和scheduler"><span class="nav-number">3.</span> <span class="nav-text">controller manager和scheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kube-dns"><span class="nav-number">4.</span> <span class="nav-text">kube-dns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kube-proxy"><span class="nav-number">5.</span> <span class="nav-text">kube-proxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据持久化"><span class="nav-number">6.</span> <span class="nav-text">数据持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">7.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
             
           </div>
         </section>
