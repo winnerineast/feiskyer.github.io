@@ -383,8 +383,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="url">
-                  Hypernetes   The multi tenant Kubernetes distribution
+                <a class="post-title-link" href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="url">
+                  Use kubectl to connect kubernetes cluster
                 </a>
               
             
@@ -411,8 +411,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">Kubernetes</span>
+                  <a href="/categories/kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">kubernetes</span>
                   </a>
                 </span>
 
@@ -427,8 +427,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" itemprop="commentsCount"></span>
+                <a href="/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/03/use-kubectl-to-connect-kubernetes-cluster/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -453,31 +453,9 @@
       
         
           
-            <p>“<a href="https://hyper.sh/blog/post/2015/07/06/the-caas-revolution.html" target="_blank" rel="external">The Caas Revolution</a>“. This is what we believe is happening today in the Cloud ecosystem. This revolution has been started by the now famous project (and company) <a href="http://www.docker.com/" target="_blank" rel="external">Docker</a>, and embraced by Cloud providers like <a href="https://cloud.google.com/container-engine/" target="_blank" rel="external">Google</a> and <a href="https://aws.amazon.com/ecs/" target="_blank" rel="external">AWS</a>.</p>
-<p>However, most multi-tenant CaaS solutions today run on a public IaaS, and use fully isolated virtual machine clusters to schedule containers. This is in contrast to the solely container-based implementation provided in private CaaS deployments. The public “hybrid” VM/container isolation approach is a direct result from the shared kernel architecture in container technology.</p>
-<p>Which got us thinking… do users really need to configure a cluster of full-blown virtual machines to ship containers in a secure cloud? Isn’t there a native container approach to perform true isolation?</p>
-<p>When we introduced <a href="http://hyper.sh/" target="_blank" rel="external">Hyper</a>, we wanted to show that it is actually possible to run truly isolated containers applications without any guest OS configuration required. We claimed that Hyper unlocks the possibility to build app-centric secure and isolated public CaaS platform, and now want to show you its power with a real-world implementation.</p>
-<p>Today, we are happy to announce <strong><a href="http://hypernetes.com" target="_blank" rel="external">Hypernetes</a>*: the Secure, Multi-tenant Kubernetes distribution</strong>.</p>
-<p>Simply put:</p>
-<pre><code>   Hypernetes = Bare-metal + Hyper + Kubernetes + Cinder(Ceph) + Neutron + Keystone
-</code></pre><p><img src="https://github.com/hyperhq/hypernetes/raw/master/architecture.png?raw=true" alt="Hypernetes"></p>
-<ul>
-<li>Hyper (Hyperd) runs directly on all your bare-metal machines to provision HyperVM (with Docker images) in milliseconds</li>
-<li>Within the VM, the “Hyperstart” init process is launched on top of the Hyper Kernel (or any compatible Linux kernel) to run Docker images as Pod</li>
-<li>Kubelet agent runs on each bare-metal host and manages HyperVM with Hyperd’s APIs</li>
-<li>The formed cluster of “Kubelets” is managed with the help of a “Kubernetes Master” server</li>
-<li>Hypernetes also makes uses of several OpenStack components<ul>
-<li><a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> for identities management and authentication</li>
-<li><a href="https://wiki.openstack.org/wiki/Neutron" target="_blank" rel="external">Neutron</a> for virtual networks management and isolation</li>
-<li><a href="https://wiki.openstack.org/wiki/Cinder" target="_blank" rel="external">Cinder</a> + <a href="http://ceph.com/" target="_blank" rel="external">Ceph</a> for persistent storage volume management</li>
-</ul>
-</li>
-</ul>
-<p>With Hypernetes, you are ready to offer your users an easy and straightforward way to deploy their Containers in the Cloud, with a maximum level of security, efficiency, and compatibility, but without the complexity introduced by nesting the Linux containers in full-blown VMs. Indeed, Hypernetes leverages the same old secure, reliable, battle tested, robust hypervisor virtualization to natively run all of your new Container applications, maximizing the ROI of your virtual infrastructure.</p>
-<p>You can check it out and try Hypernetes today as a <a href="http://github.com/hyperhq/hypernetes" target="_blank" rel="external">open-source project</a>. Please, don’t hesitate to join our <a href="http://slack.hyper.sh/" target="_blank" rel="external">Slack community</a>, <a href="https://groups.google.com/forum/#!forum/hyper-user" target="_blank" rel="external">users</a> and <a href="https://groups.google.com/forum/#!forum/hyper-dev" target="_blank" rel="external">developers</a> mailing lists if you would like to discuss about Hyper or Hypernetes with us.</p>
-<p>Also, as an open-source project, we warmly welcome PR contributions and issues, directly on our <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Github</a>.</p>
-<p>As a last word, we are presenting Hypernetes this week at the <a href="https://www.openstack.org/summit/tokyo-2015/" target="_blank" rel="external">OpenStack Tokyo Summit</a> and <a href="http://europe-2015.dockercon.com/" target="_blank" rel="external">DockerCon Europe</a> next month. If you’re around, please come by our booth ;-)</p>
-<p>From <a href="https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html" target="_blank" rel="external">https://hyper.sh/blog/post/2015/10/27/announcing-hypernetes-the-multitenant-kubernetes-distribution.html</a></p>
+            <p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
+<p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
 
           
         
@@ -1045,8 +1023,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/06/23/sysdig/" itemprop="url">
-                  sysdig
+                <a class="post-title-link" href="/2015/06/23/openstack-magnum/" itemprop="url">
+                  OpenStack Magnum社区及项目介绍
                 </a>
               
             
@@ -1073,8 +1051,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/OpenStack/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenStack</span>
                   </a>
                 </span>
 
@@ -1089,8 +1067,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/06/23/sysdig/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/23/sysdig/" itemprop="commentsCount"></span>
+                <a href="/2015/06/23/openstack-magnum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/23/openstack-magnum/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1115,237 +1093,10 @@
       
         
           
-            <p>Sysdig captures system calls and other system level events using a linux kernel facility called tracepoints, providing a rich set of real-time, system-level information.</p>
-<p>Sysdig “packetizes” this information, so that you can do things like save it into trace files and easily filter it, a bit like you would do with tcpdump. This makes it very flexible to explore what processes are doing.</p>
-<p>Sysdig instruments your physical and virtual machines at the OS level by installing into the Linux kernel and capturing system calls and other OS events. Then, using sysdig’s command line interface, you can filter and decode these events in order to extract useful information. Sysdig can be used to inspect systems live in real-time, or to generate trace files that can be analyzed at a later stage.</p>
-<h4 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h4><ul>
-<li><p>See the top processes in terms of network bandwidth usage</p>
-<blockquote>
-<p>sysdig -c topprocs_net</p>
-</blockquote>
-</li>
-<li><p>Show the network data exchanged with the host 192.168.0.1  </p>
-<blockquote>
-<p>as binary:<br>sysdig -s2000 -X -c echo_fds fd.cip=192.168.0.1<br>as ASCII:<br>sysdig -s2000 -A -c echo_fds fd.cip=192.168.0.1</p>
-</blockquote>
-</li>
-<li><p>See the top local server ports  </p>
-<blockquote>
-<p>in terms of established connections:<br>sysdig -c fdcount_by fd.sport “evt.type=accept”<br>in terms of total bytes:<br>sysdig -c fdbytes_by fd.sport</p>
-</blockquote>
-</li>
-<li><p>See the top client IPs  </p>
-<blockquote>
-<p>in terms of established connections<br>sysdig -c fdcount_by fd.cip “evt.type=accept”<br>in terms of total bytes<br>sysdig -c fdbytes_by fd.cip</p>
-</blockquote>
-</li>
-<li><p>List all the incoming connections that are not served by apache.</p>
-<blockquote>
-<p>sysdig -p”%proc.name %fd.name” “evt.type=accept and proc.name!=httpd”</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Containers"><a href="#Containers" class="headerlink" title="Containers"></a>Containers</h4><ul>
-<li><p>View the CPU usage of the processes running inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topprocs_cpu container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the network bandwidth usage of the processes running inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the processes using most network bandwidth inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topprocs_net container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the top files in terms of I/O bytes inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topfiles_bytes container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>View the top network connections inside the wordpress1 container </p>
-<blockquote>
-<p>sudo sysdig -pc -c topconns container.name=wordpress1</p>
-</blockquote>
-</li>
-<li><p>Show all the interactive commands executed inside the wordpress1 container</p>
-<blockquote>
-<p>sudo sysdig -pc -c spy_users container.name=wordpress1</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h4><ul>
-<li><p>See all the GET HTTP requests made by the machine</p>
-<blockquote>
-<p>sudo sysdig -s 2000 -A -c echo_fds fd.port=80 and evt.buffer contains GET</p>
-</blockquote>
-</li>
-<li><p>See all the SQL select queries made by the machine</p>
-<blockquote>
-<p>sudo sysdig -s 2000 -A -c echo_fds evt.buffer contains SELECT </p>
-</blockquote>
-</li>
-<li><p>See queries made via apache to an external MySQL server happening in real time</p>
-<blockquote>
-<p>sysdig -s 2000 -A -c echo_fds fd.sip=192.168.30.5 and proc.name=apache2 and evt.buffer contains SELECT</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Disk-I-O"><a href="#Disk-I-O" class="headerlink" title="Disk I/O"></a>Disk I/O</h4><ul>
-<li><p>See the top processes in terms of disk bandwidth usage</p>
-<blockquote>
-<p>sysdig -c topprocs_file</p>
-</blockquote>
-</li>
-<li><p>List the processes that are using a high number of files</p>
-<blockquote>
-<p>sysdig -c fdcount_by proc.name “fd.type=file”</p>
-</blockquote>
-</li>
-<li><p>See the top files in terms of read+write bytes</p>
-<blockquote>
-<p>sysdig -c topfiles_bytes</p>
-</blockquote>
-</li>
-<li><p>Print the top files that apache has been reading from or writing to</p>
-<blockquote>
-<p>sysdig -c topfiles_bytes proc.name=httpd</p>
-</blockquote>
-</li>
-<li><p>Basic opensnoop: snoop file opens as they occur</p>
-<blockquote>
-<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open</p>
-</blockquote>
-</li>
-<li><p>See the top directories in terms of R+W disk activity</p>
-<blockquote>
-<p>sysdig -c fdbytes_by fd.directory “fd.type=file”</p>
-</blockquote>
-</li>
-<li><p>See the top files in terms of R+W disk activity in the /tmp directory</p>
-<blockquote>
-<p>sysdig -c fdbytes_by fd.filename “fd.directory=/tmp/“</p>
-</blockquote>
-</li>
-<li><p>Observe the I/O activity on all the files named ‘passwd’</p>
-<blockquote>
-<p>sysdig -A -c echo_fds “fd.filename=passwd”</p>
-</blockquote>
-</li>
-<li><p>Display I/O activity by FD type  </p>
-<blockquote>
-<p>sysdig -c fdbytes_by fd.type</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Processes-and-CPU-usage"><a href="#Processes-and-CPU-usage" class="headerlink" title="Processes and CPU usage"></a>Processes and CPU usage</h4><ul>
-<li><p>See the top processes in terms of CPU usage</p>
-<blockquote>
-<p>sysdig -c topprocs_cpu</p>
-</blockquote>
-</li>
-<li><p>See the top processes for CPU 0</p>
-<blockquote>
-<p>sysdig -c topprocs_cpu evt.cpu=0</p>
-</blockquote>
-</li>
-<li><p>Observe the standard output of a process</p>
-<blockquote>
-<p>sysdig -s4096 -A -c stdout proc.name=cat</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Performance-and-Errors"><a href="#Performance-and-Errors" class="headerlink" title="Performance and Errors"></a>Performance and Errors</h4><ul>
-<li><p>See the files where most time has been spent</p>
-<blockquote>
-<p>sysdig -c topfiles_time</p>
-</blockquote>
-</li>
-<li><p>See the files where apache spent most time</p>
-<blockquote>
-<p>sysdig -c topfiles_time proc.name=httpd</p>
-</blockquote>
-</li>
-<li><p>See the top processes in terms of I/O errors</p>
-<blockquote>
-<p>sysdig -c topprocs_errors</p>
-</blockquote>
-</li>
-<li><p>See the top files in terms of I/O errors</p>
-<blockquote>
-<p>sysdig -c topfiles_errors</p>
-</blockquote>
-</li>
-<li><p>See all the failed disk I/O calls</p>
-<blockquote>
-<p>sysdig fd.type=file and evt.failed=true</p>
-</blockquote>
-</li>
-<li><p>See all the failed file opens by httpd</p>
-<blockquote>
-<p>sysdig “proc.name=httpd and evt.type=open and evt.failed=true”</p>
-</blockquote>
-</li>
-<li><p>See the system calls where most time has been spent</p>
-<blockquote>
-<p>sysdig -c topscalls_time</p>
-</blockquote>
-</li>
-<li><p>See the top system calls returning errors</p>
-<blockquote>
-<p>sysdig -c topscalls “evt.failed=true”</p>
-</blockquote>
-</li>
-<li><p>snoop failed file opens as they occur</p>
-<blockquote>
-<p>sysdig -p “%12user.name %6proc.pid %12proc.name %3fd.num %fd.typechar %fd.name” evt.type=open and evt.failed=true</p>
-</blockquote>
-</li>
-<li><p>Print the file I/O calls that have a latency greater than 1ms:</p>
-<blockquote>
-<p>sysdig -c fileslower 1</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><ul>
-<li><p>Show the directories that the user “root” visits</p>
-<blockquote>
-<p>sysdig -p”%evt.arg.path” “evt.type=chdir and user.name=root”</p>
-</blockquote>
-</li>
-<li><p>Observe ssh activity</p>
-<blockquote>
-<p>sysdig -A -c echo_fds fd.name=/dev/ptmx and proc.name=sshd</p>
-</blockquote>
-</li>
-<li><p>Show every file open that happens in /etc</p>
-<blockquote>
-<p>sysdig evt.type=open and fd.name contains /etc</p>
-</blockquote>
-</li>
-<li><p>Show the ID of all the login shells that have launched the “tar” command</p>
-<blockquote>
-<p>sysdig -r file.scap -c list_login_shells tar</p>
-</blockquote>
-</li>
-<li><p>Show all the commands executed by the login shell with the given ID</p>
-<blockquote>
-<p>sysdig -r trace.scap.gz -c spy_users proc.loginshellid=5459</p>
-</blockquote>
-</li>
-<li><p>Applied use of sysdig for forensics analysis:</p>
-<ul>
-<li><a href="http://draios.com/fishing-for-hackers/" target="_blank" rel="external">Fishing for Hackers: Analysis of a Linux Server Attack</a></li>
-<li><a href="http://draios.com/fishing-for-hackers-part-2/" target="_blank" rel="external">Fishing for Hackers (Part 2): Quickly Identify Suspicious Activity With Sysdig</a></li>
-</ul>
-</li>
-</ul>
-<p>User Guide: <a href="https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide" target="_blank" rel="external">https://github.com/draios/sysdig/wiki/Sysdig%20User%20Guide</a></p>
-<p>Source code: <a href="https://github.com/draios/sysdig" target="_blank" rel="external">https://github.com/draios/sysdig</a></p>
-<p>Support website: <a href="http://www.sysdig.org/" target="_blank" rel="external">http://www.sysdig.org/</a></p>
+            <p><img src="/images/magnum.png" alt=""></p>
+<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
+<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
+<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
 
           
         
