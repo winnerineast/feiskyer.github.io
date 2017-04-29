@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Cloud, Container, Kubernetes, SDN, Docker" />
+  <meta name="keywords" content=",,," />
 
 
 
@@ -86,19 +86,19 @@
 
 
 
-<meta name="description" content="【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… 阅读全文">
-<meta name="keywords">
-<meta property="og:type" content="article">
-<meta property="og:title" content="docker网络配置方法总结 - feisky">
-<meta property="og:url" content="http://feisky.xyz/2014/11/18/docker网络配置方法总结-feisky/index.html">
-<meta property="og:site_name" content="Feisky's Blog">
-<meta property="og:description" content="【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… 阅读全文">
-<meta property="og:image" content="http://counter.cnblogs.com/blog/rss/4105497">
-<meta property="og:updated_time" content="2017-04-27T01:14:57.198Z">
+<meta name="description" content="Serverless，即无服务器架构，将大家从服务器中解放了出来，只需要关注业务逻辑本身。用户只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容。Serverless本质上是一种更简单易用的PaaS，包含两种含义：  仅依赖云端服务来管理业务逻辑和状态的应用或服务，一般称为BaaS (Backend as a Service) 事件驱动且短时执行应用或服务，其主要逻辑由开发者完">
+<meta name="keywords" content="cloud,container,cluster">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Serverless">
+<meta property="og:url" content="http://feisky.xyz/serverless/index.html">
+<meta property="og:site_name" content="Feisky&#39;s Blog">
+<meta property="og:description" content="Serverless，即无服务器架构，将大家从服务器中解放了出来，只需要关注业务逻辑本身。用户只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容。Serverless本质上是一种更简单易用的PaaS，包含两种含义：  仅依赖云端服务来管理业务逻辑和状态的应用或服务，一般称为BaaS (Backend as a Service) 事件驱动且短时执行应用或服务，其主要逻辑由开发者完">
+<meta property="og:image" content="http://feisky.xyz/images/14872486572549.png">
+<meta property="og:updated_time" content="2017-04-29T01:15:25.750Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="docker网络配置方法总结 - feisky">
-<meta name="twitter:description" content="【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… 阅读全文">
-<meta name="twitter:image" content="http://counter.cnblogs.com/blog/rss/4105497">
+<meta name="twitter:title" content="Serverless">
+<meta name="twitter:description" content="Serverless，即无服务器架构，将大家从服务器中解放了出来，只需要关注业务逻辑本身。用户只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容。Serverless本质上是一种更简单易用的PaaS，包含两种含义：  仅依赖云端服务来管理业务逻辑和状态的应用或服务，一般称为BaaS (Backend as a Service) 事件驱动且短时执行应用或服务，其主要逻辑由开发者完">
+<meta name="twitter:image" content="http://feisky.xyz/images/14872486572549.png">
 
 
 
@@ -119,10 +119,10 @@
 
 
 
-  <link rel="canonical" href="http://feisky.xyz/2014/11/18/docker网络配置方法总结-feisky/"/>
+  <link rel="canonical" href="http://feisky.xyz/serverless/"/>
 
 
-  <title> docker网络配置方法总结 - feisky | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Serverless | Feisky's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -384,7 +384,7 @@
             
             
               
-                docker网络配置方法总结 - feisky
+                Serverless
               
             
           </h1>
@@ -396,8 +396,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-18T10:17:00+00:00" content="2014-11-18">
-              2014-11-18
+            <time itemprop="dateCreated" datetime="2017-04-29T01:15:25+00:00" content="2017-04-29">
+              2017-04-29
             </time>
           </span>
 
@@ -407,8 +407,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/11/18/docker网络配置方法总结-feisky/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/11/18/docker网络配置方法总结-feisky/" itemprop="commentsCount"></span>
+                <a href="/serverless/index.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="serverless/index.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -431,7 +431,42 @@
       
 
       
-        <p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
+        <p>Serverless，即无服务器架构，将大家从服务器中解放了出来，只需要关注业务逻辑本身。用户只需要关注数据和业务逻辑，无需维护服务器，也不需要关心系统的容量和扩容。Serverless本质上是一种更简单易用的PaaS，包含两种含义：</p>
+<ul>
+<li>仅依赖云端服务来管理业务逻辑和状态的应用或服务，一般称为BaaS (Backend as a Service)</li>
+<li>事件驱动且短时执行应用或服务，其主要逻辑由开发者完成，但由第三方管理（比如AWS Lambda），一般称为FaaS (Function as a Service)。目前大火的Serverless一般是指FaaS。</li>
+</ul>
+<p><img src="/images/14872486572549.png" alt=""></p>
+<p>引入serverless可以给应用开发者带来明显的好处</p>
+<ul>
+<li>用户无需配置和管理服务器</li>
+<li>用户服务不需要基于特定框架或软件库</li>
+<li>部署简单，只需要将代码上传到serverless平台即可</li>
+<li>完全自动化的横向扩展</li>
+<li>事件触发，比如http请求触发、文件更新触发、时间触发、消息触发等</li>
+<li>低成本，比如AWS Lambda按执行时间和触发次数收费，在代码未运行时无需付费</li>
+</ul>
+<p>serverless目录</p>
+<ul>
+<li><a href="platform.html">Serverless平台</a></li>
+<li><a href="usecase.html">Serverless适用场景</a></li>
+<li><a href="framework.html">Serverless框架</a></li>
+</ul>
+<p>当然，serverless也并非银弹，也有其特有的局限性</p>
+<ul>
+<li>无状态，服务的任何进程内或主机状态均无法被后续调用所使用，需要借助外部数据库或网络存储管理状态</li>
+<li>每次函数调用的时间一般都有限制，比如AWS Lambda限制每个函数最长只能运行5分钟</li>
+<li>启动延迟，特别是应用不活跃或者突发流量的情况下延迟尤为明显</li>
+<li>平台依赖，比如服务发现、监控、调试、API Gateway等都依赖于serverless平台提供的功能</li>
+</ul>
+<p><strong>serverless资源</strong></p>
+<ul>
+<li><a href="https://github.com/anaibol/awesome-serverless" target="_blank" rel="external">Awesome Serverless</a></li>
+<li><a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="external">AWS Lambda</a></li>
+<li><a href="https://martinfowler.com/articles/serverless.html" target="_blank" rel="external">Serverless Architectures</a></li>
+<li><a href="http://thenewstack.io/tns-guide-serverless-technologies-best-frameworks-platforms-tools/" target="_blank" rel="external">TNS Guide to Serverless Technologies</a></li>
+<li><a href="https://github.com/JustServerless/awesome-serverless" target="_blank" rel="external">Serverless blogs and posts</a></li>
+</ul>
 
       
     </div>
@@ -457,25 +492,17 @@
 
     <footer class="post-footer">
       
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2014/11/18/从veth看虚拟网络设备的qdisc-feisky/" rel="next" title="从veth看虚拟网络设备的qdisc - feisky">
-                <i class="fa fa-chevron-left"></i> 从veth看虚拟网络设备的qdisc - feisky
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/11/18/Kubernetes系统架构简介-feisky/" rel="prev" title="Kubernetes系统架构简介 - feisky">
-                Kubernetes系统架构简介 - feisky <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
+        <div class="post-tags">
+          
+            <a href="/" rel="tag">#</a>
+          
+            <a href="/" rel="tag">#</a>
+          
+            <a href="/" rel="tag">#</a>
+          
         </div>
+      
+
       
 
       
@@ -765,9 +792,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'feiskyblog';
-      var disqus_identifier = '2014/11/18/docker网络配置方法总结-feisky/';
-      var disqus_title = "docker网络配置方法总结 - feisky";
-      var disqus_url = 'http://feisky.xyz/2014/11/18/docker网络配置方法总结-feisky/';
+      var disqus_identifier = 'serverless/index.html';
+      var disqus_title = "Serverless";
+      var disqus_url = 'http://feisky.xyz/serverless/index.html';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');

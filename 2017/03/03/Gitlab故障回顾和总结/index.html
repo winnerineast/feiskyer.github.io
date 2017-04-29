@@ -87,13 +87,12 @@
 
 
 <meta name="description" content="Gitlab故障回顾1月31日，Giblab在修复一个PostgreSQL数据同步问题（DB Replication lagged too far behind）时，误将生产环境的数据删除（本来是计划删除db1上的数据，结果发现在错误的db2上操作了）。进而寻求从备份数据恢复，结果发现没有实时备份：  LVM Snapshot每24小时备份一次，最新数据是6小时前的 常规备份由于pg_dump客户">
-<meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gitlab故障回顾和总结">
 <meta property="og:url" content="http://feisky.xyz/2017/03/03/Gitlab故障回顾和总结/index.html">
-<meta property="og:site_name" content="Feisky's Blog">
+<meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="Gitlab故障回顾1月31日，Giblab在修复一个PostgreSQL数据同步问题（DB Replication lagged too far behind）时，误将生产环境的数据删除（本来是计划删除db1上的数据，结果发现在错误的db2上操作了）。进而寻求从备份数据恢复，结果发现没有实时备份：  LVM Snapshot每24小时备份一次，最新数据是6小时前的 常规备份由于pg_dump客户">
-<meta property="og:updated_time" content="2017-04-27T01:14:57.206Z">
+<meta property="og:updated_time" content="2017-04-29T01:15:25.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gitlab故障回顾和总结">
 <meta name="twitter:description" content="Gitlab故障回顾1月31日，Giblab在修复一个PostgreSQL数据同步问题（DB Replication lagged too far behind）时，误将生产环境的数据删除（本来是计划删除db1上的数据，结果发现在错误的db2上操作了）。进而寻求从备份数据恢复，结果发现没有实时备份：  LVM Snapshot每24小时备份一次，最新数据是6小时前的 常规备份由于pg_dump客户">
@@ -500,16 +499,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/03/AWS-S3故障回顾和总结/" rel="next" title="AWS S3故障回顾和总结">
-                <i class="fa fa-chevron-left"></i> AWS S3故障回顾和总结
+              <a href="/2017/02/14/Debugging-application-in-containers/" rel="next" title="Debugging application in containers">
+                <i class="fa fa-chevron-left"></i> Debugging application in containers
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/14/Debugging-application-in-containers/" rel="prev" title="Debugging application in containers">
-                Debugging application in containers <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/03/AWS-S3故障回顾和总结/" rel="prev" title="AWS S3故障回顾和总结">
+                AWS S3故障回顾和总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
