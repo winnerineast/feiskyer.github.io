@@ -383,6 +383,214 @@
             
               
                 
+                <a class="post-title-link" href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="url">
+                  How enable OpenStack allinone vm to access external network
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
+              2015-03-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/01/setting-up-gre-for-kubernetes/" itemprop="url">
+                  Setting up GRE for Kubernetes
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
+              2015-03-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/01/setting-up-gre-for-kubernetes/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/setting-up-gre-for-kubernetes/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" itemprop="url">
                   Open vSwitch over DPDK on Ubuntu
                 </a>
@@ -833,8 +1041,8 @@ From the host try to ping the guest. With the virtual machine configuration desc
             
               
                 
-                <a class="post-title-link" href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="url">
-                  How enable OpenStack allinone vm to access external network
+                <a class="post-title-link" href="/2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="url">
+                  Going Native with OpenStack Centric Applications: Overview
                 </a>
               
             
@@ -847,8 +1055,8 @@ From the host try to ping the guest. With the virtual machine configuration desc
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
-              2015-03-02
+            <time itemprop="dateCreated" datetime="2015-02-26T00:00:00+08:00" content="2015-02-26">
+              2015-02-26
             </time>
           </span>
 
@@ -858,8 +1066,8 @@ From the host try to ping the guest. With the virtual machine configuration desc
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="commentsCount"></span>
+                <a href="/2015/02/25/going-native-with-openstack-centric-applications-overview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -884,114 +1092,47 @@ From the host try to ping the guest. With the virtual machine configuration desc
       
         
           
-            <p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">#添加FAKE公网网关</div><div class="line">ovs-vsctl add-port br-ex gwp -- set interface gwp type=internal</div><div class="line">ifconfig gwp <span class="number">10.10</span>.<span class="number">10.1</span> netmask <span class="number">255.255</span>.<span class="number">255.0</span></div><div class="line">#添加SNAT规则允许虚拟机访问外网 </div><div class="line">iptables -t nat -A POSTROUTING -s <span class="number">10.10</span>.<span class="number">10.0</span>/<span class="number">24</span> -j MASQUERADE</div><div class="line">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</div><div class="line"><span class="selector-id">#iptables</span> -D FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">iptables -t <span class="attribute">filter</span> -I FORWARD -j ACCEPT</div><div class="line"></div><div class="line">#开启内核转发</div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.eth0</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.conf</span><span class="selector-class">.gwp</span><span class="selector-class">.rp_filter</span>=<span class="number">0</span></div><div class="line">sysctl -w net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span>=<span class="number">1</span></div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight x86asm"><table><tr><td class="code"><pre><div class="line">#假设eth0的<span class="built_in">ip</span>地址为<span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div><div class="line">iptables -t nat -I OUTPUT -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line">iptables -t nat -I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t nat -I PREROUTING -d <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>/<span class="number">32</span> -p tcp -m tcp --dport <span class="number">2222</span> -j DNAT --to-destination <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>:<span class="number">22</span></div><div class="line"></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.5</span>/<span class="number">32</span> -p tcp -m tcp --sport <span class="number">2222</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span>:<span class="number">22</span></div><div class="line">#iptables -t nat -I POSTROUTING -s <span class="number">10.10</span><span class="meta">.10</span><span class="meta">.0</span>/<span class="number">24</span> -j SNAT --to-source <span class="number">192.168</span><span class="meta">.33</span><span class="meta">.22</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/01/setting-up-gre-for-kubernetes/" itemprop="url">
-                  Setting up GRE for Kubernetes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
-              2015-03-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/03/01/setting-up-gre-for-kubernetes/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/setting-up-gre-for-kubernetes/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl<span class="built_in"> add-br </span>ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl set<span class="keyword"> bridge</span> ovsbr stp_enable=true</div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr</div><div class="line">ip link set dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr tep0 -- set interface tep0 type=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span></div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.1/24 dev tep0</div><div class="line">ip addr<span class="built_in"> add </span>192.168.1.2/24 dev tep0</div><div class="line">ip link set dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl<span class="built_in"> add-port </span>ovsbr gre0 -- set interface gre0 type=gre options:remote_ip=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span></div><div class="line">ip route<span class="built_in"> add </span>10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+            <p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
 
           
         
@@ -1159,221 +1300,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
 <p><img src="https://www.mirantis.com/wp-content/uploads/2015/02/test.png" alt="">(<a href="https://www.mirantis.com/wp-content/uploads/2015/02/test.png" target="_blank" rel="external">https://www.mirantis.com/wp-content/uploads/2015/02/test.png</a>)</p>
 <p>That’s it.</p>
 <p>From <a href="https://www.mirantis.com/blog/integrating-openstack-and-kubernetes-with-murano/" target="_blank" rel="external">https://www.mirantis.com/blog/integrating-openstack-and-kubernetes-with-murano/</a>.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/02/25/going-native-with-openstack-centric-applications-murano/" itemprop="url">
-                  Going Native with OpenStack Centric Applications: Murano
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-26T00:00:00+08:00" content="2015-02-26">
-              2015-02-26
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/25/going-native-with-openstack-centric-applications-murano/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/25/going-native-with-openstack-centric-applications-murano/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Following on our previous discussion surveying the projects supporting applications within OpenStack, let’s continue our review with an in-depth look at the OpenStack-native Application Catalog: Murano, currently an incubation status project, having seen its functionality and core services integration advanced over the past few OpenStack releases.</p>
-<h3 id="What-is-it"><a href="#What-is-it" class="headerlink" title="What is it?"></a>What is it?</h3><p>An application catalog developed by Mirantis, HP and others (now including Cisco), that allows application developers and cloud administrators to publish applications in a categorized catalog to be perused and deployed by application consumers. The selection of applications available within the catalog is intended to be that of released versions (ready-state) of applications (cloud-native or enterprise-architected), not application versions that are mid-development. Ideally, these are applications ready to be consumed and run by application users.</p>
-<h3 id="Functionality-Highlights"><a href="#Functionality-Highlights" class="headerlink" title="Functionality Highlights"></a>Functionality Highlights</h3><p><img src="http://blog.gingergeek.com/wp-content/uploads/2014/11/OpenStack-Centric-Applications-Murano-Application-Catalog-UI.png" alt="ui"></p>
-<ol>
-<li>Supports Windows and Linux applications</li>
-<li>Leverages HOT templates for application definition</li>
-<li>Controls Heat stack creation and updates processes</li>
-<li>Track application properties and dependencies</li>
-<li>Defines provisioning workflow definitions and executes them</li>
-<li>Introduces “Application” and “Environment” constructs</li>
-<li>Provides UI for application topology visualization</li>
-<li>Control lifecycle of a deployed application</li>
-<li>Allows simple management of access to an application</li>
-<li>Compose an environment from multiple application components</li>
-<li>Out of the Box Cataloged Applications<ul>
-<li>16 sample applications available now</li>
-<li>6 production-grade applications の Mirantis OpenStack Express**</li>
-</ul>
-</li>
-<li>Multiple application formats supported:<ul>
-<li>HOT Templates</li>
-<li>MuranoPL</li>
-</ul>
-</li>
-<li>Vision to support<ul>
-<li>Other application model formats:</li>
-<li>Parallels APS format</li>
-<li>TOSCA format</li>
-<li>Pricing; billing system integration</li>
-</ul>
-</li>
-</ol>
-<h3 id="User-Personas-amp-Capabilities"><a href="#User-Personas-amp-Capabilities" class="headerlink" title="User Personas &amp; Capabilities"></a>User Personas &amp; Capabilities</h3><p>As an application catalog, Murano, primarily focuses on three user personas, the Cloud Administrator, Application Consumer and Application Publisher receiving the most emphasis upfront in the development of this project.</p>
-<h3 id="Application-Consumer"><a href="#Application-Consumer" class="headerlink" title="Application Consumer"></a>Application Consumer</h3><p>The Application Consumer selects and deploys instances of applications into environments they define. The Application Consumer also* </p>
-<ul>
-<li>browses catalog (search, category, tags, etc)</li>
-<li>creates new environments</li>
-<li>deploys applications in environments</li>
-<li>monitors application statistics</li>
-</ul>
-<h3 id="Application-Publisher"><a href="#Application-Publisher" class="headerlink" title="Application Publisher"></a>Application Publisher</h3><p>The Application Publisher creates application definitions (packages) that are imported as entries into the application catalog for perusal by Application Consumers. The Application Publisher also* </p>
-<ul>
-<li>defines application metadata (author, help message, version, etc)</li>
-<li>identifies cloud resource allocation (HOT templates)</li>
-<li>creates application deployment specifications (HOT templates)</li>
-<li>defines a template for dynamic visualization of application topology (Horizon)</li>
-<li>identifies metrics collection (Ceilometer)</li>
-<li>establishes actions and events (Murano and Mistral)</li>
-<li>imports and publishes application definition to catalog</li>
-</ul>
-<h3 id="Cloud-Administrator"><a href="#Cloud-Administrator" class="headerlink" title="Cloud Administrator"></a>Cloud Administrator</h3><p>The Cloud Administrator is responsible for running the application catalog and providing stable infrastructure upon which to deploy and run applications. The Cloud Administrator also* </p>
-<ul>
-<li>curates application catalog (certification and signing of packages)</li>
-<li>configures access to applications</li>
-<li>defines billing rules*</li>
-</ul>
-<h3 id="Application-Packaging-Process"><a href="#Application-Packaging-Process" class="headerlink" title="Application Packaging Process"></a>Application Packaging Process</h3><p>Currently, Murano applications may be packaged using two different formats to describe the application – the MuranoPL or a HOT template. There’s roadmap to support addition application description formats. While these two methodologies vary in terms of how the orchestration is performed during provisioning of an instance of the app, their are common attributes (catalog metadata) like an application display name, logo, description, author, tags. For those familiar with other domain-specific languages of other popular configuration management frameworks, the MuranoPL is of little challenge to pick up (you may lean into  use Bash or Powershell if more comfortable) or you may opt to use SoftwareConfig and SoftwareDeploy of HOT.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Murano-Application-Packaging.png" alt=""></p>
-<h3 id="Architectural-Overview-amp-Core-Services-Integration"><a href="#Architectural-Overview-amp-Core-Services-Integration" class="headerlink" title="Architectural Overview &amp; Core Services Integration"></a>Architectural Overview &amp; Core Services Integration</h3><p>See the “Murano Architectural Overview” diagram for a visual representation of how Murano is tightly integrated with core OpenStack services. It’s relationship to existing core services breaks down as follows:</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Murano-Architectural-Overview.png" alt="Overview" width="800px"></p>
-<ul>
-<li>Glance: Originally designed as an image repository, Murano will use Glance to store &amp; query application definitions. Glance is used as an artifact repository to store application definitions, query &amp; search them and store images required by applications. Images used by Murano are marked with specific metadata, which is used by Murano to derive appropriate selections within the UI during application deployment time.</li>
-<li>Heat: Cloud resource allocation specific to the application, Resources required by application is allocated using Heat, Application provisioning / deployment via Heat Software Configuration, Life-cycle callbacks</li>
-<li>Horizon: Horizon is used to provide the Application Catalog user interface wherein Application Publishers may browse and deploy applications. Horizon is also used to both build applications and visualize the topology provisioned applications. The need for this type of dynamic user interface (application topology canvas) has been proposed as separate project to provide common support to other Application-oriented projects – Heat, Solum, Mistral and Murano. This application blueprint designer project is codename – Merlin.</li>
-<li>Docker: Murano supports existing Nova and Heat plugins. </li>
-<li>Ceilometer: Murano uses Ceilometer for application metric collection &amp; processing. Additionally, Ceilometer events may be subscribed to and trigger specific actions (see below) for autoscaling, HA, DR and other.</li>
-<li>Workflows are used when complex workflow outside of Heat is needed.</li>
-<li>Actions: Application level ad-hoc actions (e.g. create backup, enable/disable some feature, or create user for an application) will also be defined in Mistral. Classic runbook automation applies here – Murano allows the Application Publisher to define various custom actions to be taken upon trigger by an interesting event. What constitutes and interesting event is up to the Application Publisher, who may define any action in the application definition and associate the action to a specific workflow. By exposing a webhook to trigger the action (and workflow), they may be triggered by Ceilometer alarms or any 3rd party tool. Common use cases are auto-scaling, HA and DR. The “Murano Actions” diagram shows an example of an autoscaling scenario in which an application might require additional database instance based web server load.</li>
-</ul>
-<p><img src="/assets/OpenStack-Centric-Applications-Murano-Actions.png" alt="Drawing" width="800px"></p>
-<h3 id="Murano-and-Containers"><a href="#Murano-and-Containers" class="headerlink" title="Murano and Containers"></a>Murano and Containers</h3><p>Murano inherently supports Docker containers by relying upon existing OpenStack components for container integration and orchestration. This means that there are no considerations to be accounted for within the MuranoPL to describe the application package to support containers. Similarly, when using Heat templates at the core of the application package, only&nbsp;reference to Docker resources and images is needed to support container orchestration by Heat. There are different ways of using Docker in OpenStack via Murano:</p>
-<p>1) Heat template can use Heat::Docker</p>
-<ul>
-<li><span style="line-height: 1em;">Heat::Docker driver leverages Heat engine directly to instantiate containers</span></li>
-<li><span style="line-height: 1em;">Use Heat when Nova does not support Docker</span></li>
-</ul>
-<p>2) Heat template can use Nova::Docker</p>
-<ul>
-<li><span style="line-height: 1em;">Use when you have a bare metal Docker installation</span></li>
-<li><span style="line-height: 1em;">Through Nova API, create a container without a VM being created to host</span></li>
-<li><span style="line-height: 1em;">Nova can go to bare metale to create Docker container</span></li>
-<li><p><span style="line-height: 1em;">User provides Heat template, workflow (Murano DSL) and image</span></p>
-<p>3) Not recommended – Use Heat resource to create a VM with Dockerénside and boot an image file to the VM with <code>docker run</code>.</p>
-</li>
-</ul>
-<ul>
-<li>The Murano team is looking to add autoscaling for Docker services, facilitate Docker application placement and integration with monitoring and network services.</li>
-</ul>
-<h3 id="Murano-as-a-Southbound-Catalog"><a href="#Murano-as-a-Southbound-Catalog" class="headerlink" title="Murano as a Southbound Catalog"></a>Murano as a Southbound Catalog</h3><p>Murano has two different northbound APIs to expose access to applications in the catalog – REST and AMQP (Services Broker). Within the Juno release, the Services Broker has only been prototyped. It’s scheduled to be fully-implemented in Kilo. While other use cases may exist, the primary use case for these northbound API revolves around allowing northbound catalogs to access and expose OpenStack-native applications.</p>
-<p>The Services Broker supports CRUD and binds service with your application. A proof of concept has been completed to integrate Cloud Foundry with Murano via the Service Broker. When CloudFoundry is integrated to Murano, CloudFoundry users see and order Murano applications in CloudFoundry.</p>
-<p>Using the REST API, Murano may be integrated as a southbound application catalog to expose OpenStack-native applications as SaaS application profiles available for users of a northbound catalog. Users benefit from existing services offered on top of OpenStack. This enables application components to be split across infrastructure (having application components deployed into different infrastructures).</p>
-<h3 id="Kilo-Roadmap"><a href="#Kilo-Roadmap" class="headerlink" title="Kilo Roadmap"></a>Kilo Roadmap</h3><p>While subject to change, based on Kilo design summit discussions this week, the project team aims to bite off the following capabilities before the next release in May.</p>
-<ul>
-<li>Implementing CloudFoundry ServiceBroker API</li>
-<li>Use of Glance as an artifact repository</li>
-<li><p>Support pluggable package definitions formats:</p>
-<ul>
-<li>TOSCA (Topology and Orchestration Specification for Cloud Applications)</li>
-<li>APS (Parallels Application Standard)</li>
-</ul>
-</li>
-<li><p>Multiple Heat Stacks and OpenStack Cloud support</p>
-<ul>
-<li>Availability Zones (for DR)</li>
-<li>Multiple OpenStack clouds</li>
-</ul>
-</li>
-<li><p>Pluggable Architecture</p>
-<ul>
-<li>Integration with 3rd party API (F5, Brocade etc.)</li>
-<li>Package format plugins</li>
-</ul>
-</li>
-</ul>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/</a></p>
 
           
         
