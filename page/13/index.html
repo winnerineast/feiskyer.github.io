@@ -383,108 +383,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/03/04/python-not-defined-problem/" itemprop="url">
-                  Python __file__ not defined problem
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-05T00:00:00+08:00" content="2015-03-05">
-              2015-03-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/03/04/python-not-defined-problem/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/04/python-not-defined-problem/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
-<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/03/04/docker-acquires-sdn-startup-socketplane/" itemprop="url">
                   Docker acquires SDN startup SocketPlane
                 </a>
@@ -590,8 +488,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/03/03/ovs-20-call-flow/" itemprop="url">
-                  OVS 2.0 call flow
+                <a class="post-title-link" href="/2015/03/04/python-not-defined-problem/" itemprop="url">
+                  Python __file__ not defined problem
                 </a>
               
             
@@ -604,8 +502,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-04T00:00:00+08:00" content="2015-03-04">
-              2015-03-04
+            <time itemprop="dateCreated" datetime="2015-03-05T00:00:00+08:00" content="2015-03-05">
+              2015-03-05
             </time>
           </span>
 
@@ -615,8 +513,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/03/03/ovs-20-call-flow/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/03/ovs-20-call-flow/" itemprop="commentsCount"></span>
+                <a href="/2015/03/04/python-not-defined-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/04/python-not-defined-problem/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -641,8 +539,8 @@
       
         
           
-            <p><img src="/images/ovs_flow.jpg" alt=""></p>
-<p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/37600791" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/37600791</a></p>
+            <p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
+<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
 
           
         
@@ -745,6 +643,108 @@
           
             <p><img src="/images/network_flow.jpg" alt=""></p>
 <p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/19935813" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/19935813</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/03/ovs-20-call-flow/" itemprop="url">
+                  OVS 2.0 call flow
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-04T00:00:00+08:00" content="2015-03-04">
+              2015-03-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/03/ovs-20-call-flow/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/03/ovs-20-call-flow/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/ovs_flow.jpg" alt=""></p>
+<p>Refer <a href="http://blog.csdn.net/night_elf_1020/article/details/37600791" target="_blank" rel="external">http://blog.csdn.net/night_elf_1020/article/details/37600791</a></p>
 
           
         
