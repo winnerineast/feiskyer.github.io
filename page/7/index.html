@@ -383,6 +383,119 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/15/Hello-world-to-Docker-Mac/" itemprop="url">
+                  Hello world to Docker Mac
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-15T16:34:00+08:00" content="2016-04-15">
+              2016-04-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/15/Hello-world-to-Docker-Mac/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/15/Hello-world-to-Docker-Mac/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
+<ul>
+<li>安装简单了，标准的Mac Application<br>  <img src="/images/docker-mac-setting.png" alt=""></li>
+<li>VPN无障碍</li>
+<li>原生的（osxfs）文件系统共享（其实还支持9p方式）</li>
+<li>Docker Application管理 xhyve VM，更改配置后会自动重启</li>
+<li>速度快，在使用体验上跟在Linux上面已经差别不大</li>
+<li>可以与docker toolbox共存：Docker for Mac也会像Linux上面一样监听一个<code>/var/run/docker.sock</code>，这样客户端默认情况下就会走它的API；但也可以通过环境变量告诉docker CLI调用其他Docker Daemon的API（比如docker-machine管理的vm等）</li>
+</ul>
+<p><img src="/images/docker-for-mac-and-toolbox.png" alt=""></p>
+<p>跑一个nginx试试：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">➜  ~ docker version</div><div class="line">Client:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   4dc5990</div><div class="line"> Built:        Wed Apr 13 19:36:04 2016</div><div class="line"> OS/Arch:      darwin/amd64</div><div class="line"></div><div class="line">Server:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   a5315b8</div><div class="line"> Built:        Thu Apr 14 10:19:52 2016</div><div class="line"> OS/Arch:      linux/amd64</div><div class="line">➜  ~</div><div class="line">➜  ~ ls /var/run/docker.sock</div><div class="line">/var/run/docker.sock</div><div class="line">➜  ~ docker run -itd -p 9191:80 nginx</div><div class="line">53a8b3d5f1846273e10ff08086c679695d7f0536a9678e49b44990806ce03d54</div><div class="line"></div><div class="line">➜  ~ curl localhost:9191</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;title&gt;Welcome to nginx!&lt;/title&gt;</div><div class="line">&lt;style&gt;</div><div class="line">    body &#123;</div><div class="line">        width: 35em;</div><div class="line">        margin: 0 auto;</div><div class="line">        font-family: Tahoma, Verdana, Arial, sans-serif;</div><div class="line">    &#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;</div><div class="line">&lt;p&gt;If you see this page, the nginx web server is successfully installed and</div><div class="line">working. Further configuration is required.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;For online documentation and support please refer to</div><div class="line">&lt;a href=<span class="string">"http://nginx.org/"</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;</div><div class="line">Commercial support is available at</div><div class="line">&lt;a href=<span class="string">"http://nginx.com/"</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;&lt;em&gt;Thank you <span class="keyword">for</span> using nginx.&lt;/em&gt;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>当然了，由于还是Beta版，小问题还是有的。不过感觉目前的状态已经可以替代Linux vm作大部分的开发测试了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/30/Upgrade-CentOS-kernel/" itemprop="url">
                   Upgrade CentOS kernel
                 </a>
@@ -791,122 +904,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/02/Kubernetes-sig-node-Asia-meeting-nodes/" itemprop="url">
-                  Kubernetes sig-node (Asia) meeting notes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-02T17:07:00+08:00" content="2016-03-02">
-              2016-03-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/02/Kubernetes-sig-node-Asia-meeting-nodes/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/02/Kubernetes-sig-node-Asia-meeting-nodes/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Kubernetes-1-2-Status-Update-dchen"><a href="#Kubernetes-1-2-Status-Update-dchen" class="headerlink" title="Kubernetes 1.2 Status Update (@dchen)"></a>Kubernetes 1.2 Status Update (@dchen)</h2><ul>
-<li>Deployment object and HPA scale还有一些P0和P1的问题待解决</li>
-<li>aws还有挺多的问题（应该要超过20个）</li>
-<li>整个v1.2还有超过100个issue，但大部分都不是block issue</li>
-<li>v1.2推荐使用Docker v1.9.1，Docker v1.10 validation <a href="https://github.com/kubernetes/kubernetes/issues/19720" target="_blank" rel="external">https://github.com/kubernetes/kubernetes/issues/19720</a></li>
-<li>Docker v1.10最大的问题是镜像格式变化，需要某种转换镜像的管理机制</li>
-</ul>
-<h2 id="Huawei-Conformance-Test-liangchenye"><a href="#Huawei-Conformance-Test-liangchenye" class="headerlink" title="Huawei Conformance Test (@liangchenye)"></a>Huawei Conformance Test (@liangchenye)</h2><p>关于Pod运行和删除的PR已经merge，但是image的test还在开发中。主要的问题是没有文档指导rkt环境的搭建。</p>
-<h2 id="Hyper-integration-feiskyer"><a href="#Hyper-integration-feiskyer" class="headerlink" title="Hyper integration (@feiskyer)"></a>Hyper integration (@feiskyer)</h2><p>Hypernetes e2e test有一个单机环境的<a href="https://gist.github.com/feiskyer/ecb7eab17ef41f134353" target="_blank" rel="external">测试结果</a>，但由于GCE环境的问题，多机环境的搭建还没有完成。还有一个Hyper日志”\n”处理的bug需要修复。</p>
-<h2 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h2><p>etcd计划在4月份发布v3.0 alpha，并争取kubernetes v1.3升级到etcd 3.0 stable。</p>
-<h2 id="More-notes-taken-by-lantao"><a href="#More-notes-taken-by-lantao" class="headerlink" title="More notes taken by @lantao"></a>More notes taken by @lantao</h2><p>Release Brain Storm</p>
-<p>@hongchao: Over-commit? -&gt; In 1.3 roadmap today, but not finalized.In fact we can do over-commit today, but reliablility and QoS should be guranteed.(@dchen)<br>Detect out of resource<br>Decide which pod should be killed<br>Well-defined eviction policy is needed.</p>
-<p>Q&amp;A<br>@dchen: Etcd v3.0 alpha version in April; stable version in May or June; Try to ship with kubernetes 1.3.</p>
-<p>@xiang:<br>New node metric api merged? Yeah.<br>Is the new metric api added for better scheduling? No, necessary information for scheduling is available on kubelet side from v1.0.<br>Hardware level metrics?</p>
-<p>@feiskyer: Pod level data in cadvisor? At cgroup level, we could do that. But at API level, it is still in disicussion. Internally shareable resource between containers is very powerful but quite complex. If customers don’t ask for that now, we may want to defer it. @dchen: How to define extra overhide of rkt and hyper in api, should it be visible for user?<br>Related issue: <a href="https://github.com/coreos/rkt/issues/1788" target="_blank" rel="external">https://github.com/coreos/rkt/issues/1788</a></p>
-<p>Previous notes is recorded at <a href="https://docs.google.com/document/d/1L8s6Nyu5hNJxCOZLqJsuVEFAScWKhbwcis0X-j-upDc/edit#heading=h.jgbd25swf99j" target="_blank" rel="external">https://docs.google.com/document/d/1L8s6Nyu5hNJxCOZLqJsuVEFAScWKhbwcis0X-j-upDc/edit#heading=h.jgbd25swf99j</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -952,7 +949,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">102</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -383,6 +383,122 @@
             
               
                 
+                <a class="post-title-link" href="/2015/03/02/dive-in-linux-capabilites/" itemprop="url">
+                  Dive in Linux capabilites
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-03T00:00:00+08:00" content="2015-03-03">
+              2015-03-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/02/dive-in-linux-capabilites/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/02/dive-in-linux-capabilites/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Capabilities in Linux are flags that tell the kernel what the application is allowed to do, If you have no additional security mechanism in place, the Linux root user has all capabilities assigned to it. As capabilities are a way for running processes with some privileges, without having the need to grant them root privileges, it is important to understand that they exist.</p>
+<p>Consider the ping utility. It is marked setuid root on some distributions, because the utility requires the (cap)ability to send raw packets. This capability is known as CAP_NET_RAW. However, thanks to capabilities, you can now mark the ping application with this capability and drop the setuid from the file. As a result, the application does not run with full root privileges anymore, but with the restricted privileges of the user plus one capability, namely the CAP_NET_RAW.</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">➜  ~  cp /bin/ping .</div><div class="line">➜  ~  ll ping</div><div class="line">-rwxr-xr-x <span class="number">1</span> fei fei <span class="number">44</span>K  <span class="number">3</span>月  <span class="number">3</span> <span class="number">14</span>:<span class="number">42</span> ping</div><div class="line">➜  ~  ll /bin/ping</div><div class="line">-rwsr-xr-x <span class="number">1</span> root root <span class="number">44</span>K  <span class="number">5</span>月  <span class="number">8</span>  <span class="number">2014</span> /bin/ping</div><div class="line">➜  ~  ./ping -c <span class="number">1</span> www<span class="selector-class">.baidu</span><span class="selector-class">.com</span></div><div class="line">ping: icmp open socket: Operation not permitted</div><div class="line">➜  ~  sudo setcap cap_net_raw+<span class="selector-tag">p</span> ping</div><div class="line">➜  ~  getcap ping</div><div class="line">ping = cap_net_raw+<span class="selector-tag">p</span></div><div class="line">➜  ~  ./ping -c <span class="number">1</span> www<span class="selector-class">.baidu</span><span class="selector-class">.com</span></div><div class="line">PING www<span class="selector-class">.a</span><span class="selector-class">.shifen</span><span class="selector-class">.com</span> (<span class="number">115.239</span>.<span class="number">211.112</span>) <span class="number">56</span>(<span class="number">84</span>) bytes of data.</div><div class="line"><span class="number">64</span> bytes from <span class="number">115.239</span>.<span class="number">211.112</span>: icmp_seq=<span class="number">1</span> ttl=<span class="number">51</span> time=<span class="number">6.83</span> ms</div><div class="line"></div><div class="line">--- www<span class="selector-class">.a</span><span class="selector-class">.shifen</span><span class="selector-class">.com</span> ping statistics ---</div><div class="line"><span class="number">1</span> packets transmitted, <span class="number">1</span> received, <span class="number">0%</span> packet loss, <span class="selector-tag">time</span> <span class="number">0ms</span></div><div class="line">rtt min/avg/max/mdev = <span class="number">6.833</span>/<span class="number">6.833</span>/<span class="number">6.833</span>/<span class="number">0.000</span> ms</div></pre></td></tr></table></figure>
+<h3 id="Useful-Tools"><a href="#Useful-Tools" class="headerlink" title="Useful Tools"></a>Useful Tools</h3><p>Install capability tools by <code>sudo apt-get install libcap-ng-utils</code>.</p>
+<ul>
+<li>filecap - a program to see file capabilities</li>
+<li>pscap - a program to see process capabilities</li>
+<li>netcap - a program to see network capabilities</li>
+</ul>
+<h3 id="Another-exmaple"><a href="#Another-exmaple" class="headerlink" title="Another exmaple"></a>Another exmaple</h3><p>Use following program for test cap_setuid and cap_setgid.</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * gcc cap_test.c -o test -lcap</div><div class="line">**/</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/capability.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/prctl.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"cap_setuid and cap_setgid: %d\n"</span>, prctl(PR_CAPBSET_READ, CAP_SETUID | CAP_SETGID, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"File cap: %s\n"</span>, cap_to_text(cap_get_file(argv[<span class="number">0</span>]), <span class="literal">NULL</span>));</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Process cap: %s\n"</span>, cap_to_text(cap_get_proc(), <span class="literal">NULL</span>));</div><div class="line">    <span class="keyword">if</span> (setresuid(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>))</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"setresuid(): %s\n"</span>, strerror(errno));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">char</span> *args[] = &#123;<span class="literal">NULL</span>&#125;;</div><div class="line">        <span class="keyword">char</span> *env[] = &#123;<span class="literal">NULL</span>&#125;;</div><div class="line">        execve(<span class="string">"/bin/sh"</span>, args, env);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Since <code>test</code> has no capabilities of cap_setuid and cap_setgid, <code>test</code> program is not permitted to setresuid().</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">➜  gcc cap_test.c -o <span class="keyword">test</span> -lcap</div><div class="line">➜  ./<span class="keyword">test</span></div><div class="line">cap_setuid and cap_setgid: 1</div><div class="line"><span class="keyword">File</span> <span class="keyword">cap</span>: (null)</div><div class="line">Process <span class="keyword">cap</span>: =</div><div class="line">setresuid(): Operation not permitted</div></pre></td></tr></table></figure>
+<p>Now, we add cap_setuid and cap_setgid to <code>test</code>:</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">➜  sudo setcap cap_setuid,cap_setgid+ep <span class="keyword">test</span></div><div class="line">➜  ./<span class="keyword">test</span></div><div class="line">cap_setuid and cap_setgid: 1</div><div class="line"><span class="keyword">File</span> <span class="keyword">cap</span>: = cap_setgid,cap_setuid+ep</div><div class="line">Process <span class="keyword">cap</span>: = cap_setgid,cap_setuid+ep</div><div class="line"># <span class="keyword">cat</span> /etc/shadow   # We are <span class="keyword">in</span> <span class="keyword">sh</span> now and we have root priviledge</div><div class="line">root:!:11111:0:99999:7:::</div><div class="line">daemon:*:12232:0:99999:7:::</div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>See more at <a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="external">man</a> and <a href="https://www.kernel.org/pub/linux/libs/security/linux-privs/kernel-2.2/capfaq-0.2.txt" target="_blank" rel="external">faq</a>.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/01/setting-up-gre-for-kubernetes/" itemprop="url">
                   Setting up GRE for Kubernetes
                 </a>
@@ -1041,147 +1157,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
             
               
                 
-                <a class="post-title-link" href="/2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="url">
-                  Going Native with OpenStack Centric Applications: Overview
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-26T00:00:00+08:00" content="2015-02-26">
-              2015-02-26
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/25/going-native-with-openstack-centric-applications-overview/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/25/going-native-with-openstack-centric-applications-overview/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/02/25/integrating-openstack-and-kubernetes-with-murano/" itemprop="url">
                   Integrating Openstack and Kubernetes with Murano
                 </a>
@@ -1373,7 +1348,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">102</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

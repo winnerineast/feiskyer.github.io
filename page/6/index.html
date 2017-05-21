@@ -383,6 +383,129 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/28/runc/" itemprop="url">
+                  runc and runV
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-28T11:15:03+08:00" content="2016-04-28">
+              2016-04-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/28/runc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/28/runc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>runc is a CLI tool for spawning and running containers according to the OCI specification, while runV is a hypervisor-based runtime for OCI. Both of them are recommanded (implementations](<a href="https://github.com/opencontainers/runtime-spec/blob/master/implementations.md" target="_blank" rel="external">https://github.com/opencontainers/runtime-spec/blob/master/implementations.md</a>) of OCI.</p>
+<h2 id="Playing-with-runc"><a href="#Playing-with-runc" class="headerlink" title="Playing with runc"></a>Playing with runc</h2><p>Install runc:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">yum install -y libseccomp-devel</div><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/opencontainers</div><div class="line">git <span class="built_in">clone</span> https://github.com/opencontainers/runc</div><div class="line"><span class="built_in">cd</span> runc</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>Run busybox:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runc spec .</div><div class="line">$ runc start <span class="built_in">test</span></div><div class="line">/ <span class="comment"># ps</span></div><div class="line">PID   USER     COMMAND</div><div class="line">1 root     sh</div><div class="line">9 root     ps</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-docker-containerd"><a href="#Playing-with-docker-containerd" class="headerlink" title="Playing with docker-containerd"></a>Playing with docker-containerd</h2><p>docker-containerd is installed togather with docker 1.11.</p>
+<figure class="highlight llvm"><table><tr><td class="code"><pre><div class="line">$ docker-containerd-ctr --address <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers</div><div class="line">ID                                                                 PATH                                                                                             STATUS              PROCESSES</div><div class="line"><span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span>   /var/run/docker/libcontainerd/<span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span>   running             init</div><div class="line">bca<span class="number">15</span>f<span class="number">3420e3218987314</span>e<span class="number">1</span>cbbf<span class="number">440120</span>ff<span class="number">880</span>af<span class="number">44844778293</span><span class="keyword">c</span><span class="number">4130526</span><span class="keyword">c</span><span class="number">85</span><span class="keyword">cc</span>   /var/run/docker/libcontainerd/bca<span class="number">15</span>f<span class="number">3420e3218987314</span>e<span class="number">1</span>cbbf<span class="number">440120</span>ff<span class="number">880</span>af<span class="number">44844778293</span><span class="keyword">c</span><span class="number">4130526</span><span class="keyword">c</span><span class="number">85</span><span class="keyword">cc</span>   running             init</div><div class="line">$ docker-containerd-ctr --address <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> containers exec --id=<span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span> --pid=<span class="number">20</span> --cwd=/ -a /bin/ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    <span class="number">1</span> root       <span class="number">0</span>:<span class="number">00</span> sh</div><div class="line">   <span class="number">51</span> root       <span class="number">0</span>:<span class="number">00</span> /bin/ps aux</div><div class="line">$ docker-containerd-ctr --address <span class="string">"/var/run/docker/libcontainerd/docker-containerd.sock"</span> state <span class="number">346</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">7</span>bbb<span class="number">04</span>b<span class="number">760032557e1324</span>a<span class="number">4027</span>ec<span class="number">0055</span>ea<span class="number">84</span>dca<span class="number">109134</span><span class="keyword">c</span><span class="number">02e03</span>dc<span class="number">1242</span><span class="keyword">c</span></div><div class="line">&#123;<span class="string">"containers"</span>:[&#123;<span class="string">"id"</span>:<span class="string">"346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"bundlePath"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c"</span>,<span class="string">"processes"</span>:[&#123;<span class="string">"pid"</span>:<span class="string">"init"</span>,<span class="string">"terminal"</span>:<span class="keyword">true</span>,<span class="string">"user"</span>:&#123;<span class="string">"additionalGids"</span>:[<span class="number">10</span>]&#125;,<span class="string">"args"</span>:[<span class="string">"sh"</span>],<span class="string">"env"</span>:[<span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,<span class="string">"HOSTNAME=346c1b7bbb04"</span>,<span class="string">"TERM=xterm"</span>],<span class="string">"cwd"</span>:<span class="string">"/"</span>,<span class="string">"systemPid"</span>:<span class="number">3716</span>,<span class="string">"stdin"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdin"</span>,<span class="string">"stdout"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stdout"</span>,<span class="string">"stderr"</span>:<span class="string">"/var/run/docker/libcontainerd/346c1b7bbb04b760032557e1324a4027ec0055ea84dca109134c02e03dc1242c/init-stderr"</span>,<span class="string">"capabilities"</span>:[<span class="string">"CAP_CHOWN"</span>,<span class="string">"CAP_DAC_OVERRIDE"</span>,<span class="string">"CAP_FSETID"</span>,<span class="string">"CAP_FOWNER"</span>,<span class="string">"CAP_MKNOD"</span>,<span class="string">"CAP_NET_RAW"</span>,<span class="string">"CAP_SETGID"</span>,<span class="string">"CAP_SETUID"</span>,<span class="string">"CAP_SETFCAP"</span>,<span class="string">"CAP_SETPCAP"</span>,<span class="string">"CAP_NET_BIND_SERVICE"</span>,<span class="string">"CAP_SYS_CHROOT"</span>,<span class="string">"CAP_KILL"</span>,<span class="string">"CAP_AUDIT_WRITE"</span>]&#125;],<span class="string">"status"</span>:<span class="string">"running"</span>,<span class="string">"pids"</span>:[<span class="number">3716</span>],<span class="string">"runtime"</span>:<span class="string">"docker-runc"</span>&#125;],<span class="string">"machine"</span>:&#123;<span class="string">"cpus"</span>:<span class="number">2</span>,<span class="string">"memory"</span>:<span class="number">7982</span>&#125;&#125;</div></pre></td></tr></table></figure>
+<h2 id="Playing-with-runV"><a href="#Playing-with-runV" class="headerlink" title="Playing with runV"></a>Playing with runV</h2><p>Install runV:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/hyperhq</div><div class="line">git <span class="built_in">clone</span> https://github.com/hyperhq/runv/</div><div class="line"><span class="built_in">cd</span> runv</div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>To run container in runV, kernel and initrd are needed since runV is based on hypervisor. They could be compiled from <a href="https://github.com/hyperhq/hyperstart" target="_blank" rel="external">hyperstart</a>.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker pull busybox</div><div class="line">$ mkdir rootfs</div><div class="line">$ docker <span class="built_in">export</span> $(docker create busybox) | tar -C rootfs -xvf -</div><div class="line">$ runv spec .</div><div class="line">$ runv --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img start <span class="built_in">test</span></div></pre></td></tr></table></figure>
+<h2 id="Playing-with-runv-containerd"><a href="#Playing-with-runv-containerd" class="headerlink" title="Playing with runv-containerd"></a>Playing with runv-containerd</h2><p>Install ctr CLI from containerd</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/docker</div><div class="line">git <span class="built_in">clone</span> https://github.com/docker/containerd.git</div><div class="line"><span class="built_in">cd</span> containerd</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p>Start runv containerd</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">runv-containerd --kernel=/var/lib/hyper/kernel --initrd=/var/lib/hyper/hyper-initrd.img</div></pre></td></tr></table></figure>
+<p>Run ctr command now:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># Creating OCI bundles</span></div><div class="line">mkdir -p busybox/rootfs</div><div class="line">docker <span class="built_in">export</span> $(docker create busybox) | tar -C busybox/rootfs -xvf -</div><div class="line"><span class="built_in">cd</span> busybox</div><div class="line">runv spec .</div></pre></td></tr></table></figure>
+<p>Change the contents of config.json to </p>
+<figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"ociVersion"</span>: <span class="string">"0.5.0-dev"</span>,</div><div class="line">  <span class="attr">"platform"</span>: &#123;</div><div class="line">    <span class="attr">"os"</span>: <span class="string">"linux"</span>,</div><div class="line">    <span class="attr">"arch"</span>: <span class="string">"amd64"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"process"</span>: &#123;</div><div class="line">    <span class="attr">"terminal"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"user"</span>: &#123;&#125;,</div><div class="line">    <span class="attr">"args"</span>: [</div><div class="line">      <span class="string">"sh"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"env"</span>: [</div><div class="line">      <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span>,</div><div class="line">      <span class="string">"TERM=xterm"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"cwd"</span>: <span class="string">"/"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"root"</span>: &#123;</div><div class="line">    <span class="attr">"path"</span>: <span class="string">"rootfs"</span>,</div><div class="line">    <span class="attr">"readonly"</span>: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"hostname"</span>: <span class="string">"shell"</span>,</div><div class="line">  <span class="attr">"mounts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/proc"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"proc"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"proc"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"strictatime"</span>,</div><div class="line">        <span class="string">"mode=755"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/pts"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"devpts"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"newinstance"</span>,</div><div class="line">        <span class="string">"ptmxmode=0666"</span>,</div><div class="line">        <span class="string">"mode=0620"</span>,</div><div class="line">        <span class="string">"gid=5"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/shm"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"tmpfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"shm"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"mode=1777"</span>,</div><div class="line">        <span class="string">"size=65536k"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/dev/mqueue"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"mqueue"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"sysfs"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"destination"</span>: <span class="string">"/sys/fs/cgroup"</span>,</div><div class="line">      <span class="attr">"type"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"source"</span>: <span class="string">"cgroup"</span>,</div><div class="line">      <span class="attr">"options"</span>: [</div><div class="line">        <span class="string">"nosuid"</span>,</div><div class="line">        <span class="string">"noexec"</span>,</div><div class="line">        <span class="string">"nodev"</span>,</div><div class="line">        <span class="string">"relatime"</span>,</div><div class="line">        <span class="string">"ro"</span></div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="attr">"hooks"</span>: &#123;&#125;,</div><div class="line">  <span class="attr">"linux"</span>: &#123;</div><div class="line">    <span class="attr">"resources"</span>: &#123;</div><div class="line">      <span class="attr">"devices"</span>: [</div><div class="line">				&#123;</div><div class="line">          <span class="attr">"allow"</span>: <span class="literal">false</span>,</div><div class="line">          <span class="attr">"access"</span>: <span class="string">"rwm"</span></div><div class="line">        &#125;</div><div class="line">			]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"namespaces"</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"pid"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"ipc"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"uts"</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"type"</span>: <span class="string">"mount"</span></div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">		<span class="attr">"devices"</span>: <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Start container:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">ctr --address=unix:///run/runv-containerd/containerd.sock containers start <span class="built_in">test</span> /root/busybox</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers</div><div class="line">ID                  PATH                STATUS              PROCESSES</div><div class="line"><span class="built_in">test</span>                /root/busybox       running             init</div><div class="line"></div><div class="line">$ ctr --address=unix:///run/runv-containerd/containerd.sock containers <span class="built_in">exec</span> --id=<span class="built_in">test</span> --pid=20 --cwd=/ <span class="_">-a</span>  ps aux</div><div class="line">PID   USER     TIME   COMMAND</div><div class="line">    1 root       0:00 /init</div><div class="line">    2 root       0:00 sh</div><div class="line">    4 root       0:00 ps aux</div><div class="line"></div><div class="line">ps -ef | grep qemu</div><div class="line">qemu-system-x86_64 -machine pc-i440fx-2.0,usb=off -cpu core2duo -kernel /var/lib/hyper/kernel -initrd /var/lib/hyper/hyper-initrd.img -append <span class="string">"console=ttyS0 panic=1 no_timer_check"</span> -realtime mlock=off -no-user-config -nodefaults -no-hpet -rtc base=utc,driftfix=slew -no-reboot -display none -boot strict=on -m 128 -smp 1 -qmp unix:/var/run/hyper/vm-JRPdDUOkqA/qmp.sock,server,nowait -serial unix:/var/run/hyper/vm-JRPdDUOkqA/console.sock,server,nowait -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x2 -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x3 -chardev socket,id=charch0,path=/var/run/hyper/vm-JRPdDUOkqA/hyper.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charch0,id=channel0,name=sh.hyper.channel.0 -chardev socket,id=charch1,path=/var/run/hyper/vm-JRPdDUOkqA/tty.sock,server,nowait -device virtserialport,bus=virtio-serial0.0,nr=2,chardev=charch1,id=channel1,name=sh.hyper.channel.1 -fsdev <span class="built_in">local</span>,id=virtio9p,path=/var/run/hyper/vm-JRPdDUOkqA/share_dir,security_model=none -device virtio-9p-pci,fsdev=virtio9p,mount_tag=share_dir</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/28/Docker-1-11-Runtime/" itemprop="url">
                   Container runtime in Docker v1.11
                 </a>
@@ -876,119 +999,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/15/Hello-world-to-Docker-Mac/" itemprop="url">
-                  Hello world to Docker Mac
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-15T16:34:00+08:00" content="2016-04-15">
-              2016-04-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/15/Hello-world-to-Docker-Mac/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/15/Hello-world-to-Docker-Mac/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>终于等到了Docker for Mac。如之前期待的，体验真的很棒：</p>
-<ul>
-<li>安装简单了，标准的Mac Application<br>  <img src="/images/docker-mac-setting.png" alt=""></li>
-<li>VPN无障碍</li>
-<li>原生的（osxfs）文件系统共享（其实还支持9p方式）</li>
-<li>Docker Application管理 xhyve VM，更改配置后会自动重启</li>
-<li>速度快，在使用体验上跟在Linux上面已经差别不大</li>
-<li>可以与docker toolbox共存：Docker for Mac也会像Linux上面一样监听一个<code>/var/run/docker.sock</code>，这样客户端默认情况下就会走它的API；但也可以通过环境变量告诉docker CLI调用其他Docker Daemon的API（比如docker-machine管理的vm等）</li>
-</ul>
-<p><img src="/images/docker-for-mac-and-toolbox.png" alt=""></p>
-<p>跑一个nginx试试：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">➜  ~ docker version</div><div class="line">Client:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   4dc5990</div><div class="line"> Built:        Wed Apr 13 19:36:04 2016</div><div class="line"> OS/Arch:      darwin/amd64</div><div class="line"></div><div class="line">Server:</div><div class="line"> Version:      1.11.0</div><div class="line"> API version:  1.23</div><div class="line"> Go version:   go1.5.4</div><div class="line"> Git commit:   a5315b8</div><div class="line"> Built:        Thu Apr 14 10:19:52 2016</div><div class="line"> OS/Arch:      linux/amd64</div><div class="line">➜  ~</div><div class="line">➜  ~ ls /var/run/docker.sock</div><div class="line">/var/run/docker.sock</div><div class="line">➜  ~ docker run -itd -p 9191:80 nginx</div><div class="line">53a8b3d5f1846273e10ff08086c679695d7f0536a9678e49b44990806ce03d54</div><div class="line"></div><div class="line">➜  ~ curl localhost:9191</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;title&gt;Welcome to nginx!&lt;/title&gt;</div><div class="line">&lt;style&gt;</div><div class="line">    body &#123;</div><div class="line">        width: 35em;</div><div class="line">        margin: 0 auto;</div><div class="line">        font-family: Tahoma, Verdana, Arial, sans-serif;</div><div class="line">    &#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;</div><div class="line">&lt;p&gt;If you see this page, the nginx web server is successfully installed and</div><div class="line">working. Further configuration is required.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;For online documentation and support please refer to</div><div class="line">&lt;a href=<span class="string">"http://nginx.org/"</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;</div><div class="line">Commercial support is available at</div><div class="line">&lt;a href=<span class="string">"http://nginx.com/"</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;&lt;em&gt;Thank you <span class="keyword">for</span> using nginx.&lt;/em&gt;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>当然了，由于还是Beta版，小问题还是有的。不过感觉目前的状态已经可以替代Linux vm作大部分的开发测试了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1034,7 +1044,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">102</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

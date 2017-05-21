@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://feisky.xyz/"/>
-  <updated>2017-05-20T01:23:25.576Z</updated>
+  <updated>2017-05-21T22:53:01.680Z</updated>
   <id>http://feisky.xyz/</id>
   
   <author>
@@ -16,11 +16,49 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>开始一本开源电子书《Kubernetes指南》</title>
+    <link href="http://feisky.xyz/2017/05/21/Start-Kubernetes-Handbook/"/>
+    <id>http://feisky.xyz/2017/05/21/Start-Kubernetes-Handbook/</id>
+    <published>2017-05-21T09:42:34.000Z</published>
+    <updated>2017-05-21T22:53:01.680Z</updated>
+    
+    <content type="html"><![CDATA[<p>Kubernetes是谷歌开源的容器集群管理系统，是Google多年大规模容器管理技术Borg的开源版本，也是CNCF最重要的组件之一，主要功能包括：</p>
+<ul>
+<li>基于容器的应用部署、维护和滚动升级</li>
+<li>负载均衡和服务发现</li>
+<li>跨机器和跨地区的集群调度</li>
+<li>自动伸缩</li>
+<li>无状态服务和有状态服务</li>
+<li>广泛的Volume支持</li>
+<li>插件机制保证扩展性</li>
+</ul>
+<p>Kubernetes发展非常迅速，已经成为容器编排领域的领导者。Kubernetes的中文资料也非常丰富，但系统化和紧跟社区更新的则就比较少见了。《Kubernetes指南》开源电子书旨在整理平时在开发和使用Kubernetes时的参考指南和实践总结，更是为了形成一个系统化的参考指南以方便查阅。欢迎大家关注，更欢迎大家一起添加更多更好的内容。</p>
+<h2 id="在线阅读"><a href="#在线阅读" class="headerlink" title="在线阅读"></a>在线阅读</h2><p>可以通过<a href="https://feisky.gitbooks.io/kubernetes" target="_blank" rel="external">GitBook</a>或者<a href="https://github.com/feiskyer/kubernetes-handbook/blob/master/SUMMARY.md" target="_blank" rel="external">Github</a>来在线阅读。</p>
+<p>也可以下载<a href="https://www.gitbook.com/download/epub/book/feisky/kubernetes" target="_blank" rel="external">ePub</a>或者<a href="https://www.gitbook.com/download/pdf/book/feisky/kubernetes" target="_blank" rel="external">PDF</a>版本。</p>
+<h2 id="项目源码"><a href="#项目源码" class="headerlink" title="项目源码"></a>项目源码</h2><p>项目源码存放于Github上，<a href="https://github.com/feiskyer/kubernetes-handbook" target="_blank" rel="external">https://github.com/feiskyer/kubernetes-handbook</a>。欢迎各位关注和参与。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Kubernetes是谷歌开源的容器集群管理系统，是Google多年大规模容器管理技术Borg的开源版本，也是CNCF最重要的组件之一，主要功能包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;基于容器的应用部署、维护和滚动升级&lt;/li&gt;
+&lt;li&gt;负载均衡和服务发现&lt;/li&gt;
+&lt;li&gt;跨机
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://feisky.xyz/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
     <title>LinuxKit</title>
     <link href="http://feisky.xyz/2017/04/19/LinuxKit/"/>
     <id>http://feisky.xyz/2017/04/19/LinuxKit/</id>
     <published>2017-04-19T03:09:53.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://github.com/linuxkit/linuxkit" target="_blank" rel="external">LinuxKit</a>是Docker最新发布的一个用于为容器构建安全、便携、可移植操作系统的工具包。它根据用户编写的yaml（指定kernel和基于docker image的一些列服务）自动构建一个常见虚拟化平台或云平台的虚拟机镜像，并自动运行起来。主要特性包括</p>
 <ul>
@@ -81,7 +119,7 @@
     <link href="http://feisky.xyz/2017/03/15/Kubernetes-HA/"/>
     <id>http://feisky.xyz/2017/03/15/Kubernetes-HA/</id>
     <published>2017-03-15T10:12:47.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes从1.5开始，通过<code>kops</code>或者<code>kube-up.sh</code>部署的集群会自动部署一个高可用的系统，包括</p>
 <ul>
@@ -139,7 +177,7 @@
     <link href="http://feisky.xyz/2017/03/03/AWS-S3%E6%95%85%E9%9A%9C%E5%9B%9E%E9%A1%BE%E5%92%8C%E6%80%BB%E7%BB%93/"/>
     <id>http://feisky.xyz/2017/03/03/AWS-S3故障回顾和总结/</id>
     <published>2017-03-03T14:27:50.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<h2 id="S3故障回顾"><a href="#S3故障回顾" class="headerlink" title="S3故障回顾"></a>S3故障回顾</h2><p>2月28日，AWS工程师在排查Northern Virginia (US-EAST-1) Region的一个S3计费问题时，因敲错了一条playbook的参数而误删了大量的s3控制服务引发了4小时的故障。这个误操作影响了两个S3的核心系统：</p>
 <ul>
@@ -190,7 +228,7 @@
     <link href="http://feisky.xyz/2017/03/03/Gitlab%E6%95%85%E9%9A%9C%E5%9B%9E%E9%A1%BE%E5%92%8C%E6%80%BB%E7%BB%93/"/>
     <id>http://feisky.xyz/2017/03/03/Gitlab故障回顾和总结/</id>
     <published>2017-03-03T14:27:37.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Gitlab故障回顾"><a href="#Gitlab故障回顾" class="headerlink" title="Gitlab故障回顾"></a>Gitlab故障回顾</h2><p>1月31日，Giblab在修复一个PostgreSQL数据同步问题（DB Replication lagged too far behind）时，误将生产环境的数据删除（本来是计划删除db1上的数据，结果发现在错误的db2上操作了）。进而寻求从备份数据恢复，结果发现没有实时备份：</p>
 <ul>
@@ -249,7 +287,7 @@
     <link href="http://feisky.xyz/2017/02/14/Debugging-application-in-containers/"/>
     <id>http://feisky.xyz/2017/02/14/Debugging-application-in-containers/</id>
     <published>2017-02-14T13:24:48.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<p>对于普通的服务器进程，我们可以很方便的使用宿主机上的各种工具来调试；但容器经常是仅包含必要的应用程序，一般不包含常用的调试工具，那如何在线调试容器中的进程呢？最简单的方法是再起一个新的包含了调试工具的容器。</p>
 <p>来看一个最简单的web容器如何调试。</p>
@@ -293,7 +331,7 @@
     <link href="http://feisky.xyz/2017/02/13/Software-Engineering-at-Google/"/>
     <id>http://feisky.xyz/2017/02/13/Software-Engineering-at-Google/</id>
     <published>2017-02-13T11:36:09.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<p>Google的Fergus Henderson在<a href="https://arxiv.org/pdf/1702.01715.pdf" target="_blank" rel="external">Software Engineering at Google</a>中介绍了Google的软件工程实践。</p>
 <h2 id="软件开发"><a href="#软件开发" class="headerlink" title="软件开发"></a>软件开发</h2><p>源码仓库</p>
@@ -437,7 +475,7 @@
     <link href="http://feisky.xyz/2017/01/09/%E4%BD%BF%E7%94%A8docker-dind%E5%88%9B%E5%BB%BAswarm%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2017/01/09/使用docker-dind创建swarm集群/</id>
     <published>2017-01-09T13:01:18.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.680Z</updated>
     
     <content type="html"><![CDATA[<p>在OS X系统上，由于Docker for Mac只能创建一台虚拟机，所以要创建多节点swarm集群的话，就需要额外启动其他的虚拟机，并手动安装和配置docker。不过借助dind (docker in docker)，不需要创建额外的虚拟机也可以启动一个swarm集群。</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">docker swarm init</div><div class="line">SWARM_TOKEN=$(docker swarm join-token -q worker)</div><div class="line">NUM_WORKERS=3 </div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq <span class="string">"<span class="variable">$&#123;NUM_WORKERS&#125;</span>"</span>); <span class="keyword">do</span></div><div class="line">    docker run <span class="_">-d</span> --privileged --name worker-<span class="variable">$&#123;i&#125;</span> --hostname=worker-<span class="variable">$&#123;i&#125;</span> --restart=always -p <span class="variable">$&#123;i&#125;</span>2375:2375 docker:1.12-dind</div><div class="line">    docker --host=localhost:<span class="variable">$&#123;i&#125;</span>2375 swarm join --token <span class="variable">$&#123;SWARM_TOKEN&#125;</span> <span class="variable">$&#123;SWARM_MASTER&#125;</span>:2377</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
@@ -465,7 +503,7 @@
     <link href="http://feisky.xyz/2017/01/05/Grumpy-%E4%BD%BF%E7%94%A8Go%E6%9D%A5%E8%BF%90%E8%A1%8CPython%E7%A8%8B%E5%BA%8F/"/>
     <id>http://feisky.xyz/2017/01/05/Grumpy-使用Go来运行Python程序/</id>
     <published>2017-01-05T09:11:09.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>Grumpy是Google近期开源（<a href="https://github.com/google/grumpy" target="_blank" rel="external">https://github.com/google/grumpy</a>）的把Python程序编译成Go程序的工具，主要是为了解决Python GIL（Global Interpreter Lock）锁的问题，把Python中的多线程转换成goroutine来避免锁的问题。注意它跟PyPy不一样，PyPy是一个Python解释器，而Grumpy不是，它只是把Python程序翻译成了Go程序，然后再编译运行。</p>
 <p>Grumpy还在开发中，也还没有在Google的生产环境中使用，很多系统库还没有完成翻译，并且也不支持各种外部库和C扩展。虽然如此，Grumpy仍然是一个值得关注的有趣项目（Github已经有2700+的star）。</p>
@@ -488,7 +526,7 @@
     <link href="http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/"/>
     <id>http://feisky.xyz/2016/12/13/Kubernetes-v1-5-0-release/</id>
     <published>2016-12-13T03:51:29.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p><strong>Update on 2016.12.14:</strong></p>
 <p>Due to a serious security problem, kubernetes v1.5.0 is not recommanded. Kubernetes v1.5.1 has just released, so we should upgrade to v1.5.1 directly.</p>
@@ -673,7 +711,7 @@
     <link href="http://feisky.xyz/2016/12/08/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/08/Weekly-reading-list/</id>
     <published>2016-12-08T06:00:22.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker收购Infinit-PDF"><a href="#Docker收购Infinit-PDF" class="headerlink" title="Docker收购Infinit PDF"></a><a href="https://blog.docker.com/2016/12/docker-acquires-infinit/" target="_blank" rel="external">Docker收购Infinit</a> <a href="/assets/infinit.pdf">PDF</a></h1><p><a href="https://infinit.sh/" target="_blank" rel="external">Infinit</a>为容器提供了分布式存储，其特点包括</p>
 <ul>
@@ -800,7 +838,7 @@
     <link href="http://feisky.xyz/2016/12/04/Weekly-reading-list/"/>
     <id>http://feisky.xyz/2016/12/04/Weekly-reading-list/</id>
     <published>2016-12-04T23:59:01.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<h2 id="分布式后台毫秒服务引擎"><a href="#分布式后台毫秒服务引擎" class="headerlink" title="分布式后台毫秒服务引擎"></a><a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650994968&amp;idx=1&amp;sn=6713bb3b59e1fb38c70f7178de136cfc&amp;scene=0#wechat_redirect" target="_blank" rel="external">分布式后台毫秒服务引擎</a></h2><blockquote>
 <p>腾讯QQ团队于12月4日开源了一个服务开发运营框架，叫做毫秒服务引擎（Mass Service Engine in Cluster，MSEC），它集RPC、名字发现服务、负载均衡、业务监控、灰度发布、容量管理、日志管理、Key-Value存储于一体，目的是提高开发与运营的效率和质量。</p>
@@ -873,7 +911,7 @@
     <link href="http://feisky.xyz/2016/11/14/KubeCon-2016%E8%A7%81%E9%97%BB/"/>
     <id>http://feisky.xyz/2016/11/14/KubeCon-2016见闻/</id>
     <published>2016-11-14T01:49:52.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>题记：上周去西雅图参加了<a href="http://events.linuxfoundation.org/events/kubecon" target="_blank" rel="external">KubeCon&amp;CloudNativeCon 2016</a>，不仅见到Dawn、Brendan、Tim以及Sig Node的各路大神，还参加了不少有趣的session。</p>
 <h2 id="Compiling-to-Containers-Brendan-Burns-Microsoft"><a href="#Compiling-to-Containers-Brendan-Burns-Microsoft" class="headerlink" title="Compiling to Containers - Brendan Burns, Microsoft"></a><a href="https://cnkc16.sched.org/event/8K8y/compiling-to-containers-brendan-burns-microsoft?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="external">Compiling to Containers</a> - Brendan Burns, Microsoft</h2><p>Containers可以看作是现代分布式系统的“汇编语言”，这样分布式系统的管理实际上就成了开发“Container汇编语言”。Brendan还以JavaScript为例，演示了如何基于<a href="https://github.com/brendandburns/metaparticle" target="_blank" rel="external">Metaparticle</a>来支持不同的service pattern:</p>
@@ -1017,7 +1055,7 @@
     <link href="http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/"/>
     <id>http://feisky.xyz/2016/09/24/Kubernetes-container-runtime-interface/</id>
     <published>2016-09-24T22:59:31.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>题记：最近一段时间在做Kubernetes容器引擎接口（Container Runtime Interface， CRI）的重构，并支持以插件的方式引入外部容器引擎。CRI还在紧张有序的开发中，预计在v1.5发布第一个alpha版。</p>
 <h2 id="什么是CRI"><a href="#什么是CRI" class="headerlink" title="什么是CRI"></a>什么是CRI</h2><p>CRI是Kubelet（负责管理容器生命周期的服务）与容器引擎之间的接口。为了适应多种不同的容器引擎，Kubelet在加入rkt的时候就已经在docker API的基础上抽象了一个Runtime接口，只是由于一些特定的缺陷，在这个接口上不太容易引入其他新的容器引擎：</p>
@@ -1069,7 +1107,7 @@
     <link href="http://feisky.xyz/2016/09/11/Kubernetes%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     <id>http://feisky.xyz/2016/09/11/Kubernetes中的服务发现与负载均衡/</id>
     <published>2016-09-11T01:48:09.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>Kubernetes在设计之初就充分考虑了针对容器的服务发现与负载均衡机制，提供了Service资源，并通过kube-proxy配合cloud provider来适应不同的应用场景。随着kubernetes用户的激增，用户场景的不断丰富，又产生了一些新的负载均衡机制。目前，kubernetes中的负载均衡大致可以分为以下几种机制，每种机制都有其特定的应用场景：</p>
 <ul>
@@ -1128,7 +1166,7 @@
     <link href="http://feisky.xyz/2016/08/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAKubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://feisky.xyz/2016/08/24/如何快速启动一个Kubernetes集群/</id>
     <published>2016-08-24T06:48:44.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>相比Docker一个二进制文件解决所有问题，Kubernetes则为不同的服务提供了不同的二进制文件，并将一些服务放到了addons中。故而，Kubernetes的部署相对要麻烦的多。借助<a href="https://github.com/kubernetes/minikube" target="_blank" rel="external">minikube</a>项目，现在可以很方便的在本机快速启动一个单节点的Kubernetes集群。</p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube最新release版本为v0.8.0，支持Kubernetes v1.3.0到v1.3.5的各个版本，默认启动Kubernetes v1.3.5。</p>
@@ -1189,7 +1227,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/"/>
     <id>http://feisky.xyz/2016/07/19/Setup-hyperd-with-flannel-network/</id>
     <published>2016-07-19T07:58:26.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flannel"><a href="#Flannel" class="headerlink" title="Flannel"></a>Flannel</h1><p>Flannel is a virtual network that gives a subnet to each host for use with container runtimes.</p>
 <p>Platforms like Google’s Kubernetes assume that each container (pod) has a unique, routable IP inside the cluster. The advantage of this model is that it reduces the complexity of doing port mapping.</p>
@@ -1233,7 +1271,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/"/>
     <id>http://feisky.xyz/2016/06/24/Play-with-docker-v1-12/</id>
     <published>2016-06-24T04:39:49.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>[TOC]</p>
 <p>Docker v1.12 brings in its integrated orchestration into docker engine.</p>
@@ -1312,7 +1350,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/"/>
     <id>http://feisky.xyz/2016/06/17/Playing-docker-with-hypervisor-container-runtime-runV/</id>
     <published>2016-06-17T09:12:38.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p>Table of contents:</p>
 <p>[TOC]</p>
@@ -1360,7 +1398,7 @@ Available Commands:
     <link href="http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/"/>
     <id>http://feisky.xyz/2016/06/07/Kubernetes-mesos-architecture/</id>
     <published>2016-06-07T05:21:07.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
+    <updated>2017-05-21T22:53:01.676Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/kubernetes_mesos_architecture.png" alt=""></p>
 <p>From <a href="http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png" target="_blank" rel="external">http://cdn.yongbok.net/ruo91/architecture/k8s/kubernetes_mesos_architecture_v1.x.png</a></p>
@@ -1377,82 +1415,6 @@ Available Commands:
       <category term="mesos" scheme="http://feisky.xyz/tags/mesos/"/>
     
       <category term="kubernetes" scheme="http://feisky.xyz/tags/kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hypernetes: Bringing Security and Multi-tenancy to Kubernetes</title>
-    <link href="http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/"/>
-    <id>http://feisky.xyz/2016/06/06/Hypernetes-Bringing-Security-and-Multi-tenancy-to-Kubernetes/</id>
-    <published>2016-06-06T08:10:25.000Z</published>
-    <updated>2017-05-20T01:23:25.576Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>Notes: this post is copied from <a href="http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html" target="_blank" rel="external">http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernetes.html</a>.</p>
-</blockquote>
-<p><em>Today’s guest post is written by Harry Zhang and Pengfei Ni, engineers at HyperHQ, describing a new hypervisor based container called HyperContainer</em>  </p>
-<p>While many developers and security professionals are comfortable with Linux containers as an effective boundary, many users need a stronger degree of isolation, particularly for those running in a multi-tenant environment. Sadly, today, those users are forced to run their containers inside virtual machines, even one VM per container.  </p>
-<p>Unfortunately, this results in the loss of many of the benefits of a cloud-native deployment: slow startup time of VMs; a memory tax for every container; low utilization resulting in wasting resources.  </p>
-<p>In this post, we will introduce HyperContainer, a hypervisor based container and see how it naturally fits into the Kubernetes design, and enables users to serve their customers directly with virtualized containers, instead of wrapping them inside of full blown VMs.  </p>
-<p><strong>HyperContainer</strong>  </p>
-<p><a href="http://hypercontainer.io/" target="_blank" rel="external">HyperContainer</a> is a hypervisor-based container, which allows you to launch Docker images with standard hypervisors (KVM, Xen, etc.). As an open-source project, HyperContainer consists of an <a href="https://github.com/opencontainers/runtime-spec" target="_blank" rel="external">OCI</a> compatible runtime implementation, named <a href="https://github.com/hyperhq/runv/" target="_blank" rel="external">runV</a>, and a management daemon named <a href="https://github.com/hyperhq/hyperd" target="_blank" rel="external">hyperd</a>. The idea behind HyperContainer is quite straightforward: to combine the best of both virtualization and container.  </p>
-<p>We can consider containers as two parts (as Kubernetes does). The first part is the container runtime, where HyperContainer uses virtualization to achieve execution isolation and resource limitation instead of namespaces and cgroups. The second part is the application data, where HyperContainer leverages Docker images. So in HyperContainer, virtualization technology makes it possible to build a fully isolated sandbox with an independent guest kernel (so things like <code>top</code> and /proc all work), but from developer’s view, it’s portable and behaves like a standard container.  </p>
-<p><strong>HyperContainer as Pod</strong>  </p>
-<p>The interesting part of HyperContainer is not only that it is secure enough for multi-tenant environments (such as a public cloud), but also how well it fits into the Kubernetes philosophy.  </p>
-<p>One of the most important concepts in Kubernetes is Pods. The design of Pods is a lesson learned (<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf" target="_blank" rel="external">Borg paper section 8.1</a>) from real world workloads, where in many cases people want an atomic scheduling unit composed of multiple containers (please check this <a href="https://github.com/kubernetes/kubernetes/tree/master/examples/javaweb-tomcat-sidecar" target="_blank" rel="external">example</a> for further information). In the context of Linux containers, a Pod wraps and encapsulates several containers into a logical group. But in HyperContainer, the hypervisor serves as a natural boundary, and Pods are introduced as first-class objects:  </p>
-<p><img src="https://lh6.googleusercontent.com/8DjNb9IE0HjinFxkaoGbPaaKbts5_Osbj-8NVWQMgY_8D32643Aum0SaMc2OedV2gECG3EXov8qj_f8XDe0IfpptZt61HxfJEonLo3RA5xkr5zSmd2nxqVc8yESc423nPEZTj1H3" alt=""></p>
-<p>HyperContainer wraps a Pod of light-weight application containers and exposes the container interface at Pod level. Inside the Pod, a minimalist Linux kernel called HyperKernel is booted. This HyperKernel is built with a tiny Init service called HyperStart. It will act as the PID 1 process and creates the Pod, setup Mount namespace, and launch apps from the loaded images. </p>
-<p>This model works nicely with Kubernetes. The integration of HyperContainer with Kubernetes, as we indicated in the title, is what makes up the <a href="https://github.com/hyperhq/hypernetes" target="_blank" rel="external">Hypernetes</a> project. </p>
-<p><strong>Hypernetes</strong></p>
-<p>One of the best parts of Kubernetes is that it is designed to support multiple container runtimes, meaning users are not locked-in to a single vendor. We are very pleased to announce that we have already begun working with the Kubernetes team to integrate HyperContainer into Kubernetes upstream. This integration involves:</p>
-<ol>
-<li>container runtime optimizing and refactoring</li>
-<li>new client-server mode runtime interface</li>
-<li>containerd integration to support runV</li>
-</ol>
-<p>The OCI standard and kubelet’s multiple runtime architecture make this integration much easier even though HyperContainer is not based on Linux container technology stack.</p>
-<p>On the other hand, in order to run HyperContainers in multi-tenant environment, we also created a new network plugin and modified an existing volume plugin. Since Hypernetes runs Pod as their own VMs, it can make use of your existing IaaS layer technologies for multi-tenant network and persistent volumes. The current Hypernetes implementation uses standard Openstack components.</p>
-<p>Below we go into further details about how all those above are implemented.</p>
-<p><strong>Identity and Authentication</strong></p>
-<hr>
-<p>In Hypernetes we chose <a href="http://docs.openstack.org/developer/keystone/" target="_blank" rel="external">Keystone</a> to manage different tenants and perform identification and authentication for tenants during any administrative operation. Since Keystone comes from the OpenStack ecosystem, it works seamlessly with the network and storage plugins we used in Hypernetes.</p>
-<p><strong>Multi-tenant Network Model</strong></p>
-<p>For a multi-tenant container cluster, each tenant needs to have strong network isolation from each other tenant. In Hypernetes, each tenant has its own Network. Instead of configuring a new network using OpenStack, which is complex, with Hypernetes, you just create a Network object like below.  </p>
-<p>apiVersion: v1  kind: Network  metadata:    name: net1  spec:    tenantID: 065f210a2ca9442aad898ab129426350    subnets:      subnet1:        cidr: 192.168.0.0/24        gateway: 192.168.0.1</p>
-<p>Note that the tenantID is supplied by Keystone. This yaml will automatically create a new Neutron network with a default router and a subnet 192.168.0.0/24. </p>
-<p>A Network controller will be responsible for the life-cycle management of any Network instance created by the user. This Network can be assigned to one or more Namespaces, and any Pods belonging to the same Network can reach each other directly through IP address.  </p>
-<p>apiVersion: v1  kind: Namespace  metadata:    name: ns1  spec:    network: net1  </p>
-<p>If a Namespace does not have a Network spec, it will use the default Kubernetes network model instead, including the default kube-proxy. So if a user creates a Pod in a Namespace with an associated Network, Hypernetes will follow the <a href="http://kubernetes.io/docs/admin/network-plugins/" target="_blank" rel="external">Kubernetes Network Plugin Model</a> to set up a Neutron network for this Pod. Here is a high level example:</p>
-<p><img src="https://lh4.googleusercontent.com/ij88fHWT3wDSxDh4W7S0sARfjdRd5oTJTZGT_r8oQoqoGGjZWmHLJtPG8TT3U_tZ2rFqK7lwK56l3UIq3csSUxSdgGvfzORaAEAkl9fChxiLzVgz-mExTMi8sxUlfsesS59G0Fsa" alt="A Hypernetes Network Workflow.png"></p>
-<p>Hypernetes uses a standalone gRPC handler named kubestack to translate the Kubernetes Pod request into the Neutron network API. Moreover, kubestack is also responsible for handling another important networking feature: a multi-tenant Service proxy.</p>
-<p>In a multi-tenant environment, the default iptables-based kube-proxy can not reach the individual Pods, because they are isolated into different networks. Instead, Hypernetes uses a <a href="https://github.com/hyperhq/hyperd/blob/2072dd8e28a02a25ae6a819f81029b47a579e683/servicediscovery/servicediscovery.go" target="_blank" rel="external">built-in HAproxy in every HyperContainer</a> as the portal. This HAproxy will proxy all the Service instances in the namespace of that Pod. Kube-proxy will be responsible for updating these backend servers by following the standard OnServiceUpdate and OnEndpointsUpdate processes, so that users will not notice any difference. A downside of this method is that HAproxy has to listen to some specific ports which may conflicts with user’s containers.That’s why we are planning to use LVS to replace this proxy in the next release.</p>
-<p>With the help of the Neutron based network plugin, the Hypernetes Service is able to provide an OpenStack load balancer, just like how the “external” load balancer does on GCE. When user creates a Service with external IPs, an OpenStack load balancer will be created and endpoints will be automatically updated through the kubestack workflow above.</p>
-<p><strong>Persistent Storage</strong></p>
-<p>When considering storage, we are actually building a tenant-aware persistent volume in Kubernetes. The reason we decided not to use existing Cinder volume plugin of Kubernetes is that its model does not work in the virtualization case. Specifically:</p>
-<p>The Cinder volume plugin requires OpenStack as the Kubernetes provider.</p>
-<p>The OpenStack provider will find on which VM the target Pod is running on</p>
-<p>Cinder volume plugin will mount a Cinder volume to a path inside the host VM of Kubernetes.</p>
-<p>The kubelet will bind mount this path as a volume into containers of target Pod.</p>
-<p>But in Hypernetes, things become much simpler. Thanks to the physical boundary of Pods, HyperContainer can mount Cinder volumes directly as block devices into Pods, just like a normal VM. This mechanism eliminates extra time to query Nova to find out the VM of target Pod in the existing Cinder volume workflow listed above.</p>
-<p>The current implementation of the Cinder plugin in Hypernetes is based on Ceph RBD backend, and it works the same as all other Kubernetes volume plugins, one just needs to remember to create the Cinder volume (referenced by volumeID below) beforehand.  </p>
-<p>apiVersion: v1  kind: Pod  metadata:    name: nginx    labels:      app: nginx  spec:    containers:    - name: nginx      image: nginx      ports:      - containerPort: 80      volumeMounts:      - name: nginx-persistent-storage        mountPath: /var/lib/nginx    volumes:    - name: nginx-persistent-storage      cinder:        volumeID: 651b2a7b-683e-47e1-bdd6-e3c62e8f91c0        fsType: ext4  </p>
-<p>So when the user provides a Pod yaml with a Cinder volume, Hypernetes will check if kubelet is using the Hyper container runtime. If so, the Cinder volume can be mounted directly to the Pod without any extra path mapping. Then the volume metadata will be passed to the Kubelet RunPod process as part of HyperContainer spec. Done!</p>
-<p>Thanks to the plugin model of Kubernetes network and volume, we can easily build our own solutions above for HyperContainer though it is essentially different from the traditional Linux container. We also plan to propose these solutions to Kubernetes upstream by following the CNI model and volume plugin standard after the runtime integration is completed.</p>
-<p>We believe all of these <a href="https://github.com/hyperhq/" target="_blank" rel="external">open source projects</a> are important components of the container ecosystem, and their growth depends greatly on the open source spirit and technical vision of the Kubernetes team. </p>
-<p><strong>Conclusion</strong></p>
-<p>This post introduces some of the technical details about HyperContainer and the Hypernetes project. We hope that people will be interested in this new category of secure container and its integration with Kubernetes. If you are looking to try out Hypernetes and HyperContainer, we have just announced the public beta of our new secure container cloud service (<a href="https://hyper.sh/" target="_blank" rel="external">Hyper_</a>), which is built on these technologies. But even if you are running on-premise, we believe that Hypernetes and HyperContainer will let you run Kubernetes in a more secure way.</p>
-<p><em>~Harry Zhang and Pengfei Ni, engineers at HyperHQ</em></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Notes: this post is copied from &lt;a href=&quot;http://blog.kubernetes.io/2016/05/hypernetes-security-and-multi-tenancy-in-kubernet
-    
-    </summary>
-    
-    
-      <category term="Kubernetes" scheme="http://feisky.xyz/tags/Kubernetes/"/>
     
   </entry>
   
