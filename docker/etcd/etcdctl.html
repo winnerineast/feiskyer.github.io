@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/etcd/etcdctl.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="使用 etcdctletcdctl 是一个命令行客户端，它能提供一些简洁的命令，供用户直接跟 etcd 服务打交道，而无需基于 HTTP API 方式。这在某些情况下将很方便，例如用户对服务进行测试或者手动修改数据库内容。我们也推荐在刚接触 etcd 时通过 etcdctl 命令来熟悉相关的操作，这些操作跟 HTTP API 实际上是对应的。 etcd 项目二进制发行包中已经包含了 etcdctl">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.088Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.178Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="使用 etcdctletcdctl 是一个命令行客户端，它能提供一些简洁的命令，供用户直接跟 etcd 服务打交道，而无需基于 HTTP API 方式。这在某些情况下将很方便，例如用户对服务进行测试或者手动修改数据库内容。我们也推荐在刚接触 etcd 时通过 etcdctl 命令来熟悉相关的操作，这些操作跟 HTTP API 实际上是对应的。 etcd 项目二进制发行包中已经包含了 etcdctl">
@@ -410,7 +410,7 @@
 <p>例如，用户更新 testkey 键值。<br><figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line"><span class="variable">$etcdctl</span> exec-watch testkey -- sh -c <span class="string">'ls'</span></div><div class="line">default<span class="selector-class">.etcd</span></div><div class="line">Documentation</div><div class="line">etcd</div><div class="line">etcdctl</div><div class="line">etcd-migrate</div><div class="line">README-etcdctl<span class="selector-class">.md</span></div><div class="line">README.md</div></pre></td></tr></table></figure></p>
 <p>支持的选项包括<br><figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">-<span class="ruby">-after-index <span class="string">'0'</span>	在指定 index 之前一直监测</span></div><div class="line">-<span class="ruby">-recursive		返回所有的键值和子键值</span></div></pre></td></tr></table></figure></p>
 <h4 id="member"><a href="#member" class="headerlink" title="member"></a>member</h4><p>通过 list、add、remove 命令列出、添加、删除 etcd 实例到 etcd 集群中。</p>
-<p>例如本地启动一个 etcd 服务实例后，可以用如下命令进行查看。<br><figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">$ etcdctl member <span class="keyword">list</span></div><div class="line">ce2a822cea30bfc<span class="variable">a:</span> name=default peerURLs=http://localhos<span class="variable">t:2380</span>,http://localhos<span class="variable">t:7001</span> clientURLs=http://localhos<span class="variable">t:2379</span>,http://localhos<span class="variable">t:4001</span></div></pre></td></tr></table></figure></p>
+<p>例如本地启动一个 etcd 服务实例后，可以用如下命令进行查看。<br><figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ etcdctl member list</div><div class="line">ce2a822cea30bfca: <span class="attribute">name</span>=default <span class="attribute">peerURLs</span>=http://localhost:2380,http://localhost:7001 <span class="attribute">clientURLs</span>=http://localhost:2379,http://localhost:4001</div></pre></td></tr></table></figure></p>
 <h3 id="命令选项"><a href="#命令选项" class="headerlink" title="命令选项"></a>命令选项</h3><ul>
 <li><code>--debug</code>            输出 cURL 命令，显示执行命令的时候发起的请求</li>
 <li><code>--no-sync</code>            发出请求之前不同步集群信息</li>

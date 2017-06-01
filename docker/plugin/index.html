@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/plugin/index.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="Plugin# To install a plugindocker plugin install vieux/sshfs# Use the plugindocker volume create \  -d vieux/sshfs \  --name sshvolume \  -o sshcmd=user@1.2.3.4:/remotedocker run -v sshvolume:/data bu">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.124Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="Plugin# To install a plugindocker plugin install vieux/sshfs# Use the plugindocker volume create \  -d vieux/sshfs \  --name sshvolume \  -o sshcmd=user@1.2.3.4:/remotedocker run -v sshvolume:/data bu">
@@ -393,8 +393,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-31T01:27:52+00:00" content="2017-05-31">
-              2017-05-31
+            <time itemprop="dateCreated" datetime="2017-06-01T01:28:08+00:00" content="2017-06-01">
+              2017-06-01
             </time>
           </span>
 
@@ -428,7 +428,7 @@
       
 
       
-        <h1 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To install a plugin</span></div><div class="line">docker plugin install vieux/sshfs</div><div class="line"><span class="comment"># Use the plugin</span></div><div class="line">docker volume create \</div><div class="line">  <span class="_">-d</span> vieux/sshfs \</div><div class="line">  --name sshvolume \</div><div class="line">  -o sshcmd=user@1.2.3.4:/remote</div><div class="line">docker run -v sshvolume:/data busybox ls /data</div><div class="line"></div><div class="line"><span class="comment"># To create a plugin from a rootfs and configuration. Plugin data directory must</span></div><div class="line"><span class="comment"># contain config.json and rootfs directory.</span></div><div class="line">docker plugin create &lt;plugin-name&gt; &lt;plugin-data-dir&gt;</div><div class="line"><span class="comment"># To disable a plugin</span></div><div class="line">docker plugin <span class="built_in">disable</span> &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To enable a plugin</span></div><div class="line">docker plugin <span class="built_in">enable</span> &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a plugin</span></div><div class="line">docker plugin inspect &lt;plugin-name&gt;</div><div class="line"></div><div class="line"><span class="comment"># To list plugins</span></div><div class="line">docker plugin ls|list</div><div class="line"><span class="comment"># To push a plugin to a registry</span></div><div class="line">docker plugin push &lt;plugin-name:tag&gt;</div><div class="line"><span class="comment"># To remove a plugin</span></div><div class="line">docker plugin rm &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To change settings for a plugin</span></div><div class="line">docker plugin <span class="built_in">set</span> &lt;plugin-name&gt; KEY=VALUE</div></pre></td></tr></table></figure>
+        <h1 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h1><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To install a plugin</span></div><div class="line">docker plugin install vieux/sshfs</div><div class="line"><span class="comment"># Use the plugin</span></div><div class="line">docker volume create \</div><div class="line">  -d vieux/sshfs \</div><div class="line">  --name sshvolume \</div><div class="line">  -o sshcmd=user@1.2.3.4:/remote</div><div class="line">docker run -v sshvolume:/data busybox ls /data</div><div class="line"></div><div class="line"><span class="comment"># To create a plugin from a rootfs and configuration. Plugin data directory must</span></div><div class="line"><span class="comment"># contain config.json and rootfs directory.</span></div><div class="line">docker plugin create &lt;plugin-name&gt; &lt;plugin-data-dir&gt;</div><div class="line"><span class="comment"># To disable a plugin</span></div><div class="line">docker plugin <span class="built_in">disable</span> &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To enable a plugin</span></div><div class="line">docker plugin <span class="built_in">enable</span> &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a plugin</span></div><div class="line">docker plugin inspect &lt;plugin-name&gt;</div><div class="line"></div><div class="line"><span class="comment"># To list plugins</span></div><div class="line">docker plugin ls|list</div><div class="line"><span class="comment"># To push a plugin to a registry</span></div><div class="line">docker plugin push &lt;plugin-name:tag&gt;</div><div class="line"><span class="comment"># To remove a plugin</span></div><div class="line">docker plugin rm &lt;plugin-name&gt;</div><div class="line"><span class="comment"># To change settings for a plugin</span></div><div class="line">docker plugin <span class="built_in">set</span> &lt;plugin-name&gt; KEY=VALUE</div></pre></td></tr></table></figure>
 
       
     </div>

@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/machine/usage.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="使用Docker Machine 支持多种后端驱动，包括虚拟机、本地主机和云平台等。 本地主机实例首先确保本地主机可以通过 user 账号的 key 直接 ssh 到目标主机。 使用 generic 类型的驱动，创建一台 Docker 主机，命名为 test。$ docker-machine create -d generic --generic-ip-address=10.0.100.101 -">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.120Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="使用Docker Machine 支持多种后端驱动，包括虚拟机、本地主机和云平台等。 本地主机实例首先确保本地主机可以通过 user 账号的 key 直接 ssh 到目标主机。 使用 generic 类型的驱动，创建一台 Docker 主机，命名为 test。$ docker-machine create -d generic --generic-ip-address=10.0.100.101 -">
@@ -371,7 +371,7 @@
     
       <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>Docker Machine 支持多种后端驱动，包括虚拟机、本地主机和云平台等。</p>
 <h3 id="本地主机实例"><a href="#本地主机实例" class="headerlink" title="本地主机实例"></a>本地主机实例</h3><p>首先确保本地主机可以通过 user 账号的 key 直接 ssh 到目标主机。</p>
-<p>使用 generic 类型的驱动，创建一台 Docker 主机，命名为 test。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker-machine create <span class="_">-d</span> generic --generic-ip-address=10.0.100.101 --generic-ssh-user=user <span class="built_in">test</span></div></pre></td></tr></table></figure></p>
+<p>使用 generic 类型的驱动，创建一台 Docker 主机，命名为 test。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker-machine create -d generic --generic-ip-address=10.0.100.101 --generic-ssh-user=user <span class="built_in">test</span></div></pre></td></tr></table></figure></p>
 <p>创建主机成功后，可以通过 env 命令来让后续操作对象都是目标主机。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker-machine env <span class="built_in">test</span></div></pre></td></tr></table></figure></p>
 <h3 id="支持驱动"><a href="#支持驱动" class="headerlink" title="支持驱动"></a>支持驱动</h3><p>通过 <code>-d</code> 选项可以选择支持的驱动类型。</p>
 <ul>

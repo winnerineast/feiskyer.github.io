@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/appendix_repo/wordpress.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="WordPress基本信息WordPress 是开源的 Blog 和内容管理系统框架，它基于 PhP 和 MySQL。该仓库提供了 WordPress 4.0 版本的镜像。 使用方法启动容器需要 MySQL 的支持，默认端口为 80。$ sudo docker run --name some-wordpress --link some-mysql:mysql -d wordpress 启动 Wor">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="WordPress基本信息WordPress 是开源的 Blog 和内容管理系统框架，它基于 PhP 和 MySQL。该仓库提供了 WordPress 4.0 版本的镜像。 使用方法启动容器需要 MySQL 的支持，默认端口为 80。$ sudo docker run --name some-wordpress --link some-mysql:mysql -d wordpress 启动 Wor">
@@ -370,7 +370,7 @@
     
     
       <h2 id="WordPress"><a href="#WordPress" class="headerlink" title="WordPress"></a><a href="https://registry.hub.docker.com/_/wordpress/" target="_blank" rel="external">WordPress</a></h2><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p><a href="https://en.wikipedia.org/wiki/WordPress" target="_blank" rel="external">WordPress</a> 是开源的 Blog 和内容管理系统框架，它基于 PhP 和 MySQL。<br>该仓库提供了 WordPress 4.0 版本的镜像。</p>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>启动容器需要 MySQL 的支持，默认端口为 <code>80</code>。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --name some-wordpress --link some-mysql:mysql <span class="_">-d</span> wordpress</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>启动容器需要 MySQL 的支持，默认端口为 <code>80</code>。<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> <span class="comment">--name some-wordpress --link some-mysql:mysql -d wordpress</span></div></pre></td></tr></table></figure></p>
 <p>启动 WordPress 容器时可以指定的一些环境参数包括</p>
 <ul>
 <li><code>-e WORDPRESS_DB_USER=...</code> 缺省为 “root”</li>

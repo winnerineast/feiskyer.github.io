@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/container/daemon.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="后台(background)运行更多的时候，需要让 Docker在后台运行而不是直接把执行命令的结果输出在当前宿主机下。此时，可以通过添加 -d 参数来实现。 下面举两个例子来说明一下。 如果不使用 -d 参数运行容器。$ sudo docker run ubuntu:14.04 /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="后台(background)运行更多的时候，需要让 Docker在后台运行而不是直接把执行命令的结果输出在当前宿主机下。此时，可以通过添加 -d 参数来实现。 下面举两个例子来说明一下。 如果不使用 -d 参数运行容器。$ sudo docker run ubuntu:14.04 /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;">
@@ -373,7 +373,7 @@
 <p>下面举两个例子来说明一下。</p>
 <p>如果不使用 <code>-d</code> 参数运行容器。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> ubuntu:14.04 /bin/sh -c <span class="string">"while true; do echo hello world; sleep 1; done"</span></span></div><div class="line">hello world</div><div class="line">hello world</div><div class="line">hello world</div><div class="line">hello world</div></pre></td></tr></table></figure></p>
 <p>容器会把输出的结果(STDOUT)打印到宿主机上面</p>
-<p>如果使用了 <code>-d</code> 参数运行容器。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> ubuntu:14.04 /bin/sh -c <span class="string">"while true; do echo hello world; sleep 1; done"</span></span></div><div class="line"><span class="number">77</span>b2dc01fe0f3f1265df143181e7b9af5e05279a884f4776ee75350ea9d8017a</div></pre></td></tr></table></figure></p>
+<p>如果使用了 <code>-d</code> 参数运行容器。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d ubuntu:14.04 /bin/sh -c <span class="string">"while true; do echo hello world; sleep 1; done"</span></span></div><div class="line"><span class="number">77</span>b2dc01fe0f3f1265df143181e7b9af5e05279a884f4776ee75350ea9d8017a</div></pre></td></tr></table></figure></p>
 <p>此时容器会在后台运行并不会把输出的结果(STDOUT)打印到宿主机上面(输出结果可以用docker logs 查看)。</p>
 <p><strong>注：</strong> 容器是否会长久运行，是和docker run指定的命令有关，和 <code>-d</code> 参数无关。</p>
 <p>使用 <code>-d</code> 参数启动后会返回一个唯一的 id，也可以通过 <code>docker ps</code> 命令来查看容器信息。<br><figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">$ sudo docker ps</div><div class="line">CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PORTS NAMES</div><div class="line"><span class="number">77</span>b2dc01fe0f  <span class="string">ubuntu:</span><span class="number">14.04</span>  <span class="regexp">/bin/</span>sh -c <span class="string">'while tr  2 minutes ago  Up 1 minute        agitated_wright</span></div></pre></td></tr></table></figure></p>

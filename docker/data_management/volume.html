@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/data_management/volume.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="数据卷数据卷是一个可供一个或多个容器使用的特殊目录，它绕过 UFS，可以提供很多有用的特性：  数据卷可以在容器之间共享和重用 对数据卷的修改会立马生效 对数据卷的更新，不会影响镜像 数据卷默认会一直存在，即使容器被删除  *注意：数据卷的使用，类似于 Linux 下对目录或文件进行 mount，镜像中的被指定为挂载点的目录中的文件会隐藏掉，能显示看的是挂载的数据卷。 创建一个数据卷在用 dock">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.088Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.178Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="数据卷数据卷是一个可供一个或多个容器使用的特殊目录，它绕过 UFS，可以提供很多有用的特性：  数据卷可以在容器之间共享和重用 对数据卷的修改会立马生效 对数据卷的更新，不会影响镜像 数据卷默认会一直存在，即使容器被删除  *注意：数据卷的使用，类似于 Linux 下对目录或文件进行 mount，镜像中的被指定为挂载点的目录中的文件会隐藏掉，能显示看的是挂载的数据卷。 创建一个数据卷在用 dock">
@@ -378,13 +378,13 @@
 </ul>
 <p>*注意：数据卷的使用，类似于 Linux 下对目录或文件进行 mount，镜像中的被指定为挂载点的目录中的文件会隐藏掉，能显示看的是挂载的数据卷。</p>
 <h3 id="创建一个数据卷"><a href="#创建一个数据卷" class="headerlink" title="创建一个数据卷"></a>创建一个数据卷</h3><p>在用 <code>docker run</code> 命令的时候，使用 <code>-v</code> 标记来创建一个数据卷并挂载到容器里。在一次 run 中多次使用可以挂载多个数据卷。</p>
-<p>下面创建一个名为 web 的容器，并加载一个数据卷到容器的 <code>/webapp</code> 目录。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -P --name web -v /webapp training/webapp python app.py</span></div></pre></td></tr></table></figure></p>
+<p>下面创建一个名为 web 的容器，并加载一个数据卷到容器的 <code>/webapp</code> 目录。<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> -d -P <span class="comment">--name web -v /webapp training/webapp python app.py</span></div></pre></td></tr></table></figure></p>
 <p>*注意：也可以在 Dockerfile 中使用 <code>VOLUME</code> 来添加一个或者多个新的卷到由该镜像创建的任意容器。</p>
 <h3 id="删除数据卷"><a href="#删除数据卷" class="headerlink" title="删除数据卷"></a>删除数据卷</h3><p>数据卷是被设计用来持久化数据的，它的生命周期独立于容器，Docker不会在容器被删除后自动删除数据卷，并且也不存在垃圾回收这样的机制来处理没有任何容器引用的数据卷。如果需要在删除容器的同时移除数据卷。可以在删除容器的时候使用 <code>docker rm -v</code> 这个命令。无主的数据卷可能会占据很多空间，要清理会很麻烦。Docker官方正在试图解决这个问题，相关工作的进度可以查看这个<a href="https://github.com/docker/docker/pull/8484" target="_blank" rel="external">PR</a>。</p>
-<h3 id="挂载一个主机目录作为数据卷"><a href="#挂载一个主机目录作为数据卷" class="headerlink" title="挂载一个主机目录作为数据卷"></a>挂载一个主机目录作为数据卷</h3><p>使用 <code>-v</code> 标记也可以指定挂载一个本地主机的目录到容器中去。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py</span></div></pre></td></tr></table></figure></p>
+<h3 id="挂载一个主机目录作为数据卷"><a href="#挂载一个主机目录作为数据卷" class="headerlink" title="挂载一个主机目录作为数据卷"></a>挂载一个主机目录作为数据卷</h3><p>使用 <code>-v</code> 标记也可以指定挂载一个本地主机的目录到容器中去。<br><figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">$ sudo docker run -d -P --name web -v <span class="regexp">/src/</span><span class="string">webapp:</span><span class="regexp">/opt/</span>webapp training/webapp python app.py</div></pre></td></tr></table></figure></p>
 <p>上面的命令加载主机的 <code>/src/webapp</code> 目录到容器的 <code>/opt/webapp</code><br>目录。这个功能在进行测试的时候十分方便，比如用户可以放置一些程序到本地目录中，来查看容器是否正常工作。本地目录的路径必须是绝对路径，如果目录不存在 Docker 会自动为你创建它。</p>
 <p>*注意：Dockerfile 中不支持这种用法，这是因为 Dockerfile 是为了移植和分享用的。然而，不同操作系统的路径格式不一样，所以目前还不能支持。</p>
-<p>Docker 挂载数据卷的默认权限是读写，用户也可以通过 <code>:ro</code> 指定为只读。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -P --name web -v /src/webapp:/opt/webapp:ro</span></div><div class="line">training/webapp python app.py</div></pre></td></tr></table></figure></p>
+<p>Docker 挂载数据卷的默认权限是读写，用户也可以通过 <code>:ro</code> 指定为只读。<br><figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">$ sudo docker run -d -P --name web -v <span class="regexp">/src/</span><span class="string">webapp:</span><span class="regexp">/opt/</span><span class="string">webapp:</span>ro</div><div class="line">training/webapp python app.py</div></pre></td></tr></table></figure></p>
 <p>加了 <code>:ro</code> 之后，就挂载为只读了。</p>
 <h3 id="查看数据卷的具体信息"><a href="#查看数据卷的具体信息" class="headerlink" title="查看数据卷的具体信息"></a>查看数据卷的具体信息</h3><p>在主机里使用以下命令可以查看指定容器的信息<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> docker inspect web</span></div><div class="line">...</div></pre></td></tr></table></figure></p>
 <p>数据卷配置在”Mounts”Key下面，可以看到所有的数据卷都是创建在主机的<code>/mnt/sda1/var/lib/docker/volumes/....</code>:</p>
@@ -394,7 +394,7 @@
 <p>这样就可以记录在容器输入过的命令了。</p>
 <p>*注意：如果直接挂载一个文件，很多文件编辑工具，包括 <code>vi</code> 或者 <code>sed --in-place</code>，可能会造成文件 inode 的改变，从 Docker 1.1<br>.0起，这会导致报错误信息。所以最简单的办法就直接挂载文件的父目录。</p>
 <h3 id="docker-volume命令"><a href="#docker-volume命令" class="headerlink" title="docker volume命令"></a>docker volume命令</h3><p>从docker v1.12开始新增了<code>docker volume</code>命令，可以更方便的管理volume</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a volume</span></div><div class="line">docker volume create <span class="_">-d</span> &lt;volume-driver-name&gt; &lt;volume-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a volume</span></div><div class="line">docker volume inspect &lt;volume-name&gt;</div><div class="line"><span class="comment"># To list volumes</span></div><div class="line">docker volume ls</div><div class="line"><span class="comment"># To remove all unused volumes</span></div><div class="line">docker volume prune</div><div class="line"><span class="comment"># To remove a volume</span></div><div class="line">docker volume rm &lt;volume-name&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a volume</span></div><div class="line">docker volume create -d &lt;volume-driver-name&gt; &lt;volume-name&gt;</div><div class="line"><span class="comment"># To display detailed information of a volume</span></div><div class="line">docker volume inspect &lt;volume-name&gt;</div><div class="line"><span class="comment"># To list volumes</span></div><div class="line">docker volume ls</div><div class="line"><span class="comment"># To remove all unused volumes</span></div><div class="line">docker volume prune</div><div class="line"><span class="comment"># To remove a volume</span></div><div class="line">docker volume rm &lt;volume-name&gt;</div></pre></td></tr></table></figure>
 
     
   </div>

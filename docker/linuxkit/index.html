@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/linuxkit/index.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="LinuxKit是Docker最新发布的一个用于为容器构建安全、便携、可移植操作系统的工具包。它根据用户编写的yaml（指定kernel和基于docker image的一些列服务）自动构建一个常见虚拟化平台或云平台的虚拟机镜像，并自动运行起来。主要特性包括  增强安全性 系统安全，基于MirageOS unikernel 紧跟最新kernel并精简不必要的模块 Immutable，只读根文件系统，">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.120Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LinuxKit">
 <meta name="twitter:description" content="LinuxKit是Docker最新发布的一个用于为容器构建安全、便携、可移植操作系统的工具包。它根据用户编写的yaml（指定kernel和基于docker image的一些列服务）自动构建一个常见虚拟化平台或云平台的虚拟机镜像，并自动运行起来。主要特性包括  增强安全性 系统安全，基于MirageOS unikernel 紧跟最新kernel并精简不必要的模块 Immutable，只读根文件系统，">
@@ -393,8 +393,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-31T01:27:52+00:00" content="2017-05-31">
-              2017-05-31
+            <time itemprop="dateCreated" datetime="2017-06-01T01:28:08+00:00" content="2017-06-01">
+              2017-06-01
             </time>
           </span>
 
@@ -462,7 +462,7 @@
 <h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>LinuxKit目前支持在gcp/hyperkit/qemu/vmware/packet/Hyper-V等多个平台上运行。比如用qemu的方式运行：</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ moby run qemu linuxkit</div><div class="line">....</div></pre></td></tr></table></figure>
 <p>在OSX上，可以用xhyve生成的镜像</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">KERNEL=<span class="string">"linuxkit-bzImage"</span></div><div class="line">INITRD=<span class="string">"linuxkit-initrd.img"</span></div><div class="line">CMDLINE=<span class="string">"console=ttyS0 console=tty0 page_poison=1"</span></div><div class="line"></div><div class="line">MEM=<span class="string">"-m 1G"</span></div><div class="line">PCI_DEV=<span class="string">"-s 0:0,hostbridge -s 31,lpc"</span></div><div class="line">LPC_DEV=<span class="string">"-l com1,stdio"</span></div><div class="line">ACPI=<span class="string">"-A"</span></div><div class="line"><span class="comment">#SMP="-c 2"</span></div><div class="line"></div><div class="line"><span class="comment"># sudo if you want networking enabled</span></div><div class="line">NET=<span class="string">"-s 2:0,virtio-net"</span></div><div class="line"></div><div class="line">xhyve <span class="variable">$ACPI</span> <span class="variable">$MEM</span> <span class="variable">$SMP</span> <span class="variable">$PCI_DEV</span> <span class="variable">$LPC_DEV</span> <span class="variable">$NET</span> <span class="_">-f</span> kexec,<span class="variable">$KERNEL</span>,<span class="variable">$INITRD</span>,<span class="string">"<span class="variable">$CMDLINE</span>"</span></div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">KERNEL=<span class="string">"linuxkit-bzImage"</span></div><div class="line">INITRD=<span class="string">"linuxkit-initrd.img"</span></div><div class="line">CMDLINE=<span class="string">"console=ttyS0 console=tty0 page_poison=1"</span></div><div class="line"></div><div class="line">MEM=<span class="string">"-m 1G"</span></div><div class="line">PCI_DEV=<span class="string">"-s 0:0,hostbridge -s 31,lpc"</span></div><div class="line">LPC_DEV=<span class="string">"-l com1,stdio"</span></div><div class="line">ACPI=<span class="string">"-A"</span></div><div class="line"><span class="comment">#SMP="-c 2"</span></div><div class="line"></div><div class="line"><span class="comment"># sudo if you want networking enabled</span></div><div class="line">NET=<span class="string">"-s 2:0,virtio-net"</span></div><div class="line"></div><div class="line">xhyve <span class="variable">$ACPI</span> <span class="variable">$MEM</span> <span class="variable">$SMP</span> <span class="variable">$PCI_DEV</span> <span class="variable">$LPC_DEV</span> <span class="variable">$NET</span> -f kexec,<span class="variable">$KERNEL</span>,<span class="variable">$INITRD</span>,<span class="string">"<span class="variable">$CMDLINE</span>"</span></div></pre></td></tr></table></figure>
 <p>默认运行后会自动进入VM的console：</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">/ <span class="comment"># pstree</span></div><div class="line">init-+-containerd---containerd-shim---nginx---nginx</div><div class="line">     |-containers---ctr</div><div class="line">     |-sh---pstree</div><div class="line">     `-sh</div></pre></td></tr></table></figure>
 <p>参考文档</p>

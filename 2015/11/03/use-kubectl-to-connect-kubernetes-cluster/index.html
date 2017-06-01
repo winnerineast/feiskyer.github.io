@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://feisky.xyz/2015/11/03/use-kubectl-to-connect-kubernetes-cluster/index.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="kubectl is the main tool to interact with Kubernetes cluster. It connects to http://localhost:8080 with no auth by default. But how can we use kubectl with auth? Pretty simple, just config kubectl wit">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.032Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Use kubectl to connect kubernetes cluster">
 <meta name="twitter:description" content="kubectl is the main tool to interact with Kubernetes cluster. It connects to http://localhost:8080 with no auth by default. But how can we use kubectl with auth? Pretty simple, just config kubectl wit">
@@ -450,7 +450,7 @@
       
         <p><code>kubectl</code> is the main tool to interact with Kubernetes cluster. It connects to <code>http://localhost:8080</code> with no auth by default. But how can we use <code>kubectl</code> with auth?</p>
 <p>Pretty simple, just config <code>kubectl</code> with dedicated cluster:</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-credentials</span> <span class="string">default </span><span class="built_in">--username=username</span> <span class="built_in">--password=password</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-cluster</span> <span class="string">default </span><span class="built_in">--server=https://kubernetes-master:6443</span> <span class="built_in">--insecure-skip-tls-verify=true</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="built_in">set-context</span> <span class="string">default </span><span class="built_in">--cluster=default</span> <span class="built_in">--user=default</span></div><div class="line"><span class="string">kubectl </span><span class="string">config </span><span class="string">use-context </span><span class="string">default</span></div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">kubectl<span class="built_in"> config </span>set-credentials<span class="built_in"> default </span><span class="attribute">--username</span>=username <span class="attribute">--password</span>=password</div><div class="line">kubectl<span class="built_in"> config </span>set-cluster<span class="built_in"> default </span><span class="attribute">--server</span>=https://kubernetes-master:6443 <span class="attribute">--insecure-skip-tls-verify</span>=<span class="literal">true</span></div><div class="line">kubectl<span class="built_in"> config </span>set-context<span class="built_in"> default </span><span class="attribute">--cluster</span>=default <span class="attribute">--user</span>=default</div><div class="line">kubectl<span class="built_in"> config </span>use-context default</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -487,16 +487,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/22/something-about-kubernetes-authentication/" rel="next" title="Something about kubernetes authentication">
-                <i class="fa fa-chevron-left"></i> Something about kubernetes authentication
+              <a href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" rel="next" title="Hypernetes   The multi tenant Kubernetes distribution">
+                <i class="fa fa-chevron-left"></i> Hypernetes   The multi tenant Kubernetes distribution
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/11/03/hypernetes---the-multi-tenant-kubernetes-distribution/" rel="prev" title="Hypernetes   The multi tenant Kubernetes distribution">
-                Hypernetes   The multi tenant Kubernetes distribution <i class="fa fa-chevron-right"></i>
+              <a href="/2015/11/11/hypernetes-wechat-share/" rel="prev" title="Hypernetes wechat share">
+                Hypernetes wechat share <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

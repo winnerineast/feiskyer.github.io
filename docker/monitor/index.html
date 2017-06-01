@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://feisky.xyz/docker/monitor/14842107270881.png">
 <meta property="og:image" content="http://feisky.xyz/docker/monitor/14842114123604.jpg">
 <meta property="og:image" content="http://feisky.xyz/docker/monitor/prometheus.svg">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.124Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="Docker监控cAdvisorcAdvisor是一个来自Google的容器监控工具，也是kubelet内置的容器资源收集工具。它会自动收集本机容器CPU、内存、网络和文件系统的资源占用情况。  InfluxDB和GrafanaInfluxDB是一个开源分布式时序、事件和指标数据库；而Grafana则是InfluxDB的dashboard，提供了强大的图表展示功能。  PrometheusProm">
@@ -397,8 +397,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-31T01:27:52+00:00" content="2017-05-31">
-              2017-05-31
+            <time itemprop="dateCreated" datetime="2017-06-01T01:28:08+00:00" content="2017-06-01">
+              2017-06-01
             </time>
           </span>
 
@@ -440,7 +440,7 @@
 <p><img src="prometheus.svg" alt=""></p>
 <p>使用<a href="docker-compose.yml">docker-compose.yml</a>可以方便的启动一个cAdvisor、Prometheus和Grafana展示的服务。</p>
 <p>需要注意的是，Prometheus目前<a href="https://github.com/prometheus/prometheus/issues/1766" target="_blank" rel="external">还不支持swarm mode</a>，<a href="https://github.com/function61/prometheus-docker-swarm" target="_blank" rel="external">prometheus-docker-swarm</a>提供一个支持swarm mode的方法：</p>
-<figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">$ docker service create --network YOUR_NETWORK --name prometheus -p 9090:9090 \</div><div class="line">    -<span class="ruby">-mount type=bind,src=<span class="regexp">/var/run</span><span class="regexp">/docker.sock,dst=/var</span><span class="regexp">/run/docker</span>.sock \</span></div><div class="line">    -<span class="ruby">-mount type=volume,src=prometheus-dev,dst=<span class="regexp">/prometheus \</span></span></div><div class="line">    fn61/prometheus-docker-swarm:latest</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ docker<span class="built_in"> service </span>create --network YOUR_NETWORK --name prometheus -p 9090:9090 \</div><div class="line">    --mount <span class="attribute">type</span>=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \</div><div class="line">    --mount <span class="attribute">type</span>=volume,src=prometheus-dev,dst=/prometheus \</div><div class="line">    fn61/prometheus-docker-swarm:latest</div></pre></td></tr></table></figure>
 <p>这实际上是通过docker-prometheus-bridge生成了一个Prometheus配置文件：</p>
 <figure class="highlight gherkin"><table><tr><td class="code"><pre><div class="line">+--------------------------+           +----------------------+</div><div class="line">|<span class="string">                          </span>|<span class="string"> writes    </span>|<span class="string">                      </span>|</div><div class="line">|<span class="string"> docker-prometheus-bridge +-----------&gt; Configuration file   </span>|</div><div class="line">|<span class="string">                          </span>|<span class="string">           </span>|<span class="string"> (Scrapeable targets) </span>|</div><div class="line">+-------^------------------+           |<span class="string">                      </span>|</div><div class="line">        |<span class="string">                              +-----------+----------+</span></div><div class="line">        |<span class="string"> queries                                  </span>|</div><div class="line">        |<span class="string">                                          </span>|</div><div class="line">        |<span class="string">                                          </span>|<span class="string"> reads</span></div><div class="line">+-------+------+                                   |</div><div class="line">|<span class="string">              </span>|<span class="string">                              +----v-------+</span></div><div class="line">|<span class="string"> Docker API   </span>|<span class="string">                              </span>|<span class="string">            </span>|</div><div class="line">|<span class="string"> (Swarm mode) </span>|<span class="string">                              </span>|<span class="string"> Prometheus </span>|</div><div class="line">|<span class="string">              </span>|<span class="string">                              </span>|<span class="string">            </span>|</div><div class="line">+--------------+                              +------------+</div></pre></td></tr></table></figure>
 <h2 id="其他容器监控系统"><a href="#其他容器监控系统" class="headerlink" title="其他容器监控系统"></a>其他容器监控系统</h2><ul>

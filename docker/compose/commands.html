@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/compose/commands.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="Compose 命令说明大部分命令都可以运行在一个或多个服务上。如果没有特别的说明，命令则应用在项目所有的服务上。 执行 docker-compose [COMMAND] --help 查看具体某个命令的使用说明。 基本的使用格式是docker-compose [options] [COMMAND] [ARGS...] 选项 --verbose 输出更多调试信息。 --version 打印版本并退">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="Compose 命令说明大部分命令都可以运行在一个或多个服务上。如果没有特别的说明，命令则应用在项目所有的服务上。 执行 docker-compose [COMMAND] --help 查看具体某个命令的使用说明。 基本的使用格式是docker-compose [options] [COMMAND] [ARGS...] 选项 --verbose 输出更多调试信息。 --version 打印版本并退">
@@ -382,7 +382,7 @@
 <p>服务一旦构建后，将会带上一个标记名，例如 web_db。</p>
 <p>可以随时在项目目录下运行 <code>docker-compose build</code> 来重新构建服务。</p>
 <h3 id="help"><a href="#help" class="headerlink" title="help"></a><code>help</code></h3><p>获得一个命令的帮助。</p>
-<h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a><code>kill</code></h3><p>通过发送 <code>SIGKILL</code> 信号来强制停止服务容器。支持通过参数来指定发送的信号，例如<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker-compose <span class="built_in">kill</span> <span class="_">-s</span> SIGINT</div></pre></td></tr></table></figure></p>
+<h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a><code>kill</code></h3><p>通过发送 <code>SIGKILL</code> 信号来强制停止服务容器。支持通过参数来指定发送的信号，例如<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ docker-compose <span class="built_in">kill</span> -s SIGINT</div></pre></td></tr></table></figure></p>
 <h3 id="logs"><a href="#logs" class="headerlink" title="logs"></a><code>logs</code></h3><p>查看服务的输出。</p>
 <h3 id="port"><a href="#port" class="headerlink" title="port"></a><code>port</code></h3><p>打印绑定的公共端口。</p>
 <h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a><code>ps</code></h3><p>列出所有容器。</p>
@@ -390,7 +390,7 @@
 <h3 id="rm"><a href="#rm" class="headerlink" title="rm"></a><code>rm</code></h3><p>删除停止的服务容器。</p>
 <h3 id="run"><a href="#run" class="headerlink" title="run"></a><code>run</code></h3><p>在一个服务上执行一个命令。</p>
 <p>例如：</p>
-<figure class="highlight autoit"><table><tr><td class="code"><pre><div class="line">$ docker-compose <span class="built_in">run</span> ubuntu <span class="built_in">ping</span> docker.com</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ docker-compose <span class="builtin-name">run</span> ubuntu<span class="built_in"> ping </span>docker.com</div></pre></td></tr></table></figure>
 <p>将会启动一个 ubuntu 服务，执行 <code>ping docker.com</code> 命令。</p>
 <p>默认情况下，所有关联的服务将会自动被启动，除非这些服务已经在运行中。</p>
 <p>该命令类似启动容器后运行指定的命令，相关卷、链接等等都将会按照期望创建。</p>
@@ -404,7 +404,7 @@
 <p>将不会启动 web 容器所关联的其它容器。</p>
 <h3 id="scale"><a href="#scale" class="headerlink" title="scale"></a><code>scale</code></h3><p>设置同一个服务运行的容器个数。</p>
 <p>通过 <code>service=num</code> 的参数来设置数量。例如：</p>
-<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">$ docker-compose scale web=<span class="number">2</span> worker=<span class="number">3</span></div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ docker-compose scale <span class="attribute">web</span>=2 <span class="attribute">worker</span>=3</div></pre></td></tr></table></figure>
 <h3 id="start"><a href="#start" class="headerlink" title="start"></a><code>start</code></h3><p>启动一个已经存在的服务容器。</p>
 <h3 id="stop"><a href="#stop" class="headerlink" title="stop"></a><code>stop</code></h3><p>停止一个已经运行的容器，但不删除它。通过 <code>docker-compose start</code> 可以再次启动这些容器。</p>
 <h3 id="up"><a href="#up" class="headerlink" title="up"></a><code>up</code></h3><p>构建，（重新）创建，启动，链接一个服务相关的容器。</p>

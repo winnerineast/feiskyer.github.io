@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/service/index.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="Service从docker v1.12开始，service可以用来更方便的管理容器服务，一个service就是一组相同功能的容器，并且docker内置了服务发现和基于lvs的负载均衡。 # To create a new servicedocker service create --name nginx nginx# To display detailed information of a se">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.124Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="Service从docker v1.12开始，service可以用来更方便的管理容器服务，一个service就是一组相同功能的容器，并且docker内置了服务发现和基于lvs的负载均衡。 # To create a new servicedocker service create --name nginx nginx# To display detailed information of a se">
@@ -393,8 +393,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-31T01:27:52+00:00" content="2017-05-31">
-              2017-05-31
+            <time itemprop="dateCreated" datetime="2017-06-01T01:28:08+00:00" content="2017-06-01">
+              2017-06-01
             </time>
           </span>
 
@@ -429,7 +429,7 @@
 
       
         <h1 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h1><p>从docker v1.12开始，service可以用来更方便的管理容器服务，一个service就是一组相同功能的容器，并且docker内置了服务发现和基于lvs的负载均衡。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a new service</span></div><div class="line">docker service create --name nginx nginx</div><div class="line"></div><div class="line"><span class="comment"># To display detailed information of a service</span></div><div class="line">docker service inspect nginx</div><div class="line"></div><div class="line"><span class="comment"># To list services</span></div><div class="line">docker service ls</div><div class="line"></div><div class="line"><span class="comment"># To list the tasks of a service</span></div><div class="line">docker service ps nginx</div><div class="line"></div><div class="line"><span class="comment"># To scale one or multiple replicated services</span></div><div class="line">docker service scale nginx=3</div><div class="line"><span class="comment"># To update a service</span></div><div class="line">docker service update --publish-add=80 nginx</div><div class="line"></div><div class="line"><span class="comment"># To view logs of this service</span></div><div class="line">docker service logs <span class="_">-f</span> nginx</div><div class="line"></div><div class="line"><span class="comment"># To remove a service</span></div><div class="line">docker service rm nginx</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># To create a new service</span></div><div class="line">docker service create --name nginx nginx</div><div class="line"></div><div class="line"><span class="comment"># To display detailed information of a service</span></div><div class="line">docker service inspect nginx</div><div class="line"></div><div class="line"><span class="comment"># To list services</span></div><div class="line">docker service ls</div><div class="line"></div><div class="line"><span class="comment"># To list the tasks of a service</span></div><div class="line">docker service ps nginx</div><div class="line"></div><div class="line"><span class="comment"># To scale one or multiple replicated services</span></div><div class="line">docker service scale nginx=3</div><div class="line"><span class="comment"># To update a service</span></div><div class="line">docker service update --publish-add=80 nginx</div><div class="line"></div><div class="line"><span class="comment"># To view logs of this service</span></div><div class="line">docker service logs -f nginx</div><div class="line"></div><div class="line"><span class="comment"># To remove a service</span></div><div class="line">docker service rm nginx</div></pre></td></tr></table></figure>
       
     </div>
 

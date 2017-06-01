@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/appendix_repo/redis.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="Redis基本信息Redis 是开源的内存 Key-Value 数据库实现。该仓库提供了 Redis 2.6 ~ 2.8.9 各个版本的镜像。 使用方法默认会在 6379 端口启动数据库。$ sudo docker run --name some-redis -d redis 另外还可以启用 持久存储。$ sudo docker run --name some-redis -d redis red">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="Redis基本信息Redis 是开源的内存 Key-Value 数据库实现。该仓库提供了 Redis 2.6 ~ 2.8.9 各个版本的镜像。 使用方法默认会在 6379 端口启动数据库。$ sudo docker run --name some-redis -d redis 另外还可以启用 持久存储。$ sudo docker run --name some-redis -d redis red">
@@ -370,10 +370,10 @@
     
     
       <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://registry.hub.docker.com/_/redis/" target="_blank" rel="external">Redis</a></h2><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p><a href="https://en.wikipedia.org/wiki/Redis" target="_blank" rel="external">Redis</a> 是开源的内存 Key-Value 数据库实现。<br>该仓库提供了 Redis 2.6 ~ 2.8.9 各个版本的镜像。</p>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>默认会在 <code>6379</code> 端口启动数据库。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --name some-redis <span class="_">-d</span> redis</span></div></pre></td></tr></table></figure></p>
-<p>另外还可以启用 <a href="http://redis.io/topics/persistence" target="_blank" rel="external">持久存储</a>。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --name some-redis <span class="_">-d</span> redis redis-server --appendonly yes</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>默认会在 <code>6379</code> 端口启动数据库。<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> <span class="comment">--name some-redis -d redis</span></div></pre></td></tr></table></figure></p>
+<p>另外还可以启用 <a href="http://redis.io/topics/persistence" target="_blank" rel="external">持久存储</a>。<br><figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="builtin-name">run</span> --name some-redis -d redis redis-server --appendonly <span class="literal">yes</span></div></pre></td></tr></table></figure></p>
 <p>默认数据存储位置在 <code>VOLUME/data</code>。可以使用 <code>--volumes-from some-volume-container</code> 或 <code>-v /docker/host/dir:/data</code> 将数据存放到本地。</p>
-<p>使用其他应用连接到容器，可以用<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --name some-app --link some-redis:redis <span class="_">-d</span> application-that-uses-redis</span></div></pre></td></tr></table></figure></p>
+<p>使用其他应用连接到容器，可以用<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> <span class="comment">--name some-app --link some-redis:redis -d application-that-uses-redis</span></div></pre></td></tr></table></figure></p>
 <p>或者通过 <code>redis-cli</code><br><figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span> -it --link some-redis:redis --<span class="keyword">rm</span> redis <span class="keyword">sh</span> -c 'exec redis-<span class="keyword">cli</span> -<span class="keyword">h</span> <span class="string">"$REDIS_PORT_6379_TCP_ADDR"</span> -p <span class="string">"$REDIS_PORT_6379_TCP_PORT"</span>'</div></pre></td></tr></table></figure></p>
 <h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>
 <li><a href="https://github.com/docker-library/redis/blob/02d9cd887a4e0d50db4bb085eab7235115a6fe4a/2.6.17/Dockerfile" target="_blank" rel="external">2.6 版本</a></li>

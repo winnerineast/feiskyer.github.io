@@ -101,7 +101,7 @@
 <meta property="og:image" content="http://feisky.xyz/assets/mesos_6.png">
 <meta property="og:image" content="http://feisky.xyz/assets/mesos1.png">
 <meta property="og:image" content="http://feisky.xyz/assets/mesos2.png">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.028Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Mesos来管理Docker集群">
 <meta name="twitter:description" content="IntroductionApache Mesos能够在同样的集群机器上运行多种分布式系统类型，更加动态有效率低共享资源。提供失败侦测，任务发布，任务跟踪，任务监控，低层次资源管理和细粒度的资源共享，可以扩展伸缩到数千个节点。Mesos已经被Twitter用来管理它们的数据中心。  Mesos架构图如下：  Mesos框架是一个在Mesos上运行分布式应用的应用程序，它有两个组件：  调度器 : 与">
@@ -481,11 +481,11 @@
 <h3 id="部署方法"><a href="#部署方法" class="headerlink" title="部署方法"></a>部署方法</h3><p>首先安装Mesos和Marathon，并配置slave使用docker：</p>
 <figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.<span class="keyword">com</span> --recv E56151BF</div><div class="line">DISTRO=$(lsb_release -<span class="keyword">is</span> | <span class="keyword">tr</span> <span class="string">'[:upper:]'</span> <span class="string">'[:lower:]'</span>)</div><div class="line">CODENAME=$(lsb_release -<span class="keyword">cs</span>)</div><div class="line"><span class="keyword">echo</span> <span class="string">"deb http://repos.mesosphere.io/$&#123;DISTRO&#125; $&#123;CODENAME&#125; main"</span> | \</div><div class="line">  sudo tee /etc/apt/sources.<span class="keyword">list</span>.d/mesosphere.<span class="keyword">list</span></div><div class="line">sudo apt-<span class="built_in">get</span> -<span class="keyword">y</span> <span class="keyword">update</span></div><div class="line">sudo apt-<span class="built_in">get</span> -<span class="keyword">y</span> install mesos marathon</div><div class="line"><span class="keyword">echo</span> <span class="string">'docker,mesos'</span> &gt; /etc/mesos-slave/containerizers</div><div class="line"><span class="keyword">echo</span> <span class="string">'5mins'</span> &gt; /etc/mesos-slave/executor_registration_timeout</div></pre></td></tr></table></figure>
 <p>启动所有服务</p>
-<figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">sudo service zookeeper restart</div><div class="line">sudo service mesos-<span class="keyword">master</span> <span class="title">start</span></div><div class="line">sudo service mesos-<span class="literal">slave</span> <span class="literal">start</span></div><div class="line">sudo service marathon <span class="literal">start</span></div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">sudo<span class="built_in"> service </span>zookeeper restart</div><div class="line">sudo<span class="built_in"> service </span>mesos-master start</div><div class="line">sudo<span class="built_in"> service </span>mesos-slave start</div><div class="line">sudo<span class="built_in"> service </span>marathon start</div></pre></td></tr></table></figure>
 <p>现在打开浏览器，访问<code>http://localhost:8080</code>和<code>http://localhost:5050</code>就可以分别看到Mesos和Marathon的界面了. </p>
 <p><img src="/assets/mesos1.png" alt=""></p>
 <p>执行下面的命令，来运行一个简单的任务确认Mesos部署正常：</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><div class="line">MASTER=$(mesos-resolve <span class="string">`cat /etc/mesos/zk`</span> <span class="number">2</span>&gt;<span class="regexp">/dev/null</span>)</div><div class="line">mesos-execute --master=$MASTER --name=<span class="string">"cluster-test"</span> --command=<span class="string">"sleep 5"</span></div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="attribute">MASTER</span>=$(mesos-resolve `cat /etc/mesos/zk` 2&gt;/dev/<span class="literal">null</span>)</div><div class="line">mesos-execute <span class="attribute">--master</span>=<span class="variable">$MASTER</span> <span class="attribute">--name</span>=<span class="string">"cluster-test"</span> <span class="attribute">--command</span>=<span class="string">"sleep 5"</span></div></pre></td></tr></table></figure>
 <h3 id="部署docker容器"><a href="#部署docker容器" class="headerlink" title="部署docker容器"></a>部署docker容器</h3><p>通过Marathon提供了RestAPI，方便管理和部署各种应用，并支持通过HAProxy实现负载均衡。下面我们就通过Rest API来创建docker容器：</p>
 <figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">curl -X POST -H <span class="string">"Accept: application/json"</span> -H <span class="string">"Content-Type: application/json"</span> <span class="string">http:</span><span class="comment">//localhost:8080/v2/apps -d '&#123;</span></div><div class="line">  <span class="string">"container"</span>: &#123;</div><div class="line">    <span class="string">"type"</span>: <span class="string">"DOCKER"</span>,</div><div class="line">    <span class="string">"docker"</span>: &#123;</div><div class="line">      <span class="string">"image"</span>: <span class="string">"centos"</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="string">"id"</span>: <span class="string">"cent"</span>,</div><div class="line">  <span class="string">"instances"</span>: <span class="number">1</span>,</div><div class="line">  <span class="string">"cpus"</span>: <span class="number">0.5</span>,</div><div class="line">  <span class="string">"mem"</span>: <span class="number">512</span>,</div><div class="line">  <span class="string">"uris"</span>: [],</div><div class="line">  <span class="string">"cmd"</span>: <span class="string">"while sleep 10; do date -u +%T; done"</span></div><div class="line">&#125;<span class="string">'</span></div></pre></td></tr></table></figure>
 <p>返回数据为：</p>
@@ -539,16 +539,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/02/05/apachemesosgooglekubernetes-/" rel="next" title="Apache的Mesos和Google的Kubernetes 有什么区别">
-                <i class="fa fa-chevron-left"></i> Apache的Mesos和Google的Kubernetes 有什么区别
+              <a href="/2015/02/04/deploy-a-mesos-cluster-using-docker/" rel="next" title="Deploy a Mesos Cluster Using Docker">
+                <i class="fa fa-chevron-left"></i> Deploy a Mesos Cluster Using Docker
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/" rel="prev" title="Perform Consistent Snapshots with qemu guest agent">
-                Perform Consistent Snapshots with qemu guest agent <i class="fa fa-chevron-right"></i>
+              <a href="/2015/02/05/apachemesosgooglekubernetes-/" rel="prev" title="Apache的Mesos和Google的Kubernetes 有什么区别">
+                Apache的Mesos和Google的Kubernetes 有什么区别 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

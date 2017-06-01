@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/install/centos.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="CentOS 系列安装 Docker系统的要求跟 Ubuntu 情况类似，64 位操作系统，内核版本至少为 3.10。 Docker 目前支持 CentOS 6.5 及以后的版本，推荐使用 CentOS 7 系统。 首先，也是要添加 yum 软件源。 $ sudo tee /etc/yum.repos.d/docker.repo &amp;lt;&amp;lt;-&apos;EOF&apos;[dockerrepo]name=Doc">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.120Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="CentOS 系列安装 Docker系统的要求跟 Ubuntu 情况类似，64 位操作系统，内核版本至少为 3.10。 Docker 目前支持 CentOS 6.5 及以后的版本，推荐使用 CentOS 7 系统。 首先，也是要添加 yum 软件源。 $ sudo tee /etc/yum.repos.d/docker.repo &amp;lt;&amp;lt;-&apos;EOF&apos;[dockerrepo]name=Doc">
@@ -375,7 +375,7 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ sudo tee /etc/yum.repos.d/docker.repo &lt;&lt;-<span class="string">'EOF'</span></div><div class="line">[dockerrepo]</div><div class="line">name=Docker Repository</div><div class="line">baseurl=https://yum.dockerproject.org/repo/main/centos/<span class="variable">$releasever</span>/</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=https://yum.dockerproject.org/gpg</div><div class="line">EOF</div></pre></td></tr></table></figure>
 <p>之后更新 yum 软件源缓存，并安装 docker-engine。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ sudo yum update</div><div class="line">$ sudo yum install -y docker-engine</div></pre></td></tr></table></figure></p>
 <p>对于 CentOS 7 系统，<code>CentOS-Extras</code> 源中已内置 Docker，如果已经配置了<code>CentOS-Extras</code> 源，可以直接通过上面的 yum 命令进行安装。</p>
-<p>另外，也可以使用官方提供的脚本来安装 Docker。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ sudo curl <span class="_">-s</span>SL https://get.docker.com/ | sh</div></pre></td></tr></table></figure></p>
+<p>另外，也可以使用官方提供的脚本来安装 Docker。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ sudo curl -sSL https://get.docker.com/ | sh</div></pre></td></tr></table></figure></p>
 <p>可以配置让 Docker 服务在系统启动后自动启动。<br><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ sudo chkconfig docker on</div></pre></td></tr></table></figure></p>
 
     

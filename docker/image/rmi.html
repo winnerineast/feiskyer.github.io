@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/image/rmi.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="移除本地镜像注意：docker v1.13+为docker image rm 如果要移除本地的镜像，可以使用 docker rmi 命令。注意 docker rm 命令是移除容器。$ sudo docker rmi training/sinatraUntagged: training/sinatra:latestDeleted: 5bc342fa0b91cabf65246837015197eecf">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.088Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.178Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="移除本地镜像注意：docker v1.13+为docker image rm 如果要移除本地的镜像，可以使用 docker rmi 命令。注意 docker rm 命令是移除容器。$ sudo docker rmi training/sinatraUntagged: training/sinatra:latestDeleted: 5bc342fa0b91cabf65246837015197eecf">
@@ -374,7 +374,7 @@
 <p>*注意：在删除镜像之前要先用 <code>docker rm</code> 删掉依赖于这个镜像的所有容器。</p>
 <h2 id="清理所有未打过标签的本地镜像"><a href="#清理所有未打过标签的本地镜像" class="headerlink" title="清理所有未打过标签的本地镜像"></a>清理所有未打过标签的本地镜像</h2><p><code>docker images</code> 可以列出本地所有的镜像，其中很可能会包含有很多中间状态的未打过标签的镜像，大量占据着磁盘空间。</p>
 <p>使用下面的命令可以清理所有未打过标签的本地镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo docker rmi $(docker images -q <span class="_">-f</span> <span class="string">"dangling=true"</span>)</span></div></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo docker rmi <span class="variable">$(</span>docker images -q -f <span class="string">"dangling=true"</span>)</div></pre></td></tr></table></figure>
 <p>其中 <code>-q</code> 和 <code>-f</code> 是缩写, 完整的命令其实可以写成下面这样，是不是更容易理解一点？</p>
 <figure class="highlight dsconfig"><table><tr><td class="code"><pre><div class="line">$ <span class="string">sudo </span><span class="string">docker </span><span class="string">rmi </span>$(<span class="string">docker </span><span class="string">images </span><span class="built_in">--quiet</span> <span class="built_in">--filter</span> <span class="string">"dangling=true"</span>)</div></pre></td></tr></table></figure>
 

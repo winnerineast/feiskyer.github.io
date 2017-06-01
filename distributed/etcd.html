@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://jolestar.com/images/etcd/etcd-log.png">
 <meta property="og:image" content="http://jolestar.com/images/etcd/etcd-v2.png">
 <meta property="og:image" content="http://jolestar.com/images/etcd/etcd-v3.png">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Etcd">
 <meta name="twitter:description" content="Etcd是CoreOS基于Raft开发的分布式key-value存储，可用于服务发现、共享配置以及一致性保障（如数据库选主、分布式锁等）。 Etcd主要功能 基本的key-value存储 监听机制 key的过期及续约机制，用于监控和服务发现 原子CAS和CAD，用于分布式锁和leader选举  Etcd 如何实现一致性的？说到这个就不得不说起raft协议。但这篇文章不是专门分析raft的，篇幅所限">
@@ -397,8 +397,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-31T01:27:52+00:00" content="2017-05-31">
-              2017-05-31
+            <time itemprop="dateCreated" datetime="2017-06-01T01:28:08+00:00" content="2017-06-01">
+              2017-06-01
             </time>
           </span>
 
@@ -452,7 +452,7 @@
 <h3 id="Etcd-v2-与-v3"><a href="#Etcd-v2-与-v3" class="headerlink" title="Etcd v2 与 v3"></a>Etcd v2 与 v3</h3><p>Etcd v2 和 v3 本质上是共享同一套 raft 协议代码的两个独立的应用，接口不一样，存储不一样，数据互相隔离。也就是说如果从 Etcd v2 升级到 Etcd v3，原来v2 的数据还是只能用 v2 的接口访问，v3 的接口创建的数据也只能访问通过 v3 的接口访问。所以我们按照 v2 和 v3 分别分析。</p>
 <h3 id="Etcd-v2-存储，Watch以及过期机制"><a href="#Etcd-v2-存储，Watch以及过期机制" class="headerlink" title="Etcd v2 存储，Watch以及过期机制"></a>Etcd v2 存储，Watch以及过期机制</h3><p><img src="http://jolestar.com/images/etcd/etcd-v2.png" alt="etcdv2"></p>
 <p>Etcd v2 是个纯内存的实现，并未实时将数据写入到磁盘，持久化机制很简单，就是将store整合序列化成json写入文件。数据在内存中是一个简单的树结构。比如以下数据存储到 Etcd 中的结构就如图所示。</p>
-<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">/nodes/<span class="number">1</span>/name  node1  </div><div class="line">/nodes/<span class="number">1</span>/ip    <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span></div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">/nodes/1/name  node1  </div><div class="line">/nodes/1<span class="built_in">/ip </span>   192.168.1.1</div></pre></td></tr></table></figure>
 <p>store中有一个全局的currentIndex，每次变更，index会加1.然后每个event都会关联到currentIndex.</p>
 <p>当客户端调用watch接口（参数中增加 wait参数）时，如果请求参数中有waitIndex，并且waitIndex 小于 currentIndex，则从 EventHistroy 表中查询index小于等于waitIndex，并且和watch key 匹配的 event，如果有数据，则直接返回。如果历史表中没有或者请求没有带 waitIndex，则放入WatchHub中，每个key会关联一个watcher列表。 当有变更操作时，变更生成的event会放入EventHistroy表中，同时通知和该key相关的watcher。</p>
 <p>这里有几个影响使用的细节问题：</p>

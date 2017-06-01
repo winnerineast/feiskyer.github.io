@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/appendix_repo/nginx.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="Nginx基本信息Nginx 是开源的高效的 Web 服务器实现，支持 HTTP、HTTPS、SMTP、POP3、IMAP 等协议。该仓库提供了 Nginx 1.0 ~ 1.7 各个版本的镜像。 使用方法下面的命令将作为一个静态页面服务器启动。$ sudo docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="Nginx基本信息Nginx 是开源的高效的 Web 服务器实现，支持 HTTP、HTTPS、SMTP、POP3、IMAP 等协议。该仓库提供了 Nginx 1.0 ~ 1.7 各个版本的镜像。 使用方法下面的命令将作为一个静态页面服务器启动。$ sudo docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro">
@@ -373,7 +373,7 @@
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>下面的命令将作为一个静态页面服务器启动。<br><figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">$ sudo docker run --name some-nginx -v <span class="regexp">/some/</span><span class="string">content:</span><span class="regexp">/usr/</span>share<span class="regexp">/nginx/</span><span class="string">html:</span>ro -d nginx</div></pre></td></tr></table></figure></p>
 <p>用户也可以不使用这种映射方式，通过利用 Dockerfile 来直接将静态页面内容放到镜像中，内容为<br><figure class="highlight gradle"><table><tr><td class="code"><pre><div class="line"><span class="keyword">FROM</span> nginx</div><div class="line"><span class="keyword">COPY</span> <span class="keyword">static</span>-html-directory <span class="regexp">/usr/</span>share<span class="regexp">/nginx/</span>html</div></pre></td></tr></table></figure></p>
 <p>之后生成新的镜像，并启动一个容器。<br><figure class="highlight maxima"><table><tr><td class="code"><pre><div class="line">$ sudo docker build -t <span class="built_in">some</span>-<span class="built_in">content</span>-nginx .</div><div class="line">$ sudo docker run --name <span class="built_in">some</span>-nginx -d <span class="built_in">some</span>-<span class="built_in">content</span>-nginx</div></pre></td></tr></table></figure></p>
-<p>开放端口，并映射到本地的 <code>8080</code> 端口。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">sudo docker <span class="keyword">run</span><span class="bash"> --name some-nginx <span class="_">-d</span> -p 8080:80 some-content-nginx</span></div></pre></td></tr></table></figure></p>
+<p>开放端口，并映射到本地的 <code>8080</code> 端口。<br><figure class="highlight maxima"><table><tr><td class="code"><pre><div class="line">sudo docker run --name <span class="built_in">some</span>-nginx -d -p <span class="number">8080</span>:<span class="number">80</span> <span class="built_in">some</span>-<span class="built_in">content</span>-nginx</div></pre></td></tr></table></figure></p>
 <p>Nginx的默认配置文件路径为 <code>/etc/nginx/nginx.conf</code>，可以通过映射它来使用本地的配置文件，例如<br><figure class="highlight groovy"><table><tr><td class="code"><pre><div class="line">docker run --name some-nginx -v <span class="regexp">/some/</span>nginx.<span class="string">conf:</span><span class="regexp">/etc/</span>nginx/nginx.<span class="string">conf:</span>ro -d nginx</div></pre></td></tr></table></figure></p>
 <p>使用配置文件时，为了在容器中正常运行，需要保持 <code>daemon off;</code>。</p>
 <h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>

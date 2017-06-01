@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://feisky.xyz/docker/appendix_repo/mysql.html">
 <meta property="og:site_name" content="Feisky&#39;s Blog">
 <meta property="og:description" content="MySQL基本信息MySQL 是开源的关系数据库实现。该仓库提供了 MySQL 各个版本的镜像，包括 5.6 系列、5.7 系列等。 使用方法默认会在 3306 端口启动数据库。$ sudo docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=mysecretpassword -d mysql 之后就可以使用其它应用来连接到该容器。$ sudo">
-<meta property="og:updated_time" content="2017-05-31T01:27:52.084Z">
+<meta property="og:updated_time" content="2017-06-01T01:28:08.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feisky&#39;s Blog">
 <meta name="twitter:description" content="MySQL基本信息MySQL 是开源的关系数据库实现。该仓库提供了 MySQL 各个版本的镜像，包括 5.6 系列、5.7 系列等。 使用方法默认会在 3306 端口启动数据库。$ sudo docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=mysecretpassword -d mysql 之后就可以使用其它应用来连接到该容器。$ sudo">
@@ -370,8 +370,8 @@
     
     
       <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a><a href="https://registry.hub.docker.com/_/mysql/" target="_blank" rel="external">MySQL</a></h2><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p><a href="https://en.wikipedia.org/wiki/MySQL" target="_blank" rel="external">MySQL</a> 是开源的关系数据库实现。<br>该仓库提供了 MySQL 各个版本的镜像，包括 5.6 系列、5.7 系列等。</p>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>默认会在 <code>3306</code> 端口启动数据库。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --name some-mysql <span class="_">-e</span> MYSQL_ROOT_PASSWORD=mysecretpassword <span class="_">-d</span> mysql</span></div></pre></td></tr></table></figure></p>
-<p>之后就可以使用其它应用来连接到该容器。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> --name some-app --link some-mysql:mysql <span class="_">-d</span> application-that-uses-mysql</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>默认会在 <code>3306</code> 端口启动数据库。<br><figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="builtin-name">run</span> --name some-mysql -e <span class="attribute">MYSQL_ROOT_PASSWORD</span>=mysecretpassword -d mysql</div></pre></td></tr></table></figure></p>
+<p>之后就可以使用其它应用来连接到该容器。<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> <span class="comment">--name some-app --link some-mysql:mysql -d application-that-uses-mysql</span></div></pre></td></tr></table></figure></p>
 <p>或者通过 <code>mysql</code>。<br><figure class="highlight julia"><table><tr><td class="code"><pre><div class="line">$ sudo docker run -it --link some-mysql:mysql --rm mysql sh -c 'exec mysql -<span class="string">h"<span class="variable">$MYSQL_PORT_3306_TCP_ADDR</span>"</span> -<span class="string">P"<span class="variable">$MYSQL_PORT_3306_TCP_PORT</span>"</span> -uroot -<span class="string">p"<span class="variable">$MYSQL_ENV_MYSQL_ROOT_PASSWORD</span>"</span>'</div></pre></td></tr></table></figure></p>
 <h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>
 <li><a href="https://github.com/docker-library/mysql/blob/7461a52b43f06839a4d8723ae8841f4cb616b3d0/5.6/Dockerfile" target="_blank" rel="external">5.6 版本</a></li>
