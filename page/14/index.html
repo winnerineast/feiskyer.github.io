@@ -603,110 +603,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="url">
-                  How enable OpenStack allinone vm to access external network
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
-              2015-03-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#添加FAKE公网网关</span></div><div class="line">ovs-vsctl add-port br-ex gwp -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gwp <span class="attribute">type</span>=internal</div><div class="line">ifconfig gwp 10.10.10.1 netmask 255.255.255.0</div><div class="line"><span class="comment">#添加SNAT规则允许虚拟机访问外网 </span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE</div><div class="line"><span class="comment">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</span></div><div class="line"><span class="comment">#iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited</span></div><div class="line">iptables -t<span class="built_in"> filter </span>-I FORWARD -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment">#开启内核转发</span></div><div class="line">sysctl -w net.ipv4.conf.eth0.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.conf.gwp.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#假设eth0的ip地址为192.168.33.22</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-I OUTPUT -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line">iptables -t<span class="built_in"> nat </span>-I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t<span class="built_in"> nat </span>-I PREROUTING -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line"></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.5/32 -p tcp -m tcp --sport 2222 -j SNAT --to-source 192.168.33.22:22</span></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 192.168.33.22</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/03/01/open-vswitch-over-dpdk-on-ubuntu/" itemprop="url">
                   Open vSwitch over DPDK on Ubuntu
                 </a>
@@ -1108,6 +1004,110 @@ From the host try to ping the guest. With the virtual machine configuration desc
 
 
 <p>备注：本文转自 <a href="https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu" target="_blank" rel="external">https://wiki.linaro.org/LNG/Engineering/OVSDPDKOnUbuntu</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="url">
+                  How enable OpenStack allinone vm to access external network
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-02T00:00:00+08:00" content="2015-03-02">
+              2015-03-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#添加FAKE公网网关</span></div><div class="line">ovs-vsctl add-port br-ex gwp -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gwp <span class="attribute">type</span>=internal</div><div class="line">ifconfig gwp 10.10.10.1 netmask 255.255.255.0</div><div class="line"><span class="comment">#添加SNAT规则允许虚拟机访问外网 </span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE</div><div class="line"><span class="comment">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</span></div><div class="line"><span class="comment">#iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited</span></div><div class="line">iptables -t<span class="built_in"> filter </span>-I FORWARD -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment">#开启内核转发</span></div><div class="line">sysctl -w net.ipv4.conf.eth0.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.conf.gwp.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#假设eth0的ip地址为192.168.33.22</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-I OUTPUT -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line">iptables -t<span class="built_in"> nat </span>-I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t<span class="built_in"> nat </span>-I PREROUTING -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line"></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.5/32 -p tcp -m tcp --sport 2222 -j SNAT --to-source 192.168.33.22:22</span></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 192.168.33.22</span></div></pre></td></tr></table></figure>
 
           
         
