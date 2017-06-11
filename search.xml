@@ -3048,69 +3048,6 @@ Available Commands:
     </entry>
     
     <entry>
-      <title><![CDATA[awesome quick start]]></title>
-      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
-      <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
-<p>常用快捷键整理：</p>
-<pre><code>切换程序
-切换到下一个程序：Mod4 + j
-切换到上一个程序：Mod4 + k
-切换到主窗口中的第一个程序：Mod4 + Ctrl + Return
-
-切换tag
-切换到上一个选择的tag：Mod4 + Esc
-切换到某个指定的tag：Mod4 + 1-9
-切换到前一个tag：Mod4 + Left
-切换到下一个tag：Mod4 + Right
-
-程序窗口状态修改
-最大化/非最大化：Mod4 + m
-浮动/平铺：Mod4 + Ctrl + Space
-最小化：Mod4 + n
-从最小化中恢复：Mod4 + Ctrl + n
-关闭程序：Mod4 + Shift + C
-
-程序窗口的转移和显示
-转移到某个tag：Mod4 + Shift + 1-9（或在某个tag名上按Mod4+鼠标左键）
-增加到某些tag：Mod4 + Shift + Ctrl + 1-9
-转移到下一个窗口中的位置：Mod4 + Shift + j
-转移到上一个窗口中的位置：Mod4 + Shift + k
-
-布局修改
-当前程序窗口宽度增加5％：Mod4 + Shift + h
-当前程序窗口宽度减少5％：Mod4 + Shift + l
-切换到下一种布局方式：Mod4 + Space
-切换到上一种布局方式：Mod4 + Ctrl + Space
-
-窗口管理
-重启awesome：Mod4 + Ctrl + r
-退出awesome：Mod4 + Shift + q
-运行某个命令：Mod4 + r
-打开awesome菜单：Mod4 + w
-
-多显示器下的操作
-切换到下一个屏幕：Mod4 + Ctrl + j
-切换到上一个屏幕：Mod4 + Ctrl + k
-将程序发送到下一个屏幕：Mod4 + o
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[docker in tencent]]></title>
       <url>http://feisky.xyz/2015/03/19/docker-in-tencent/</url>
       <content type="html"><![CDATA[<p>腾讯内部对Docker有着广泛的使用，其基于Yarn的代号为Gaia的调度平台可以同时兼容Docker和非Docker类型的应用，并提供高并发任务调度和资源管理，它具有高度可伸缩性和可靠性，能够支持MR等离线业务。</p>
@@ -3179,6 +3116,69 @@ Available Commands:
         <tags>
             
             <tag> Docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[awesome quick start]]></title>
+      <url>http://feisky.xyz/2015/03/19/awesome-quick-start/</url>
+      <content type="html"><![CDATA[<p>awesome是Linux平台出色的窗口管理器，具有速度快、界面简捷等优点。其安装也比较简单：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> -y awesome awesome-extra gnome-<span class="keyword">settings</span>-daemon nautilus</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> -y <span class="comment">--no-install-recommends gnome-session</span></div><div class="line">mkdir -p ~/.config/awesome</div></pre></td></tr></table></figure>
+<p>常用快捷键整理：</p>
+<pre><code>切换程序
+切换到下一个程序：Mod4 + j
+切换到上一个程序：Mod4 + k
+切换到主窗口中的第一个程序：Mod4 + Ctrl + Return
+
+切换tag
+切换到上一个选择的tag：Mod4 + Esc
+切换到某个指定的tag：Mod4 + 1-9
+切换到前一个tag：Mod4 + Left
+切换到下一个tag：Mod4 + Right
+
+程序窗口状态修改
+最大化/非最大化：Mod4 + m
+浮动/平铺：Mod4 + Ctrl + Space
+最小化：Mod4 + n
+从最小化中恢复：Mod4 + Ctrl + n
+关闭程序：Mod4 + Shift + C
+
+程序窗口的转移和显示
+转移到某个tag：Mod4 + Shift + 1-9（或在某个tag名上按Mod4+鼠标左键）
+增加到某些tag：Mod4 + Shift + Ctrl + 1-9
+转移到下一个窗口中的位置：Mod4 + Shift + j
+转移到上一个窗口中的位置：Mod4 + Shift + k
+
+布局修改
+当前程序窗口宽度增加5％：Mod4 + Shift + h
+当前程序窗口宽度减少5％：Mod4 + Shift + l
+切换到下一种布局方式：Mod4 + Space
+切换到上一种布局方式：Mod4 + Ctrl + Space
+
+窗口管理
+重启awesome：Mod4 + Ctrl + r
+退出awesome：Mod4 + Shift + q
+运行某个命令：Mod4 + r
+打开awesome菜单：Mod4 + w
+
+多显示器下的操作
+切换到下一个屏幕：Mod4 + Ctrl + j
+切换到上一个屏幕：Mod4 + Ctrl + k
+将程序发送到下一个屏幕：Mod4 + o
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
             
         </tags>
         
@@ -3976,61 +3976,6 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
-      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
-      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
-      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
-<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
-<ul>
-<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
-<ul>
-<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
-</ul>
-</li>
-<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
-<ul>
-<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
-<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
-</ul>
-</li>
-<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
-<ul>
-<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
-</ul>
-</li>
-<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
-<ul>
-<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
-</ul>
-</li>
-<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
-<ul>
-<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
-</ul>
-</li>
-<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
-<ul>
-<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
-</ul>
-</li>
-</ul>
-<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
-<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
-<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
-<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
-<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> OpenStack </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Integrating Openstack and Kubernetes with Murano]]></title>
       <url>http://feisky.xyz/2015/02/25/integrating-openstack-and-kubernetes-with-murano/</url>
       <content type="html"><![CDATA[<p>There’s a perceived competition between OpenStack and containers such as Docker, but in reality, the two technologies are a powerful combination. They both solve similar problems, but on different layers of the stack, so combining the two can give users more scalability and automation than ever before.</p>
@@ -4230,6 +4175,61 @@ From the host try to ping the guest. With the virtual machine configuration desc
     </entry>
     
     <entry>
+      <title><![CDATA[Going Native with OpenStack Centric Applications: Overview]]></title>
+      <url>http://feisky.xyz/2015/02/25/going-native-with-openstack-centric-applications-overview/</url>
+      <content type="html"><![CDATA[<p>Cloud infrastructure is useless without applications running atop, providing business services and&nbsp;solving customer needs. So, as applications ascend to the throne as the rightful king of cloud, focus sharpens on their support within OpenStack-based clouds.&nbsp;With this focus, let’s walk through a survey of components and projects supporting applications in OpenStack, understanding what a&nbsp;day in the life of an application in OpenStack is like. We’ll start with an overview of the application ecosystem comprised of a number of supporting projects. In the ecosystem overview below, relevant OpenStack projects are presented in context of existing, similar technologies with which you may be familiar. These similar technologies both under and overlap functionality of the respective OpenStack project, but are shown to hasten your general&nbsp;understanding of which bucket these projects fall into by way of tech you may already know (so, add a pinch of salt when considering relevancy of suggested affiliated technologies).</p>
+<h3 id="Application-Ecosystem-by-Project"><a href="#Application-Ecosystem-by-Project" class="headerlink" title="Application Ecosystem by Project"></a>Application Ecosystem by Project</h3><p>Like individual lines in a product family, projects within OpenStack engulf and extend one another for related, but distinct purposes and target use cases. OpenStack developers are cautious to apply DRY principles in their approach to project design, integrating functionality rather than reinventing the wheel as they go. The <em>Project Focus and Relationship</em> diagram both figuratively and literally places project relationships into round bubbles, identifying conceptual starting points for the genesis of an application as well as the reuse of some projects by others.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Project-Focus-and-Relationship.png" alt=""></p>
+<ul>
+<li><p><strong>Application Blueprint Designer –&nbsp;<a href="https://wiki.openstack.org/wiki/Merlin" target="_blank" rel="external">Merlin</a></strong></p>
+<ul>
+<li>RavelloSystems, UrbanCode, CliQr, Prime Service Catalog*…</li>
+</ul>
+</li>
+<li><p><strong>Application Lifecycle Management PaaS – <a href="https://wiki.openstack.org/wiki/Solum" target="_blank" rel="external">Solum</a></strong></p>
+<ul>
+<li>Similar technologies (ALM) – Atlassian Suite, HP ALM, Cloudpipes, Serena…</li>
+<li>Similar technologies (PaaS) – Openshift, Cloud Foundry, BlueMix, AppScale, Heroku, App Engine…</li>
+</ul>
+</li>
+<li><p><strong>Application Catalog –&nbsp;<a href="https://wiki.openstack.org/wiki/Murano" target="_blank" rel="external">Murano</a></strong></p>
+<ul>
+<li>Similar technologies – AppStack, CliQr, ITApp, AppDirect…</li>
+</ul>
+</li>
+<li><p><strong>Application Stack Provisioning – <a href="https://wiki.openstack.org/wiki/Heat" target="_blank" rel="external">Heat</a>,&nbsp;Magnum</strong></p>
+<ul>
+<li>Similar technologies – AWS Elastic Beanstalk, Kubernetes, GearD, Warden, Fleet, MaestroNG, CliQr, Nirmata…</li>
+</ul>
+</li>
+<li><p><strong>Application Containers –&nbsp;<a href="https://wiki.openstack.org/wiki/Docker" target="_blank" rel="external">Docker</a></strong></p>
+<ul>
+<li>Similar technologies – OpenVZ, Linux V-Server, FreeBSD jails,&nbsp;AIX&nbsp;Workload Partitions&nbsp;and&nbsp;Solaris Containers</li>
+</ul>
+</li>
+<li><p><strong>Application Configuration Management – Puppet, Chef</strong></p>
+<ul>
+<li>Similar technologies – Heat, Salt, Ansible, <a href="https://wiki.openstack.org/wiki/Satori" target="_blank" rel="external">Satori</a>*…</li>
+</ul>
+</li>
+</ul>
+<h3 id="A-Day-in-the-Life-of-an-OpenStack-Native-Application"><a href="#A-Day-in-the-Life-of-an-OpenStack-Native-Application" class="headerlink" title="A Day in the Life of an OpenStack-Native Application"></a>A Day in the Life of an OpenStack-Native Application</h3><p>The <em>Application Lifecycle Flows</em> diagram defines different&nbsp;entrance points by which applications are birthed and the flow between different OpenStack projects within their lifecycle.</p>
+<p><img src="/assets/OpenStack-Centric-Applications-Application-Lifecycle-Flows.png" alt=""></p>
+<p>Users may&nbsp;<strong>design</strong> applications with Merlin,&nbsp;<strong>develop</strong>&nbsp;applications with Solum,&nbsp;<strong>order</strong> applications with Murano,&nbsp;<strong>deploy</strong> applications and resources with Heat and&nbsp;<strong>manage</strong> applications with Puppet/other configuration managers.</p>
+<h3 id="“Applications”"><a href="#“Applications”" class="headerlink" title="“Applications”"></a>“Applications”</h3><p>Given that applications are varied in nature both in terms of their type and complexity, let’s take a moment to review their possible shapes and sizes. With regard to types of applications, some are &nbsp;image-based and some are container-based while others are offered simply as a&nbsp;SaaS subscription (implying that a singular instance of this application may serve multiple tenants). Applications may be cloud-native (designed to be scaled out, highly distributed, service-oriented) or enterprise-architected (designed to be scaled up, designed with layers and functional domains). Application complexity ranges from single component (image or container) to multiple component, multiple environment, multiple OpenStack deployments to OpenStack and other systems. Applications may be comprised of multiple components (e.g. MySQL, PHP, Apache) or a singular components (MySQL). Application components may be distributed or contained within a given container, VM or cloud. With these possibilities in mind,&nbsp;let’s begin our survey of their support with the&nbsp;OpenStack-native application catalog – Murano in the next post in this series.</p>
+<p>From <a href="http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/" target="_blank" rel="external">http://blog.gingergeek.com/2014/11/going-native-with-openstack-centric-applications-overview/</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> OpenStack </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Installing Realtek rltwifi driver for Ubuntu 14.10]]></title>
       <url>http://feisky.xyz/2015/02/14/installing-realtek-rltwifi-driver-for-ubuntu-1410/</url>
       <content type="html"><![CDATA[<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>Ubuntu 14默认内核版本没有带RTL8192ee的网卡驱动，因而就无法通过无线网络联网，并且Reltek官方网站也没有提供合适的驱动。而最新的Linux内核已经带了相应驱动，所以一般建议修复的方法就是升级内核版本到最新。但如果不想内核升级咋办呢？幸好Github上已经有人将这个驱动写好了，直接安装即可：</p>
@@ -4409,7 +4409,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#104;&#x61;&#x6e;&#x6e;&#105;&#x62;&#x61;&#x6c;&#x40;&#x61;&#45;&#116;&#x65;&#x61;&#x6d;&#x2e;&#x63;&#111;&#109;">&#104;&#x61;&#x6e;&#x6e;&#105;&#x62;&#x61;&#x6c;&#x40;&#x61;&#45;&#116;&#x65;&#x61;&#x6d;&#x2e;&#x63;&#111;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x68;&#97;&#x6e;&#x6e;&#105;&#98;&#x61;&#x6c;&#x40;&#x61;&#x2d;&#x74;&#x65;&#97;&#109;&#46;&#x63;&#111;&#x6d;">&#x68;&#97;&#x6e;&#x6e;&#105;&#98;&#x61;&#x6c;&#x40;&#x61;&#x2d;&#x74;&#x65;&#97;&#109;&#46;&#x63;&#111;&#x6d;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -7926,6 +7926,15 @@ xhost +targetip
     </entry>
     
     <entry>
+      <title><![CDATA[Pluribus Networks]]></title>
+      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
+      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Neutron Layer 3 High Availability]]></title>
       <url>http://feisky.xyz/2015/01/26/neutron-layer-3-high-availability/</url>
       <content type="html"><![CDATA[<p><strong>L3 Agent Low Availability</strong></p>
@@ -8091,11 +8100,83 @@ neutron router-create --ha=<true |="" false=""> router1
     </entry>
     
     <entry>
-      <title><![CDATA[Pluribus Networks]]></title>
-      <url>http://feisky.xyz/2015/01/26/pluribus-networks/</url>
-      <content type="html"><![CDATA[<p>已经融资9500万美元的<a href="http://www.pluribusnetworks.com" target="_blank" rel="external">Pluribus</a>公司，做得Server Switch产品，其CEO说，既能克服Vmware产品的scalability, invisibility, performance问题，又能克服Cisco ACI的系统封闭性。说白了就是把网络做在服务器里面，但是网络处理发生在交换芯片而不是CPU里面，跟Facebook Wedge一样 @盛科张卫峰</p>
+      <title><![CDATA[Docker]]></title>
+      <url>http://feisky.xyz/2015/01/26/docker/</url>
+      <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规模 web 应用、数据库部署、持续部署、集群、测试环境、面向服务的云计算、虚拟桌面 VDI 等等。</p>
+<p>Docker 使用 Go 语言编写，用 cgroup 实现资源隔离，容器技术采用 LXC. LXC 已经足够成熟，被多个主流 PaaS 服务商采用（比如 dotCloud），国内的一些互联网公司也在用（比如腾讯）。虽然都是企图解决自动化部署方面的问题，Docker 的解决方式有别于我们常提到的 Puppet/Chef，他们虽然走的是不同的路，但也可以拿来一起用。</p>
+<h3 id="安装-ubuntu-12-04"><a href="#安装-ubuntu-12-04" class="headerlink" title="安装 (ubuntu 12.04)"></a>安装 (ubuntu 12.04)</h3><p>Due to a bug in LXC, Docker works best on the 3.8 kernel. Precise comes with a 3.2 kernel, so we need to upgrade it. The kernel you’ll install when following these steps comes with AUFS built in. We also include the generic headers to enable packages that depend on them, like ZFS and the VirtualBox guest additions.</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install python-software-<span class="built_in">properties</span></div><div class="line">sudo apt-<span class="built_in">get</span> install linux-<span class="built_in">image</span>-generic-lts-raring linux-headers-generic-lts-raring</div><div class="line">sudo reboot</div></pre></td></tr></table></figure>
+<p>添加docker源并安装docker</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.<span class="keyword">com</span> --recv-<span class="built_in">keys</span> <span class="number">36</span>A1D7869245C8950F966E92D8576A8BA88D21E9</div><div class="line">sudo <span class="keyword">sh</span> -<span class="keyword">c</span> <span class="string">"echo deb http://get.docker.io/ubuntu docker main &gt; /etc/apt/sources.list.d/docker.list"</span></div><div class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">sudo apt-<span class="built_in">get</span> install lxc-docker</div></pre></td></tr></table></figure>
+<p>上面两步也可以替换成执行<figure class="highlight plain"><figcaption><span>-s</span><a href="https://get.docker.io/ubuntu/" target="_blank" rel="external">| sudo sh```，更简单。</a></figcaption><table><tr><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">### 创建容器</div><div class="line"></div><div class="line">首先从&lt;https://index.docker.io/&gt;下载一个预定义的镜像</div></pre></td></tr></table></figure></p>
+<p>sudo docker pull ubuntu<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">启动一个容器：</div></pre></td></tr></table></figure></p>
+<p>sudo docker run -i -t ubuntu /bin/bash<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment">## Starting a long-running worker process</span></span></div></pre></td></tr></table></figure></p>
+<h1 id="Start-a-very-useful-long-running-process"><a href="#Start-a-very-useful-long-running-process" class="headerlink" title="Start a very useful long-running process"></a>Start a very useful long-running process</h1><p>JOB=$(sudo docker run -d ubuntu /bin/sh -c “while true; do echo Hello world; sleep 1; done”)</p>
+<h1 id="Collect-the-output-of-the-job-so-far"><a href="#Collect-the-output-of-the-job-so-far" class="headerlink" title="Collect the output of the job so far"></a>Collect the output of the job so far</h1><p>sudo docker logs $JOB</p>
+<h1 id="Kill-the-job"><a href="#Kill-the-job" class="headerlink" title="Kill the job"></a>Kill the job</h1><p>sudo docker kill $JOB<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment">## Bind a service on a TCP port</span></span></div></pre></td></tr></table></figure></p>
+<h1 id="Bind-port-4444-of-this-container-and-tell-netcat-to-listen-on-it"><a href="#Bind-port-4444-of-this-container-and-tell-netcat-to-listen-on-it" class="headerlink" title="Bind port 4444 of this container, and tell netcat to listen on it"></a>Bind port 4444 of this container, and tell netcat to listen on it</h1><p>JOB=$(sudo docker run -d -p 4444 ubuntu:12.10 /bin/nc -l 4444)</p>
+<h1 id="Which-public-port-is-NATed-to-my-container"><a href="#Which-public-port-is-NATed-to-my-container" class="headerlink" title="Which public port is NATed to my container?"></a>Which public port is NATed to my container?</h1><p>PORT=$(sudo docker port $JOB 4444 | awk -F: ‘{ print $2 }’)</p>
+<h1 id="Connect-to-the-public-port"><a href="#Connect-to-the-public-port" class="headerlink" title="Connect to the public port"></a>Connect to the public port</h1><p>echo hello world | nc 127.0.0.1 $PORT</p>
+<h1 id="Verify-that-the-network-connection-worked"><a href="#Verify-that-the-network-connection-worked" class="headerlink" title="Verify that the network connection worked"></a>Verify that the network connection worked</h1><p>echo “Daemon received: $(sudo docker logs $JOB)”<br><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">### Committing (saving) a container state¶</span></div><div class="line"></div><div class="line">Save your containers state <span class="built_in">to</span> <span class="keyword">a</span> container image, so <span class="keyword">the</span> state can be re-used.</div><div class="line"></div><div class="line">When you commit your container only <span class="keyword">the</span> differences between <span class="keyword">the</span> image <span class="keyword">the</span> container was created <span class="built_in">from</span> <span class="keyword">and</span> <span class="keyword">the</span> current state <span class="keyword">of</span> <span class="keyword">the</span> container will be stored (<span class="keyword">as</span> <span class="keyword">a</span> diff). See which images you already have <span class="keyword">using</span> <span class="keyword">the</span> docker images <span class="keyword">command</span>.</div></pre></td></tr></table></figure></p>
+<h1 id="Commit-your-container-to-a-new-named-image"><a href="#Commit-your-container-to-a-new-named-image" class="headerlink" title="Commit your container to a new named image"></a>Commit your container to a new named image</h1><p>sudo docker commit <container_id> <some_name></some_name></container_id></p>
+<h1 id="List-your-containers"><a href="#List-your-containers" class="headerlink" title="List your containers"></a>List your containers</h1><p>sudo docker images<br><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line"></div><div class="line">You now have <span class="keyword">a</span> image state <span class="built_in">from</span> which you can <span class="built_in">create</span> <span class="built_in">new</span> instances.</div><div class="line"></div><div class="line">更多功能见&lt;<span class="keyword">http</span>://docs.docker.io/&gt;</div><div class="line"></div><div class="line"><span class="comment">## docker</span></div><div class="line"></div><div class="line"><span class="number">1.</span> 什么是docker</div><div class="line"></div><div class="line">Docker 是 Docker.Inc 公司开源的一个基于LXC技术之上构建的Container容器引擎， 源代码托管在 GitHub 上, 基于Go语言并遵从Apache2<span class="number">.0</span>协议开源。 Docker在<span class="number">2014</span>年<span class="number">6</span>月召开DockerConf <span class="number">2014</span>技术大会吸引了IBM、Google、RedHat等业界知名公司的关注和技术支持，无论是从 GitHub 上的代码活跃度，还是Redhat宣布在RHEL7中正式支持Docker, 都给业界一个信号，这是一项创新型的技术解决方案。 </div><div class="line"></div><div class="line">docker的基本概念</div><div class="line"></div><div class="line">①镜像：用来创建Docker容器的只读模板</div><div class="line">②容器：从镜像创建而来的运行实例，各个容器之间相互隔离</div><div class="line">③仓库：存放镜像的场所，如<span class="keyword">https</span>://hub.docker.com/和<span class="keyword">http</span>://www.dockerpool.com/</div><div class="line"></div><div class="line"><span class="number">2.</span> 安装docker</div><div class="line"></div><div class="line">对于centos7，直接执行yum -y install docker即可安装，安装完成后需要执行systemctl <span class="built_in">start</span>  docker来启动docker服务。</div><div class="line"></div><div class="line">其他操作系统中的安装方法见<span class="keyword">https</span>://docs.docker.com/installation/<span class="comment">#installation</span></div><div class="line"></div><div class="line"><span class="number">3.</span> 获取镜像</div><div class="line"></div><div class="line">从Docker Hub仓库下载一个Ubuntu <span class="number">12.04</span>操作系统的镜像</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker pull ubuntu:12.04<br>Pulling repository ubuntu<br>ab8e2728644c: Pulling dependent layers<br>511136ea3c5a: Download complete<br>5f0ffaa9455e: Download complete<br>a300658979be: Download complete<br>904483ae0c30: Download complete<br>ffdaafd1ca50: Download complete<br>d047ae21eeaf: Download complete<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line">官方镜像比较慢的时候可以从其他仓库下载镜像，如</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker pull www.dockerpool.com:5000/library/centos:centos7<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">查询本地已下载的镜像</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker images<br>REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu              12.04               0a51fcc173d8        2 days ago          111 MB<br>centos              httpd               9ad57da2b81c        6 weeks ago         336.5 MB</p>
+<p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
+<p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
+<p>$ cat Dockerfile </p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x66;&#x65;&#105;&#115;&#x6b;&#121;&#x40;&#x72;&#x6f;&#111;&#x74;">&#x66;&#x65;&#105;&#115;&#x6b;&#121;&#x40;&#x72;&#x6f;&#111;&#x74;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
+<h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
+<h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
+<p>$ sudo docker build -t ‘ubuntu:www’ .<br><figure class="highlight clean"><table><tr><td class="code"><pre><div class="line"></div><div class="line">③导入已有镜像</div><div class="line"></div><div class="line">要从本地文件系统导入一个镜像，可以使用openvz（容器虚拟化的先锋技术）的模板来创建： openvz的模板下载地址为http:<span class="comment">//openvz.org/Download/templates/precreated</span></div><div class="line"></div><div class="line">`$ sudo cat ubuntu<span class="number">-14.04</span>-x86_64-minimal.tar.gz  |docker <span class="keyword">import</span> - ubuntu:<span class="number">14.04</span>`</div><div class="line"></div><div class="line">④导入docker save保存的镜像</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker save -o ubuntu_12.04.tar ubuntu:12.04<br>$ sudo docker load —input ubuntu_14.04.tar<br>$ sudo docker load &lt; ubuntu_14.04.tar  #同上<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">⑤导入已保存的容器</div><div class="line"></div><div class="line">保存一个容器的方法</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker ps -a<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                    PORTS               NAMES<br>7691a814370e        ubuntu:14.04        “/bin/bash”         36 hours ago        Exited (0) 21 hours ago                       test<br>$ sudo docker export 7691a814370e &gt; ubuntu.tar<br><figure class="highlight clean"><table><tr><td class="code"><pre><div class="line"></div><div class="line">重新作为镜像导入进来</div><div class="line"></div><div class="line">`$ cat ubuntu.tar | sudo docker <span class="keyword">import</span> - test/buntu:v1<span class="number">.0</span>`</div><div class="line"></div><div class="line">注：用户既可以使用docker load来导入镜像存储文件到本地镜像库，也可以使用docker <span class="keyword">import</span>来导入一个容器快照到本地镜像库。这两者的区别在于容器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息。</div><div class="line"></div><div class="line">镜像制作好后，可以通过docker push命令，把自己创建的镜像上传到仓库中来共享</div><div class="line">`$ sudo docker push ubuntu`</div><div class="line"></div><div class="line">如果一个镜像不需要了，可以删除它：</div><div class="line">`$ sudo docker rmi e01000c7bac8`</div><div class="line"></div><div class="line"><span class="number">4.</span> 容器管理</div><div class="line"></div><div class="line">容器是独立运行的一个或一组应用，以及它们的运行态环境。</div><div class="line"></div><div class="line">启动容器</div><div class="line"></div><div class="line">下面的命令输出一个<span class="string">"Hello World"</span>，之后终止容器:</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker run ubuntu:nginx /bin/echo ‘hello world’<br>hello world<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"></div><div class="line">下面的命令则启动一个bash终端，可以让用户进行交互。</div><div class="line">`$ sudo docker <span class="keyword">run</span><span class="bash"> -t -i ubuntu:12.04 /bin/bash`</span></div><div class="line"></div><div class="line"></div><div class="line">其中，-t选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上， -i则让容器的标准输入保持打开。</div><div class="line"></div><div class="line">对于已经停止的容器，可以用start命令重新启动：</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker start 7fb349365baf<br>7fb349365baf<br>$ sudo docker ps<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES<br>7fb349365baf        ubuntu:nginx        /bin/bash           29 minutes ago      Up 6 seconds                            goofy_ritchie0<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"></div><div class="line">docker <span class="keyword">run</span><span class="bash">的一些有用参数：</span></div><div class="line"></div><div class="line">①-d：以守护进程形式运行容器</div><div class="line"></div><div class="line">其他命令：</div></pre></td></tr></table></figure></p>
+<p>nsenter —target $PID —mount —uts —ipc —net —pid连接容器终端<br>docker attach连接容器终端<br>docker stop来终止一个运行中的容器<br>docker restart命令会将一个运行态的容器终止，然后再重新启动它<br>docker logs获取容器的输出信息<br>docker ps查看正在运行的容器<br>docker ps查看正在运行和已经停止的容器<br><figure class="highlight vim"><table><tr><td class="code"><pre><div class="line"></div><div class="line">注意：当多个窗口同时attach到同一个容器的时候，所有窗口都会同步显示。当某个窗口因命令阻塞时,其他窗口也无法执行操作了。</div><div class="line"></div><div class="line"><span class="number">5</span>. 仓库管理</div><div class="line"></div><div class="line">对于默认Docker Hub仓库，通过执行docker login命令来输入用户名、密码和邮箱来完成注册和登录。 注册成功后，本地用户目录的.dockercfg中将保存用户的认证信息。</div><div class="line"></div><div class="line">可以通过sudo docker <span class="built_in">search</span> centos来搜索镜像，通过sudo docker pull centos来下载镜像。</div><div class="line"></div><div class="line">http<span class="variable">s:</span>//registry.hub.docker.<span class="keyword">com</span>/builds/<span class="built_in">add</span>/提供的自动构建功能对于需要经常升级程序的镜像比较有用，目前仅支持Github和BitBucket。</div><div class="line"></div><div class="line">私有仓库的搭建</div></pre></td></tr></table></figure></p>
+<p>① $ sudo docker run -d -p 5000:5000 registry<br>② $ sudo pip install docker-registry<br>③ $ cp config/config_sample.yml config/config.yml<br>④ $ sudo gunicorn —access-logfile - —error-logfile - -k gevent -b 0.0.0.0:5000 -w 4 —max-requests 100 docker_registry.wsgi:application<br><figure class="highlight clean"><table><tr><td class="code"><pre><div class="line"></div><div class="line">如何向私有仓库上传镜像</div><div class="line"></div><div class="line">① `$ sudo docker tag ba58 <span class="number">192.168</span><span class="number">.7</span><span class="number">.26</span>:<span class="number">5000</span>/test`</div><div class="line">② `$ sudo docker push <span class="number">192.168</span><span class="number">.7</span><span class="number">.26</span>:<span class="number">5000</span>/test`</div><div class="line"></div><div class="line">通过`$ curl http:<span class="comment">//192.168.7.26:5000/v1/search`可以查询私有仓库的镜像，通过`sudo docker pull 192.168.7.26:5000/test`可以下载私有仓库的镜像。</span></div><div class="line"></div><div class="line"><span class="number">6.</span> 数据管理</div><div class="line"></div><div class="line">创建一个web容器，并加载一个数据卷到容器的/webapp目录：</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker run -d -P —name web -v /webapp training/webapp python app.py<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">挂载一个主机目录作为数据卷：</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker run -d -P —name web -v /src/webapp:/opt/webapp training/webapp python app.py<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-tag">Docker</span>挂载数据卷的默认权限是读写，用户也可以通过<span class="selector-pseudo">:ro</span>指定为只读：</div></pre></td></tr></table></figure></p>
+<p>$ sudo docker run -d -P —name web -v /src/webapp:/opt/webapp:ro<br>training/webapp python app.py<br><figure class="highlight http"><table><tr><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="jboss-cli">也可以挂载一个本地主机文件作为数据卷：</span></div><div class="line"></div><div class="line">```$ sudo docker run <span class="params">--rm</span> -it -v ~<span class="string">/.bash_history</span>:<span class="string">/.bash_history</span> ubuntu <span class="string">/bin/bash</span></div></pre></td></tr></table></figure></p>
+<p>，注意这会导致报错误信息，最好还是直接挂载文件的父目录</p>
+<p>如果你有一些持续更新的数据需要在容器之间共享，最好创建数据卷容器。数据卷容器，其实就是一个正常的容器，专门用来提供数据卷供其它容器挂载的：<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -v /dbdata --name dbdata training/postgres <span class="built_in">echo</span> Data-only container <span class="keyword">for</span> postgres</span></div></pre></td></tr></table></figure></p>
+<p>然后，在其他容器中使用—volumes-from来挂载dbdata容器中的数据卷。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d --volumes-from dbdata --name db1 training/postgres</span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d --volumes-from dbdata --name db2 training/postgres</span></div></pre></td></tr></table></figure></p>
+<ol>
+<li>网络管理</li>
+</ol>
+<p>当Docker启动时，会自动在主机上创建一个docker0虚拟网桥，实际上是Linux的一个bridge，可以理解为一个软件交换机。它会在挂载到它的网口之间进行转发。</p>
+<p>同时，Docker随机分配一个本地未占用的私有网段（在RFC1918中定义）中的一个地址给docker0接口。比如典型的172.17.42.1，掩码为255.255.0.0。此后启动的容器内的网口也会自动分配一个同一网段.</p>
+<p>① 端口映射: 使用docker port 来查看当前映射的端口配置<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -P ... <span class="comment">#随机映射一个49000~49900的端口到内部容器开放的网络端口</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 5000:5000 <span class="comment">#映射到指定端口</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 127.0.0.1:5000:5000 <span class="comment">#映射到指定HOST＋端口</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 127.0.0.1::5000 <span class="comment">#映射到指定HOST，端口随机生成</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 127.0.0.1:5000:5000/udp <span class="comment">#映射到指定UDP端口</span></span></div></pre></td></tr></table></figure></p>
+<p>② 容器互联</p>
+<p>启动容器时指定容器名称：<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> -d <span class="comment">--name db training/postgres</span></div></pre></td></tr></table></figure></p>
+<p>根据名称连接db容器<br><figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span> -<span class="keyword">d</span> -P --name web --link <span class="keyword">db</span>:<span class="keyword">db</span> training/webapp python <span class="keyword">app</span>.py</div></pre></td></tr></table></figure></p>
+<p>注意：—link参数的格式为—link name:alias，其中name是要链接的容器的名称，alias是这个连接的别名；如果名称未知，可以通过下面的命令查询：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo docker inspect -f <span class="string">"&#123;&#123; .Name &#125;&#125;"</span> aed84ee21bde</span></div></pre></td></tr></table></figure></p>
+<p>Docker在两个互联的容器之间创建了一个安全隧道，而且不用映射它们的端口到宿主主机上。在启动db容器的时候并没有使用-p和-P标记，从而避免了暴露数据库端口到外部网络上。</p>
+<p>Docker 通过2种方式为容器公开连接信息：</p>
+<p>其一是环境变量：<br><figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="builtin-name">run</span> --rm --name web2 --link db:db training/webapp env</div><div class="line">. . .</div><div class="line"><span class="attribute">DB_NAME</span>=/web2/db</div><div class="line"><span class="attribute">DB_PORT</span>=tcp://172.17.0.5:5432</div><div class="line"><span class="attribute">DB_PORT_5000_TCP</span>=tcp://172.17.0.5:5432</div><div class="line"><span class="attribute">DB_PORT_5000_TCP_PROTO</span>=tcp</div><div class="line"><span class="attribute">DB_PORT_5000_TCP_PORT</span>=5432</div><div class="line"><span class="attribute">DB_PORT_5000_TCP_ADDR</span>=172.17.0.5</div><div class="line">. . .</div></pre></td></tr></table></figure></p>
+<p>其二是hosts：<br><figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo docker run -t -i --rm --link <span class="symbol">db:</span>db training/webapp /bin/bash</div><div class="line">root<span class="variable">@aed84ee21bde</span><span class="symbol">:/opt/webapp</span><span class="comment"># cat /etc/hosts</span></div><div class="line"><span class="number">172.17</span>.<span class="number">0</span>.<span class="number">7</span>  aed84ee21bde</div><div class="line">. . .</div><div class="line"><span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>  db</div></pre></td></tr></table></figure></p>
+<p>③ 其他选项</p>
+<p>只有在Docker服务启动的时候才能配置:</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">-b<span class="built_in"> BRIDGE </span><span class="keyword">or</span> <span class="attribute">--bridge</span>=BRIDGE --指定容器挂载的网桥</div><div class="line"><span class="attribute">--bip</span>=CIDR --定制docker0的掩码</div><div class="line">-H SOCKET<span class="built_in">..</span>. <span class="keyword">or</span> <span class="attribute">--host</span>=SOCKET... --Docker服务端接收命令的通道</div><div class="line"><span class="attribute">--icc</span>=<span class="literal">true</span>|false --是否支持容器之间进行通信</div><div class="line"><span class="attribute">--ip-forward</span>=<span class="literal">true</span>|false --请看下文容器之间的通信</div><div class="line"><span class="attribute">-iptables</span>=<span class="literal">true</span>|false --禁止Docker添加iptables规则</div><div class="line"><span class="attribute">--mtu</span>=BYTES --容器网络中的MTU</div></pre></td></tr></table></figure>
+<p>既可以在启动服务时指定，也可以Docker容器启动（docker run）时候指定:</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="comment">dns=IP_ADDRESS</span><span class="string">.</span><span class="string">.</span><span class="string">.</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">使用指定的DNS服务器</span></div><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="comment">dns</span><span class="literal">-</span><span class="comment">search=DOMAIN</span><span class="string">.</span><span class="string">.</span><span class="string">.</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">指定DNS搜索域</span></div></pre></td></tr></table></figure>
+<p>只有在docker run执行时使用:<br><figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">-<span class="ruby">h HOSTNAME <span class="keyword">or</span> --hostname=HOSTNAME --配置容器主机名</span></div><div class="line">-<span class="ruby">-link=<span class="symbol">CONTAINER_NAME:</span>ALIAS --添加到另一个容器的连接</span></div><div class="line">-<span class="ruby">-net=bridge<span class="params">|none|</span><span class="symbol">container:</span>NAME_or_ID<span class="params">|host --配置容器的桥接模式</span></span></div><div class="line">-<span class="ruby"><span class="params">p SPEC <span class="keyword">or</span> --publish=SPEC --映射容器端口到宿主主机</span></span></div><div class="line">-<span class="ruby"><span class="params">P <span class="keyword">or</span> --publish-all=<span class="literal">true</span>|</span><span class="literal">false</span> --映射容器所有端口到宿主主机</span></div></pre></td></tr></table></figure></p>
 ]]></content>
       
+        <categories>
+            
+            <category> docker </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
         
     </entry>
     
@@ -8452,87 +8533,6 @@ This means that there is no need for manual setup of block devices, and that gen
 <p>Notice that FD 0, 1, &amp; 2 all go to the TTY.</p>
 <p>If you look at a normal terminal session, you’ll see the same thing (STDIN, STDOUT, STDERR all going to the same TTY). The reason redirection works in your terminal is because you’re performing the redirection BEFORE it gets sent into the TTY device. If you perform the redirection inside the docker container, you can accomplish the same thing.</p>
 <p>Refer to <a href="https://github.com/docker/docker/issues/19696" target="_blank" rel="external">https://github.com/docker/docker/issues/19696</a> for more.</p>
-]]></content>
-      
-        <categories>
-            
-            <category> docker </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> docker </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Docker]]></title>
-      <url>http://feisky.xyz/2015/01/26/docker/</url>
-      <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Docker 是 dotCloud 最近几个月刚宣布的开源引擎，旨在提供一种应用程序的自动化部署解决方案，简单的说就是，在 Linux 系统上迅速创建一个容器（类似虚拟机）并在容器上部署和运行应用程序，并通过配置文件可以轻松实现应用程序的自动化安装、部署和升级，非常方便。因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这是 docker 最普遍的一个玩法。更多的玩法还有大规模 web 应用、数据库部署、持续部署、集群、测试环境、面向服务的云计算、虚拟桌面 VDI 等等。</p>
-<p>Docker 使用 Go 语言编写，用 cgroup 实现资源隔离，容器技术采用 LXC. LXC 已经足够成熟，被多个主流 PaaS 服务商采用（比如 dotCloud），国内的一些互联网公司也在用（比如腾讯）。虽然都是企图解决自动化部署方面的问题，Docker 的解决方式有别于我们常提到的 Puppet/Chef，他们虽然走的是不同的路，但也可以拿来一起用。</p>
-<h3 id="安装-ubuntu-12-04"><a href="#安装-ubuntu-12-04" class="headerlink" title="安装 (ubuntu 12.04)"></a>安装 (ubuntu 12.04)</h3><p>Due to a bug in LXC, Docker works best on the 3.8 kernel. Precise comes with a 3.2 kernel, so we need to upgrade it. The kernel you’ll install when following these steps comes with AUFS built in. We also include the generic headers to enable packages that depend on them, like ZFS and the VirtualBox guest additions.</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install python-software-<span class="built_in">properties</span></div><div class="line">sudo apt-<span class="built_in">get</span> install linux-<span class="built_in">image</span>-generic-lts-raring linux-headers-generic-lts-raring</div><div class="line">sudo reboot</div></pre></td></tr></table></figure>
-<p>添加docker源并安装docker</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.<span class="keyword">com</span> --recv-<span class="built_in">keys</span> <span class="number">36</span>A1D7869245C8950F966E92D8576A8BA88D21E9</div><div class="line">sudo <span class="keyword">sh</span> -<span class="keyword">c</span> <span class="string">"echo deb http://get.docker.io/ubuntu docker main &gt; /etc/apt/sources.list.d/docker.list"</span></div><div class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">sudo apt-<span class="built_in">get</span> install lxc-docker</div></pre></td></tr></table></figure>
-<p>上面两步也可以替换成执行<figure class="highlight plain"><figcaption><span>-s</span><a href="https://get.docker.io/ubuntu/" target="_blank" rel="external">| sudo sh```，更简单。</a></figcaption><table><tr><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">### 创建容器</div><div class="line"></div><div class="line">首先从&lt;https://index.docker.io/&gt;下载一个预定义的镜像</div></pre></td></tr></table></figure></p>
-<p>sudo docker pull ubuntu<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">启动一个容器：</div></pre></td></tr></table></figure></p>
-<p>sudo docker run -i -t ubuntu /bin/bash<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment">## Starting a long-running worker process</span></span></div></pre></td></tr></table></figure></p>
-<h1 id="Start-a-very-useful-long-running-process"><a href="#Start-a-very-useful-long-running-process" class="headerlink" title="Start a very useful long-running process"></a>Start a very useful long-running process</h1><p>JOB=$(sudo docker run -d ubuntu /bin/sh -c “while true; do echo Hello world; sleep 1; done”)</p>
-<h1 id="Collect-the-output-of-the-job-so-far"><a href="#Collect-the-output-of-the-job-so-far" class="headerlink" title="Collect the output of the job so far"></a>Collect the output of the job so far</h1><p>sudo docker logs $JOB</p>
-<h1 id="Kill-the-job"><a href="#Kill-the-job" class="headerlink" title="Kill the job"></a>Kill the job</h1><p>sudo docker kill $JOB<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment">## Bind a service on a TCP port</span></span></div></pre></td></tr></table></figure></p>
-<h1 id="Bind-port-4444-of-this-container-and-tell-netcat-to-listen-on-it"><a href="#Bind-port-4444-of-this-container-and-tell-netcat-to-listen-on-it" class="headerlink" title="Bind port 4444 of this container, and tell netcat to listen on it"></a>Bind port 4444 of this container, and tell netcat to listen on it</h1><p>JOB=$(sudo docker run -d -p 4444 ubuntu:12.10 /bin/nc -l 4444)</p>
-<h1 id="Which-public-port-is-NATed-to-my-container"><a href="#Which-public-port-is-NATed-to-my-container" class="headerlink" title="Which public port is NATed to my container?"></a>Which public port is NATed to my container?</h1><p>PORT=$(sudo docker port $JOB 4444 | awk -F: ‘{ print $2 }’)</p>
-<h1 id="Connect-to-the-public-port"><a href="#Connect-to-the-public-port" class="headerlink" title="Connect to the public port"></a>Connect to the public port</h1><p>echo hello world | nc 127.0.0.1 $PORT</p>
-<h1 id="Verify-that-the-network-connection-worked"><a href="#Verify-that-the-network-connection-worked" class="headerlink" title="Verify that the network connection worked"></a>Verify that the network connection worked</h1><p>echo “Daemon received: $(sudo docker logs $JOB)”<br><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">### Committing (saving) a container state¶</span></div><div class="line"></div><div class="line">Save your containers state <span class="built_in">to</span> <span class="keyword">a</span> container image, so <span class="keyword">the</span> state can be re-used.</div><div class="line"></div><div class="line">When you commit your container only <span class="keyword">the</span> differences between <span class="keyword">the</span> image <span class="keyword">the</span> container was created <span class="built_in">from</span> <span class="keyword">and</span> <span class="keyword">the</span> current state <span class="keyword">of</span> <span class="keyword">the</span> container will be stored (<span class="keyword">as</span> <span class="keyword">a</span> diff). See which images you already have <span class="keyword">using</span> <span class="keyword">the</span> docker images <span class="keyword">command</span>.</div></pre></td></tr></table></figure></p>
-<h1 id="Commit-your-container-to-a-new-named-image"><a href="#Commit-your-container-to-a-new-named-image" class="headerlink" title="Commit your container to a new named image"></a>Commit your container to a new named image</h1><p>sudo docker commit <container_id> <some_name></some_name></container_id></p>
-<h1 id="List-your-containers"><a href="#List-your-containers" class="headerlink" title="List your containers"></a>List your containers</h1><p>sudo docker images<br><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><div class="line"></div><div class="line">You now have <span class="keyword">a</span> image state <span class="built_in">from</span> which you can <span class="built_in">create</span> <span class="built_in">new</span> instances.</div><div class="line"></div><div class="line">更多功能见&lt;<span class="keyword">http</span>://docs.docker.io/&gt;</div><div class="line"></div><div class="line"><span class="comment">## docker</span></div><div class="line"></div><div class="line"><span class="number">1.</span> 什么是docker</div><div class="line"></div><div class="line">Docker 是 Docker.Inc 公司开源的一个基于LXC技术之上构建的Container容器引擎， 源代码托管在 GitHub 上, 基于Go语言并遵从Apache2<span class="number">.0</span>协议开源。 Docker在<span class="number">2014</span>年<span class="number">6</span>月召开DockerConf <span class="number">2014</span>技术大会吸引了IBM、Google、RedHat等业界知名公司的关注和技术支持，无论是从 GitHub 上的代码活跃度，还是Redhat宣布在RHEL7中正式支持Docker, 都给业界一个信号，这是一项创新型的技术解决方案。 </div><div class="line"></div><div class="line">docker的基本概念</div><div class="line"></div><div class="line">①镜像：用来创建Docker容器的只读模板</div><div class="line">②容器：从镜像创建而来的运行实例，各个容器之间相互隔离</div><div class="line">③仓库：存放镜像的场所，如<span class="keyword">https</span>://hub.docker.com/和<span class="keyword">http</span>://www.dockerpool.com/</div><div class="line"></div><div class="line"><span class="number">2.</span> 安装docker</div><div class="line"></div><div class="line">对于centos7，直接执行yum -y install docker即可安装，安装完成后需要执行systemctl <span class="built_in">start</span>  docker来启动docker服务。</div><div class="line"></div><div class="line">其他操作系统中的安装方法见<span class="keyword">https</span>://docs.docker.com/installation/<span class="comment">#installation</span></div><div class="line"></div><div class="line"><span class="number">3.</span> 获取镜像</div><div class="line"></div><div class="line">从Docker Hub仓库下载一个Ubuntu <span class="number">12.04</span>操作系统的镜像</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker pull ubuntu:12.04<br>Pulling repository ubuntu<br>ab8e2728644c: Pulling dependent layers<br>511136ea3c5a: Download complete<br>5f0ffaa9455e: Download complete<br>a300658979be: Download complete<br>904483ae0c30: Download complete<br>ffdaafd1ca50: Download complete<br>d047ae21eeaf: Download complete<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line">官方镜像比较慢的时候可以从其他仓库下载镜像，如</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker pull www.dockerpool.com:5000/library/centos:centos7<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">查询本地已下载的镜像</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker images<br>REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu              12.04               0a51fcc173d8        2 days ago          111 MB<br>centos              httpd               9ad57da2b81c        6 weeks ago         336.5 MB</p>
-<p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
-<p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
-<p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x66;&#101;&#105;&#115;&#107;&#121;&#x40;&#x72;&#111;&#111;&#116;">&#x66;&#101;&#105;&#115;&#107;&#121;&#x40;&#x72;&#111;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
-<h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
-<h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
-<h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
-<p>$ sudo docker build -t ‘ubuntu:www’ .<br><figure class="highlight clean"><table><tr><td class="code"><pre><div class="line"></div><div class="line">③导入已有镜像</div><div class="line"></div><div class="line">要从本地文件系统导入一个镜像，可以使用openvz（容器虚拟化的先锋技术）的模板来创建： openvz的模板下载地址为http:<span class="comment">//openvz.org/Download/templates/precreated</span></div><div class="line"></div><div class="line">`$ sudo cat ubuntu<span class="number">-14.04</span>-x86_64-minimal.tar.gz  |docker <span class="keyword">import</span> - ubuntu:<span class="number">14.04</span>`</div><div class="line"></div><div class="line">④导入docker save保存的镜像</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker save -o ubuntu_12.04.tar ubuntu:12.04<br>$ sudo docker load —input ubuntu_14.04.tar<br>$ sudo docker load &lt; ubuntu_14.04.tar  #同上<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">⑤导入已保存的容器</div><div class="line"></div><div class="line">保存一个容器的方法</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker ps -a<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                    PORTS               NAMES<br>7691a814370e        ubuntu:14.04        “/bin/bash”         36 hours ago        Exited (0) 21 hours ago                       test<br>$ sudo docker export 7691a814370e &gt; ubuntu.tar<br><figure class="highlight clean"><table><tr><td class="code"><pre><div class="line"></div><div class="line">重新作为镜像导入进来</div><div class="line"></div><div class="line">`$ cat ubuntu.tar | sudo docker <span class="keyword">import</span> - test/buntu:v1<span class="number">.0</span>`</div><div class="line"></div><div class="line">注：用户既可以使用docker load来导入镜像存储文件到本地镜像库，也可以使用docker <span class="keyword">import</span>来导入一个容器快照到本地镜像库。这两者的区别在于容器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息。</div><div class="line"></div><div class="line">镜像制作好后，可以通过docker push命令，把自己创建的镜像上传到仓库中来共享</div><div class="line">`$ sudo docker push ubuntu`</div><div class="line"></div><div class="line">如果一个镜像不需要了，可以删除它：</div><div class="line">`$ sudo docker rmi e01000c7bac8`</div><div class="line"></div><div class="line"><span class="number">4.</span> 容器管理</div><div class="line"></div><div class="line">容器是独立运行的一个或一组应用，以及它们的运行态环境。</div><div class="line"></div><div class="line">启动容器</div><div class="line"></div><div class="line">下面的命令输出一个<span class="string">"Hello World"</span>，之后终止容器:</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker run ubuntu:nginx /bin/echo ‘hello world’<br>hello world<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"></div><div class="line">下面的命令则启动一个bash终端，可以让用户进行交互。</div><div class="line">`$ sudo docker <span class="keyword">run</span><span class="bash"> -t -i ubuntu:12.04 /bin/bash`</span></div><div class="line"></div><div class="line"></div><div class="line">其中，-t选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上， -i则让容器的标准输入保持打开。</div><div class="line"></div><div class="line">对于已经停止的容器，可以用start命令重新启动：</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker start 7fb349365baf<br>7fb349365baf<br>$ sudo docker ps<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES<br>7fb349365baf        ubuntu:nginx        /bin/bash           29 minutes ago      Up 6 seconds                            goofy_ritchie0<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line"></div><div class="line">docker <span class="keyword">run</span><span class="bash">的一些有用参数：</span></div><div class="line"></div><div class="line">①-d：以守护进程形式运行容器</div><div class="line"></div><div class="line">其他命令：</div></pre></td></tr></table></figure></p>
-<p>nsenter —target $PID —mount —uts —ipc —net —pid连接容器终端<br>docker attach连接容器终端<br>docker stop来终止一个运行中的容器<br>docker restart命令会将一个运行态的容器终止，然后再重新启动它<br>docker logs获取容器的输出信息<br>docker ps查看正在运行的容器<br>docker ps查看正在运行和已经停止的容器<br><figure class="highlight vim"><table><tr><td class="code"><pre><div class="line"></div><div class="line">注意：当多个窗口同时attach到同一个容器的时候，所有窗口都会同步显示。当某个窗口因命令阻塞时,其他窗口也无法执行操作了。</div><div class="line"></div><div class="line"><span class="number">5</span>. 仓库管理</div><div class="line"></div><div class="line">对于默认Docker Hub仓库，通过执行docker login命令来输入用户名、密码和邮箱来完成注册和登录。 注册成功后，本地用户目录的.dockercfg中将保存用户的认证信息。</div><div class="line"></div><div class="line">可以通过sudo docker <span class="built_in">search</span> centos来搜索镜像，通过sudo docker pull centos来下载镜像。</div><div class="line"></div><div class="line">http<span class="variable">s:</span>//registry.hub.docker.<span class="keyword">com</span>/builds/<span class="built_in">add</span>/提供的自动构建功能对于需要经常升级程序的镜像比较有用，目前仅支持Github和BitBucket。</div><div class="line"></div><div class="line">私有仓库的搭建</div></pre></td></tr></table></figure></p>
-<p>① $ sudo docker run -d -p 5000:5000 registry<br>② $ sudo pip install docker-registry<br>③ $ cp config/config_sample.yml config/config.yml<br>④ $ sudo gunicorn —access-logfile - —error-logfile - -k gevent -b 0.0.0.0:5000 -w 4 —max-requests 100 docker_registry.wsgi:application<br><figure class="highlight clean"><table><tr><td class="code"><pre><div class="line"></div><div class="line">如何向私有仓库上传镜像</div><div class="line"></div><div class="line">① `$ sudo docker tag ba58 <span class="number">192.168</span><span class="number">.7</span><span class="number">.26</span>:<span class="number">5000</span>/test`</div><div class="line">② `$ sudo docker push <span class="number">192.168</span><span class="number">.7</span><span class="number">.26</span>:<span class="number">5000</span>/test`</div><div class="line"></div><div class="line">通过`$ curl http:<span class="comment">//192.168.7.26:5000/v1/search`可以查询私有仓库的镜像，通过`sudo docker pull 192.168.7.26:5000/test`可以下载私有仓库的镜像。</span></div><div class="line"></div><div class="line"><span class="number">6.</span> 数据管理</div><div class="line"></div><div class="line">创建一个web容器，并加载一个数据卷到容器的/webapp目录：</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker run -d -P —name web -v /webapp training/webapp python app.py<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">挂载一个主机目录作为数据卷：</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker run -d -P —name web -v /src/webapp:/opt/webapp training/webapp python app.py<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-tag">Docker</span>挂载数据卷的默认权限是读写，用户也可以通过<span class="selector-pseudo">:ro</span>指定为只读：</div></pre></td></tr></table></figure></p>
-<p>$ sudo docker run -d -P —name web -v /src/webapp:/opt/webapp:ro<br>training/webapp python app.py<br><figure class="highlight http"><table><tr><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="jboss-cli">也可以挂载一个本地主机文件作为数据卷：</span></div><div class="line"></div><div class="line">```$ sudo docker run <span class="params">--rm</span> -it -v ~<span class="string">/.bash_history</span>:<span class="string">/.bash_history</span> ubuntu <span class="string">/bin/bash</span></div></pre></td></tr></table></figure></p>
-<p>，注意这会导致报错误信息，最好还是直接挂载文件的父目录</p>
-<p>如果你有一些持续更新的数据需要在容器之间共享，最好创建数据卷容器。数据卷容器，其实就是一个正常的容器，专门用来提供数据卷供其它容器挂载的：<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -v /dbdata --name dbdata training/postgres <span class="built_in">echo</span> Data-only container <span class="keyword">for</span> postgres</span></div></pre></td></tr></table></figure></p>
-<p>然后，在其他容器中使用—volumes-from来挂载dbdata容器中的数据卷。<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d --volumes-from dbdata --name db1 training/postgres</span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d --volumes-from dbdata --name db2 training/postgres</span></div></pre></td></tr></table></figure></p>
-<ol>
-<li>网络管理</li>
-</ol>
-<p>当Docker启动时，会自动在主机上创建一个docker0虚拟网桥，实际上是Linux的一个bridge，可以理解为一个软件交换机。它会在挂载到它的网口之间进行转发。</p>
-<p>同时，Docker随机分配一个本地未占用的私有网段（在RFC1918中定义）中的一个地址给docker0接口。比如典型的172.17.42.1，掩码为255.255.0.0。此后启动的容器内的网口也会自动分配一个同一网段.</p>
-<p>① 端口映射: 使用docker port 来查看当前映射的端口配置<br><figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -P ... <span class="comment">#随机映射一个49000~49900的端口到内部容器开放的网络端口</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 5000:5000 <span class="comment">#映射到指定端口</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 127.0.0.1:5000:5000 <span class="comment">#映射到指定HOST＋端口</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 127.0.0.1::5000 <span class="comment">#映射到指定HOST，端口随机生成</span></span></div><div class="line">$ sudo docker <span class="keyword">run</span><span class="bash"> -d -p 127.0.0.1:5000:5000/udp <span class="comment">#映射到指定UDP端口</span></span></div></pre></td></tr></table></figure></p>
-<p>② 容器互联</p>
-<p>启动容器时指定容器名称：<br><figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="built_in">run</span> -d <span class="comment">--name db training/postgres</span></div></pre></td></tr></table></figure></p>
-<p>根据名称连接db容器<br><figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="keyword">run</span> -<span class="keyword">d</span> -P --name web --link <span class="keyword">db</span>:<span class="keyword">db</span> training/webapp python <span class="keyword">app</span>.py</div></pre></td></tr></table></figure></p>
-<p>注意：—link参数的格式为—link name:alias，其中name是要链接的容器的名称，alias是这个连接的别名；如果名称未知，可以通过下面的命令查询：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo docker inspect -f <span class="string">"&#123;&#123; .Name &#125;&#125;"</span> aed84ee21bde</span></div></pre></td></tr></table></figure></p>
-<p>Docker在两个互联的容器之间创建了一个安全隧道，而且不用映射它们的端口到宿主主机上。在启动db容器的时候并没有使用-p和-P标记，从而避免了暴露数据库端口到外部网络上。</p>
-<p>Docker 通过2种方式为容器公开连接信息：</p>
-<p>其一是环境变量：<br><figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">$ sudo docker <span class="builtin-name">run</span> --rm --name web2 --link db:db training/webapp env</div><div class="line">. . .</div><div class="line"><span class="attribute">DB_NAME</span>=/web2/db</div><div class="line"><span class="attribute">DB_PORT</span>=tcp://172.17.0.5:5432</div><div class="line"><span class="attribute">DB_PORT_5000_TCP</span>=tcp://172.17.0.5:5432</div><div class="line"><span class="attribute">DB_PORT_5000_TCP_PROTO</span>=tcp</div><div class="line"><span class="attribute">DB_PORT_5000_TCP_PORT</span>=5432</div><div class="line"><span class="attribute">DB_PORT_5000_TCP_ADDR</span>=172.17.0.5</div><div class="line">. . .</div></pre></td></tr></table></figure></p>
-<p>其二是hosts：<br><figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo docker run -t -i --rm --link <span class="symbol">db:</span>db training/webapp /bin/bash</div><div class="line">root<span class="variable">@aed84ee21bde</span><span class="symbol">:/opt/webapp</span><span class="comment"># cat /etc/hosts</span></div><div class="line"><span class="number">172.17</span>.<span class="number">0</span>.<span class="number">7</span>  aed84ee21bde</div><div class="line">. . .</div><div class="line"><span class="number">172.17</span>.<span class="number">0</span>.<span class="number">5</span>  db</div></pre></td></tr></table></figure></p>
-<p>③ 其他选项</p>
-<p>只有在Docker服务启动的时候才能配置:</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">-b<span class="built_in"> BRIDGE </span><span class="keyword">or</span> <span class="attribute">--bridge</span>=BRIDGE --指定容器挂载的网桥</div><div class="line"><span class="attribute">--bip</span>=CIDR --定制docker0的掩码</div><div class="line">-H SOCKET<span class="built_in">..</span>. <span class="keyword">or</span> <span class="attribute">--host</span>=SOCKET... --Docker服务端接收命令的通道</div><div class="line"><span class="attribute">--icc</span>=<span class="literal">true</span>|false --是否支持容器之间进行通信</div><div class="line"><span class="attribute">--ip-forward</span>=<span class="literal">true</span>|false --请看下文容器之间的通信</div><div class="line"><span class="attribute">-iptables</span>=<span class="literal">true</span>|false --禁止Docker添加iptables规则</div><div class="line"><span class="attribute">--mtu</span>=BYTES --容器网络中的MTU</div></pre></td></tr></table></figure>
-<p>既可以在启动服务时指定，也可以Docker容器启动（docker run）时候指定:</p>
-<figure class="highlight brainfuck"><table><tr><td class="code"><pre><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="comment">dns=IP_ADDRESS</span><span class="string">.</span><span class="string">.</span><span class="string">.</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">使用指定的DNS服务器</span></div><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="comment">dns</span><span class="literal">-</span><span class="comment">search=DOMAIN</span><span class="string">.</span><span class="string">.</span><span class="string">.</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">指定DNS搜索域</span></div></pre></td></tr></table></figure>
-<p>只有在docker run执行时使用:<br><figure class="highlight haml"><table><tr><td class="code"><pre><div class="line">-<span class="ruby">h HOSTNAME <span class="keyword">or</span> --hostname=HOSTNAME --配置容器主机名</span></div><div class="line">-<span class="ruby">-link=<span class="symbol">CONTAINER_NAME:</span>ALIAS --添加到另一个容器的连接</span></div><div class="line">-<span class="ruby">-net=bridge<span class="params">|none|</span><span class="symbol">container:</span>NAME_or_ID<span class="params">|host --配置容器的桥接模式</span></span></div><div class="line">-<span class="ruby"><span class="params">p SPEC <span class="keyword">or</span> --publish=SPEC --映射容器端口到宿主主机</span></span></div><div class="line">-<span class="ruby"><span class="params">P <span class="keyword">or</span> --publish-all=<span class="literal">true</span>|</span><span class="literal">false</span> --映射容器所有端口到宿主主机</span></div></pre></td></tr></table></figure></p>
 ]]></content>
       
         <categories>
@@ -9114,18 +9114,18 @@ This means that there is no need for manual setup of block devices, and that gen
     </entry>
     
     <entry>
-      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
+      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
 ]]></content>
       
         
     </entry>
     
     <entry>
-      <title><![CDATA[docker网络配置方法总结 - feisky]]></title>
-      <url>http://feisky.xyz/2014/11/18/docker%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-feisky/</url>
-      <content type="html"><![CDATA[<p>【摘要】docker启动时，会在宿主主机上创建一个名为docker0的虚拟网络接口，默认选择172.17.42.1/16，一个16位的子网掩码给容器提供了65534个IP地址。docker0只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥，它可以使容器和主机相互通信,容器与容器间通信。问题是，… <a href="http://www.cnblogs.com/feisky/p/4105497.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4105497" alt=""></p>
+      <title><![CDATA[Kubernetes系统架构简介 - feisky]]></title>
+      <url>http://feisky.xyz/2014/11/18/Kubernetes%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B-feisky/</url>
+      <content type="html"><![CDATA[<p>【摘要】1. 前言Together we will ensure that Kubernetes is a strong and open container management framework for any application and in any environment, whether i… <a href="http://www.cnblogs.com/feisky/p/4106456.html" target="_blank" rel="external">阅读全文</a><img src="http://counter.cnblogs.com/blog/rss/4106456" alt=""></p>
 ]]></content>
       
         
