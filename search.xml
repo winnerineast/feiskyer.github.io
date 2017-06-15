@@ -3576,24 +3576,6 @@ gear link -n "127.0.0.1:3306:10.16.138.101:49153" server/application_container_1
     </entry>
     
     <entry>
-      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
-      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
-      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#添加FAKE公网网关</span></div><div class="line">ovs-vsctl add-port br-ex gwp -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gwp <span class="attribute">type</span>=internal</div><div class="line">ifconfig gwp 10.10.10.1 netmask 255.255.255.0</div><div class="line"><span class="comment">#添加SNAT规则允许虚拟机访问外网 </span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE</div><div class="line"><span class="comment">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</span></div><div class="line"><span class="comment">#iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited</span></div><div class="line">iptables -t<span class="built_in"> filter </span>-I FORWARD -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment">#开启内核转发</span></div><div class="line">sysctl -w net.ipv4.conf.eth0.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.conf.gwp.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</div></pre></td></tr></table></figure>
-<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#假设eth0的ip地址为192.168.33.22</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-I OUTPUT -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line">iptables -t<span class="built_in"> nat </span>-I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t<span class="built_in"> nat </span>-I PREROUTING -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line"></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.5/32 -p tcp -m tcp --sport 2222 -j SNAT --to-source 192.168.33.22:22</span></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 192.168.33.22</span></div></pre></td></tr></table></figure>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> OpenStack </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Setting up GRE for Kubernetes]]></title>
       <url>http://feisky.xyz/2015/03/01/setting-up-gre-for-kubernetes/</url>
       <content type="html"><![CDATA[<p>首先修改Docker的默认网桥：</p>
@@ -3970,6 +3952,24 @@ From the host try to ping the guest. With the virtual machine configuration desc
         <tags>
             
             <tag> ovs </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[How enable OpenStack allinone vm to access external network]]></title>
+      <url>http://feisky.xyz/2015/03/01/how-enable-openstack-allinone-vm-to-access-external-network/</url>
+      <content type="html"><![CDATA[<p>首先需要为OpenStack添加一个公网网络，假设All-in-one环境建的公网网段为10.10.10.0/24，公网网关为10.10.10.1。这样为虚拟机绑定公网IP后，由于网关是不存在的，虚拟机无法访问外网。那虚拟机如果想访问外网怎么办呢？</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#添加FAKE公网网关</span></div><div class="line">ovs-vsctl add-port br-ex gwp -- <span class="builtin-name">set</span><span class="built_in"> interface </span>gwp <span class="attribute">type</span>=internal</div><div class="line">ifconfig gwp 10.10.10.1 netmask 255.255.255.0</div><div class="line"><span class="comment">#添加SNAT规则允许虚拟机访问外网 </span></div><div class="line">iptables -t<span class="built_in"> nat </span>-A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE</div><div class="line"><span class="comment">#允许转发，添加允许转发或者删除默认的REJECT规则都可以</span></div><div class="line"><span class="comment">#iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited</span></div><div class="line">iptables -t<span class="built_in"> filter </span>-I FORWARD -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment">#开启内核转发</span></div><div class="line">sysctl -w net.ipv4.conf.eth0.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.conf.gwp.<span class="attribute">rp_filter</span>=0</div><div class="line">sysctl -w net.ipv4.<span class="attribute">ip_forward</span>=1</div></pre></td></tr></table></figure>
+<p>如果想从外部访问虚拟机的话，可以通过类似的方法将虚拟机的22端口映射到主机的eth0上来：</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line"><span class="comment">#假设eth0的ip地址为192.168.33.22</span></div><div class="line">iptables -t<span class="built_in"> nat </span>-I OUTPUT -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line">iptables -t<span class="built_in"> nat </span>-I FORWORD ! -i enp1s0f0 ! -o enp1s0f0 -m conntrack ! --ctstate DNAT -j ACCEPT</div><div class="line">iptables -t<span class="built_in"> nat </span>-I PREROUTING -d 192.168.33.22/32 -p tcp -m tcp --dport 2222 -j DNAT --to-destination 10.10.10.5:22</div><div class="line"></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.5/32 -p tcp -m tcp --sport 2222 -j SNAT --to-source 192.168.33.22:22</span></div><div class="line"><span class="comment">#iptables -t nat -I POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 192.168.33.22</span></div></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> OpenStack </tag>
             
         </tags>
         
@@ -4409,7 +4409,7 @@ From the host try to ping the guest. With the virtual machine configuration desc
 </li>
 <li>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<ul>
 <li># 提交指定容器为镜像</li>
-<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#104;&#x61;&#x6e;&#110;&#105;&#98;&#97;&#x6c;&#64;&#x61;&#45;&#116;&#101;&#97;&#109;&#x2e;&#99;&#111;&#109;">&#104;&#x61;&#x6e;&#110;&#105;&#98;&#97;&#x6c;&#64;&#x61;&#45;&#116;&#101;&#97;&#109;&#x2e;&#99;&#111;&#109;</a>“)</li>
+<li>-a, —author=””     Author (e.g., “John Hannibal Smith <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#104;&#97;&#110;&#110;&#x69;&#98;&#x61;&#108;&#x40;&#97;&#45;&#116;&#101;&#x61;&#x6d;&#46;&#x63;&#x6f;&#109;">&#104;&#97;&#110;&#110;&#x69;&#98;&#x61;&#108;&#x40;&#97;&#45;&#116;&#101;&#x61;&#x6d;&#46;&#x63;&#x6f;&#109;</a>“)</li>
 <li>-m, —message=””    Commit message</li>
 <li>-p, —pause=true    Pause container during commit<ul>
 <li># 默认 commit 是暂停状态</li>
@@ -8126,7 +8126,7 @@ neutron router-create --ha=<true |="" false=""> router1
 <p><none>              <none>              e01000c7bac8        6 weeks ago         336.5 MB<br>centos              latest              b157b77b1a65        8 weeks ago         243.7 MB<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line"></div><div class="line">其中，镜像<span class="selector-tag">id</span>唯一标识了镜像，<span class="selector-tag">TAG</span>信息用来标记来自同一个仓库的不同镜像。例如<span class="selector-tag">ubuntu</span>仓库中有多个镜像，通过<span class="selector-tag">TAG</span>信息来区分发行版本，例如10<span class="selector-class">.04</span>、12<span class="selector-class">.04</span>、12<span class="selector-class">.10</span>、13<span class="selector-class">.04</span>、14<span class="selector-class">.04</span>等。创建容器时，如果不指定具体的标记，则默认使用<span class="selector-tag">latest</span>标记信息。</div><div class="line"></div><div class="line">除了从容器中下载已有镜像外，也可以根据已有镜像创建新的镜像。创建新镜像有多种方法：</div><div class="line"></div><div class="line">①修改已有镜像后<span class="selector-tag">commit</span></div></pre></td></tr></table></figure></none></none></p>
 <p>$ sudo docker run -t -i ubuntu:12.04 /bin/bash<br>root@a439b6e894bb:/# apt-get update<br>root@a439b6e894bb:/# apt-get install nginx<br>root@a439b6e894bb:/# /etc/init.d/nginx start<br>root@a439b6e894bb:/# exit<br>$ sudo docker commit -m ‘add ngnix’ -a ‘feisky’ a439b6e894bb ubuntu:nginx<br>0a693112c443ce4fb21bc57a26d67f0648b9415e052f929be7e06701f5f3ca2d<br>$ sudo docker images<br>REPOSITORY                               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br>ubuntu                                   nginx               0a693112c443        9 seconds ago       153.1 MB<br>ubuntu                                   12.04               0a51fcc173d8        2 days ago          111 MB<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"></div><div class="line">②用dockerfile来创建镜像</div><div class="line"></div><div class="line">首先创建一个Dockerfile：</div></pre></td></tr></table></figure></p>
 <p>$ cat Dockerfile </p>
-<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#102;&#101;&#105;&#x73;&#107;&#x79;&#64;&#x72;&#x6f;&#x6f;&#116;">&#102;&#101;&#105;&#x73;&#107;&#x79;&#64;&#x72;&#x6f;&#x6f;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
+<h1 id="yet-another-ngnix"><a href="#yet-another-ngnix" class="headerlink" title="yet another ngnix"></a>yet another ngnix</h1><p>FROM ubuntu:12.04<br>MAINTAINER feisky <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#102;&#101;&#x69;&#x73;&#x6b;&#121;&#x40;&#x72;&#x6f;&#111;&#116;">&#102;&#101;&#x69;&#x73;&#x6b;&#121;&#x40;&#x72;&#x6f;&#111;&#116;</a><br>RUN apt-get update<br>RUN apt-get -y install nginx</p>
 <h1 id="put-my-local-site-to-var-www"><a href="#put-my-local-site-to-var-www" class="headerlink" title="put my local site to /var/www"></a>put my local site to /var/www</h1><p>ADD index.html /var/www/html/</p>
 <h1 id="expose-httpd-port"><a href="#expose-httpd-port" class="headerlink" title="expose httpd port"></a>expose httpd port</h1><p>EXPOSE 80</p>
 <h1 id="the-command-to-run"><a href="#the-command-to-run" class="headerlink" title="the command to run"></a>the command to run</h1><p>CMD [“/usr/sbin/nginx”]</p>
